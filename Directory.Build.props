@@ -1,0 +1,15 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Jean Gatto</Authors>
+    <MaintainerEmail>jean_gatto@hotmail.com</MaintainerEmail>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/jeangatto/asp-net-core-cqrs-ddd-solid-api</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+</Project>
