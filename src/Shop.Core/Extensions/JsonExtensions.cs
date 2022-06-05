@@ -11,7 +11,7 @@ namespace Shop.Core.Extensions;
 public static class JsonExtensions
 {
     private static readonly CamelCaseNamingStrategy NamingStrategy = new();
-    private static readonly StringEnumConverter StringEnumConverter = new(NamingStrategy);
+    private static readonly StringEnumConverter EnumConverter = new(NamingStrategy);
     private static readonly IContractResolver ContractResolver = new PrivateSetterContractResolver { NamingStrategy = NamingStrategy };
     private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings().Configure();
 
@@ -39,7 +39,7 @@ public static class JsonExtensions
         settings.NullValueHandling = NullValueHandling.Ignore;
         settings.Formatting = Formatting.None;
         settings.ContractResolver = ContractResolver;
-        settings.Converters.Add(StringEnumConverter);
+        settings.Converters.Add(EnumConverter);
         return settings;
     }
 }
