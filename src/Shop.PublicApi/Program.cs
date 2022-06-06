@@ -3,18 +3,25 @@ using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Shop.Core.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.Configure<KestrelServerOptions>(options => options.AddServerHeader = false);
+builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure());
+
 // Add services to the container.
 builder.Services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -41,10 +48,6 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath, true);
 });
 builder.Services.AddSwaggerGenNewtonsoftSupport();
-
-builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
-builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-builder.Services.Configure<KestrelServerOptions>(options => options.AddServerHeader = false);
 
 builder.Host.UseDefaultServiceProvider((context, options) =>
 {
