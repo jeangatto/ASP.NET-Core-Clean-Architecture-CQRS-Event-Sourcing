@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Shop.Core.Extensions;
+using Shop.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +55,8 @@ builder.Host.UseDefaultServiceProvider((context, options) =>
     options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
     options.ValidateOnBuild = true;
 });
+
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
