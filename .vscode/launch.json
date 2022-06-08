@@ -10,6 +10,7 @@
       "args": [],
       "cwd": "${workspaceFolder}/src/Shop.PublicApi",
       "stopAtEntry": false,
+      "console": "integratedTerminal",
       "logging": { "moduleLoad": false },
       "serverReadyAction": {
         "action": "openExternally",
