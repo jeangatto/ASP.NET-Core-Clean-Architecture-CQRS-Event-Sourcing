@@ -23,13 +23,14 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
-        var response = default(TResponse);
         var typeName = request.GetGenericTypeName();
 
         try
         {
             if (_dbContext.HasActiveTransaction)
                 return await next();
+
+            var response = default(TResponse);
 
             var strategy = _dbContext.Database.CreateExecutionStrategy();
             await strategy.ExecuteAsync(async () =>
