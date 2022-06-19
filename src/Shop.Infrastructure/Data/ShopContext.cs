@@ -22,6 +22,7 @@ public class ShopContext : DbContext
 
     private IDbContextTransaction _currentTransaction;
 
+<<<<<<< HEAD
     public async Task<IDbContextTransaction> BeginTransactionAsync()
         => _currentTransaction ??= await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
@@ -31,6 +32,17 @@ public class ShopContext : DbContext
         {
             await SaveChangesAsync();
             await _currentTransaction?.CommitAsync();
+=======
+    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+        => _currentTransaction ??= await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+
+    public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await SaveChangesAsync(cancellationToken);
+            await _currentTransaction?.CommitAsync(cancellationToken);
+>>>>>>> c96991cfd332ad3865ee7ed214a6e0014c7ca12f
         }
         catch
         {
@@ -47,7 +59,11 @@ public class ShopContext : DbContext
         }
     }
 
+<<<<<<< HEAD
     private async Task RollbackTransactionAsync()
+=======
+    private async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+>>>>>>> c96991cfd332ad3865ee7ed214a6e0014c7ca12f
     {
         try
         {
