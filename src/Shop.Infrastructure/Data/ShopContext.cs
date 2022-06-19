@@ -1,4 +1,3 @@
-using System;
 using System.Data;
 using System.Reflection;
 using System.Threading;
@@ -23,30 +22,16 @@ public class ShopContext : DbContext
     #region Transaction
 
     private IDbContextTransaction _currentTransaction;
-    public bool HasActiveTransaction => _currentTransaction != null;
 
     public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+        => _currentTransaction ??= await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+
+    public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
     {
-        if (_currentTransaction != null) return null;
-
-        _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
-
-        return _currentTransaction;
-    }
-
-    public async Task<int> CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken = default)
-    {
-        if (transaction == null)
-            throw new ArgumentNullException(nameof(transaction));
-
-        if (transaction != _currentTransaction)
-            throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
-
         try
         {
-            var rowsAffected = await SaveChangesAsync(cancellationToken);
-            await transaction.CommitAsync(cancellationToken);
-            return rowsAffected;
+            await SaveChangesAsync(cancellationToken);
+            await _currentTransaction?.CommitAsync(cancellationToken);
         }
         catch
         {
@@ -63,7 +48,7 @@ public class ShopContext : DbContext
         }
     }
 
-    public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+    private async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
         try
         {

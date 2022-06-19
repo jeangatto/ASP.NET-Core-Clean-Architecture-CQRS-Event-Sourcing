@@ -15,7 +15,6 @@ using Shop.Core.Extensions;
 using Shop.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-var appName = Assembly.GetExecutingAssembly().GetName().Name;
 
 builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -46,7 +45,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
-    var xmlFile = $"{appName}.xml";
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath, true);
 });
@@ -76,5 +75,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Logger.LogInformation("----- Starting the application '{AppName}'", appName);
+app.Logger.LogInformation("----- Starting the application");
 app.Run();
