@@ -27,23 +27,20 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 
         try
         {
-            if (_dbContext.HasActiveTransaction)
-                return await next();
-
             var response = default(TResponse);
 
             var strategy = _dbContext.Database.CreateExecutionStrategy();
             await strategy.ExecuteAsync(async () =>
             {
-                using var transaction = await _dbContext.BeginTransactionAsync();
+                var transaction = await _dbContext.BeginTransactionAsync();
 
                 _logger.LogInformation("----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
 
                 response = await next();
 
-                _logger.LogInformation("----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
+                await _dbContext.CommitTransactionAsync();
 
-                await _dbContext.CommitTransactionAsync(transaction);
+                _logger.LogInformation("----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
             });
 
             return response;

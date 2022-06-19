@@ -1,7 +1,5 @@
-using System;
 using System.Data;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -23,34 +21,20 @@ public class ShopContext : DbContext
     #region Transaction
 
     private IDbContextTransaction _currentTransaction;
-    public bool HasActiveTransaction => _currentTransaction != null;
 
-    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    public async Task<IDbContextTransaction> BeginTransactionAsync()
+        => _currentTransaction ??= await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+
+    public async Task CommitTransactionAsync()
     {
-        if (_currentTransaction != null) return null;
-
-        _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
-
-        return _currentTransaction;
-    }
-
-    public async Task<int> CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken = default)
-    {
-        if (transaction == null)
-            throw new ArgumentNullException(nameof(transaction));
-
-        if (transaction != _currentTransaction)
-            throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
-
         try
         {
-            var rowsAffected = await SaveChangesAsync(cancellationToken);
-            await transaction.CommitAsync(cancellationToken);
-            return rowsAffected;
+            await SaveChangesAsync();
+            await _currentTransaction?.CommitAsync();
         }
         catch
         {
-            await RollbackTransactionAsync(cancellationToken);
+            await RollbackTransactionAsync();
             throw;
         }
         finally
@@ -63,11 +47,11 @@ public class ShopContext : DbContext
         }
     }
 
-    public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+    private async Task RollbackTransactionAsync()
     {
         try
         {
-            await _currentTransaction?.RollbackAsync(cancellationToken);
+            await _currentTransaction?.RollbackAsync();
         }
         finally
         {
