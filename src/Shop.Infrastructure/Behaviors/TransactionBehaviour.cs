@@ -1,54 +1,22 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Shop.Core.Extensions;
-using Shop.Infrastructure.Data;
+using Shop.Core.Interfaces;
 
 namespace Shop.Infrastructure.Behaviors;
 
-public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly ShopContext _dbContext;
-    private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
+    private readonly IDataBaseTransaction _dbTransaction;
 
-    public TransactionBehaviour(ShopContext dbContext, ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
-    {
-        _dbContext = dbContext;
-        _logger = logger;
-    }
+    public TransactionBehaviour(IDataBaseTransaction dbTransaction) => _dbTransaction = dbTransaction;
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
-        var typeName = request.GetGenericTypeName();
+        var response = default(TResponse);
 
-        try
-        {
-            var response = default(TResponse);
+        await _dbTransaction.ExecuteAsync(async () => response = await next());
 
-            var strategy = _dbContext.Database.CreateExecutionStrategy();
-            await strategy.ExecuteAsync(async () =>
-            {
-                var transaction = await _dbContext.BeginTransactionAsync();
-
-                _logger.LogInformation("----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
-
-                response = await next();
-
-                await _dbContext.CommitTransactionAsync();
-
-                _logger.LogInformation("----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
-            });
-
-            return response;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error Handling transaction for {CommandName} ({@Command})", typeName, request);
-            throw;
-        }
+        return response;
     }
 }
