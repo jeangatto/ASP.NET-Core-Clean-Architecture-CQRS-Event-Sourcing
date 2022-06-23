@@ -15,7 +15,7 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     {
         var response = default(TResponse);
 
-        await _dbTransaction.ExecuteAsync(async () => response = await next());
+        await _dbTransaction.ExecuteAsync(async () => response = await next(), cancellationToken);
 
         return response;
     }
