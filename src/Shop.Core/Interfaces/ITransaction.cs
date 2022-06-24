@@ -6,5 +6,5 @@ namespace Shop.Core.Interfaces;
 
 public interface ITransaction
 {
-    Task ExecuteAsync(Func<Task> action, CancellationToken cancellationToken = default);
+    Task ExecuteAsync(Func<Task> operation, CancellationToken cancellationToken = default);
 }

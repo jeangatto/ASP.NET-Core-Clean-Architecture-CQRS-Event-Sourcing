@@ -10,37 +10,34 @@ namespace Shop.Infrastructure.Data;
 
 public class ShopContextTransaction : ITransaction
 {
-    private readonly ShopContext _dbContext;
+    private readonly ShopContext _context;
     private readonly ILogger<ShopContextTransaction> _logger;
 
-    public ShopContextTransaction(ShopContext dbContext, ILogger<ShopContextTransaction> logger)
+    public ShopContextTransaction(ShopContext context, ILogger<ShopContextTransaction> logger)
     {
-        _dbContext = dbContext;
+        _context = context;
         _logger = logger;
     }
 
-    public async Task ExecuteAsync(Func<Task> action, CancellationToken cancellationToken = default)
+    public async Task ExecuteAsync(Func<Task> operation, CancellationToken cancellationToken = default)
     {
-        if (action == null)
-            throw new ArgumentNullException(nameof(action));
-
-        var strategy = _dbContext.Database.CreateExecutionStrategy();
+        var strategy = _context.Database.CreateExecutionStrategy();
 
         await strategy.ExecuteAsync(async () =>
         {
-            var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+            var transaction = await _context.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
 
             _logger.LogInformation("----- Begin transaction {TransactionId}", transaction.TransactionId);
 
-            await action();
+            await operation();
 
             try
             {
-                var rowsAffected = await _dbContext.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("----- Commit transaction {TransactionId}", transaction.TransactionId);
 
                 await transaction.CommitAsync(cancellationToken);
-
-                _logger.LogInformation("----- Commit transaction {TransactionId}, row(s) affected {RowsAffected}", transaction.TransactionId, rowsAffected);
             }
             catch (Exception ex)
             {
