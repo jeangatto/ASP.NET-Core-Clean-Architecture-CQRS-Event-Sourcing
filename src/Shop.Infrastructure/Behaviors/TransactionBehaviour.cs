@@ -21,14 +21,14 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
+        var commandName = request.GetGenericTypeName();
         var response = default(TResponse);
-        var typeName = request.GetGenericTypeName();
 
-        _logger.LogInformation("----- Starting handling transaction for {CommandName} ({@Command})", typeName, request);
+        _logger.LogInformation("----- Starting handling transaction for {CommandName} ({@Command})", commandName, request);
 
         await _transaction.ExecuteAsync(async () => response = await next(), cancellationToken);
 
-        _logger.LogInformation("----- Handling transaction completed for {CommandName} ({@Command})", typeName);
+        _logger.LogInformation("----- Handling transaction completed for {CommandName} ({@Command})", commandName);
 
         return response;
     }

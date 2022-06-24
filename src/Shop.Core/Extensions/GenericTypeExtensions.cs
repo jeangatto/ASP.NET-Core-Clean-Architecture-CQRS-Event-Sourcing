@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 
 namespace Shop.Core.Extensions;
@@ -6,10 +5,8 @@ namespace Shop.Core.Extensions;
 public static class GenericTypeExtensions
 {
     public static string GetGenericTypeName(this object @object)
-        => @object.GetType().GetGenericTypeName();
-
-    private static string GetGenericTypeName(this Type type)
     {
+        var type = @object.GetType();
         if (type.IsGenericType)
         {
             var genericTypes = string.Join(",", type.GetGenericArguments().Select(t => t.Name).ToArray());
