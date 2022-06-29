@@ -64,8 +64,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options => options.DisplayRequestDuration());
+    app.UseSwagger().UseSwaggerUI(options => options.DisplayRequestDuration());
 }
 
 app.UseResponseCompression();
