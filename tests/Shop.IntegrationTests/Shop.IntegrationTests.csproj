@@ -38,4 +38,10 @@
     <ProjectReference Include="..\..\src\Shop.PublicApi\Shop.PublicApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

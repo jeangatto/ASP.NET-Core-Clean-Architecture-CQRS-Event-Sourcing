@@ -19,7 +19,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0"/>
     <PackageReference Include="Moq" Version="4.18.1"/>
     <PackageReference Include="Moq.Analyzers" Version="0.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -39,6 +41,12 @@
     <ProjectReference Include="..\..\src\Shop.Domain\Shop.Domain.csproj" />
     <ProjectReference Include="..\..\src\Shop.Core\Shop.Core.csproj" />
     <ProjectReference Include="..\..\src\Shop.Application\Shop.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

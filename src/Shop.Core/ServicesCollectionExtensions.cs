@@ -7,8 +7,11 @@ public static class ServicesCollectionExtensions
 {
     public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
     {
-        services.AddOptions<ConnectionStrings>()
-            .BindConfiguration(nameof(ConnectionStrings), options => options.BindNonPublicProperties = true);
+        services
+            .AddOptions<ConnectionStrings>()
+            .BindConfiguration(nameof(ConnectionStrings), options => options.BindNonPublicProperties = true)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         return services;
     }
