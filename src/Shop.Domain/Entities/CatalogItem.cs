@@ -1,3 +1,4 @@
+using System;
 using Shop.Core;
 using Shop.Core.Interfaces;
 
@@ -6,8 +7,8 @@ namespace Shop.Domain.Entities;
 public class CatalogItem : BaseEntity, IAggregateRoot
 {
     public CatalogItem(
-        int catalogTypeId,
-        int catalogBrandId,
+        Guid catalogTypeId,
+        Guid catalogBrandId,
         string description,
         string name,
         decimal price,
@@ -21,10 +22,10 @@ public class CatalogItem : BaseEntity, IAggregateRoot
         PictureUri = pictureUri;
     }
 
-    private CatalogItem() { }
+    private CatalogItem() { } // EF Core
 
-    public int CatalogTypeId { get; private set; }
-    public int CatalogBrandId { get; private set; }
+    public Guid CatalogTypeId { get; private set; }
+    public Guid CatalogBrandId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
     public decimal Price { get; private set; }

@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using Shop.Core;
 using Shop.Core.Extensions;
 using Shop.Infrastructure;
+using Shop.PublicApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,7 @@ builder.Host.UseDefaultServiceProvider((context, options) =>
 
 builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
+builder.Services.AddShopContext();
 
 var app = builder.Build();
 

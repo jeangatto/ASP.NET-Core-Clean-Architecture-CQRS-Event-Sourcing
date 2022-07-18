@@ -10,7 +10,7 @@ public class CatalogType : BaseEntity, IAggregateRoot
         Type = type;
     }
 
-    private CatalogType() { }
+    private CatalogType() { } // EF Core
 
     public string Type { get; private set; }
 }

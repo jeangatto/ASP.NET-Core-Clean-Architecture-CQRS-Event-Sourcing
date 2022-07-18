@@ -10,7 +10,7 @@ public class CatalogBrand : BaseEntity, IAggregateRoot
         Brand = brand;
     }
 
-    private CatalogBrand() { }
+    private CatalogBrand() { } // EF Core
 
     public string Brand { get; private set; }
 }
