@@ -21,7 +21,7 @@ public class ShopContextTransactionTests : IClassFixture<EfSqliteFixture>
     public ShopContextTransactionTests(EfSqliteFixture fixture) => _fixture = fixture;
 
     [Fact]
-    public async Task Should_NotThrow_WhenExecuteAsync()
+    public async Task Should_NotThrowException_WhenExecuteAsync()
     {
         // Arrange
         var catalogBrands = GetPreconfiguredCatalogBrands();

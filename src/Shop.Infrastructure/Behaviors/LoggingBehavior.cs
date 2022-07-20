@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -19,9 +20,15 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         _logger.LogInformation("----- Handling command {CommandName} ({@Command})", commandName, request);
 
+        var timer = new Stopwatch();
+        timer.Start();
+
         var response = await next();
 
-        _logger.LogInformation("----- Command {CommandName} handled - response: {@Response}", commandName, response);
+        timer.Stop();
+
+        _logger.LogInformation("----- Command {CommandName} handled ({TimeTaken} seconds) - response: {@Response} ",
+            commandName, timer.Elapsed.Seconds, response);
 
         return response;
     }
