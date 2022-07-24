@@ -10,8 +10,10 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Shop.Core;
+using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
 using Shop.Infrastructure;
 using Shop.PublicApi.Extensions;
@@ -78,5 +80,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+var connection = app.Services.GetRequiredService<IOptions<ConnectionStrings>>().Value.ShopConnection;
+app.Logger.LogInformation("----- DbConnection: {Connection}", connection);
 app.Logger.LogInformation("----- Starting the application");
 app.Run();

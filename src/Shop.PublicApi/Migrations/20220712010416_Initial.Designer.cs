@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Data.Context;
 
 #nullable disable
 

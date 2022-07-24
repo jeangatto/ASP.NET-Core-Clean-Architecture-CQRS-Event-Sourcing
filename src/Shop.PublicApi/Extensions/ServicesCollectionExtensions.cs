@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Shop.Core.AppSettings;
-using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Data.Context;
 
 namespace Shop.PublicApi.Extensions;
 
@@ -22,10 +22,10 @@ internal static class ServicesCollectionExtensions
             {
                 sqlOptions.MigrationsAssembly(typeof(Program).Assembly.GetName().Name);
 
-                // Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
+                // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
 
-                // Log the retry attempts
+                // Log tentativas de repetição
                 optionsBuilder.LogTo(
                     filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
                     logger: (eventData) =>
@@ -39,7 +39,7 @@ internal static class ServicesCollectionExtensions
                     });
             });
 
-            // When it is a development environment, detailed information will be logged.
+            // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
                 optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();

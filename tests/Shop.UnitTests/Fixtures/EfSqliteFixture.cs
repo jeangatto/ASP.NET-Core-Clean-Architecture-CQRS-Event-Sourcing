@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Data.Context;
 using Xunit;
 
 namespace Shop.UnitTests.Fixtures;

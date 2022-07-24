@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Shop.Domain.Entities;
 using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Data.Context;
 using Shop.UnitTests.Fixtures;
 using Xunit;
 using Xunit.Categories;
@@ -14,11 +15,11 @@ using Xunit.Categories;
 namespace Shop.UnitTests.Infrastructure.Data;
 
 [UnitTest]
-public class ShopContextTransactionTests : IClassFixture<EfSqliteFixture>
+public class TransactionTests : IClassFixture<EfSqliteFixture>
 {
     private readonly EfSqliteFixture _fixture;
 
-    public ShopContextTransactionTests(EfSqliteFixture fixture) => _fixture = fixture;
+    public TransactionTests(EfSqliteFixture fixture) => _fixture = fixture;
 
     [Fact]
     public async Task Should_NotThrowException_WhenExecuteAsync()
@@ -26,7 +27,7 @@ public class ShopContextTransactionTests : IClassFixture<EfSqliteFixture>
         // Arrange
         var catalogBrands = GetPreconfiguredCatalogBrands();
         var catalogTypes = GetPreconfiguredCatalogTypes();
-        var transaction = new ShopContextTransaction(_fixture.Context, Mock.Of<ILogger<ShopContextTransaction>>());
+        var transaction = new Transaction<ShopContext>(_fixture.Context, Mock.Of<ILogger<ShopContext>>());
 
         // Act
         Func<Task> act = async () =>

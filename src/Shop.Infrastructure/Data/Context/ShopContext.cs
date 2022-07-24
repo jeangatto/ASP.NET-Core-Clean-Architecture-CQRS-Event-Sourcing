@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Shop.Domain.Entities;
 using Shop.Infrastructure.Data.Extensions;
 
-namespace Shop.Infrastructure.Data;
+namespace Shop.Infrastructure.Data.Context;
 
 public class ShopContext : DbContext
 {
