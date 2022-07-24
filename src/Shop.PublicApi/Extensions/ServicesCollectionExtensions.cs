@@ -15,8 +15,8 @@ internal static class ServicesCollectionExtensions
     {
         services.AddDbContext<ShopContext>((serviceProvider, optionsBuilder) =>
         {
-            var logger = serviceProvider.GetRequiredService<ILogger<ShopContext>>();
-            var connectionString = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value.ShopConnection;
+            var connectionString
+                = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value.ShopConnection;
 
             optionsBuilder.UseSqlServer(connectionString, sqlOptions =>
             {
@@ -24,6 +24,8 @@ internal static class ServicesCollectionExtensions
 
                 // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
+
+                var logger = serviceProvider.GetRequiredService<ILogger<ShopContext>>();
 
                 // Log tentativas de repetição
                 optionsBuilder.LogTo(
