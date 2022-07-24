@@ -80,7 +80,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-var connection = app.Services.GetRequiredService<IOptions<ConnectionStrings>>().Value.ShopConnection;
-app.Logger.LogInformation("----- DbConnection: {Connection}", connection);
+var connection = app.Services.GetRequiredService<IOptions<ConnectionStrings>>().Value;
+
+app.Logger.LogInformation("----- Connection: {Connection}, Collation: {Collation}", connection.ShopConnection, connection.Collation);
 app.Logger.LogInformation("----- Starting the application");
 app.Run();
