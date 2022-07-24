@@ -11,10 +11,14 @@ public class ShopContext : DbContext
 {
     private readonly string _collation;
 
-    public ShopContext(IOptions<ConnectionStrings> options, DbContextOptions<ShopContext> dbOptions) : base(dbOptions)
+    public ShopContext(DbContextOptions<ShopContext> dbOptions) : base(dbOptions)
+    {
+        ChangeTracker.LazyLoadingEnabled = false;
+    }
+
+    public ShopContext(IOptions<ConnectionStrings> options, DbContextOptions<ShopContext> dbOptions) : this(dbOptions)
     {
         _collation = options.Value.Collation;
-        ChangeTracker.LazyLoadingEnabled = false;
     }
 
     public DbSet<CatalogBrand> CatalogBrands => Set<CatalogBrand>();
