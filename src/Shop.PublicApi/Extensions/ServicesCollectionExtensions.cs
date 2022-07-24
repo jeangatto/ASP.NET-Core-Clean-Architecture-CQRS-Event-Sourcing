@@ -35,7 +35,7 @@ internal static class ServicesCollectionExtensions
                         var count = exceptions.Count;
                         var delay = retryEventData.Delay;
                         var message = exceptions[exceptions.Count - 1]?.Message;
-                        logger.LogWarning("Retry #{Count} with delay {Delay} due to error: {Message}", count, delay, message);
+                        logger.LogWarning("----- Retry #{Count} with delay {Delay} due to error: {Message}", count, delay, message);
                     });
             });
 
