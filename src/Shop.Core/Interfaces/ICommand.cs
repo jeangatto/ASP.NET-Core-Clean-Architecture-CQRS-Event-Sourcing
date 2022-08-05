@@ -14,5 +14,6 @@ public interface ICommand : IRequest
 /// </summary>
 /// <typeparam name="TResponse">O tipo de resposta.</typeparam>
 public interface ICommand<out TResponse> : IRequest<TResponse>
+    where TResponse : notnull
 {
 }

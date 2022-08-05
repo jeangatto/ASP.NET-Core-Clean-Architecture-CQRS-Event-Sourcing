@@ -8,12 +8,12 @@ using Shop.Core.Interfaces;
 
 namespace Shop.Infrastructure.Data;
 
-public class Transaction<TContext> : ITransaction<TContext> where TContext : DbContext
+public class DbContextTransaction<TContext> : ITransaction<TContext> where TContext : DbContext
 {
     private readonly TContext _context;
     private readonly ILogger<TContext> _logger;
 
-    public Transaction(TContext context, ILogger<TContext> logger)
+    public DbContextTransaction(TContext context, ILogger<TContext> logger)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _logger = logger;

@@ -11,5 +11,5 @@ public static class ServicesCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         => services
             .AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
-            .AddScoped(typeof(ITransaction<>), typeof(Transaction<>));
+            .AddScoped(typeof(ITransaction<>), typeof(DbContextTransaction<>));
 }
