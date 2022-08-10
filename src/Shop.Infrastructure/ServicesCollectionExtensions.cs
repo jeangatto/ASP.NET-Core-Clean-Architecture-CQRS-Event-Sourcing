@@ -9,7 +9,9 @@ namespace Shop.Infrastructure;
 public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
-        => services
-            .AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
-            .AddScoped(typeof(IDbTransaction<>), typeof(DbTransaction<>));
+    {
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddScoped(typeof(IDbTransaction<>), typeof(DbTransaction<>));
+        return services;
+    }
 }

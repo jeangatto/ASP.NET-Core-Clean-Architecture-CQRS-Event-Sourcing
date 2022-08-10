@@ -27,8 +27,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         timer.Stop();
 
-        _logger.LogInformation("----- Command {CommandName} handled ({TimeTaken} seconds) - response: {@Response} ",
-            commandName, timer.Elapsed.Seconds, response);
+        _logger.LogInformation("----- Command {CommandName} handled ({TimeTaken} seconds) - response: {@Response} ", commandName, timer.Elapsed.Seconds, response);
 
         return response;
     }
