@@ -13,19 +13,19 @@ internal static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddShopContext(this IServiceCollection services)
     {
+        var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
+
         services.AddDbContext<ShopContext>((serviceProvider, optionsBuilder) =>
         {
-            var connectionString
-                = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value.ShopConnection;
+            var logger = serviceProvider.GetRequiredService<ILogger<ShopContext>>();
+            var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-            optionsBuilder.UseSqlServer(connectionString, sqlOptions =>
+            optionsBuilder.UseSqlServer(connectionOptions.ShopConnection, sqlOptions =>
             {
-                sqlOptions.MigrationsAssembly(typeof(Program).Assembly.GetName().Name);
+                sqlOptions.MigrationsAssembly(migrationsAssembly);
 
                 // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
-
-                var logger = serviceProvider.GetRequiredService<ILogger<ShopContext>>();
 
                 // Log tentativas de repetição
                 optionsBuilder.LogTo(

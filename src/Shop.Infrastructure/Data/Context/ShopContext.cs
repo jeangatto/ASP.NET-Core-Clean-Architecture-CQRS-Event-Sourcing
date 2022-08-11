@@ -15,7 +15,7 @@ public class ShopContext : DbContext
         ChangeTracker.LazyLoadingEnabled = false;
     }
 
-    public ShopContext(IOptions<ConnectionStrings> options, DbContextOptions<ShopContext> dbOptions) : this(dbOptions)
+    public ShopContext(IOptions<ConnectionOptions> options, DbContextOptions<ShopContext> dbOptions) : this(dbOptions)
     {
         _collation = options.Value.Collation;
     }

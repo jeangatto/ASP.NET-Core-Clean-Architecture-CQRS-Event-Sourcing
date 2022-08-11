@@ -69,9 +69,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
     app.UseSwagger().UseSwaggerUI(options => options.DisplayRequestDuration());
-}
 
 app.UseResponseCompression();
 app.UseHttpLogging();
@@ -80,8 +78,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-var connection = app.Services.GetRequiredService<IOptions<ConnectionStrings>>().Value;
+var connectionOptions = app.Services.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-app.Logger.LogInformation("----- Connection: {Connection}, Collation: {Collation}", connection.ShopConnection, connection.Collation);
+app.Logger.LogInformation("----- Connection: {Connection}, Collation: {Collation}", connectionOptions.ShopConnection, connectionOptions.Collation);
 app.Logger.LogInformation("----- Starting the application");
 app.Run();
