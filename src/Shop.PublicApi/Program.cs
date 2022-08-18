@@ -25,7 +25,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.Configure<KestrelServerOptions>(options => options.AddServerHeader = false);
 builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure());
 
-// Add services to the container.
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
 
 builder.Services.AddControllers()
@@ -36,12 +36,30 @@ builder.Services.AddControllers()
     }).AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddApiVersioning(options =>
 {
-    options.DefaultApiVersion = new ApiVersion(1, 0);
+    // Specify the default API Version as 1.0
+    options.DefaultApiVersion = ApiVersion.Default;
+
+    // Reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
     options.ReportApiVersions = true;
+
+    // If the client hasn't specified the API version in the request, use the default API version number
     options.AssumeDefaultVersionWhenUnspecified = true;
 });
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    // Add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+    // NOTE: the specified format code will format the version as "'v'major[.minor][-status]"
+    options.GroupNameFormat = "'v'VVV";
+
+    // NOTE: this option is only necessary when versioning by url segment. the SubstitutionFormat
+    // can also be used to control the format of the API version in route templates
+    options.SubstituteApiVersionInUrl = true;
+});
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -65,8 +83,7 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath, true);
-});
-builder.Services.AddSwaggerGenNewtonsoftSupport();
+}).AddSwaggerGenNewtonsoftSupport();
 
 builder.Host.UseDefaultServiceProvider((context, options) =>
 {
