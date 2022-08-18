@@ -40,9 +40,8 @@ public class ShopContext : DbContext
         if (!string.IsNullOrWhiteSpace(_collation))
             modelBuilder.UseCollation(_collation);
 
-        modelBuilder
-                .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly())
-                .RemoveCascadeDeleteConvention();
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.RemoveCascadeDeleteConvention();
     }
 
     public override int SaveChanges()

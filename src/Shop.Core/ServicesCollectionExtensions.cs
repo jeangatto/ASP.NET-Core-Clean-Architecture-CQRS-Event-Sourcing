@@ -11,7 +11,7 @@ public static class ServicesCollectionExtensions
         return services;
     }
 
-    private static void AddOptions<T>(this IServiceCollection services, string configSectionPath) where T : class
+    public static void AddOptions<T>(this IServiceCollection services, string configSectionPath) where T : BaseOptions
         => services
             .AddOptions<T>()
             .BindConfiguration(configSectionPath, options => options.BindNonPublicProperties = true)

@@ -13,7 +13,6 @@ public interface ICommand : IRequest
 /// Interface marcadora para representar um comando de escrita com uma resposta.
 /// </summary>
 /// <typeparam name="TResponse">O tipo de resposta.</typeparam>
-public interface ICommand<out TResponse> : IRequest<TResponse>
-    where TResponse : notnull
+public interface ICommand<out TResponse> : IRequest<TResponse> where TResponse : notnull
 {
 }
