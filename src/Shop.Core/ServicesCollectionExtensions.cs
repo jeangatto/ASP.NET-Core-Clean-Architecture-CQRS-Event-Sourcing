@@ -11,9 +11,9 @@ public static class ServicesCollectionExtensions
         return services;
     }
 
-    public static void AddOptions<T>(this IServiceCollection services, string configSectionPath) where T : BaseOptions
+    public static void AddOptions<TOptions>(this IServiceCollection services, string configSectionPath) where TOptions : BaseOptions
         => services
-            .AddOptions<T>()
+            .AddOptions<TOptions>()
             .BindConfiguration(configSectionPath, options => options.BindNonPublicProperties = true)
             .ValidateDataAnnotations()
             .ValidateOnStart();

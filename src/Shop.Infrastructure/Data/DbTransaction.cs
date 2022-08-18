@@ -15,7 +15,7 @@ public class DbTransaction<TContext> : IDbTransaction<TContext> where TContext :
 
     public DbTransaction(TContext context, ILogger<TContext> logger)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _context = context;
         _logger = logger;
     }
 

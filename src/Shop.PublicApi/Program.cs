@@ -27,8 +27,21 @@ builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.Serializ
 
 // Add services to the container.
 builder.Services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
-builder.Services.AddControllers().AddNewtonsoftJson();
+
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressMapClientErrors = true;
+        options.SuppressModelStateInvalidFilter = true;
+    }).AddNewtonsoftJson();
+
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+});
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
