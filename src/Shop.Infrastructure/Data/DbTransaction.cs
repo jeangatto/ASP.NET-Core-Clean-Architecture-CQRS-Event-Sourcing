@@ -11,9 +11,9 @@ namespace Shop.Infrastructure.Data;
 public class DbTransaction<TContext> : IDbTransaction<TContext> where TContext : DbContext
 {
     private readonly TContext _context;
-    private readonly ILogger<TContext> _logger;
+    private readonly ILogger<DbTransaction<TContext>> _logger;
 
-    public DbTransaction(TContext context, ILogger<TContext> logger)
+    public DbTransaction(TContext context, ILogger<DbTransaction<TContext>> logger)
     {
         _context = context;
         _logger = logger;

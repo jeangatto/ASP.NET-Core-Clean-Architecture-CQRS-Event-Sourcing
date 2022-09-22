@@ -10,7 +10,7 @@ using Shop.Infrastructure.Data.Extensions;
 
 namespace Shop.Infrastructure.Data.Context;
 
-public class ShopContext : DbContext
+public sealed class ShopContext : DbContext
 {
     private readonly string _collation;
     private readonly ICurrentUserProvider _currentUserProvider;

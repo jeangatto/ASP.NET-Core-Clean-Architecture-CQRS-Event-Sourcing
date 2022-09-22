@@ -12,9 +12,7 @@ public static class GenericTypeExtensions
             var genericTypes = string.Join(",", type.GetGenericArguments().Select(t => t.Name).ToArray());
             return $"{type.Name.Remove(type.Name.IndexOf('`'))}<{genericTypes}>";
         }
-        else
-        {
-            return type.Name;
-        }
+
+        return type.Name;
     }
 }
