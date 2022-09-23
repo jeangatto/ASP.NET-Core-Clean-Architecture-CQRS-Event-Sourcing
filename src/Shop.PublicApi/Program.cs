@@ -62,23 +62,24 @@ builder.Services.AddVersionedApiExplorer(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "Shop (e-commerce)",
-        Description = "ASP.NET Core C# CQRS, REST API, DDD, Princípios SOLID e Clean Architecture",
-        Contact = new OpenApiContact
+    options.SwaggerDoc("v1",
+        new OpenApiInfo
         {
-            Name = "Jean Gatto",
-            Email = "jean_gatto@hotmail.com",
-            Url = new Uri("https://www.linkedin.com/in/jeangatto/")
-        },
-        License = new OpenApiLicense
-        {
-            Name = "MIT License",
-            Url = new Uri("https://github.com/jeangatto/asp-net-core-cqrs-ddd-solid-api/blob/main/LICENSE")
-        }
-    });
+            Version = "v1",
+            Title = "Shop (e-commerce)",
+            Description = "ASP.NET Core C# CQRS, REST API, DDD, Princípios SOLID e Clean Architecture",
+            Contact = new OpenApiContact
+            {
+                Name = "Jean Gatto",
+                Email = "jean_gatto@hotmail.com",
+                Url = new Uri("https://www.linkedin.com/in/jeangatto/")
+            },
+            License = new OpenApiLicense
+            {
+                Name = "MIT License",
+                Url = new Uri("https://github.com/jeangatto/asp-net-core-cqrs-ddd-solid-api/blob/main/LICENSE")
+            }
+        });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -99,7 +100,10 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-    app.UseSwagger().UseSwaggerUI(options => options.DisplayRequestDuration());
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options => options.DisplayRequestDuration());
+}
 
 app.UseResponseCompression();
 app.UseHttpLogging();
@@ -109,7 +113,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 var connectionOptions = app.Services.GetRequiredService<IOptions<ConnectionOptions>>().Value;
-
-app.Logger.LogInformation("----- Connection: {Connection}, Collation: {Collation}", connectionOptions.ShopConnection, connectionOptions.Collation);
+app.Logger.LogInformation("----- Connection: {Connection}", connectionOptions.ToJson());
 app.Logger.LogInformation("----- Starting the application");
 app.Run();

@@ -27,21 +27,22 @@ internal static class ServicesCollectionExtensions
                 // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
 
-                // Log tentativas de repetição
+                // Log das tentativas de repetição
                 optionsBuilder.LogTo(
                     filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
-                    logger: (eventData) =>
+                    logger: eventData =>
                     {
-                        var retryEventData = eventData as ExecutionStrategyEventData;
+                        if (eventData is not ExecutionStrategyEventData retryEventData) return;
+
                         var exceptions = retryEventData.ExceptionsEncountered;
                         var count = exceptions.Count;
                         var delay = retryEventData.Delay;
-                        var message = exceptions[exceptions.Count - 1]?.Message;
+                        var message = exceptions[^1].Message;
                         logger.LogWarning("----- Retry #{Count} with delay {Delay} due to error: {Message}", count, delay, message);
                     });
             });
 
-            // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
+            // Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
                 optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
