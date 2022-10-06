@@ -100,11 +100,10 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options => options.DisplayRequestDuration());
-}
+    app.UseDeveloperExceptionPage();
 
+app.UseSwagger();
+app.UseSwaggerUI(options => options.DisplayRequestDuration());
 app.UseResponseCompression();
 app.UseHttpLogging();
 app.UseHttpsRedirection();
