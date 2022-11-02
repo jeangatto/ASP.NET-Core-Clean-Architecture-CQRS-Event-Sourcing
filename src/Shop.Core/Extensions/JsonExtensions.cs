@@ -6,7 +6,7 @@ using Newtonsoft.Json.Serialization;
 namespace Shop.Core.Extensions;
 
 /// <summary>
-///     Extensões para a utilização do JSON.
+/// Extensões para a utilização do JSON.
 /// </summary>
 public static class JsonExtensions
 {
@@ -16,7 +16,7 @@ public static class JsonExtensions
     private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings().Configure();
 
     /// <summary>
-    ///     Desserializa o JSON para o tipo especificado.
+    /// Desserializa o JSON para o tipo especificado.
     /// </summary>
     /// <typeparam name="T">O tipo de objeto para o qual desserializar.</typeparam>
     /// <param name="value">O objeto a ser desserializado.</param>
@@ -25,7 +25,7 @@ public static class JsonExtensions
         => value != null ? JsonConvert.DeserializeObject<T>(value, JsonSettings) : default;
 
     /// <summary>
-    ///     Serializa o objeto especificado em uma string JSON.
+    /// Serializa o objeto especificado em uma string JSON.
     /// </summary>
     /// <param name="value">O objeto a ser serializado.</param>
     /// <returns>Uma representação de string JSON do objeto.</returns>
