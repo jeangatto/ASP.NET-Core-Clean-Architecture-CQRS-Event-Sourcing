@@ -25,7 +25,7 @@ public class DbTransaction<TContext> : IDbTransaction<TContext> where TContext :
 
         await strategy.ExecuteAsync(async () =>
         {
-            var transaction = await _context.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+            using var transaction = await _context.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
 
             _logger.LogInformation("----- Begin transaction {TransactionId}", transaction.TransactionId);
 
@@ -46,10 +46,6 @@ public class DbTransaction<TContext> : IDbTransaction<TContext> where TContext :
                 await transaction.RollbackAsync(cancellationToken);
 
                 throw;
-            }
-            finally
-            {
-                transaction.Dispose();
             }
         });
     }
