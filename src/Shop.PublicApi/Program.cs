@@ -77,7 +77,7 @@ builder.Services.AddSwaggerGen(options =>
             License = new OpenApiLicense
             {
                 Name = "MIT License",
-                Url = new Uri("https://github.com/jeangatto/asp-net-core-cqrs-ddd-solid-api/blob/main/LICENSE")
+                Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-DDD-SOLID/blob/main/LICENSE")
             }
         });
 
