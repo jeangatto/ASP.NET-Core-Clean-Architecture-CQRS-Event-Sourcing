@@ -3,10 +3,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -22,7 +22,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-builder.Services.Configure<KestrelServerOptions>(options => options.AddServerHeader = false);
 builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure());
 
 builder.Services.AddHttpContextAccessor();
@@ -91,6 +90,8 @@ builder.Host.UseDefaultServiceProvider((context, options) =>
     options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
     options.ValidateOnBuild = true;
 });
+
+builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
 builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
