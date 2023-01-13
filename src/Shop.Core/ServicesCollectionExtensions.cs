@@ -13,10 +13,14 @@ public static class ServicesCollectionExtensions
         return services;
     }
 
-    public static void AddOptions<TOptions>(this IServiceCollection services, string configSectionPath) where TOptions : BaseOptions
-        => services
+    public static IServiceCollection AddOptions<TOptions>(this IServiceCollection services, string configSectionPath)
+        where TOptions : BaseOptions
+    {
+        return services
             .AddOptions<TOptions>()
             .BindConfiguration(configSectionPath, options => options.BindNonPublicProperties = true)
             .ValidateDataAnnotations()
-            .ValidateOnStart();
+            .ValidateOnStart()
+            .Services;
+    }
 }
