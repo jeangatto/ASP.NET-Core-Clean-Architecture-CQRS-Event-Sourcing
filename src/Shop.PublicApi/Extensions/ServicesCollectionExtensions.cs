@@ -15,12 +15,12 @@ internal static class ServicesCollectionExtensions
     {
         var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
 
-        services.AddDbContext<ShopContext>((serviceProvider, optionsBuilder) =>
+        services.AddDbContext<ShopContext>((serviceProvider, options) =>
         {
             var logger = serviceProvider.GetRequiredService<ILogger<ShopContext>>();
             var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-            optionsBuilder.UseSqlServer(connectionOptions.ShopConnection, sqlOptions =>
+            options.UseSqlServer(connectionOptions.ShopConnection, sqlOptions =>
             {
                 sqlOptions.MigrationsAssembly(migrationsAssembly);
 
@@ -28,7 +28,7 @@ internal static class ServicesCollectionExtensions
                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
 
                 // Log das tentativas de repetição
-                optionsBuilder.LogTo(
+                options.LogTo(
                     filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
                     logger: eventData =>
                     {
@@ -40,12 +40,12 @@ internal static class ServicesCollectionExtensions
                         var message = exceptions[^1].Message;
                         logger.LogWarning("----- Retry #{Count} with delay {Delay} due to error: {Message}", count, delay, message);
                     });
-            });
+            }).EnableServiceProviderCaching();
 
             // Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
-                optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
+                options.EnableDetailedErrors().EnableSensitiveDataLogging();
         });
 
         return services;

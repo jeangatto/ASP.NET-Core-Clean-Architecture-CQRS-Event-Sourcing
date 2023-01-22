@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Core.Abstractions;
 using Shop.Core.AppSettings;
 
 namespace Shop.Core;

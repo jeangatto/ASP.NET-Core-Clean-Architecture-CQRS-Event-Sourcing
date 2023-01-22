@@ -1,4 +1,4 @@
-namespace Shop.Core;
+namespace Shop.Core.Abstractions;
 
 public abstract class BaseOptions
 {

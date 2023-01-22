@@ -14,13 +14,14 @@
       "args": [],
       "cwd": "${workspaceFolder}/src/Shop.PublicApi",
       "stopAtEntry": false,
-      "console": "integratedTerminal",
-      "justMyCode": true,
+      "console": "internalConsole",
       "logging": { "moduleLoad": false },
       // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
       "serverReadyAction": {
         "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/swagger",
+        "killOnServerStop": true
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"

@@ -27,21 +27,30 @@ public class DbTransaction<TContext> : IDbTransaction<TContext> where TContext :
         {
             using var transaction = await _context.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
 
-            _logger.LogInformation("----- Begin transaction {TransactionId}", transaction.TransactionId);
+            _logger.LogInformation("----- Begin transaction: '{TransactionId}'", transaction.TransactionId);
 
             await operation();
 
             try
             {
-                await _context.SaveChangesAsync(cancellationToken);
+                var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
 
-                _logger.LogInformation("----- Commit transaction {TransactionId}", transaction.TransactionId);
+                _logger.LogInformation("----- Commit transaction: '{TransactionId}'", transaction.TransactionId);
 
                 await transaction.CommitAsync(cancellationToken);
+
+                _logger.LogInformation(
+                    "----- Transaction successfully confirmed: '{TransactionId}', Rows Affected: {RowsAffected}",
+                    rowsAffected,
+                    transaction.TransactionId);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected exception occurred while committing the transaction {TransactionId}", transaction.TransactionId);
+                _logger.LogError(
+                    ex,
+                    "An unexpected exception occurred while committing the transaction: '{TransactionId}', message: {Message}",
+                    transaction.TransactionId,
+                    ex.Message);
 
                 await transaction.RollbackAsync(cancellationToken);
 
