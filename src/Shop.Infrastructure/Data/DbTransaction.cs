@@ -41,16 +41,14 @@ public class DbTransaction<TContext> : IDbTransaction<TContext> where TContext :
 
                 _logger.LogInformation(
                     "----- Transaction successfully confirmed: '{TransactionId}', Rows Affected: {RowsAffected}",
-                    rowsAffected,
-                    transaction.TransactionId);
+                    rowsAffected, transaction.TransactionId);
             }
             catch (Exception ex)
             {
                 _logger.LogError(
                     ex,
                     "An unexpected exception occurred while committing the transaction: '{TransactionId}', message: {Message}",
-                    transaction.TransactionId,
-                    ex.Message);
+                    transaction.TransactionId, ex.Message);
 
                 await transaction.RollbackAsync(cancellationToken);
 
