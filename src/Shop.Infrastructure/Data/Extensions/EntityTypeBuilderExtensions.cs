@@ -27,6 +27,15 @@ public static class EntityTypeBuilderExtensions
         where TEntity : BaseAuditEntity
     {
         builder.ConfigureBaseEntity();
+
+        builder.Property(entity => entity.CreatedAt).IsRequired().ValueGeneratedNever();
+        builder.Property(entity => entity.CreatedBy).IsRequired(false);
+        builder.Property(entity => entity.LastModified).IsRequired(false);
+        builder.Property(entity => entity.LastModifiedBy).IsRequired(false);
+        builder.Property(entity => entity.IsDeleted).IsRequired();
+        builder.Property(entity => entity.Version).IsRequired();
+
+        // Filtro universal para o SoftDelete.
         builder.HasQueryFilter(entity => !entity.IsDeleted);
     }
 }

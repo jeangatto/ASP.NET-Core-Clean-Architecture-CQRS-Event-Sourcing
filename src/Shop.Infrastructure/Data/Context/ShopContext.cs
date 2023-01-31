@@ -76,22 +76,16 @@ public sealed class ShopContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = userId;
-                    entry.Entity.CreatedAt = dtNow;
-                    entry.Entity.Version++;
+                    entry.Entity.SetAdded(userId, dtNow);
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = userId;
-                    entry.Entity.LastModified = dtNow;
-                    entry.Entity.Version++;
+                    entry.Entity.SetModified(userId, dtNow);
                     break;
 
                 case EntityState.Deleted:
                     entry.State = EntityState.Modified;
-                    entry.Entity.LastModifiedBy = userId;
-                    entry.Entity.LastModified = dtNow;
-                    entry.Entity.IsDeleted = true;
+                    entry.Entity.SetDeleted(userId, dtNow);
                     break;
             }
         }
