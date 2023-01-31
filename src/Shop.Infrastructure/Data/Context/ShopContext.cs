@@ -68,11 +68,10 @@ public sealed class ShopContext : DbContext
     private void OnBeforeSaving()
     {
         var dtNow = DateTime.Now;
+        var userId = _currentUserProvider?.GetCurrentUserId();
 
         foreach (var entry in ChangeTracker.Entries<IAudit>())
         {
-            var userId = _currentUserProvider?.GetCurrentUserId();
-
             switch (entry.State)
             {
                 case EntityState.Added:
