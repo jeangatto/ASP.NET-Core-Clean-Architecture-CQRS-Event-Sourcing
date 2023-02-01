@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Shop.Core.AppSettings;
 using Shop.Core.Interfaces;
-using Shop.Domain.Entities;
+using Shop.Domain.Entities.Customer;
 using Shop.Infrastructure.Data.Extensions;
 
 namespace Shop.Infrastructure.Data.Context;

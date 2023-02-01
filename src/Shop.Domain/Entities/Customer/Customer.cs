@@ -1,9 +1,10 @@
 using System;
 using Shop.Core.Abstractions;
 using Shop.Core.Interfaces;
+using Shop.Domain.Entities.Customer.Events;
 using Shop.Domain.Enums;
 
-namespace Shop.Domain.Entities;
+namespace Shop.Domain.Entities.Customer;
 
 /// <summary>
 /// Cliente
@@ -25,9 +26,11 @@ public class Customer : BaseAuditEntity, IAggregateRoot
         Gender = gender;
         Email = email;
         DateOfBirth = dateOfBirth;
+
+        AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email, dateOfBirth));
     }
 
-    private Customer() { }
+    private Customer() { } // ORM
 
     /// <summary>
     /// Primeiro Nome.
