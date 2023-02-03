@@ -65,6 +65,9 @@ public sealed class ShopContext : DbContext
         return base.SaveChangesAsync(cancellationToken);
     }
 
+    /// <summary>
+    /// Aplica a auditoria antes de salvar.
+    /// </summary>
     private void OnBeforeSaving()
     {
         var dtNow = DateTime.Now;

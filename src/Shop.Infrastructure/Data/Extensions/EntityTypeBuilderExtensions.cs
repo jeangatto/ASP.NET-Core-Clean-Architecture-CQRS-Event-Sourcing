@@ -15,6 +15,8 @@ public static class EntityTypeBuilderExtensions
     {
         builder.HasKey(entity => entity.Id);
         builder.Property(entity => entity.Id).IsRequired().ValueGeneratedNever();
+
+        builder.Ignore(entity => entity.DomainEvents);
     }
 
     /// <summary>

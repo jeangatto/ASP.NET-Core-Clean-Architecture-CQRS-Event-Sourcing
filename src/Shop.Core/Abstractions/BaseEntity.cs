@@ -6,27 +6,23 @@ namespace Shop.Core.Abstractions;
 
 public abstract class BaseEntity : IEntityKey<Guid>
 {
-    private List<IDomainEvent> _domainEvents;
+    private readonly List<IDomainEvent> _domainEvents = new();
 
     public Guid Id { get; private init; } = Guid.NewGuid();
 
     /// <summary>
     /// Eventos de domínio que ocorreram.
     /// </summary>
-    public IEnumerable<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
+    public IEnumerable<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     /// <summary>
     /// Adicionar evento de domínio.
     /// </summary>
     /// <param name="domainEvent"></param>
-    public void AddDomainEvent(IDomainEvent domainEvent)
-    {
-        _domainEvents ??= new List<IDomainEvent>();
-        _domainEvents.Add(domainEvent);
-    }
+    public void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 
     /// <summary>
-    /// Limpar os eventos de domínio.
+    /// Limpa os eventos de domínio.
     /// </summary>
-    public void ClearDomainEvents() => _domainEvents?.Clear();
+    public void ClearDomainEvents() => _domainEvents.Clear();
 }

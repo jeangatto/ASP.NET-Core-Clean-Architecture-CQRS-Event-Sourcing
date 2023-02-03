@@ -16,14 +16,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Deterministic>true</Deterministic>
     <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Deterministic>true</Deterministic>
     <Optimize>true</Optimize>
   </PropertyGroup>
 
