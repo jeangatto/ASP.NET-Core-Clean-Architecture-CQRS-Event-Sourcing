@@ -100,6 +100,7 @@ builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.AddShopContext();
+builder.Services.AddEventContext();
 
 var app = builder.Build();
 
@@ -108,7 +109,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
 app.UseSwagger();
-app.UseSwaggerUI(options => options.DisplayRequestDuration());
+app.UseSwaggerUI();
 app.UseResponseCompression();
 app.UseHttpLogging();
 app.UseHttpsRedirection();
