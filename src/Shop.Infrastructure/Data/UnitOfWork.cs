@@ -1,8 +1,14 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shop.Core.Abstractions;
+using Shop.Core.Events;
+using Shop.Core.Extensions;
 using Shop.Core.Interfaces;
 using Shop.Infrastructure.Data.Context;
 
@@ -10,24 +16,34 @@ namespace Shop.Infrastructure.Data;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ShopContext _context;
-    private readonly IDomainEventsDispatcher _domainEventsDispatcher;
+    #region Constructor
+
+    private readonly ShopContext _shopContext;
+    private readonly EventContext _eventContext;
+    private readonly IMediator _mediator;
     private readonly ILogger<UnitOfWork> _logger;
 
-    public UnitOfWork(ShopContext context, IDomainEventsDispatcher domainEventsDispatcher, ILogger<UnitOfWork> logger)
+    public UnitOfWork(
+        ShopContext shopContext,
+        EventContext eventContext,
+        IMediator mediator,
+        ILogger<UnitOfWork> logger)
     {
-        _context = context;
-        _domainEventsDispatcher = domainEventsDispatcher;
+        _shopContext = shopContext;
+        _eventContext = eventContext;
+        _mediator = mediator;
         _logger = logger;
     }
+
+    #endregion
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            await _domainEventsDispatcher.DispatchAsync(cancellationToken);
+            await PublishDomainEvents(cancellationToken);
 
-            var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
+            var rowsAffected = await _shopContext.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
 
@@ -42,6 +58,41 @@ public class UnitOfWork : IUnitOfWork
         {
             _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
             throw;
+        }
+    }
+
+    private async Task PublishDomainEvents(CancellationToken cancellationToken = default)
+    {
+        var domainEntities = _shopContext.ChangeTracker
+            .Entries<BaseEntity>()
+            .Where(entry => entry.Entity.DomainEvents.Any())
+            .ToList();
+
+        if (domainEntities.Any())
+        {
+            var domainEvents = domainEntities
+                .SelectMany(entry => entry.Entity.DomainEvents)
+                .ToList();
+
+            var storedEvents = new List<StoredEvent>();
+
+            foreach (var @event in domainEvents)
+            {
+                var type = @event.GetGenericTypeName();
+                var data = @event.ToJson();
+                storedEvents.Add(new StoredEvent(type, data));
+            }
+
+            domainEntities
+                .ForEach(entry => entry.Entity.ClearDomainEvents());
+
+            var tasks = domainEvents
+                .Select((@event) => _mediator.Publish(@event, cancellationToken));
+
+            await Task.WhenAll(tasks);
+
+            _eventContext.StoredEvents.AddRange(storedEvents);
+            await _eventContext.SaveChangesAsync(cancellationToken);
         }
     }
 
@@ -71,7 +122,10 @@ public class UnitOfWork : IUnitOfWork
 
         // Dispose managed state (managed objects).
         if (disposing)
-            _context.Dispose();
+        {
+            _shopContext.Dispose();
+            _eventContext.Dispose();
+        }
 
         _disposed = true;
     }

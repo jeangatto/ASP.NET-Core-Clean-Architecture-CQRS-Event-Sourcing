@@ -14,7 +14,10 @@ public static class EntityTypeBuilderExtensions
         where TEntity : BaseEntity
     {
         builder.HasKey(entity => entity.Id);
-        builder.Property(entity => entity.Id).IsRequired().ValueGeneratedNever();
+
+        builder.Property(entity => entity.Id)
+            .IsRequired()
+            .ValueGeneratedNever(); // O Id será gerado ao instanciar a classe
 
         builder.Ignore(entity => entity.DomainEvents);
     }
@@ -30,14 +33,25 @@ public static class EntityTypeBuilderExtensions
     {
         builder.ConfigureBaseEntity();
 
-        builder.Property(entity => entity.CreatedAt).IsRequired().ValueGeneratedNever();
-        builder.Property(entity => entity.CreatedBy).IsRequired(false);
-        builder.Property(entity => entity.LastModified).IsRequired(false);
-        builder.Property(entity => entity.LastModifiedBy).IsRequired(false);
-        builder.Property(entity => entity.IsDeleted).IsRequired();
-        builder.Property(entity => entity.Version).IsRequired();
+        builder.Property(audit => audit.CreatedAt)
+            .IsRequired();
+
+        builder.Property(audit => audit.CreatedBy)
+            .IsRequired(false);
+
+        builder.Property(audit => audit.LastModified)
+            .IsRequired(false);
+
+        builder.Property(audit => audit.LastModifiedBy)
+            .IsRequired(false);
+
+        builder.Property(audit => audit.IsDeleted)
+            .IsRequired();
+
+        builder.Property(audit => audit.Version)
+            .IsRequired();
 
         // Filtro universal para o SoftDelete.
-        builder.HasQueryFilter(entity => !entity.IsDeleted);
+        builder.HasQueryFilter(audit => !audit.IsDeleted);
     }
 }
