@@ -1,4 +1,6 @@
 using System.Reflection;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using Shop.Core.Interfaces;
@@ -9,22 +11,25 @@ public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.Scan(scan => scan
-            .FromAssemblies(Assembly.GetExecutingAssembly())
+        var assemblies = new[] { Assembly.GetExecutingAssembly() };
 
-            // Command Handlers with Response
+        services
+            .AddMediatR(assemblies)
+            .AddValidatorsFromAssemblies(assemblies)
+
+            // Adicionando todos os CommandHandler e QueryHandler
+            .Scan(scan => scan.FromAssemblies(assemblies)
+            // CommandHandler with Response
             .AddClasses(impl => impl.AssignableTo(typeof(ICommandHandler<,>)))
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
             .WithScopedLifetime()
-
-            // Command Handlers
+            // CommandHandler
             .AddClasses(impl => impl.AssignableTo(typeof(ICommandHandler<>)))
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
             .WithScopedLifetime()
-
-            // Query Handlers with Response
+            // QueryHandler with Response
             .AddClasses(impl => impl.AssignableTo(typeof(IQueryHandler<,>)))
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
