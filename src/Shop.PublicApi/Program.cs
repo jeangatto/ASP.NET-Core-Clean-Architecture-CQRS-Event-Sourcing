@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Shop.Application;
 using Shop.Core;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
@@ -97,6 +98,7 @@ builder.WebHost.UseKestrel();
 
 builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 builder.Services.AddShopContext();
 
 var app = builder.Build();

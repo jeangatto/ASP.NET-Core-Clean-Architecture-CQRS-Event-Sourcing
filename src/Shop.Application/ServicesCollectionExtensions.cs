@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
@@ -6,7 +5,6 @@ using Shop.Core.Interfaces;
 
 namespace Shop.Application;
 
-[ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)

@@ -50,4 +50,10 @@ internal static class ServicesCollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddEventContext(this IServiceCollection services)
+    {
+        // TODO: configurar a conexão do EventContext
+        return services;
+    }
 }
