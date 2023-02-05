@@ -12,6 +12,6 @@ public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
     }
 
-    public async Task<Customer> GetByEmailAsync(string email)
-        => await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
+    public async Task<bool> ExistsByEmailAsync(string email)
+        => await DbSet.AsNoTracking().AnyAsync(customer => customer.Email == email);
 }

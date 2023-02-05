@@ -24,7 +24,7 @@ public class Customer : BaseAuditEntity, IAggregateRoot
         FirstName = firstName;
         LastName = lastName;
         Gender = gender;
-        Email = email;
+        Email = email.ToLowerInvariant();
         DateOfBirth = dateOfBirth;
 
         AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email, dateOfBirth));
