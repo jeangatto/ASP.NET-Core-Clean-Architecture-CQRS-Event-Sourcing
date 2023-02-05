@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.Result" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
   </ItemGroup>
 

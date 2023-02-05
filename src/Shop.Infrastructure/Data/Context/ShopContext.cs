@@ -3,8 +3,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Shop.Core.AppSettings;
 using Shop.Core.Interfaces;
 using Shop.Domain.Entities.Customer;
 using Shop.Infrastructure.Data.Extensions;
@@ -15,27 +13,19 @@ public sealed class ShopContext : DbContext
 {
     #region Constructor
 
-    private readonly string _collation;
+    private const string Collation = "Latin1_General_CI_AI";
     private readonly ICurrentUserProvider _currentUserProvider;
 
-    public ShopContext(DbContextOptions<ShopContext> dbOptions) : base(dbOptions)
+    public ShopContext(DbContextOptions<ShopContext> dbOptions)
+        : base(dbOptions)
     {
         ChangeTracker.LazyLoadingEnabled = false;
     }
 
-    public ShopContext(
-        DbContextOptions<ShopContext> dbOptions,
-        ICurrentUserProvider currentUserProvider) : this(dbOptions)
+    public ShopContext(DbContextOptions<ShopContext> dbOptions, ICurrentUserProvider currentUserProvider)
+        : this(dbOptions)
     {
         _currentUserProvider = currentUserProvider;
-    }
-
-    public ShopContext(
-        DbContextOptions<ShopContext> dbOptions,
-        ICurrentUserProvider currentUserProvider,
-        IOptions<ConnectionOptions> connectionOptions) : this(dbOptions, currentUserProvider)
-    {
-        _collation = connectionOptions.Value.Collation;
     }
 
     #endregion
@@ -44,9 +34,7 @@ public sealed class ShopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        if (!string.IsNullOrWhiteSpace(_collation))
-            modelBuilder.UseCollation(_collation);
-
+        modelBuilder.UseCollation(Collation);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.RemoveCascadeDeleteConvention();
     }
@@ -66,7 +54,7 @@ public sealed class ShopContext : DbContext
     }
 
     /// <summary>
-    /// Aplica a auditoria antes de salvar.
+    /// Aplicando a auditoria antes de salvar as entidades.
     /// </summary>
     private void OnBeforeSaving()
     {

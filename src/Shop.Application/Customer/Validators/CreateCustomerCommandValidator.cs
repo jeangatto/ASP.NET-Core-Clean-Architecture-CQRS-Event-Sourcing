@@ -1,6 +1,5 @@
 using FluentValidation;
 using Shop.Application.Commands;
-using Shop.Domain.Enums;
 
 namespace Shop.Application.Customer.Validators;
 
@@ -15,10 +14,6 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
         RuleFor(command => command.LastName)
             .NotEmpty()
             .MaximumLength(100);
-
-        RuleFor(command => command.Gender)
-            .NotEmpty()
-            .IsEnumName(typeof(EGender), caseSensitive: false);
 
         RuleFor(command => command.Email)
             .NotEmpty()

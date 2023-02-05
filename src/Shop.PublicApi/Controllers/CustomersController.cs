@@ -16,7 +16,8 @@ public class CustomersController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public CustomersController(IMediator mediator) => _mediator = mediator;
+    public CustomersController(IMediator mediator)
+        => _mediator = mediator;
 
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
@@ -25,8 +26,5 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Result), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<CreatedCustomerResponse>> Create([FromBody] CreateCustomerCommand command)
-    {
-        var result = await _mediator.Send(command);
-        return result.ToActionResult(this);
-    }
+        => (await _mediator.Send(command)).ToActionResult(this);
 }

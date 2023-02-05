@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -21,22 +20,12 @@ using Shop.PublicApi.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
-builder.Services.Configure<KestrelServerOptions>(options => options.AddServerHeader = false);
 builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure());
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
-
-builder.Services.AddControllers()
-    .ConfigureApiBehaviorOptions(options =>
-    {
-        options.SuppressMapClientErrors = true;
-        options.SuppressModelStateInvalidFilter = true;
-    }).AddNewtonsoftJson();
-
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddApiVersioning(options =>
 {
     // Specify the default API Version as 1.0
@@ -86,19 +75,29 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath, true);
 }).AddSwaggerGenNewtonsoftSupport();
 
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressMapClientErrors = true;
+        options.SuppressModelStateInvalidFilter = true;
+    }).AddNewtonsoftJson();
+
+// Adicionando os serviços da aplicação no ASP.NET Core DI
+builder.Services.ConfigureAppSettings();
+builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
+builder.Services.AddShopContext();
+builder.Services.AddEventContext();
+
+// Validando os serviços adicionados no ASP.NET Core DI
 builder.Host.UseDefaultServiceProvider((context, options) =>
 {
     options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
     options.ValidateOnBuild = true;
 });
 
-builder.WebHost.UseKestrel();
-
-builder.Services.ConfigureAppSettings();
-builder.Services.AddInfrastructure();
-builder.Services.AddApplication();
-builder.Services.AddShopContext();
-builder.Services.AddEventContext();
+// Utilizando o servidor Kestrel (linux)
+builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
 var app = builder.Build();
 

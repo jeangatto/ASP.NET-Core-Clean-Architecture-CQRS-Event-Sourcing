@@ -12,6 +12,4 @@ public sealed class ConnectionOptions : BaseOptions
 
     [Required]
     public string EventConnection { get; private init; }
-
-    public string Collation { get; private init; }
 }

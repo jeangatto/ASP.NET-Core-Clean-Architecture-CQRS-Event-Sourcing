@@ -11,17 +11,17 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     {
         builder.ConfigureBaseAuditEntity();
 
-        builder.Property(c => c.FirstName)
+        builder.Property(customer => customer.FirstName)
             .IsRequired()
             .IsUnicode(false)
             .HasMaxLength(100);
 
-        builder.Property(c => c.LastName)
+        builder.Property(customer => customer.LastName)
             .IsRequired()
             .IsUnicode(false)
             .HasMaxLength(100);
 
-        builder.Property(c => c.Gender)
+        builder.Property(customer => customer.Gender)
             .IsRequired()
             .IsUnicode(false)
             .HasMaxLength(6)
@@ -29,16 +29,26 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             // Ao invés de salvar o valor (ex.: 0, 1, 3), salvará o nome do enumerador, facilitando a leitura no banco.
             .HasConversion<string>();
 
-        builder.Property(c => c.Email)
+        builder.Property(customer => customer.Email)
             .IsRequired()
             .IsUnicode(false)
             .HasMaxLength(254);
 
-        builder.Property(c => c.DateOfBirth)
+        // Mapeamento de Objetos de Valor (ValueObject)
+        builder.OwnsOne(customer => customer.Email, ownedNav =>
+        {
+            ownedNav.Property(email => email.Address)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(254)
+                .HasColumnName(nameof(Customer.Email));
+
+            // Índice único para o endereço de e-mail.
+            ownedNav.HasIndex(email => email.Address).IsUnique();
+        });
+
+        builder.Property(customer => customer.DateOfBirth)
             .IsRequired()
             .HasColumnType("DATE");
-
-        // Índice único para o endereço de e-mail.
-        builder.HasIndex(c => c.Email).IsUnique(true);
     }
 }

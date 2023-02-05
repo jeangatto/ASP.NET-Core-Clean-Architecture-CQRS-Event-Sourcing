@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
@@ -8,8 +7,8 @@ using Shop.Application.Commands;
 using Shop.Application.Customer.Responses;
 using Shop.Application.Customer.Validators;
 using Shop.Core.Interfaces;
-using Shop.Domain.Enums;
 using Shop.Domain.Interfaces;
+using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;
 
@@ -41,8 +40,11 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Resu
             return Result.Invalid(validationResult.AsErrors());
         }
 
+        // Criando a instancia do VO Email.
+        var email = Email.Create(request.Email).Value;
+
         // Verificiando se já existe um cliente com o endereço de e-mail.
-        if (await _repository.ExistsByEmailAsync(request.Email))
+        if (await _repository.ExistsByEmailAsync(email, cancellationToken))
         {
             // Retorna o resultado com o erro informado:
             return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
@@ -53,8 +55,8 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Resu
         var customer = new Domain.Entities.Customer.Customer(
             request.FirstName,
             request.LastName,
-            Enum.Parse<EGender>(request.Gender, ignoreCase: true),
-            request.Email,
+            request.Gender,
+            email,
             request.DateOfBirth);
 
         // Adicionando a entidade cliente no repositório.
