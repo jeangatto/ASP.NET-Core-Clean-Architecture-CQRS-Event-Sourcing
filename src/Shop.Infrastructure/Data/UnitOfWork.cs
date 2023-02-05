@@ -41,7 +41,38 @@ public class UnitOfWork : IUnitOfWork
     {
         try
         {
-            await PublishDomainEvents(cancellationToken);
+            var domainEntities = _shopContext
+                .ChangeTracker
+                .Entries<BaseEntity>()
+                .Where(entry => entry.Entity.DomainEvents.Any())
+                .ToList();
+
+            if (domainEntities.Any())
+            {
+                var domainEvents = domainEntities
+                    .SelectMany(entry => entry.Entity.DomainEvents)
+                    .ToList();
+
+                var storedEvents = new List<StoredEvent>();
+
+                foreach (var @event in domainEvents)
+                {
+                    var type = @event.GetGenericTypeName();
+                    var data = @event.ToJson();
+                    storedEvents.Add(new StoredEvent(type, data));
+                }
+
+                domainEntities
+                    .ForEach(entry => entry.Entity.ClearDomainEvents());
+
+                var tasks = domainEvents
+                    .Select((@event) => _mediator.Publish(@event, cancellationToken));
+
+                await Task.WhenAll(tasks);
+
+                _eventContext.StoredEvents.AddRange(storedEvents);
+                await _eventContext.SaveChangesAsync(cancellationToken);
+            }
 
             var rowsAffected = await _shopContext.SaveChangesAsync(cancellationToken);
 
@@ -58,41 +89,6 @@ public class UnitOfWork : IUnitOfWork
         {
             _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
             throw;
-        }
-    }
-
-    private async Task PublishDomainEvents(CancellationToken cancellationToken = default)
-    {
-        var domainEntities = _shopContext.ChangeTracker
-            .Entries<BaseEntity>()
-            .Where(entry => entry.Entity.DomainEvents.Any())
-            .ToList();
-
-        if (domainEntities.Any())
-        {
-            var domainEvents = domainEntities
-                .SelectMany(entry => entry.Entity.DomainEvents)
-                .ToList();
-
-            var storedEvents = new List<StoredEvent>();
-
-            foreach (var @event in domainEvents)
-            {
-                var type = @event.GetGenericTypeName();
-                var data = @event.ToJson();
-                storedEvents.Add(new StoredEvent(type, data));
-            }
-
-            domainEntities
-                .ForEach(entry => entry.Entity.ClearDomainEvents());
-
-            var tasks = domainEvents
-                .Select((@event) => _mediator.Publish(@event, cancellationToken));
-
-            await Task.WhenAll(tasks);
-
-            _eventContext.StoredEvents.AddRange(storedEvents);
-            await _eventContext.SaveChangesAsync(cancellationToken);
         }
     }
 

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
@@ -41,10 +42,12 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Resu
         }
 
         // Criando a instancia do VO Email.
-        var email = Email.Create(request.Email).Value;
+        var emailResult = Email.Create(request.Email);
+        if (!emailResult.IsSuccess)
+            return Result.Error(emailResult.Errors.ToArray());
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
-        if (await _repository.ExistsByEmailAsync(email, cancellationToken))
+        if (await _repository.ExistsByEmailAsync(emailResult.Value, cancellationToken))
         {
             // Retorna o resultado com o erro informado:
             return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
@@ -56,7 +59,7 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Resu
             request.FirstName,
             request.LastName,
             request.Gender,
-            email,
+            emailResult.Value,
             request.DateOfBirth);
 
         // Adicionando a entidade cliente no repositório.

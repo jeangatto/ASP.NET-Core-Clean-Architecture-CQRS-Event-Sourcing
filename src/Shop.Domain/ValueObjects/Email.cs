@@ -7,7 +7,8 @@ namespace Shop.Domain.ValueObjects;
 
 public sealed class Email : ValueObject
 {
-    private Email(string address) => Address = address.ToLowerInvariant();
+    private Email(string address)
+        => Address = address.ToLowerInvariant();
 
     private Email() { } // ORM
 
