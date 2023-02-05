@@ -1,11 +1,11 @@
 using System;
 using Ardalis.Result;
+using MediatR;
 using Shop.Application.Customer.Responses;
-using Shop.Core.Interfaces;
 
 namespace Shop.Application.Commands;
 
-public class CreateCustomerCommand : ICommand<Result<CreatedCustomerResponse>>
+public class CreateCustomerCommand : IRequest<Result<CreatedCustomerResponse>>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

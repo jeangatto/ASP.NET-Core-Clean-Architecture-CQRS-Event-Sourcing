@@ -24,7 +24,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(Result<CreatedCustomerResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Result), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<CreatedCustomerResponse>> Post([FromBody] CreateCustomerCommand command)
+    public async Task<ActionResult<CreatedCustomerResponse>> Create([FromBody] CreateCustomerCommand command)
     {
         var result = await _mediator.Send(command);
         return result.ToActionResult(this);

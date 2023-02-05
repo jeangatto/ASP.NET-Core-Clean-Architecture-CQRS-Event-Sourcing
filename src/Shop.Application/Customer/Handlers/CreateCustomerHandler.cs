@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using MediatR;
 using Shop.Application.Commands;
 using Shop.Application.Customer.Responses;
 using Shop.Application.Customer.Validators;
@@ -12,7 +13,7 @@ using Shop.Domain.Interfaces;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class CreateCustomerHandler : ICommandHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
+public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
 {
     private readonly CreateCustomerCommandValidator _commandValidator;
     private readonly ICustomerRepository _repository;
