@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shop.Core.Interfaces;
+using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;
 
-public class DbTransaction<TContext> : IDbTransaction<TContext> where TContext : DbContext
+public class EfTransaction : ITransaction
 {
-    private readonly TContext _context;
-    private readonly ILogger<DbTransaction<TContext>> _logger;
+    private readonly ShopContext _context;
+    private readonly ILogger<EfTransaction> _logger;
 
-    public DbTransaction(TContext context, ILogger<DbTransaction<TContext>> logger)
+    public EfTransaction(ShopContext context, ILogger<EfTransaction> logger)
     {
         _context = context;
         _logger = logger;

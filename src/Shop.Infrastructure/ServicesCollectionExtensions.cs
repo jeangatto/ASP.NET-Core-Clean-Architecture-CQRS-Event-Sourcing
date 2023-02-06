@@ -22,10 +22,11 @@ public static class ServicesCollectionExtensions
     {
         // MediatR Pipelines
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransaction<ShopContext>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ITransaction, EfTransaction>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ShopContext>();
         services.AddScoped<EventContext>();

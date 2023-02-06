@@ -36,6 +36,54 @@
         "${workspaceFolder}/src/Shop.PublicApi/Shop.PublicApi.csproj"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "type": "docker-build",
+      "label": "docker-build: debug",
+      "dependsOn": ["build"],
+      "dockerBuild": {
+        "tag": "aspnetcoreapicqrsdddsolid:dev",
+        "target": "base",
+        "dockerfile": "${workspaceFolder}/src/Shop.PublicApi/Dockerfile",
+        "context": "${workspaceFolder}",
+        "pull": true
+      },
+      "netCore": {
+        "appProject": "${workspaceFolder}/src/Shop.PublicApi/Shop.PublicApi.csproj"
+      }
+    },
+    {
+      "type": "docker-build",
+      "label": "docker-build: release",
+      "dependsOn": ["build"],
+      "dockerBuild": {
+        "tag": "aspnetcoreapicqrsdddsolid:latest",
+        "dockerfile": "${workspaceFolder}/src/Shop.PublicApi/Dockerfile",
+        "context": "${workspaceFolder}",
+        "pull": true
+      },
+      "netCore": {
+        "appProject": "${workspaceFolder}/src/Shop.PublicApi/Shop.PublicApi.csproj"
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: debug",
+      "dependsOn": ["docker-build: debug"],
+      "dockerRun": {},
+      "netCore": {
+        "appProject": "${workspaceFolder}/src/Shop.PublicApi/Shop.PublicApi.csproj",
+        "enableDebugging": true
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: release",
+      "dependsOn": ["docker-build: release"],
+      "dockerRun": {},
+      "netCore": {
+        "appProject": "${workspaceFolder}/src/Shop.PublicApi/Shop.PublicApi.csproj"
+      }
     }
   ]
 }

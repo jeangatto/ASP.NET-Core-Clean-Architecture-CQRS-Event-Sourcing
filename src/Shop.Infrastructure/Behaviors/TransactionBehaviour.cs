@@ -1,21 +1,23 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Shop.Core.Interfaces;
 
 namespace Shop.Infrastructure.Behaviors;
 
 public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    // private readonly IDbTransaction _transaction;
+    private readonly ITransaction _transaction;
 
-    // public TransactionBehaviour(ITransaction transaction) => _transaction = transaction;
+    public TransactionBehaviour(ITransaction transaction) => _transaction = transaction;
 
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var response = default(TResponse);
 
-        // await _transaction.ExecuteAsync(async () => response = await next(), cancellationToken);
+        await _transaction.ExecuteAsync(
+            async () => response = await next(), cancellationToken);
 
         return response;
     }
