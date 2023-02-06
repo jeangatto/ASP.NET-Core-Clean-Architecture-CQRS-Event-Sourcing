@@ -29,13 +29,18 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             // Ao invés de salvar o valor (ex.: 0, 1, 3), salvará o nome do enumerador, facilitando a leitura no banco.
             .HasConversion<string>();
 
-        builder.Property(customer => customer.Email)
-            .IsRequired()
-            .IsUnicode(false)
-            .HasMaxLength(254);
+        // Mapeamento de Objetos de Valor (ValueObject)
+        builder.OwnsOne(customer => customer.Email, ownedNav =>
+        {
+            ownedNav.Property(email => email.Address)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(254)
+                .HasColumnName(nameof(Customer.Email));
 
-        builder.HasIndex(customer => customer.Email)
-            .IsUnique();
+            ownedNav.HasIndex(email => email.Address)
+                .IsUnique();
+        });
 
         builder.Property(customer => customer.DateOfBirth)
             .IsRequired()

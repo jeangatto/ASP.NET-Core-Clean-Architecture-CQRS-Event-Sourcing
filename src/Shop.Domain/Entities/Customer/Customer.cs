@@ -3,6 +3,7 @@ using Shop.Core.Abstractions;
 using Shop.Core.Interfaces;
 using Shop.Domain.Entities.Customer.Events;
 using Shop.Domain.Enums;
+using Shop.Domain.ValueObjects;
 
 namespace Shop.Domain.Entities.Customer;
 
@@ -19,16 +20,16 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <param name="gender">Gênero.</param>
     /// <param name="email">Endereço de e-mail.</param>
     /// <param name="dateOfBirth">Data de Nascimento.</param>
-    public Customer(string firstName, string lastName, EGender gender, string email, DateTime dateOfBirth)
+    public Customer(string firstName, string lastName, EGender gender, Email email, DateTime dateOfBirth)
     {
         FirstName = firstName;
         LastName = lastName;
         Gender = gender;
-        Email = email.ToLowerInvariant();
+        Email = email;
         DateOfBirth = dateOfBirth;
 
         // Adicionando nos eventos de domínio.
-        AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email, dateOfBirth));
+        AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email.Address, dateOfBirth));
     }
 
     private Customer() { } // ORM
@@ -51,21 +52,21 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <summary>
     /// Endereço de e-mail.
     /// </summary>
-    public string Email { get; private set; }
+    public Email Email { get; private set; }
 
     /// <summary>
     /// Data de Nascimento.
     /// </summary>
     public DateTime DateOfBirth { get; private init; }
 
-    public void ChangeEmail(string email)
+    public void ChangeEmail(Email email)
     {
-        if (!Email.Equals(email, StringComparison.InvariantCultureIgnoreCase))
+        if (!Email.Equals(email))
         {
-            Email = email.ToLowerInvariant();
+            Email = email;
 
             // Adicionando nos eventos de domínio.
-            AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, Email, DateOfBirth));
+            AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, Email.Address, DateOfBirth));
         }
     }
 }

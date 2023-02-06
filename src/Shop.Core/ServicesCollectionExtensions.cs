@@ -8,11 +8,11 @@ public static class ServicesCollectionExtensions
 {
     public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
     {
-        services.AddOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
+        services.AddOptionsWithValidation<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
         return services;
     }
 
-    public static IServiceCollection AddOptions<TOptions>(this IServiceCollection services, string configSectionPath)
+    public static IServiceCollection AddOptionsWithValidation<TOptions>(this IServiceCollection services, string configSectionPath)
         where TOptions : BaseOptions
     {
         return services
