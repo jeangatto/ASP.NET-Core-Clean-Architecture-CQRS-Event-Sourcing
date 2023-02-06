@@ -3,7 +3,6 @@ using Shop.Core.Abstractions;
 using Shop.Core.Interfaces;
 using Shop.Domain.Entities.Customer.Events;
 using Shop.Domain.Enums;
-using Shop.Domain.ValueObjects;
 
 namespace Shop.Domain.Entities.Customer;
 
@@ -20,16 +19,16 @@ public class Customer : BaseAuditEntity, IAggregateRoot
     /// <param name="gender">Gênero.</param>
     /// <param name="email">Endereço de e-mail.</param>
     /// <param name="dateOfBirth">Data de Nascimento.</param>
-    public Customer(string firstName, string lastName, EGender gender, Email email, DateTime dateOfBirth)
+    public Customer(string firstName, string lastName, EGender gender, string email, DateTime dateOfBirth)
     {
         FirstName = firstName;
         LastName = lastName;
         Gender = gender;
-        Email = email;
+        Email = email.ToLowerInvariant();
         DateOfBirth = dateOfBirth;
 
         // Adicionando nos eventos de domínio.
-        AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email.Address, dateOfBirth));
+        AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email, dateOfBirth));
     }
 
     private Customer() { } // ORM
@@ -52,21 +51,21 @@ public class Customer : BaseAuditEntity, IAggregateRoot
     /// <summary>
     /// Endereço de e-mail.
     /// </summary>
-    public Email Email { get; private set; }
+    public string Email { get; private set; }
 
     /// <summary>
     /// Data de Nascimento.
     /// </summary>
     public DateTime DateOfBirth { get; private init; }
 
-    public void ChangeEmail(Email email)
+    public void ChangeEmail(string email)
     {
-        if (!Email.Equals(email))
+        if (!Email.Equals(email, StringComparison.InvariantCultureIgnoreCase))
         {
-            Email = email;
+            Email = email.ToLowerInvariant();
 
             // Adicionando nos eventos de domínio.
-            AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, Email.Address, DateOfBirth));
+            AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, Email, DateOfBirth));
         }
     }
 }

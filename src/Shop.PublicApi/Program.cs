@@ -87,7 +87,6 @@ builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.AddShopContext();
-builder.Services.AddEventContext();
 
 // Validando os serviços adicionados no ASP.NET Core DI
 builder.Host.UseDefaultServiceProvider((context, options) =>

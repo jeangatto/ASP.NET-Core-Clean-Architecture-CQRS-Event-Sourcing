@@ -34,18 +34,8 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .IsUnicode(false)
             .HasMaxLength(254);
 
-        // Mapeamento de Objetos de Valor (ValueObject)
-        builder.OwnsOne(customer => customer.Email, ownedNav =>
-        {
-            ownedNav.Property(email => email.Address)
-                .IsRequired()
-                .IsUnicode(false)
-                .HasMaxLength(254)
-                .HasColumnName(nameof(Customer.Email));
-
-            // Índice único para o endereço de e-mail.
-            ownedNav.HasIndex(email => email.Address).IsUnique();
-        });
+        builder.HasIndex(customer => customer.Email)
+            .IsUnique();
 
         builder.Property(customer => customer.DateOfBirth)
             .IsRequired()
