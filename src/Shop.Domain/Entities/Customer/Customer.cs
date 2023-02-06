@@ -9,7 +9,7 @@ namespace Shop.Domain.Entities.Customer;
 /// <summary>
 /// Cliente
 /// </summary>
-public class Customer : BaseAuditEntity, IAggregateRoot
+public class Customer : BaseEntity, IAggregateRoot
 {
     /// <summary>
     /// Inicializa uma nova inståncia do cliente.

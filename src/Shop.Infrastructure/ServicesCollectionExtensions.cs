@@ -12,7 +12,6 @@ using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Events;
 using Shop.Infrastructure.Data.Events.Mappings;
 using Shop.Infrastructure.Data.Repositories;
-using Shop.Infrastructure.Providers;
 
 namespace Shop.Infrastructure;
 
@@ -22,11 +21,8 @@ public static class ServicesCollectionExtensions
     {
         // MediatR Pipelines
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 
-        services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
-        services.AddScoped<ITransaction, EfTransaction>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ShopContext>();
         services.AddScoped<EventContext>();
