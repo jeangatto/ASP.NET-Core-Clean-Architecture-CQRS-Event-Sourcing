@@ -40,10 +40,10 @@ public class UnitOfWork : IUnitOfWork
         try
         {
             var domainEntities = _shopContext
-                       .ChangeTracker
-                       .Entries<BaseEntity>()
-                       .Where(entry => entry.Entity.DomainEvents.Any())
-                       .ToList();
+                .ChangeTracker
+                .Entries<BaseEntity>()
+                .Where(entry => entry.Entity.DomainEvents.Any())
+                .ToList();
 
             var domainEvents = new List<IDomainEvent>();
             var storedEvents = new List<StoredEvent>();
