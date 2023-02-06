@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -36,49 +37,62 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {
-        var domainEntities = _shopContext
-            .ChangeTracker
-            .Entries<BaseEntity>()
-            .Where(entry => entry.Entity.DomainEvents.Any())
-            .ToList();
-
-        var domainEvents = new List<IDomainEvent>();
-        var storedEvents = new List<StoredEvent>();
-
-        if (domainEntities.Any())
+        try
         {
-            domainEvents = domainEntities
-                .SelectMany(entry => entry.Entity.DomainEvents)
-                .ToList();
+            var domainEntities = _shopContext
+                       .ChangeTracker
+                       .Entries<BaseEntity>()
+                       .Where(entry => entry.Entity.DomainEvents.Any())
+                       .ToList();
 
-            foreach (var @event in domainEvents)
+            var domainEvents = new List<IDomainEvent>();
+            var storedEvents = new List<StoredEvent>();
+
+            if (domainEntities.Any())
             {
-                var type = @event.GetGenericTypeName();
-                var data = @event.ToJson();
-                storedEvents.Add(new StoredEvent(type, data));
+                domainEvents = domainEntities
+                    .SelectMany(entry => entry.Entity.DomainEvents)
+                    .ToList();
+
+                foreach (var @event in domainEvents)
+                {
+                    var type = @event.GetGenericTypeName();
+                    var data = @event.ToJson();
+                    storedEvents.Add(new StoredEvent(type, data));
+                }
+
+                // Limpando os eventos das entidades.
+                domainEntities
+                    .ForEach(entry => entry.Entity.ClearDomainEvents());
             }
 
-            // Limpando os eventos das entidades.
-            domainEntities
-                .ForEach(entry => entry.Entity.ClearDomainEvents());
+            var rowsAffected = await _shopContext.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
+
+            if (domainEvents.Any() && storedEvents.Any())
+            {
+                var tasks = domainEvents
+                    .Select((@event) => _mediator.Publish(@event, cancellationToken));
+
+                // Disparando as notificações.
+                await Task.WhenAll(tasks);
+
+                // Salvando os eventos no MongoDB.
+                await _eventContext.StoredEvents.InsertManyAsync(storedEvents, cancellationToken: cancellationToken);
+            }
+
+            return rowsAffected;
         }
-
-        var rowsAffected = await _shopContext.SaveChangesAsync(cancellationToken);
-
-        _logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
-
-        if (domainEvents.Any() && storedEvents.Any())
+        catch (DbUpdateConcurrencyException ex)
         {
-            var tasks = domainEvents
-                .Select((@event) => _mediator.Publish(@event, cancellationToken));
-
-            // Disparando as notificações.
-            await Task.WhenAll(tasks);
-
-            // Salvando os eventos no MongoDB.
-            await _eventContext.StoredEvents.InsertManyAsync(storedEvents, cancellationToken: cancellationToken);
+            _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados");
+            throw;
         }
-
-        return rowsAffected;
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
+            throw;
+        }
     }
 }
