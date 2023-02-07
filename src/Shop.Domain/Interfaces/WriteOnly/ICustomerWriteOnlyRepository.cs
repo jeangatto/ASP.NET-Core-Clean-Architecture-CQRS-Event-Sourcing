@@ -3,7 +3,7 @@ using Shop.Core.Interfaces;
 using Shop.Domain.Entities.Customer;
 using Shop.Domain.ValueObjects;
 
-namespace Shop.Domain.Interfaces;
+namespace Shop.Domain.Interfaces.WriteOnly;
 
 public interface ICustomerWriteOnlyRepository : IWriteOnlyRepository<Customer>
 {

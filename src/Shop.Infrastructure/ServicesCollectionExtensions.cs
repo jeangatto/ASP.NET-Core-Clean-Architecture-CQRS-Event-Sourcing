@@ -6,12 +6,14 @@ using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Serializers;
 using Shop.Core.Events;
 using Shop.Core.Interfaces;
-using Shop.Domain.Interfaces;
+using Shop.Domain.Interfaces.ReadOnly;
+using Shop.Domain.Interfaces.WriteOnly;
 using Shop.Infrastructure.Behaviors;
 using Shop.Infrastructure.Data;
 using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Mappings.ReadOnly;
 using Shop.Infrastructure.Data.Repositories;
+using Shop.Infrastructure.Data.Repositories.ReadOnly;
 using Shop.Infrastructure.Data.Repositories.WriteOnly;
 
 namespace Shop.Infrastructure;
@@ -26,11 +28,13 @@ public static class ServicesCollectionExtensions
         // Repositories
         services.AddScoped<IEventStoreRepository, EventStoreRepository>();
         services.AddScoped<ICustomerWriteOnlyRepository, CustomerWriteOnlyRepository>();
+        services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
-        // DbContexts
+        // Database Contexts
         services.AddScoped<WriteDbContext>();
         services.AddScoped<ReadDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ISyncDataBase, NoSqlSyncDataBase>();
 
         ConfigureMongoDB();
 
@@ -56,6 +60,7 @@ public static class ServicesCollectionExtensions
         // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/
         BaseDomainEventMap.Configure();
         EventStoreMap.Configure();
+        BaseQueryModelMap.Configure();
         CustomerMap.Configure();
     }
 }

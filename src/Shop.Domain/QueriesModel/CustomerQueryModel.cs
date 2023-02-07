@@ -1,12 +1,11 @@
 using System;
-using Shop.Core.Interfaces;
+using Shop.Core.Abstractions;
 using Shop.Domain.Enums;
 
 namespace Shop.Domain.QueriesModel;
 
-public class CustomerQueryModel : IQueryModel
+public class CustomerQueryModel : BaseQueryModel
 {
-    public Guid Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public EGender Gender { get; set; }

@@ -6,7 +6,8 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories.WriteOnly;
 
-public abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity> where TEntity : BaseEntity
+public abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity>
+    where TEntity : BaseEntity
 {
     protected readonly DbSet<TEntity> DbSet;
 

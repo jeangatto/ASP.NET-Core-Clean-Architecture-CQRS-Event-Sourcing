@@ -35,8 +35,6 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task SaveChangesAsync()
     {
-        var (domainEvents, eventStores) = BeforeSave();
-
         var strategy = _writeDbContext.Database.CreateExecutionStrategy();
 
         await strategy.ExecuteAsync(async () =>
@@ -48,11 +46,17 @@ public class UnitOfWork : IUnitOfWork
 
             try
             {
+                // Obtendo os eventos e stores das entidades rastreadas no contexto do EF Core.
+                var (domainEvents, eventStores) = BeforeSaveChanges();
+
                 var rowsAffected = await _writeDbContext.SaveChangesAsync();
 
                 _logger.LogInformation("----- Commit transaction: '{TransactionId}'", transaction.TransactionId);
 
                 await transaction.CommitAsync();
+
+                // Disparando os eventos e salvando os stores.
+                await AfterSaveChangesAsync(domainEvents, eventStores);
 
                 _logger.LogInformation(
                     "----- Transaction successfully confirmed: '{TransactionId}', Rows Affected: {RowsAffected}",
@@ -70,11 +74,9 @@ public class UnitOfWork : IUnitOfWork
                 throw;
             }
         });
-
-        await AfterSaveAsync(domainEvents, eventStores);
     }
 
-    private (IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores) BeforeSave()
+    private (IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores) BeforeSaveChanges()
     {
         var domainEntities = _writeDbContext
             .ChangeTracker
@@ -106,7 +108,7 @@ public class UnitOfWork : IUnitOfWork
         return (domainEvents, eventStores);
     }
 
-    private async Task AfterSaveAsync(IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores)
+    private async Task AfterSaveChangesAsync(IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores)
     {
         if (domainEvents.Any() && eventStores.Any())
         {

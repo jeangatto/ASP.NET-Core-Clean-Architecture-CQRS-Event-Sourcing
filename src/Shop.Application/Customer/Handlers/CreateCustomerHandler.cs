@@ -7,7 +7,7 @@ using Shop.Application.Commands;
 using Shop.Application.Customer.Responses;
 using Shop.Application.Customer.Validators;
 using Shop.Core.Interfaces;
-using Shop.Domain.Interfaces;
+using Shop.Domain.Interfaces.WriteOnly;
 using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;

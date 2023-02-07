@@ -13,5 +13,8 @@ public class EventStoreRepository : IEventStoreRepository
         => _readDbContext = readDbContext;
 
     public async Task InsertManyAsync(IEnumerable<EventStore> eventStores)
-        => await _readDbContext.EventStores.InsertManyAsync(eventStores);
+    {
+        var collection = _readDbContext.GetCollection<EventStore>();
+        await collection.InsertManyAsync(eventStores);
+    }
 }

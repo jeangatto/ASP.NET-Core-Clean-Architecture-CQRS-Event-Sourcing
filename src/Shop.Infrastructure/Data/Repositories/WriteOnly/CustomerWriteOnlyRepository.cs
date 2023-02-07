@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Shop.Domain.Entities.Customer;
-using Shop.Domain.Interfaces;
+using Shop.Domain.Interfaces.WriteOnly;
 using Shop.Domain.ValueObjects;
 using Shop.Infrastructure.Data.Context;
 
