@@ -56,7 +56,7 @@ builder.Services.AddSwaggerGen(options =>
         {
             Version = "v1",
             Title = "Shop (e-commerce)",
-            Description = "ASP.NET Core C# CQRS, REST API, DDD, Princípios SOLID e Clean Architecture",
+            Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture",
             Contact = new OpenApiContact
             {
                 Name = "Jean Gatto",

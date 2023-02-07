@@ -17,11 +17,11 @@ public class EfSqliteFixture : IAsyncLifetime, IDisposable
         _connection = new SqliteConnection(ConnectionString);
         _connection.Open();
 
-        var builder = new DbContextOptionsBuilder<ShopContext>().UseSqlite(_connection);
-        Context = new ShopContext(builder.Options);
+        var builder = new DbContextOptionsBuilder<WriteDbContext>().UseSqlite(_connection);
+        Context = new WriteDbContext(builder.Options);
     }
 
-    public ShopContext Context { get; }
+    public WriteDbContext Context { get; }
 
     #region IAsyncLifetime
 

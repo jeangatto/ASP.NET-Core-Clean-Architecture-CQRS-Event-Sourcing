@@ -15,16 +15,16 @@ namespace Shop.Application.Customer.Handlers;
 public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
 {
     private readonly CreateCustomerCommandValidator _commandValidator;
-    private readonly ICustomerRepository _repository;
+    private readonly ICustomerWriteOnlyRepository _writeOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateCustomerHandler(
         CreateCustomerCommandValidator commandValidator,
-        ICustomerRepository repository,
+        ICustomerWriteOnlyRepository writeOnlyRepository,
         IUnitOfWork unitOfWork)
     {
         _commandValidator = commandValidator;
-        _repository = repository;
+        _writeOnlyRepository = writeOnlyRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -43,7 +43,7 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Resu
         var email = new Email(request.Email);
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
-        if (await _repository.ExistsByEmailAsync(email, cancellationToken))
+        if (await _writeOnlyRepository.ExistsByEmailAsync(email))
         {
             // Retorna o resultado com o erro informado:
             return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
@@ -59,10 +59,10 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Resu
             request.DateOfBirth);
 
         // Adicionando a entidade cliente no repositório.
-        _repository.Add(customer);
+        _writeOnlyRepository.Add(customer);
 
         // Salvando as alterações no banco e disparando os eventos.
-        await _unitOfWork.CommitAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync();
 
         // Retornando o ID e a mensagem de sucesso.
         return Result.Success(new CreatedCustomerResponse(customer.Id), "Cadastrado com sucesso!");

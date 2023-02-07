@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shop.Domain.Entities.Customer;
 using Shop.Infrastructure.Data.Extensions;
 
-namespace Shop.Infrastructure.Data.Configurations;
+namespace Shop.Infrastructure.Data.Mappings.WriteOnly;
 
 public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {

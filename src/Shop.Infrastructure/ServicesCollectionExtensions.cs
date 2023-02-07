@@ -4,14 +4,15 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Serializers;
+using Shop.Core.Events;
 using Shop.Core.Interfaces;
 using Shop.Domain.Interfaces;
 using Shop.Infrastructure.Behaviors;
 using Shop.Infrastructure.Data;
 using Shop.Infrastructure.Data.Context;
-using Shop.Infrastructure.Data.Events;
-using Shop.Infrastructure.Data.Events.Mappings;
+using Shop.Infrastructure.Data.Mappings.ReadOnly;
 using Shop.Infrastructure.Data.Repositories;
+using Shop.Infrastructure.Data.Repositories.WriteOnly;
 
 namespace Shop.Infrastructure;
 
@@ -22,10 +23,14 @@ public static class ServicesCollectionExtensions
         // MediatR Pipelines
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        // Repositories
+        services.AddScoped<IEventStoreRepository, EventStoreRepository>();
+        services.AddScoped<ICustomerWriteOnlyRepository, CustomerWriteOnlyRepository>();
+
+        // DbContexts
+        services.AddScoped<WriteDbContext>();
+        services.AddScoped<ReadDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<ShopContext>();
-        services.AddScoped<EventContext>();
 
         ConfigureMongoDB();
 
@@ -48,9 +53,9 @@ public static class ServicesCollectionExtensions
         }, _ => true);
 
         // Passo 3º: Registrar as configurações dos mapeamento das classes.
-        // É recomendável registrar todos os mapeamentos antes de inicializar a conexão com o MongoDb
         // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/
         BaseDomainEventMap.Configure();
-        StoredEventMap.Configure();
+        EventStoreMap.Configure();
+        CustomerMap.Configure();
     }
 }

@@ -3,15 +3,15 @@ using Shop.Core.Abstractions;
 
 namespace Shop.Core.Events;
 
-public class StoredEvent : BaseDomainEvent
+public class EventStore : BaseDomainEvent
 {
-    public StoredEvent(string type, string data)
+    public EventStore(string type, string data)
     {
         Type = type;
         Data = data;
     }
 
-    private StoredEvent() { }
+    private EventStore() { }
 
     public Guid Id { get; private init; } = Guid.NewGuid();
 

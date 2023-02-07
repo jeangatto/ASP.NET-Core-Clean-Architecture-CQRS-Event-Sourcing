@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,87 +11,114 @@ using Shop.Core.Events;
 using Shop.Core.Extensions;
 using Shop.Core.Interfaces;
 using Shop.Infrastructure.Data.Context;
-using Shop.Infrastructure.Data.Events;
 
 namespace Shop.Infrastructure.Data;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ShopContext _shopContext;
-    private readonly EventContext _eventContext;
+    private readonly WriteDbContext _writeDbContext;
+    private readonly IEventStoreRepository _eventStoreRepository;
     private readonly IMediator _mediator;
     private readonly ILogger<UnitOfWork> _logger;
 
     public UnitOfWork(
-        ShopContext shopContext,
-        EventContext eventContext,
+        WriteDbContext writeDbContext,
+        IEventStoreRepository eventStoreRepository,
         IMediator mediator,
         ILogger<UnitOfWork> logger)
     {
-        _shopContext = shopContext;
-        _eventContext = eventContext;
+        _writeDbContext = writeDbContext;
+        _eventStoreRepository = eventStoreRepository;
         _mediator = mediator;
         _logger = logger;
     }
 
-    public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
+    public async Task SaveChangesAsync()
     {
-        try
+        var (domainEvents, eventStores) = BeforeSave();
+
+        var strategy = _writeDbContext.Database.CreateExecutionStrategy();
+
+        await strategy.ExecuteAsync(async () =>
         {
-            var domainEntities = _shopContext
-                .ChangeTracker
-                .Entries<BaseEntity>()
-                .Where(entry => entry.Entity.DomainEvents.Any())
+            using var transaction
+                = await _writeDbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+
+            _logger.LogInformation("----- Begin transaction: '{TransactionId}'", transaction.TransactionId);
+
+            try
+            {
+                var rowsAffected = await _writeDbContext.SaveChangesAsync();
+
+                _logger.LogInformation("----- Commit transaction: '{TransactionId}'", transaction.TransactionId);
+
+                await transaction.CommitAsync();
+
+                _logger.LogInformation(
+                    "----- Transaction successfully confirmed: '{TransactionId}', Rows Affected: {RowsAffected}",
+                    transaction.TransactionId, rowsAffected);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "An unexpected exception occurred while committing the transaction: '{TransactionId}', message: {Message}",
+                    transaction.TransactionId, ex.Message);
+
+                await transaction.RollbackAsync();
+
+                throw;
+            }
+        });
+
+        await AfterSaveAsync(domainEvents, eventStores);
+    }
+
+    private (IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores) BeforeSave()
+    {
+        var domainEntities = _writeDbContext
+            .ChangeTracker
+            .Entries<BaseEntity>()
+            .Where(entry => entry.Entity.DomainEvents.Any())
+            .ToList();
+
+        var domainEvents = new List<IDomainEvent>();
+        var eventStores = new List<EventStore>();
+
+        if (domainEntities.Any())
+        {
+            domainEvents = domainEntities
+                .SelectMany(entry => entry.Entity.DomainEvents)
                 .ToList();
 
-            var domainEvents = new List<IDomainEvent>();
-            var storedEvents = new List<StoredEvent>();
-
-            if (domainEntities.Any())
+            foreach (var @event in domainEvents)
             {
-                domainEvents = domainEntities
-                    .SelectMany(entry => entry.Entity.DomainEvents)
-                    .ToList();
-
-                foreach (var @event in domainEvents)
-                {
-                    var type = @event.GetGenericTypeName();
-                    var data = @event.ToJson();
-                    storedEvents.Add(new StoredEvent(type, data));
-                }
-
-                // Limpando os eventos das entidades.
-                domainEntities
-                    .ForEach(entry => entry.Entity.ClearDomainEvents());
+                var type = @event.GetGenericTypeName();
+                var data = @event.ToJson();
+                eventStores.Add(new EventStore(type, data));
             }
 
-            var rowsAffected = await _shopContext.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
-
-            if (domainEvents.Any() && storedEvents.Any())
-            {
-                var tasks = domainEvents
-                    .Select((@event) => _mediator.Publish(@event, cancellationToken));
-
-                // Disparando as notificações.
-                await Task.WhenAll(tasks);
-
-                // Salvando os eventos no MongoDB.
-                await _eventContext.StoredEvents.InsertManyAsync(storedEvents, cancellationToken: cancellationToken);
-            }
-
-            return rowsAffected;
+            // Limpando os eventos das entidades.
+            domainEntities
+                .ForEach(entry => entry.Entity.ClearDomainEvents());
         }
-        catch (DbUpdateConcurrencyException ex)
+
+        return (domainEvents, eventStores);
+    }
+
+    private async Task AfterSaveAsync(IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores)
+    {
+        if (domainEvents.Any() && eventStores.Any())
         {
-            _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados");
-            throw;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
-            throw;
+            // Agrupando todos os eventos em uma lista de Task's.
+            var tasks = domainEvents
+                .Select((@event) => _mediator.Publish(@event));
+
+            // Disparando as notificações.
+            await Task.WhenAll(tasks);
+
+            // Salvando os eventos.
+            await _eventStoreRepository.InsertManyAsync(eventStores);
         }
     }
 }

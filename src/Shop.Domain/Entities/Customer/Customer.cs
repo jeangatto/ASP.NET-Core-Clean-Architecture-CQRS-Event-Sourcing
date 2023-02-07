@@ -52,21 +52,10 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <summary>
     /// Endereço de e-mail.
     /// </summary>
-    public Email Email { get; private set; }
+    public Email Email { get; private init; }
 
     /// <summary>
     /// Data de Nascimento.
     /// </summary>
     public DateTime DateOfBirth { get; private init; }
-
-    public void ChangeEmail(Email email)
-    {
-        if (!Email.Equals(email))
-        {
-            Email = email;
-
-            // Adicionando nos eventos de domínio.
-            AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, Email.Address, DateOfBirth));
-        }
-    }
 }

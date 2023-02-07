@@ -5,16 +5,9 @@ using Shop.Domain.Entities.Customer.Events;
 
 namespace Shop.Application.Customer.Events;
 
-public class CustomerEventHandler :
-    INotificationHandler<CustomerCreatedEvent>,
-    INotificationHandler<CustomerUpdatedEvent>
+public class CustomerEventHandler : INotificationHandler<CustomerCreatedEvent>
 {
     public Task Handle(CustomerCreatedEvent notification, CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task Handle(CustomerUpdatedEvent notification, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }

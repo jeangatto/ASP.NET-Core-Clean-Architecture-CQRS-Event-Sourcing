@@ -5,11 +5,11 @@ using Shop.Infrastructure.Data.Extensions;
 
 namespace Shop.Infrastructure.Data.Context;
 
-public sealed class ShopContext : DbContext
+public class WriteDbContext : DbContext
 {
     private const string Collation = "Latin1_General_CI_AI";
 
-    public ShopContext(DbContextOptions<ShopContext> dbOptions) : base(dbOptions)
+    public WriteDbContext(DbContextOptions<WriteDbContext> dbOptions) : base(dbOptions)
     {
         ChangeTracker.LazyLoadingEnabled = false;
     }

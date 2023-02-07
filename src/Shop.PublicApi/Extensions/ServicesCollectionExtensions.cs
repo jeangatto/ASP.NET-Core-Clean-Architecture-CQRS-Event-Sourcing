@@ -15,9 +15,9 @@ internal static class ServicesCollectionExtensions
     {
         var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
 
-        services.AddDbContext<ShopContext>((serviceProvider, options) =>
+        services.AddDbContext<WriteDbContext>((serviceProvider, options) =>
         {
-            var logger = serviceProvider.GetRequiredService<ILogger<ShopContext>>();
+            var logger = serviceProvider.GetRequiredService<ILogger<WriteDbContext>>();
             var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>();
             var connectionString = connectionOptions.Value.ShopConnection;
 
