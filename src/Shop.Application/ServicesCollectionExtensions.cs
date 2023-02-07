@@ -10,8 +10,10 @@ public static class ServicesCollectionExtensions
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         var assemblies = new[] { Assembly.GetExecutingAssembly() };
-        return services
-            .AddMediatR(assemblies)
-            .AddValidatorsFromAssemblies(assemblies);
+
+        services.AddMediatR(assemblies);
+        services.AddValidatorsFromAssemblies(assemblies);
+
+        return services;
     }
 }

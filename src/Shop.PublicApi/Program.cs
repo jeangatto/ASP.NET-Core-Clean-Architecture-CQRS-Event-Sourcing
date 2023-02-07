@@ -85,7 +85,7 @@ builder.Services.AddControllers()
 // Adicionando os serviços da aplicação no ASP.NET Core DI
 builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
-builder.Services.AddProfiles();
+builder.Services.AddMapperProfiles();
 builder.Services.AddApplication();
 builder.Services.AddShopContext();
 

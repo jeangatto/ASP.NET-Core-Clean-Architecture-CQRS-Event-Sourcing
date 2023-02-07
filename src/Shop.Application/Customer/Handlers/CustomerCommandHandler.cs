@@ -12,13 +12,13 @@ using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
+public class CustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
 {
     private readonly CreateCustomerCommandValidator _commandValidator;
     private readonly ICustomerWriteOnlyRepository _writeOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateCustomerHandler(
+    public CustomerCommandHandler(
         CreateCustomerCommandValidator commandValidator,
         ICustomerWriteOnlyRepository writeOnlyRepository,
         IUnitOfWork unitOfWork)
