@@ -8,6 +8,6 @@ public class EventToQueryModelProfile : Profile
 {
     public EventToQueryModelProfile()
     {
-        CreateMap<CustomerCreatedEvent, CustomerQueryModel>();
+        CreateMap<CustomerCreatedEvent, CustomerQueryModel>(MemberList.Destination);
     }
 }

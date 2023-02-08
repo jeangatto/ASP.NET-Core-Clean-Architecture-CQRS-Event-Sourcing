@@ -20,5 +20,8 @@ public class CustomerEventHandler : INotificationHandler<CustomerCreatedEvent>
     }
 
     public async Task Handle(CustomerCreatedEvent notification, CancellationToken cancellationToken)
-        => await _syncDataBase.SaveAsync(_mapper.Map<CustomerQueryModel>(notification));
+    {
+        var queryModel = _mapper.Map<CustomerQueryModel>(notification);
+        await _syncDataBase.SaveAsync(queryModel, filter => filter.Id == queryModel.Id);
+    }
 }
