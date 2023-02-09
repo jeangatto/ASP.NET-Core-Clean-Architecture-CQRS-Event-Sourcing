@@ -1,12 +1,16 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
+using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,6 +19,7 @@ using Shop.Application;
 using Shop.Core;
 using Shop.Core.Extensions;
 using Shop.Infrastructure;
+using Shop.Infrastructure.Data.Context;
 using Shop.PublicApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -99,6 +104,9 @@ builder.Host.UseDefaultServiceProvider((context, options) =>
 // Utilizando o servidor Kestrel (linux)
 builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
+// Exibindo os nomes das propriedades sem espaços na validação.
+ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -113,4 +121,35 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+await using var serviceScope = app.Services.CreateAsyncScope();
+await using var context = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
+var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+
+try
+{
+    app.Logger.LogInformation("----- Validating the mappings...");
+
+    // Validando os mapeamentos.
+    mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
+    // Criando o cache dos mapeamentos.
+    mapper.ConfigurationProvider.CompileMappings();
+
+    var connectionString = context.Database.GetConnectionString();
+    app.Logger.LogInformation("----- Connection: {Connection}", connectionString);
+
+    if ((await context.Database.GetPendingMigrationsAsync()).Any())
+    {
+        app.Logger.LogInformation("----- Creating and migrating the database...");
+        await context.Database.MigrateAsync();
+    }
+}
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "An exception occurred when starting the application: {Message}", ex.Message);
+    throw;
+}
+
+app.Logger.LogInformation("----- Starting the application...");
 app.Run();
