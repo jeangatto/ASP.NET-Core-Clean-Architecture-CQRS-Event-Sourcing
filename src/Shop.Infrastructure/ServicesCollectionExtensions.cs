@@ -57,6 +57,7 @@ public static class ServicesCollectionExtensions
         }, _ => true);
 
         // Passo 3º: Registrar as configurações dos mapeamento das classes.
+        // É recomendável registrar todos os mapeamentos antes de inicializar a conexão com o MongoDb
         // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/
         BaseDomainEventMap.Configure();
         EventStoreMap.Configure();
