@@ -58,9 +58,7 @@ public class ReadDbContext
 
     private static IEnumerable<string> GetCollectionNamesFromAssembly()
     {
-        var collectionNames = new List<string>();
-
-        var implementations = AppDomain
+        return AppDomain
             .CurrentDomain
             .GetAssemblies()
             .SelectMany(assembly => assembly.GetTypes())
@@ -68,13 +66,7 @@ public class ReadDbContext
                 && type.IsClass
                 && !type.IsAbstract
                 && !type.IsInterface)
+            .Select(impl => impl.Name)
             .ToList();
-
-        foreach (var impl in implementations)
-        {
-            collectionNames.Add(impl.Name);
-        }
-
-        return collectionNames;
     }
 }
