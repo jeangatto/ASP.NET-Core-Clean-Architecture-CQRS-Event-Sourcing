@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
@@ -8,7 +9,9 @@ using Shop.Domain.QueriesModel;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class CustomerQueryHandler : IRequestHandler<GetCustomerByIdQuery, Result<CustomerQueryModel>>
+public class CustomerQueryHandler :
+    IRequestHandler<GetCustomerByIdQuery, Result<CustomerQueryModel>>,
+    IRequestHandler<GetAllCustomerQuery, Result<IEnumerable<CustomerQueryModel>>>
 {
     private readonly ICustomerReadOnlyRepository _readOnlyRepository;
 
@@ -23,4 +26,7 @@ public class CustomerQueryHandler : IRequestHandler<GetCustomerByIdQuery, Result
 
         return Result.Success(customer);
     }
+
+    public async Task<Result<IEnumerable<CustomerQueryModel>>> Handle(GetAllCustomerQuery request, CancellationToken cancellationToken)
+        => Result.Success(await _readOnlyRepository.GetAllAsync());
 }

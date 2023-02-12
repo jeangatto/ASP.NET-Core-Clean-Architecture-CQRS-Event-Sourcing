@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Shop.Domain.Interfaces.ReadOnly;
@@ -14,4 +15,14 @@ public class CustomerReadOnlyRepository : BaseReadOnlyRepository<CustomerQueryMo
 
     public async Task<CustomerQueryModel> GetByEmailAsync(string email)
         => await Collection.Find(query => query.Email == email).FirstOrDefaultAsync();
+
+    public async Task<IEnumerable<CustomerQueryModel>> GetAllAsync()
+    {
+        var filter = Builders<CustomerQueryModel>.Filter.Empty;
+        return await Collection
+            .Find(filter)
+            .SortBy(customer => customer.FirstName)
+            .ThenBy(customer => customer.DateOfBirth)
+            .ToListAsync();
+    }
 }

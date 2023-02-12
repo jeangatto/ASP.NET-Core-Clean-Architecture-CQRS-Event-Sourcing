@@ -3,9 +3,9 @@ using Shop.Core.Abstractions;
 
 namespace Shop.Infrastructure.Data.Mappings.ReadOnly;
 
-public static class BaseQueryModelMap
+public class BaseQueryModelMap : IReadDbMapping
 {
-    public static void Configure()
+    public void Configure()
     {
         BsonClassMap.TryRegisterClassMap<BaseQueryModel>(map =>
         {

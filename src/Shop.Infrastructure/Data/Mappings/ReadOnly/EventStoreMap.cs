@@ -3,9 +3,9 @@ using Shop.Core.Events;
 
 namespace Shop.Infrastructure.Data.Mappings.ReadOnly;
 
-public static class EventStoreMap
+public class EventStoreMap : IReadDbMapping
 {
-    public static void Configure()
+    public void Configure()
     {
         BsonClassMap.TryRegisterClassMap<EventStore>(map =>
         {

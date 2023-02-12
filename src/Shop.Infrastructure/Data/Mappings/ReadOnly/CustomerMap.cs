@@ -4,9 +4,9 @@ using Shop.Domain.QueriesModel;
 
 namespace Shop.Infrastructure.Data.Mappings.ReadOnly;
 
-public static class CustomerMap
+public class CustomerMap : IReadDbMapping
 {
-    public static void Configure()
+    public void Configure()
     {
         BsonClassMap.TryRegisterClassMap<CustomerQueryModel>(map =>
         {
