@@ -1,0 +1,52 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.9'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+
+  # ASPNET Core Web API Application
+  webapi:
+    image: webapi
+    container_name: webapi
+    build:
+      context: .
+      dockerfile: src/Shop.PublicApi/Dockerfile
+    ports:
+      - 5072:5072
+    links:
+      - sqlserver
+      - mongoserver
+    networks:
+      - app-network
+    depends_on:
+      - sqlserver
+      - mongoserver
+
+  # SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    cap_add: [ 'SYS_PTRACE' ]
+    hostname: mssql
+    container_name: sqlserver
+    restart: always
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Sxc56Nu9V
+    networks:
+      - app-network
+
+  # MongoDB Server
+  mongoserver:
+    image: mongo:latest
+    container_name: mongoserver
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network

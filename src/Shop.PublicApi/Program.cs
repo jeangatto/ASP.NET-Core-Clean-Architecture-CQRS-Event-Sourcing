@@ -123,33 +123,47 @@ app.UseAuthorization();
 app.MapControllers();
 
 await using var serviceScope = app.Services.CreateAsyncScope();
-await using var context = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
+await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
+var readDbContext = serviceScope.ServiceProvider.GetRequiredService<ReadDbContext>();
 var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
 
 try
 {
-    app.Logger.LogInformation("----- Validating the mappings...");
+    app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
 
-    // Validando os mapeamentos.
     mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
-    // Criando o cache dos mapeamentos.
     mapper.ConfigurationProvider.CompileMappings();
 
-    var connectionString = context.Database.GetConnectionString();
-    app.Logger.LogInformation("----- Connection: {Connection}", connectionString);
+    app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
 
-    if ((await context.Database.GetPendingMigrationsAsync()).Any())
+    app.Logger.LogInformation("----- SQL Server: {Connection}", writeDbContext.Database.GetConnectionString());
+    app.Logger.LogInformation("----- SQL Server: Verificando se existem migrações pendentes...");
+
+    if ((await writeDbContext.Database.GetPendingMigrationsAsync()).Any())
     {
-        app.Logger.LogInformation("----- Creating and migrating the database...");
-        await context.Database.MigrateAsync();
+        app.Logger.LogInformation("----- SQL Server: Criando e migrando a base de dados...");
+
+        await writeDbContext.Database.MigrateAsync();
+
+        app.Logger.LogInformation("----- SQL Server: Base de dados criada e migrada com sucesso!");
     }
+    else
+    {
+        app.Logger.LogInformation("----- SQL Server: Migrações estão em dia.");
+    }
+
+    app.Logger.LogInformation("----- MongoDB: {Connection}", readDbContext.GetConnectionString());
+    app.Logger.LogInformation("----- MongoDB: criando as coleções...");
+
+    await readDbContext.CreateCollectionsAsync();
+
+    app.Logger.LogInformation("----- MongoDB: coleções criadas com sucesso!");
 }
 catch (Exception ex)
 {
-    app.Logger.LogError(ex, "An exception occurred when starting the application: {Message}", ex.Message);
+    app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
     throw;
 }
 
-app.Logger.LogInformation("----- Starting the application...");
+app.Logger.LogInformation("----- Iniciando a aplicação...");
 app.Run();
