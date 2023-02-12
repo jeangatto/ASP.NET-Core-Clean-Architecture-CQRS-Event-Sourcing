@@ -35,8 +35,8 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task SaveChangesAsync()
     {
+        // A estratégia (Connection resiliency and database retries) é criada de acordo com a configuração informada no AddDbContext
         var strategy = _writeDbContext.Database.CreateExecutionStrategy();
-
         await strategy.ExecuteAsync(async () =>
         {
             using var transaction
