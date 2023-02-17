@@ -40,7 +40,7 @@ internal static class ServicesCollectionExtensions
                     });
             });
 
-            // Quando for ambiente de desenvolvimento será logado informações detalhadas.
+            // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
                 options.EnableDetailedErrors().EnableSensitiveDataLogging();

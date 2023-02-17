@@ -4,6 +4,9 @@ using Shop.Core.Interfaces;
 
 namespace Shop.Core.Abstractions;
 
+/// <summary>
+/// Classe base que contém os comportamentos de uma entidade.
+/// </summary>
 public abstract class BaseEntity : IEntityKey<Guid>
 {
     private readonly List<IDomainEvent> _domainEvents = new();

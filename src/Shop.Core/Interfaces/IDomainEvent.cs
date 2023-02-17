@@ -8,5 +8,8 @@ namespace Shop.Core.Interfaces;
 /// </summary>
 public interface IDomainEvent : INotification
 {
+    /// <summary>
+    /// Quando ocorreu o evento.
+    /// </summary>
     DateTime OccurredOn { get; }
 }

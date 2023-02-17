@@ -4,11 +4,11 @@ using Shop.Domain.Enums;
 namespace Shop.Domain.Entities.Customer.Events;
 
 /// <summary>
-/// Evento que represente um novo cliente.
+/// Evento que representa um atualização de um cliente.
 /// </summary>
-public class CustomerCreatedEvent : CustomerBaseEvent
+public class CustomerUpdatedEvent : CustomerBaseEvent
 {
-    public CustomerCreatedEvent(
+    public CustomerUpdatedEvent(
         Guid id,
         string firstName,
         string lastName,

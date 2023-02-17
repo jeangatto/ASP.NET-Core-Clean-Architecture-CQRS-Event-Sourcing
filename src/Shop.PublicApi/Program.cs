@@ -1,10 +1,12 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using FluentValidation;
+using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -71,7 +73,7 @@ builder.Services.AddSwaggerGen(options =>
             License = new OpenApiLicense
             {
                 Name = "MIT License",
-                Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-DDD-SOLID/blob/main/LICENSE")
+                Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
             }
         });
 
@@ -106,6 +108,7 @@ builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
 // Exibindo os nomes das propriedades sem espaços na validação.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
+ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
 var app = builder.Build();
 

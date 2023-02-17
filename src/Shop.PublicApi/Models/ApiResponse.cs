@@ -17,6 +17,11 @@ public class ApiResponse
     public bool Success { get; protected init; }
 
     /// <summary>
+    /// Mensagem de sucesso.
+    /// </summary>
+    public string SuccessMessage { get; protected init; }
+
+    /// <summary>
     /// O código do status HTTP.
     /// </summary>
     public int StatusCode { get; protected init; }
@@ -35,6 +40,13 @@ public class ApiResponse
     /// </summary>
     public static ApiResponse Ok()
         => new() { Success = true, StatusCode = StatusCodes.Status200OK };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 200
+    /// </summary>
+    /// <param name="successMessage">Mensagem de sucesso a ser exibida na resposta.</param>
+    public static ApiResponse Ok(string successMessage)
+        => new() { Success = true, StatusCode = StatusCodes.Status200OK, SuccessMessage = successMessage };
 
     #endregion
 

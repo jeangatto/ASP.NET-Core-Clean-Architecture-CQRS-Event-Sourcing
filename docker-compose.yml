@@ -1,5 +1,10 @@
 # Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
 
+# docker-compose up -d
+# docker-compose up --build
+# docker-compose down
+# docker-compose down -v
+
 version: '3.9'
 
 networks:
@@ -9,9 +14,9 @@ networks:
 services:
 
   # ASPNET Core Web API Application
-  webapi:
-    image: webapi
-    container_name: webapi
+  shop-webapi:
+    image: shop-webapi
+    container_name: shop-webapi
     build:
       context: .
       dockerfile: src/Shop.PublicApi/Dockerfile

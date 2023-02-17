@@ -32,6 +32,15 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCustomerCommand command)
         => (await _mediator.Send(command)).ToActionResult();
 
+    [HttpPut]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Update([FromBody] UpdateCustomerCommand command)
+        => (await _mediator.Send(command)).ToActionResult();
+
     [HttpGet("{id}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]

@@ -4,7 +4,7 @@
     <Authors>Jean Gatto</Authors>
     <MaintainerEmail>jean_gatto@hotmail.com</MaintainerEmail>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/jeangatto/ASP.NET-Core-API-CQRS-DDD-SOLID</RepositoryUrl>
+    <RepositoryUrl>https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -12,6 +12,8 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 

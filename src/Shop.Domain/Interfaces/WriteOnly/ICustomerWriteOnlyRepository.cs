@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Shop.Core.Interfaces;
 using Shop.Domain.Entities.Customer;
@@ -8,4 +9,5 @@ namespace Shop.Domain.Interfaces.WriteOnly;
 public interface ICustomerWriteOnlyRepository : IWriteOnlyRepository<Customer>
 {
     Task<bool> ExistsByEmailAsync(Email email);
+    Task<bool> ExistsByEmailAsync(Email email, Guid currentId);
 }

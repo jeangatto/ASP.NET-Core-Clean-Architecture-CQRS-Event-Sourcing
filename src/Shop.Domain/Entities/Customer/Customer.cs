@@ -8,12 +8,12 @@ using Shop.Domain.ValueObjects;
 namespace Shop.Domain.Entities.Customer;
 
 /// <summary>
-/// Cliente
+/// Entidade Cliente.
 /// </summary>
 public class Customer : BaseEntity, IAggregateRoot
 {
     /// <summary>
-    /// Inicializa uma nova inståncia do cliente.
+    /// Inicializa uma inståncia de um novo cliente.
     /// </summary>
     /// <param name="firstName">Primeiro Nome.</param>
     /// <param name="lastName">Sobrenome.</param>
@@ -28,11 +28,11 @@ public class Customer : BaseEntity, IAggregateRoot
         Email = email;
         DateOfBirth = dateOfBirth;
 
-        // Adicionando nos eventos de domínio.
+        // Adicionando a nova instãncia nos eventos de domínio.
         AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email.Address, dateOfBirth));
     }
 
-    private Customer() { } // ORM
+    public Customer() { } // ORM
 
     /// <summary>
     /// Primeiro Nome.
@@ -52,10 +52,26 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <summary>
     /// Endereço de e-mail.
     /// </summary>
-    public Email Email { get; private init; }
+    public Email Email { get; private set; }
 
     /// <summary>
     /// Data de Nascimento.
     /// </summary>
     public DateTime DateOfBirth { get; private init; }
+
+    /// <summary>
+    /// Altera o endereço de e-mail atual.
+    /// </summary>
+    /// <param name="newEmail">Novo endereço de e-mail.</param>
+    public void ChangeEmail(Email newEmail)
+    {
+        // Só será alterado se for diferente do existente.
+        if (!Email.Equals(newEmail))
+        {
+            Email = newEmail;
+
+            // Adicionando a alteração nos eventos de domínio.
+            AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, newEmail.Address, DateOfBirth));
+        }
+    }
 }

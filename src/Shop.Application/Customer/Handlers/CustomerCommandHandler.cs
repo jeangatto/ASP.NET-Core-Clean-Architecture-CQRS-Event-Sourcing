@@ -2,44 +2,56 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using AutoMapper;
 using MediatR;
 using Shop.Application.Commands;
 using Shop.Application.Customer.Responses;
 using Shop.Application.Customer.Validators;
 using Shop.Core.Interfaces;
+using Shop.Domain.Interfaces.ReadOnly;
 using Shop.Domain.Interfaces.WriteOnly;
 using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class CustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
+public class CustomerCommandHandler :
+    IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>,
+    IRequestHandler<UpdateCustomerCommand, Result>
 {
-    private readonly CreateCustomerCommandValidator _commandValidator;
+    private readonly CreateCustomerCommandValidator _createCommandValidator;
+    private readonly UpdateCustomerCommandValidator _updateCommandValidator;
     private readonly ICustomerWriteOnlyRepository _writeOnlyRepository;
+    private readonly ICustomerReadOnlyRepository _readOnlyRepository;
+    private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
     public CustomerCommandHandler(
-        CreateCustomerCommandValidator commandValidator,
+        CreateCustomerCommandValidator createCommandValidator,
+        UpdateCustomerCommandValidator updateCommandValidator,
         ICustomerWriteOnlyRepository writeOnlyRepository,
+        ICustomerReadOnlyRepository readOnlyRepository,
+        IMapper mapper,
         IUnitOfWork unitOfWork)
     {
-        _commandValidator = commandValidator;
+        _createCommandValidator = createCommandValidator;
+        _updateCommandValidator = updateCommandValidator;
         _writeOnlyRepository = writeOnlyRepository;
+        _readOnlyRepository = readOnlyRepository;
+        _mapper = mapper;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<CreatedCustomerResponse>> Handle(
-        CreateCustomerCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Result<CreatedCustomerResponse>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
         // Validanto a requisição.
-        var validationResult = await _commandValidator.ValidateAsync(request, cancellationToken);
+        var validationResult = await _createCommandValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             // Retorna o resultado com os erros da validação.
             return Result.Invalid(validationResult.AsErrors());
         }
 
+        // Instanciando o VO Email.
         var email = new Email(request.Email);
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
@@ -66,5 +78,43 @@ public class CustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Res
 
         // Retornando o ID e a mensagem de sucesso.
         return Result.Success(new CreatedCustomerResponse(customer.Id), "Cadastrado com sucesso!");
+    }
+
+    public async Task<Result> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+    {
+        // Validanto a requisição.
+        var validationResult = await _updateCommandValidator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            // Retorna o resultado com os erros da validação.
+            return Result.Invalid(validationResult.AsErrors());
+        }
+
+        // Obtendo o cliente da base.
+        var customerQueryModel = await _readOnlyRepository.GetByIdAsync(request.Id);
+        if (customerQueryModel == null)
+            return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
+
+        // Instanciando o VO Email.
+        var newEmail = new Email(request.Email);
+
+        // Verificiando se já existe um cliente com o endereço de e-mail.
+        if (await _writeOnlyRepository.ExistsByEmailAsync(newEmail, customerQueryModel.Id))
+        {
+            // Retorna o resultado com o erro informado:
+            return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
+        }
+
+        var customer = _mapper.Map<Domain.Entities.Customer.Customer>(customerQueryModel);
+        customer.ChangeEmail(newEmail);
+
+        // Atualizando a entidade cliente no repositório.
+        _writeOnlyRepository.Update(customer);
+
+        // Salvando as alterações no banco e disparando os eventos.
+        await _unitOfWork.SaveChangesAsync();
+
+        // Retornando o ID e a mensagem de sucesso.
+        return Result.SuccessWithMessage("Atualizado com sucesso!");
     }
 }

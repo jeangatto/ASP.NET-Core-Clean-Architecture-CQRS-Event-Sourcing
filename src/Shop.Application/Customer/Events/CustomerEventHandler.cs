@@ -8,7 +8,12 @@ using Shop.Domain.QueriesModel;
 
 namespace Shop.Application.Customer.Events;
 
-public class CustomerEventHandler : INotificationHandler<CustomerCreatedEvent>
+/// <summary>
+/// Manipulador de Eventos do Cliente.
+/// </summary>
+public class CustomerEventHandler :
+    INotificationHandler<CustomerCreatedEvent>,
+    INotificationHandler<CustomerUpdatedEvent>
 {
     private readonly IMapper _mapper;
     private readonly ISyncDataBase _syncDataBase;
@@ -20,6 +25,12 @@ public class CustomerEventHandler : INotificationHandler<CustomerCreatedEvent>
     }
 
     public async Task Handle(CustomerCreatedEvent notification, CancellationToken cancellationToken)
+    {
+        var queryModel = _mapper.Map<CustomerQueryModel>(notification);
+        await _syncDataBase.SaveAsync(queryModel, filter => filter.Id == queryModel.Id);
+    }
+
+    public async Task Handle(CustomerUpdatedEvent notification, CancellationToken cancellationToken)
     {
         var queryModel = _mapper.Map<CustomerQueryModel>(notification);
         await _syncDataBase.SaveAsync(queryModel, filter => filter.Id == queryModel.Id);

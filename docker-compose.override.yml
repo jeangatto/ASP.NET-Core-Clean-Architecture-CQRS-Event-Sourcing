@@ -4,12 +4,11 @@ version: '3.9'
 
 services:
 
-  webapi:
+  shop-webapi:
     ports:
       - 5072:5072
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     volumes:
-      - ~/.vsdbg:/remote_debugger:rw
       - ~/.aspnet/https:/root/.aspnet/https:ro
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
