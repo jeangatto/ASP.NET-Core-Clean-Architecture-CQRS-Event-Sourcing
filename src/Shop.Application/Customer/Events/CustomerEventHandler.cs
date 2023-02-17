@@ -25,14 +25,11 @@ public class CustomerEventHandler :
     }
 
     public async Task Handle(CustomerCreatedEvent notification, CancellationToken cancellationToken)
-    {
-        var queryModel = _mapper.Map<CustomerQueryModel>(notification);
-        await _syncDataBase.SaveAsync(queryModel, filter => filter.Id == queryModel.Id);
-    }
+        => await SaveAsync(_mapper.Map<CustomerQueryModel>(notification));
 
     public async Task Handle(CustomerUpdatedEvent notification, CancellationToken cancellationToken)
-    {
-        var queryModel = _mapper.Map<CustomerQueryModel>(notification);
-        await _syncDataBase.SaveAsync(queryModel, filter => filter.Id == queryModel.Id);
-    }
+        => await SaveAsync(_mapper.Map<CustomerQueryModel>(notification));
+
+    private async Task SaveAsync(CustomerQueryModel queryModel)
+        => await _syncDataBase.SaveAsync(queryModel, filter => filter.Id == queryModel.Id);
 }

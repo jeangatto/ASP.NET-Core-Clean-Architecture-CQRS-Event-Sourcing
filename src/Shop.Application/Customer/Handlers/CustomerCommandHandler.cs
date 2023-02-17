@@ -70,7 +70,7 @@ public class CustomerCommandHandler :
             email,
             request.DateOfBirth);
 
-        // Adicionando a entidade cliente no repositório.
+        // Adicionando a entidade no repositório.
         _writeOnlyRepository.Add(customer);
 
         // Salvando as alterações no banco e disparando os eventos.
@@ -108,13 +108,13 @@ public class CustomerCommandHandler :
         var customer = _mapper.Map<Domain.Entities.Customer.Customer>(customerQueryModel);
         customer.ChangeEmail(newEmail);
 
-        // Atualizando a entidade cliente no repositório.
+        // Atualizando a entidade no repositório.
         _writeOnlyRepository.Update(customer);
 
         // Salvando as alterações no banco e disparando os eventos.
         await _unitOfWork.SaveChangesAsync();
 
-        // Retornando o ID e a mensagem de sucesso.
+        // Retornando a mensagem de sucesso.
         return Result.SuccessWithMessage("Atualizado com sucesso!");
     }
 }
