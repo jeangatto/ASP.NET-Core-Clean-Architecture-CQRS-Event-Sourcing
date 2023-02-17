@@ -1,14 +1,20 @@
 using System;
-using Shop.Core.Abstractions;
+using Shop.Domain.Enums;
 
 namespace Shop.Domain.Entities.Customer.Events;
 
 /// <summary>
 /// Evento que representa um cliente deletado.
 /// </summary>
-public class CustomerDeletedEvent : BaseDomainEvent
+public class CustomerDeletedEvent : CustomerBaseEvent
 {
-    public CustomerDeletedEvent(Guid id) => Id = id;
-
-    public Guid Id { get; private init; }
+    public CustomerDeletedEvent(
+        Guid id,
+        string firstName,
+        string lastName,
+        EGender gender,
+        string email,
+        DateTime dateOfBirth) : base(id, firstName, lastName, gender, email, dateOfBirth)
+    {
+    }
 }
