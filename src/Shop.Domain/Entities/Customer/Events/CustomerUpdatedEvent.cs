@@ -4,7 +4,7 @@ using Shop.Domain.Enums;
 namespace Shop.Domain.Entities.Customer.Events;
 
 /// <summary>
-/// Evento que representa um atualização de um cliente.
+/// Evento que representa uma atualização de um cliente.
 /// </summary>
 public class CustomerUpdatedEvent : CustomerBaseEvent
 {

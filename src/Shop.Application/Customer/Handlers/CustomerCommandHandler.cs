@@ -4,7 +4,7 @@ using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using AutoMapper;
 using MediatR;
-using Shop.Application.Commands;
+using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Responses;
 using Shop.Application.Customer.Validators;
 using Shop.Core.Interfaces;
@@ -16,10 +16,12 @@ namespace Shop.Application.Customer.Handlers;
 
 public class CustomerCommandHandler :
     IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>,
-    IRequestHandler<UpdateCustomerCommand, Result>
+    IRequestHandler<UpdateCustomerCommand, Result>,
+    IRequestHandler<DeleteCustomerCommand, Result>
 {
     private readonly CreateCustomerCommandValidator _createCommandValidator;
     private readonly UpdateCustomerCommandValidator _updateCommandValidator;
+    private readonly RemoveCustomerCommandValidator _removeCommandValidator;
     private readonly ICustomerWriteOnlyRepository _writeOnlyRepository;
     private readonly ICustomerReadOnlyRepository _readOnlyRepository;
     private readonly IMapper _mapper;
@@ -28,6 +30,7 @@ public class CustomerCommandHandler :
     public CustomerCommandHandler(
         CreateCustomerCommandValidator createCommandValidator,
         UpdateCustomerCommandValidator updateCommandValidator,
+        RemoveCustomerCommandValidator removeCommandValidator,
         ICustomerWriteOnlyRepository writeOnlyRepository,
         ICustomerReadOnlyRepository readOnlyRepository,
         IMapper mapper,
@@ -35,6 +38,7 @@ public class CustomerCommandHandler :
     {
         _createCommandValidator = createCommandValidator;
         _updateCommandValidator = updateCommandValidator;
+        _removeCommandValidator = removeCommandValidator;
         _writeOnlyRepository = writeOnlyRepository;
         _readOnlyRepository = readOnlyRepository;
         _mapper = mapper;
@@ -46,10 +50,7 @@ public class CustomerCommandHandler :
         // Validanto a requisição.
         var validationResult = await _createCommandValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-        {
-            // Retorna o resultado com os erros da validação.
-            return Result.Invalid(validationResult.AsErrors());
-        }
+            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
 
         // Instanciando o VO Email.
         var email = new Email(request.Email);
@@ -85,10 +86,7 @@ public class CustomerCommandHandler :
         // Validanto a requisição.
         var validationResult = await _updateCommandValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-        {
-            // Retorna o resultado com os erros da validação.
-            return Result.Invalid(validationResult.AsErrors());
-        }
+            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
 
         // Obtendo o cliente da base.
         var customerQueryModel = await _readOnlyRepository.GetByIdAsync(request.Id);
@@ -116,5 +114,30 @@ public class CustomerCommandHandler :
 
         // Retornando a mensagem de sucesso.
         return Result.SuccessWithMessage("Atualizado com sucesso!");
+    }
+
+    public async Task<Result> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
+    {
+        // Validanto a requisição.
+        var validationResult = await _removeCommandValidator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
+
+        // Obtendo o cliente da base.
+        var customerQueryModel = await _readOnlyRepository.GetByIdAsync(request.Id);
+        if (customerQueryModel == null)
+            return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
+
+        var customer = _mapper.Map<Domain.Entities.Customer.Customer>(customerQueryModel);
+        customer.Delete();
+
+        // Removendo a entidade no repositório.
+        _writeOnlyRepository.Remove(customer);
+
+        // Salvando as alterações no banco e disparando os eventos.
+        await _unitOfWork.SaveChangesAsync();
+
+        // Retornando a mensagem de sucesso.
+        return Result.SuccessWithMessage("Removido com sucesso!");
     }
 }

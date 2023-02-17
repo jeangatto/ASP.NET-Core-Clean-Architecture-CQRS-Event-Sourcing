@@ -5,7 +5,7 @@ using MediatR;
 using Shop.Application.Customer.Responses;
 using Shop.Domain.Enums;
 
-namespace Shop.Application.Commands;
+namespace Shop.Application.Customer.Commands;
 
 public class CreateCustomerCommand : IRequest<Result<CreatedCustomerResponse>>
 {

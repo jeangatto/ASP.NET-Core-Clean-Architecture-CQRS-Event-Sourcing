@@ -34,10 +34,7 @@ public class CustomerQueryHandler :
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-        {
-            // Retorna o resultado com os erros da validação.
-            return Result.Invalid(validationResult.AsErrors());
-        }
+            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
 
         // Obtendo o cliente da base.
         var customerQueryModel = await _readOnlyRepository.GetByIdAsync(request.Id);

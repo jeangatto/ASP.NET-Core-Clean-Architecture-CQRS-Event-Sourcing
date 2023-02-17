@@ -39,11 +39,19 @@ public class NoSqlSyncDataBase : ISyncDataBase
     {
         var collection = _readDbContext.GetCollection<TQueryModel>();
 
-        await MongoRetryPolicy.ExecuteAsync(async () =>
-        {
-            // Se o documento existir, será substituído.
-            // Se o documento não existir, será criado um novo.
-            await collection.ReplaceOneAsync(upsertFilter, queryModel, new ReplaceOptions { IsUpsert = true });
-        });
+        // ReplaceOptions:
+        // Se o documento existir, será substituído.
+        // Se o documento não existir, será criado um novo.
+        var replaceOptions = new ReplaceOptions { IsUpsert = true };
+
+        await MongoRetryPolicy.ExecuteAsync(
+            async () => await collection.ReplaceOneAsync(upsertFilter, queryModel, replaceOptions));
+    }
+
+    public async Task DeleteAsync<TQueryModel>(Expression<Func<TQueryModel, bool>> deleteFilter)
+        where TQueryModel : IQueryModel
+    {
+        var collection = _readDbContext.GetCollection<TQueryModel>();
+        await MongoRetryPolicy.ExecuteAsync(async () => await collection.DeleteOneAsync(deleteFilter));
     }
 }

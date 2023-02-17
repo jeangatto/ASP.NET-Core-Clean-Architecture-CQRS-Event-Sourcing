@@ -13,7 +13,8 @@ namespace Shop.Application.Customer.Events;
 /// </summary>
 public class CustomerEventHandler :
     INotificationHandler<CustomerCreatedEvent>,
-    INotificationHandler<CustomerUpdatedEvent>
+    INotificationHandler<CustomerUpdatedEvent>,
+    INotificationHandler<CustomerDeletedEvent>
 {
     private readonly IMapper _mapper;
     private readonly ISyncDataBase _syncDataBase;
@@ -29,6 +30,9 @@ public class CustomerEventHandler :
 
     public async Task Handle(CustomerUpdatedEvent notification, CancellationToken cancellationToken)
         => await SaveAsync(_mapper.Map<CustomerQueryModel>(notification));
+
+    public async Task Handle(CustomerDeletedEvent notification, CancellationToken cancellationToken)
+        => await _syncDataBase.DeleteAsync<CustomerQueryModel>(filter => filter.Id == notification.Id);
 
     private async Task SaveAsync(CustomerQueryModel queryModel)
         => await _syncDataBase.SaveAsync(queryModel, filter => filter.Id == queryModel.Id);
