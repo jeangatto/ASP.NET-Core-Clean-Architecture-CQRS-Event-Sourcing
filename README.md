@@ -8,6 +8,8 @@
 Sobre o respoitório:
 Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code, CQRS (Command Query Responsibility Segregation)
 
+![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/cqrs-pattern.png "CQRS Pattern")
+
 ## **Tecnologias**
 
 * ASP.NET 7.0
@@ -20,7 +22,7 @@ Projeto de código aberto escrito na última versão do ASP.NET Core, implementa
 * MediatR
 * Swagger UI
 * HealthChecks
-* Docker
+* Docker & Docker Compose
 
 ## **Arquitetura**
 
@@ -43,13 +45,13 @@ Após clonar o repositório na pasta desejada, executar o comando no terminal na
 dotnet clean && dotnet build
 ```
 
-Próximo passo, executar o comando no terminal do Docker Componse:
+Próximo passo, executar o comando no terminal:
 
 ```csharp
 docker-compose up --build
 ```
 
-Agora  basta abrir a url no navegador:
+Agora basta abrir a url no navegador:
 
 ```csharp
 http://localhost:5072/swagger/
