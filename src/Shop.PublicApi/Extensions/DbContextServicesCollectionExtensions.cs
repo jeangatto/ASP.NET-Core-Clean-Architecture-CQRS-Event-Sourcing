@@ -9,7 +9,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.PublicApi.Extensions;
 
-internal static class ServicesCollectionExtensions
+public static class DbContextServicesCollectionExtensions
 {
     public static IServiceCollection AddShopContext(this IServiceCollection services)
     {
