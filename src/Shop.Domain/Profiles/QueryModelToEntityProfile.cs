@@ -9,16 +9,16 @@ public class QueryModelToEntityProfile : Profile
 {
     public QueryModelToEntityProfile()
     {
+        // Desabilitando o mapeando via construtor.
+        // A classe só deverá ser inicializada no construtor manualmente (via dev).
+        DisableConstructorMapping();
+
         // Mapeando propriedades com "setters" privados.
         ShouldMapProperty = _ => true;
-
-        // Desabilitando o mapeando via construtor.
-        // A classe só deverá ser inicializada no construtor manualmente (via dev)
-        DisableConstructorMapping();
 
         CreateMap<CustomerQueryModel, Customer>(MemberList.Destination)
             .ForMember(dest => dest.Email, cfg => cfg.MapFrom(src => new Email(src.Email)))
             .ForMember(dest => dest.DomainEvents, cfg => cfg.Ignore())
-            .AfterMap((_, e) => e.ClearDomainEvents());
+            .AfterMap((_, customer) => customer.ClearDomainEvents());
     }
 }

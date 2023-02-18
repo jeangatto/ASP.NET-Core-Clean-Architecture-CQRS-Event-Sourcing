@@ -3,6 +3,10 @@ using Shop.Core.Abstractions;
 
 namespace Shop.Core.Interfaces;
 
+/// <summary>
+/// Repositório (somente escrita).
+/// </summary>
+/// <typeparam name="TEntity">O tipo da entidade.</typeparam>
 public interface IWriteOnlyRepository<TEntity> where TEntity : BaseEntity
 {
     void Add(TEntity entity);
