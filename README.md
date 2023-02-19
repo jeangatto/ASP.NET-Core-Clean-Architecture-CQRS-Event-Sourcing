@@ -8,7 +8,7 @@
 Sobre o respoitório:
 Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code, CQRS (Command Query Responsibility Segregation)
 
-## Dê uma estrela
+## Dê uma estrela! ⭐
 
 Se você gostou deste projeto, aprendeu algo ou está usando em seus aplicativos, dê uma estrelinha. Obrigado!
 
