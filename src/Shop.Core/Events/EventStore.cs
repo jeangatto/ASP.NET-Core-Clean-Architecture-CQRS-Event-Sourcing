@@ -3,6 +3,9 @@ using Shop.Core.Abstractions;
 
 namespace Shop.Core.Events;
 
+/// <summary>
+/// A classe de armazenamento de evento.
+/// </summary>
 public class EventStore : BaseDomainEvent
 {
     public EventStore(string type, string data)
@@ -13,6 +16,9 @@ public class EventStore : BaseDomainEvent
 
     private EventStore() { }
 
+    /// <summary>
+    /// ID do evento.
+    /// </summary>
     public Guid Id { get; private init; } = Guid.NewGuid();
 
     /// <summary>
