@@ -18,20 +18,15 @@ public class ReadDbContext
     private readonly IMongoClient _client;
     private readonly IMongoDatabase _database;
     private readonly ILogger<ReadDbContext> _logger;
-    private readonly string _connectionString;
 
     public ReadDbContext(IOptions<ConnectionOptions> options, ILogger<ReadDbContext> logger)
     {
-        _connectionString = options.Value.EventConnection;
-
-        _client = new MongoClient(_connectionString);
+        _client = new MongoClient(options.Value.NoSqlConnection);
         _database = _client.GetDatabase(DatabaseName);
         _logger = logger;
     }
 
     public IMongoCollection<T> GetCollection<T>() => _database.GetCollection<T>(typeof(T).Name);
-
-    public string GetConnectionString() => _connectionString;
 
     public async Task CreateCollectionsAsync()
     {
@@ -47,6 +42,7 @@ public class ReadDbContext
             if (!collections.Any(name => name == collectionName))
             {
                 _logger.LogInformation("----- MongoDB: criando a coleção {Name}", collectionName);
+
                 await _database.CreateCollectionAsync(collectionName);
             }
             else

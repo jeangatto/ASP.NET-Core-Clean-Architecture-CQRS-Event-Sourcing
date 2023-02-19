@@ -53,7 +53,7 @@ public static class ServicesCollectionExtensions
             var logger = serviceProvider.GetRequiredService<ILogger<WriteDbContext>>();
             var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-            options.UseSqlServer(connectionOptions.ShopConnection, sqlOptions =>
+            options.UseSqlServer(connectionOptions.SqlConnection, sqlOptions =>
             {
                 sqlOptions.MigrationsAssembly("Shop.PublicApi");
 

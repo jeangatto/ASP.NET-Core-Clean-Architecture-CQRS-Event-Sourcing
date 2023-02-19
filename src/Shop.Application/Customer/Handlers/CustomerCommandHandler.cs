@@ -61,10 +61,7 @@ public class CustomerCommandHandler :
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
         if (await _writeOnlyRepository.ExistsByEmailAsync(email))
-        {
-            // Retorna o resultado com o erro informado:
             return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
-        }
 
         // Criando a instancia da entidade cliente.
         // Ao instanciar será criado o evento: "CustomerCreatedEvent"
@@ -102,12 +99,9 @@ public class CustomerCommandHandler :
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
         if (await _writeOnlyRepository.ExistsByEmailAsync(newEmail, customerQueryModel.Id))
-        {
-            // Retorna o resultado com o erro informado:
             return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
-        }
 
-        // Mapeando QueryModel para Entity.
+        // Mapeando QueryModel para Entity (Domain).
         var customer = _mapper.Map<Domain.Entities.Customer.Customer>(customerQueryModel);
         customer.ChangeEmail(newEmail);
 
@@ -133,7 +127,7 @@ public class CustomerCommandHandler :
         if (customerQueryModel == null)
             return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
 
-        // Mapeando QueryModel para Entity.
+        // Mapeando QueryModel para Entity (Domain).
         var customer = _mapper.Map<Domain.Entities.Customer.Customer>(customerQueryModel);
         customer.Delete();
 

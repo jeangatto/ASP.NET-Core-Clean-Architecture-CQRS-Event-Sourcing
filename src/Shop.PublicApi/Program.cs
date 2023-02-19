@@ -83,7 +83,7 @@ var tags = new[] { "database" };
 builder.Services
     .AddHealthChecks()
     .AddDbContextCheck<WriteDbContext>(tags: tags)
-    .AddMongoDb(connectionOptions.EventConnection, tags: tags);
+    .AddMongoDb(connectionOptions.NoSqlConnection, tags: tags);
 
 // Validando os serviços adicionados no ASP.NET Core DI.
 builder.Host.UseDefaultServiceProvider((context, options) =>
@@ -132,7 +132,7 @@ try
 
     app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
 
-    app.Logger.LogInformation("----- SQL Server: {Connection}", writeDbContext.Database.GetConnectionString());
+    app.Logger.LogInformation("----- SQL Server: {Connection}", connectionOptions.SqlConnection);
     app.Logger.LogInformation("----- SQL Server: Verificando se existem migrações pendentes...");
 
     if ((await writeDbContext.Database.GetPendingMigrationsAsync()).Any())
@@ -148,7 +148,7 @@ try
         app.Logger.LogInformation("----- SQL Server: Migrações estão em dia.");
     }
 
-    app.Logger.LogInformation("----- MongoDB: {Connection}", readDbContext.GetConnectionString());
+    app.Logger.LogInformation("----- MongoDB: {Connection}", connectionOptions.NoSqlConnection);
     app.Logger.LogInformation("----- MongoDB: criando as coleções...");
 
     await readDbContext.CreateCollectionsAsync();

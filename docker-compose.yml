@@ -10,6 +10,7 @@ services:
   shop-webapi:
     image: shop-webapi
     container_name: shop-webapi
+    restart: always
     build:
       context: .
       dockerfile: src/Shop.PublicApi/Dockerfile

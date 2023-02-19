@@ -15,6 +15,7 @@ using Shop.PublicApi.Models;
 namespace Shop.PublicApi.Controllers;
 
 [ApiController]
+[ApiVersion("1.0")]
 [Route("api/[controller]")]
 public class CustomersController : ControllerBase
 {
