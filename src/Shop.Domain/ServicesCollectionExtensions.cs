@@ -5,8 +5,8 @@ namespace Shop.Application;
 
 public static class ServicesCollectionExtensions
 {
-    public static IServiceCollection AddMapperProfiles(this IServiceCollection services)
+    public static void AddMapperProfiles(this IServiceCollection services)
     {
-        return services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }

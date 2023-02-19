@@ -6,10 +6,9 @@ namespace Shop.Core;
 
 public static class ServicesCollectionExtensions
 {
-    public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
+    public static void ConfigureAppSettings(this IServiceCollection services)
     {
         services.AddOptionsWithValidation<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
-        return services;
     }
 
     public static IServiceCollection AddOptionsWithValidation<TOptions>(this IServiceCollection services, string configSectionPath)

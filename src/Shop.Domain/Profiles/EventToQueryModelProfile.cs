@@ -10,5 +10,6 @@ public class EventToQueryModelProfile : Profile
     {
         CreateMap<CustomerCreatedEvent, CustomerQueryModel>(MemberList.Destination);
         CreateMap<CustomerUpdatedEvent, CustomerQueryModel>(MemberList.Destination);
+        CreateMap<CustomerDeletedEvent, CustomerQueryModel>(MemberList.Destination);
     }
 }

@@ -21,7 +21,7 @@ namespace Shop.Infrastructure;
 
 public static class ServicesCollectionExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static void AddInfrastructure(this IServiceCollection services)
     {
         // MediatR Pipelines
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
@@ -38,8 +38,6 @@ public static class ServicesCollectionExtensions
         services.AddScoped<ISyncDataBase, NoSqlSyncDataBase>();
 
         ConfigureMongoDB();
-
-        return services;
     }
 
     private static void ConfigureMongoDB()

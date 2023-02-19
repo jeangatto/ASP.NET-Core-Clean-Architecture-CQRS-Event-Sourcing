@@ -7,13 +7,10 @@ namespace Shop.Application;
 
 public static class ServicesCollectionExtensions
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static void AddApplication(this IServiceCollection services)
     {
         var assemblies = new[] { Assembly.GetExecutingAssembly() };
-
         services.AddMediatR(assemblies);
         services.AddValidatorsFromAssemblies(assemblies);
-
-        return services;
     }
 }
