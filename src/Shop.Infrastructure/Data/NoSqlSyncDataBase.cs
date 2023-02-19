@@ -31,19 +31,18 @@ public class NoSqlSyncDataBase : ISyncDataBase
         // Se o documento não existir, será criado um novo.
         var replaceOptions = new ReplaceOptions { IsUpsert = true };
 
-        await GetMongoDbRetryPolicy(_logger)
-            .ExecuteAsync(async () => await collection.ReplaceOneAsync(upsertFilter, queryModel, replaceOptions));
+        await GetRetryPolicy(_logger).ExecuteAsync(
+            async () => await collection.ReplaceOneAsync(upsertFilter, queryModel, replaceOptions));
     }
 
     public async Task DeleteAsync<TQueryModel>(Expression<Func<TQueryModel, bool>> deleteFilter)
         where TQueryModel : IQueryModel
     {
         var collection = _readDbContext.GetCollection<TQueryModel>();
-        await GetMongoDbRetryPolicy(_logger)
-            .ExecuteAsync(async () => await collection.DeleteOneAsync(deleteFilter));
+        await GetRetryPolicy(_logger).ExecuteAsync(async () => await collection.DeleteOneAsync(deleteFilter));
     }
 
-    public static AsyncRetryPolicy GetMongoDbRetryPolicy(ILogger<NoSqlSyncDataBase> logger)
+    private static AsyncRetryPolicy GetRetryPolicy(ILogger<NoSqlSyncDataBase> logger)
     {
         return Policy
           .Handle<MongoException>()
@@ -55,12 +54,12 @@ public class NoSqlSyncDataBase : ISyncDataBase
               // A well-known retry strategy is exponential backoff, allowing retries to be made initially quickly,
               // but then at progressively longer intervals: for example, after 2, 4, 8, 15, then 30 seconds.
               // REF: https://github.com/App-vNext/Polly/wiki/Retry-with-jitter#simple-jitter
-              var delay
+              var sleepDuration
                 = TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000));
 
-              logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, delay);
+              logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
 
-              return delay;
-          });
+              return sleepDuration;
+          }, (ex, _) => logger.LogError(ex, "Ocorreu uma exceção não esperada ao salvar no MongoDB: {Message}", ex.Message));
     }
 }
