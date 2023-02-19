@@ -12,6 +12,7 @@ using Shop.Domain.Interfaces.ReadOnly;
 using Shop.Domain.Interfaces.WriteOnly;
 using Shop.Infrastructure.Behaviors;
 using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Data.Cache;
 using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Repositories;
 using Shop.Infrastructure.Data.Repositories.ReadOnly;
@@ -21,6 +22,12 @@ namespace Shop.Infrastructure;
 
 public static class ServicesCollectionExtensions
 {
+    public static IServiceCollection AddMemoryCacheService(this IServiceCollection services)
+        => services.AddScoped<ICacheService, MemoryCacheService>();
+
+    public static IServiceCollection AddDistributedCacheService(this IServiceCollection services)
+        => services.AddScoped<ICacheService, DistributedCacheService>();
+
     public static void AddInfrastructure(this IServiceCollection services)
     {
         // MediatR Pipelines

@@ -12,4 +12,7 @@ public sealed class ConnectionOptions : BaseOptions
 
     [Required]
     public string NoSqlConnection { get; private init; }
+
+    [Required]
+    public string CacheConnection { get; private init; }
 }

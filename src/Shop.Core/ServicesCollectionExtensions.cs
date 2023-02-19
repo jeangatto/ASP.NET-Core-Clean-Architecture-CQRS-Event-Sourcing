@@ -9,6 +9,7 @@ public static class ServicesCollectionExtensions
     public static void ConfigureAppSettings(this IServiceCollection services)
     {
         services.AddOptionsWithValidation<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
+        services.AddOptionsWithValidation<CacheOptions>(CacheOptions.ConfigSectionPath);
     }
 
     public static IServiceCollection AddOptionsWithValidation<TOptions>(this IServiceCollection services, string configSectionPath)

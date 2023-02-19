@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -69,15 +68,14 @@ builder.Services.AddControllers()
     }).AddNewtonsoftJson();
 
 // Adicionando os serviços da aplicação no ASP.NET Core DI.
+builder.Services.AddCache(builder.Configuration);
 builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
 builder.Services.AddMapperProfiles();
 builder.Services.AddApplication();
 builder.Services.AddShopContext();
 
-var connectionOptions = builder.Configuration
-    .GetSection(ConnectionOptions.ConfigSectionPath)
-    .Get<ConnectionOptions>(binderOptions => binderOptions.BindNonPublicProperties = true);
+var connectionOptions = builder.Configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
 
 var tags = new[] { "database" };
 builder.Services

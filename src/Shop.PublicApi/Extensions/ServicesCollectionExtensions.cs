@@ -3,12 +3,15 @@ using System.IO;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Shop.Core.AppSettings;
+using Shop.Core.Extensions;
+using Shop.Infrastructure;
 using Shop.Infrastructure.Data.Context;
 
 namespace Shop.PublicApi.Extensions;
@@ -83,5 +86,25 @@ public static class ServicesCollectionExtensions
             if (environment.IsDevelopment())
                 options.EnableDetailedErrors().EnableSensitiveDataLogging();
         });
+    }
+
+    public static void AddCache(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
+        if (connectionOptions.CacheConnection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase))
+        {
+            services.AddMemoryCache();
+            services.AddMemoryCacheService();
+        }
+        else
+        {
+            services.AddDistributedRedisCache(options =>
+            {
+                options.InstanceName = "master";
+                options.Configuration = connectionOptions.CacheConnection;
+            });
+
+            services.AddDistributedCacheService();
+        }
     }
 }
