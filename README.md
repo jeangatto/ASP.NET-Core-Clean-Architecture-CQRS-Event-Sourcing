@@ -10,7 +10,7 @@ Projeto de código aberto escrito na última versão do ASP.NET Core, implementa
 
 ## Dê uma estrela! ⭐
 
-Se você gostou deste projeto, aprendeu algo ou está usando em seus aplicativos, dê uma estrelinha. Obrigado!
+Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
 ## **Tecnologias**
 
