@@ -14,9 +14,9 @@ Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
 ## **Tecnologias**
 
-* ASP.NET 7.0
-* .NET Core Native DI
+* ASP.NET Core 7.0
 * Entity Framework Core 7.0
+* SQL Server
 * MongoDB
 * Polly
 * AutoMapper
