@@ -12,8 +12,6 @@ Projeto de código aberto escrito na última versão do ASP.NET Core, implementa
 
 Se você gostou deste projeto, aprendeu algo ou está usando em seus aplicativos, dê uma estrelinha. Obrigado!
 
-![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/cqrs-pattern.png "CQRS Pattern")
-
 ## **Tecnologias**
 
 * ASP.NET 7.0
@@ -29,6 +27,8 @@ Se você gostou deste projeto, aprendeu algo ou está usando em seus aplicativos
 * Docker & Docker Compose
 
 ## **Arquitetura**
+
+![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/cqrs-pattern.png "CQRS Pattern")
 
 * Full architecture with responsibility separation concerns, SOLID and Clean Code
 * Domain Driven Design (Layers and Domain Model Pattern)
