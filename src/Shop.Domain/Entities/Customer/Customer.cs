@@ -65,7 +65,7 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <param name="newEmail">Novo endereço de e-mail.</param>
     public void ChangeEmail(Email newEmail)
     {
-        // Só será alterado se for diferente do existente.
+        // Só será alterado o e-mail se for diferente do existente.
         if (!Email.Equals(newEmail))
         {
             Email = newEmail;

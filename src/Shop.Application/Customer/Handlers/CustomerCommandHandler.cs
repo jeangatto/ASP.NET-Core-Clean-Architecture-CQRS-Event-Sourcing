@@ -19,6 +19,8 @@ public class CustomerCommandHandler :
     IRequestHandler<UpdateCustomerCommand, Result>,
     IRequestHandler<DeleteCustomerCommand, Result>
 {
+    #region Constructor
+
     private readonly CreateCustomerCommandValidator _createCommandValidator;
     private readonly UpdateCustomerCommandValidator _updateCommandValidator;
     private readonly RemoveCustomerCommandValidator _removeCommandValidator;
@@ -44,6 +46,8 @@ public class CustomerCommandHandler :
         _mapper = mapper;
         _unitOfWork = unitOfWork;
     }
+
+    #endregion
 
     public async Task<Result<CreatedCustomerResponse>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
@@ -103,6 +107,7 @@ public class CustomerCommandHandler :
             return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
         }
 
+        // Mapeando QueryModel para Entity.
         var customer = _mapper.Map<Domain.Entities.Customer.Customer>(customerQueryModel);
         customer.ChangeEmail(newEmail);
 
@@ -128,6 +133,7 @@ public class CustomerCommandHandler :
         if (customerQueryModel == null)
             return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
 
+        // Mapeando QueryModel para Entity.
         var customer = _mapper.Map<Domain.Entities.Customer.Customer>(customerQueryModel);
         customer.Delete();
 
