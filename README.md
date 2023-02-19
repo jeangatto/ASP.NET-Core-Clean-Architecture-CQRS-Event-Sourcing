@@ -8,17 +8,15 @@
 Sobre o respoitório:
 Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code, CQRS (Command Query Responsibility Segregation)
 
-## Dê uma estrela
+## Dê uma estrela! ⭐
 
-Se você gostou deste projeto, aprendeu algo ou está usando em seus aplicativos, dê uma estrelinha. Obrigado!
-
-![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/cqrs-pattern.png "CQRS Pattern")
+Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
 ## **Tecnologias**
 
-* ASP.NET 7.0
-* .NET Core Native DI
+* ASP.NET Core 7.0
 * Entity Framework Core 7.0
+* SQL Server
 * MongoDB
 * Polly
 * AutoMapper
@@ -29,6 +27,8 @@ Se você gostou deste projeto, aprendeu algo ou está usando em seus aplicativos
 * Docker & Docker Compose
 
 ## **Arquitetura**
+
+![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/cqrs-pattern.png "CQRS Pattern")
 
 * Full architecture with responsibility separation concerns, SOLID and Clean Code
 * Domain Driven Design (Layers and Domain Model Pattern)
