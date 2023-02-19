@@ -6,9 +6,9 @@ networks:
 
 services:
 
-  # ASPNET Core Web API Application
+  # ASP.NET Core Web API Application
   shop-webapi:
-    image: shop-webapi
+    image: ${DOCKER_REGISTRY-}shop-webapi
     container_name: shop-webapi
     restart: always
     build:
