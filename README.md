@@ -18,6 +18,7 @@ Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 * Entity Framework Core 7.0
 * SQL Server
 * MongoDB
+* Redis (Cache)
 * Polly
 * AutoMapper
 * FluentValidator
