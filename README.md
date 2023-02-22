@@ -29,7 +29,7 @@ Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
 ## **Arquitetura**
 
-![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/cqrs-pattern.png "CQRS Pattern")
+![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/img/cqrs-pattern.png "CQRS Pattern")
 
 * Full architecture with responsibility separation concerns, SOLID and Clean Code
 * Domain Driven Design (Layers and Domain Model Pattern)
