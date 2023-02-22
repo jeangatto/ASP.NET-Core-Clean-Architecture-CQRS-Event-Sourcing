@@ -14,6 +14,8 @@ services:
     build:
       context: .
       dockerfile: src/Shop.PublicApi/Dockerfile
+    expose:
+      - 5072
     ports:
       - 5072:5072
     links:
@@ -34,6 +36,8 @@ services:
     hostname: mssql
     container_name: sqlserver
     restart: always
+    expose:
+      - 1433
     ports:
       - 1433:1433
     environment:
@@ -47,8 +51,10 @@ services:
     image: mongo:latest
     container_name: mongoserver
     restart: always
+    expose:
+      - 27017
     ports:
-      - "27017:27017"
+      - 27017:27017
     networks:
       - app-network
 
@@ -59,8 +65,8 @@ services:
     command: redis-server --requirepass Sxc56Nu9V
     restart: always
     expose:
-      - "6379"
+      - 6379
     ports:
-      - "6379:6379"
+      - 6379:6379
     networks:
       - app-network
