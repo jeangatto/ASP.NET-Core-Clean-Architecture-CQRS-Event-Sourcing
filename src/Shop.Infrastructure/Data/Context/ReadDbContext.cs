@@ -13,7 +13,7 @@ namespace Shop.Infrastructure.Data.Context;
 
 public class ReadDbContext
 {
-    private const string DatabaseName = "Events";
+    private const string DatabaseName = "Shop";
 
     private readonly IMongoClient _client;
     private readonly IMongoDatabase _database;
