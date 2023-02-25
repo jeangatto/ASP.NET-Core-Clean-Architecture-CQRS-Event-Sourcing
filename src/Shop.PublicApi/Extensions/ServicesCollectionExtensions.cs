@@ -91,19 +91,27 @@ public static class ServicesCollectionExtensions
     public static void AddCache(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
-        if (connectionOptions.CacheConnection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase))
+        var connection = connectionOptions.CacheConnection;
+
+        if (connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase))
         {
+            // ASP.NET Core Memory Cache.
             services.AddMemoryCache();
+
+            // Shop Infra Service.
             services.AddMemoryCacheService();
         }
         else
         {
-            services.AddDistributedRedisCache(options =>
+            // ASP.NET Core Redis Distributed Cache.
+            // REF: https://learn.microsoft.com/pt-br/aspnet/core/performance/caching/distributed?view=aspnetcore-7.0
+            services.AddStackExchangeRedisCache(options =>
             {
                 options.InstanceName = "master";
-                options.Configuration = connectionOptions.CacheConnection;
+                options.Configuration = connection;
             });
 
+            // Shop Infra Service.
             services.AddDistributedCacheService();
         }
     }

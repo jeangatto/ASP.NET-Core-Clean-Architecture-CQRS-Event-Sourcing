@@ -105,7 +105,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
-    ResponseWriter = (context, healthReport) => context.Response.WriteAsync(healthReport.ToJson())
+    ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
 });
 app.UseSwagger();
 app.UseSwaggerUI();
