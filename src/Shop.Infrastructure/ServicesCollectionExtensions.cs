@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
@@ -7,6 +6,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Serializers;
 using Shop.Core.Events;
+using Shop.Core.Extensions;
 using Shop.Core.Interfaces;
 using Shop.Domain.Interfaces.ReadOnly;
 using Shop.Domain.Interfaces.WriteOnly;
@@ -70,20 +70,9 @@ public static class ServicesCollectionExtensions
 
     private static void ApplyMongoDbMappingsFromAssembly()
     {
-        var implementations = AppDomain
-            .CurrentDomain
-            .GetAssemblies()
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(IReadDbMapping).IsAssignableFrom(type)
-                && type.IsClass
-                && !type.IsAbstract
-                && !type.IsInterface)
-            .ToList();
-
-        foreach (var impl in implementations)
+        foreach (var map in Assembly.GetExecutingAssembly().GetAllInstacesOfInterface<IReadDbMapping>())
         {
-            var mapping = (IReadDbMapping)Activator.CreateInstance(impl);
-            mapping.Configure();
+            map.Configure();
         }
     }
 }

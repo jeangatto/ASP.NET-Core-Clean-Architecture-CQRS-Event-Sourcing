@@ -1,12 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Shop.Core.AppSettings;
 using Shop.Core.Events;
+using Shop.Core.Extensions;
 using Shop.Core.Interfaces;
 
 namespace Shop.Infrastructure.Data.Context;
@@ -54,14 +55,9 @@ public class ReadDbContext
 
     private static IEnumerable<string> GetCollectionNamesFromAssembly()
     {
-        return AppDomain
-            .CurrentDomain
-            .GetAssemblies()
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(IQueryModel).IsAssignableFrom(type)
-                && type.IsClass
-                && !type.IsAbstract
-                && !type.IsInterface)
+        return Assembly
+            .GetExecutingAssembly()
+            .GetAllTypesOfInterface<IQueryModel>()
             .Select(impl => impl.Name)
             .ToList();
     }
