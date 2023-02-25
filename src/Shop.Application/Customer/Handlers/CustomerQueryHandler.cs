@@ -33,8 +33,7 @@ public class CustomerQueryHandler :
     public async Task<Result<IEnumerable<CustomerQueryModel>>> Handle(GetAllCustomerQuery request, CancellationToken cancellationToken)
     {
         const string cacheKey = nameof(GetAllCustomerQuery);
-        var customers = await _cache.GetOrCreateAsync(cacheKey, _readOnlyRepository.GetAllAsync);
-        return Result.Success(customers);
+        return Result.Success(await _cache.GetOrCreateAsync(cacheKey, _readOnlyRepository.GetAllAsync));
     }
 
     public async Task<Result<CustomerQueryModel>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)

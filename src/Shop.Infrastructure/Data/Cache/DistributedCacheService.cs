@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
@@ -32,12 +34,12 @@ public class DistributedCacheService : ICacheService
 
     public async Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory)
     {
-        var result = await _distributedCache.GetAsync(cacheKey);
-        if (result?.Length > 0)
+        var valueBytes = await _distributedCache.GetAsync(cacheKey);
+        if (valueBytes?.Length > 0)
         {
             _logger.LogInformation("----- Fetched from DistributedCache: '{CacheKey}'", cacheKey);
 
-            var value = Encoding.UTF8.GetString(result);
+            var value = Encoding.UTF8.GetString(valueBytes);
             return value.FromJson<TItem>();
         }
         else
@@ -47,12 +49,36 @@ public class DistributedCacheService : ICacheService
             {
                 _logger.LogInformation("----- Added to DistributedCache: '{CacheKey}'", cacheKey);
 
-                var value = item.ToJson();
-                var cacheValue = Encoding.UTF8.GetBytes(value);
-                await _distributedCache.SetAsync(cacheKey, cacheValue, _cacheOptions);
+                var value = Encoding.UTF8.GetBytes(item.ToJson());
+                await _distributedCache.SetAsync(cacheKey, value, _cacheOptions);
             }
 
             return item;
+        }
+    }
+
+    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<IEnumerable<TItem>>> factory)
+    {
+        var valueBytes = await _distributedCache.GetAsync(cacheKey);
+        if (valueBytes?.Length > 0)
+        {
+            _logger.LogInformation("----- Fetched from DistributedCache: '{CacheKey}'", cacheKey);
+
+            var values = Encoding.UTF8.GetString(valueBytes);
+            return values.FromJson<IEnumerable<TItem>>();
+        }
+        else
+        {
+            var items = await factory();
+            if (items?.Any() == true)
+            {
+                _logger.LogInformation("----- Added to DistributedCache: '{CacheKey}'", cacheKey);
+
+                var value = Encoding.UTF8.GetBytes(items.ToJson());
+                await _distributedCache.SetAsync(cacheKey, value, _cacheOptions);
+            }
+
+            return items;
         }
     }
 }

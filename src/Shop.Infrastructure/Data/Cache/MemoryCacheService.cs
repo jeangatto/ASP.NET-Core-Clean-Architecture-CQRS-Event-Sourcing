@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -47,6 +48,28 @@ public class MemoryCacheService : ICacheService
             }
 
             return item;
+        });
+    }
+
+    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<IEnumerable<TItem>>> factory)
+    {
+        return await _memoryCache.GetOrCreateAsync(cacheKey, async (cacheEntry) =>
+        {
+            var cacheValues = cacheEntry?.Value;
+            if (cacheValues != null)
+            {
+                _logger.LogInformation("----- Fetched from MemoryCache: '{CacheKey}'", cacheKey);
+                return (IEnumerable<TItem>)cacheValues;
+            }
+
+            var items = await factory();
+            if (items != null)
+            {
+                _logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
+                _memoryCache.Set(cacheKey, items, _cacheOptions);
+            }
+
+            return items;
         });
     }
 }
