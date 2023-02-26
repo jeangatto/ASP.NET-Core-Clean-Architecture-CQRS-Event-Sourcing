@@ -75,7 +75,6 @@ public static class ServicesCollectionExtensions
     public static void AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
-
         if (connectionOptions.CacheConnection.IsInMemoryCache())
         {
             // ASP.NET Core Memory Cache.
