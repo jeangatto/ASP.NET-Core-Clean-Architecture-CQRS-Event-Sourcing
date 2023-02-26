@@ -18,8 +18,8 @@ namespace Shop.PublicApi.Extensions;
 
 public static class ServicesCollectionExtensions
 {
-    private const string MigrationsAssembly = "Shop.PublicApi";
     private static readonly string[] DatabaseTags = new[] { "database" };
+    private const string MigrationsAssembly = "Shop.PublicApi";
 
     public static void AddSwagger(this IServiceCollection services)
     {
@@ -67,82 +67,10 @@ public static class ServicesCollectionExtensions
     }
 
     public static void AddShopDbContext(this IServiceCollection services)
-    {
-        services.AddDbContext<WriteDbContext>((serviceProvider, options) =>
-        {
-            var logger = serviceProvider.GetRequiredService<ILogger<WriteDbContext>>();
-            var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
-
-            options.UseSqlServer(connectionOptions.SqlConnection, sqlOptions =>
-            {
-                sqlOptions.MigrationsAssembly(MigrationsAssembly);
-
-                // Configurando a resiliência da conexão.
-                // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-                sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
-
-                // Log das tentativas de repetição.
-                options.LogTo(
-                    filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
-                    logger: eventData =>
-                    {
-                        if (eventData is not ExecutionStrategyEventData retryEventData) return;
-
-                        var exceptions = retryEventData.ExceptionsEncountered;
-
-                        logger.LogWarning(
-                            "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
-                            exceptions.Count,
-                            retryEventData.Delay,
-                            exceptions[^1].Message);
-                    });
-            });
-
-            // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
-            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-            if (environment.IsDevelopment())
-                options.EnableDetailedErrors().EnableSensitiveDataLogging();
-        });
-    }
+        => services.AddDbContext<WriteDbContext>(ConfigureDbContext<WriteDbContext>);
 
     public static void AddEventDbContext(this IServiceCollection services)
-    {
-        services.AddDbContext<EventStoreDbContext>((serviceProvider, options) =>
-        {
-            var logger = serviceProvider.GetRequiredService<ILogger<EventStoreDbContext>>();
-            var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
-
-            options.UseSqlServer(connectionOptions.SqlConnection, sqlOptions =>
-            {
-                sqlOptions.MigrationsAssembly(MigrationsAssembly);
-
-                // Configurando a resiliência da conexão.
-                // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-                sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
-
-                // Log das tentativas de repetição.
-                options.LogTo(
-                    filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
-                    logger: eventData =>
-                    {
-                        if (eventData is not ExecutionStrategyEventData retryEventData) return;
-
-                        var exceptions = retryEventData.ExceptionsEncountered;
-
-                        logger.LogWarning(
-                            "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
-                            exceptions.Count,
-                            retryEventData.Delay,
-                            exceptions[^1].Message);
-                    });
-            });
-
-            // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
-            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-            if (environment.IsDevelopment())
-                options.EnableDetailedErrors().EnableSensitiveDataLogging();
-        });
-    }
+        => services.AddDbContext<EventStoreDbContext>(ConfigureDbContext<EventStoreDbContext>);
 
     public static void AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
@@ -173,4 +101,41 @@ public static class ServicesCollectionExtensions
 
     private static bool IsInMemoryCache(this string cacheConnection)
         => cacheConnection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
+
+    private static void ConfigureDbContext<TContext>(IServiceProvider serviceProvider, DbContextOptionsBuilder options)
+        where TContext : DbContext
+    {
+        var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
+        var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
+
+        options.UseSqlServer(connectionOptions.SqlConnection, sqlOptions =>
+        {
+            sqlOptions.MigrationsAssembly(MigrationsAssembly);
+
+            // Configurando a resiliência da conexão.
+            // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
+            sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
+
+            // Log das tentativas de repetição.
+            options.LogTo(
+                filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
+                logger: eventData =>
+                {
+                    if (eventData is not ExecutionStrategyEventData retryEventData) return;
+
+                    var exceptions = retryEventData.ExceptionsEncountered;
+
+                    logger.LogWarning(
+                        "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
+                        exceptions.Count,
+                        retryEventData.Delay,
+                        exceptions[^1].Message);
+                });
+        });
+
+        // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
+        var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+        if (environment.IsDevelopment())
+            options.EnableDetailedErrors().EnableSensitiveDataLogging();
+    }
 }
