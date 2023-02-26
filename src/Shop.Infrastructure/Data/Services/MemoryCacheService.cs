@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -63,7 +64,7 @@ public class MemoryCacheService : ICacheService
             }
 
             var items = await factory();
-            if (items != null)
+            if (items?.Any() == true)
             {
                 _logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
                 _memoryCache.Set(cacheKey, items, _cacheOptions);
