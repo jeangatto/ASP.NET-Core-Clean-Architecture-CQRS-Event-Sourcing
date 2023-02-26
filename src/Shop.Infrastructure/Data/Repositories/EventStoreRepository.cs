@@ -7,14 +7,13 @@ namespace Shop.Infrastructure.Data.Repositories;
 
 public class EventStoreRepository : IEventStoreRepository
 {
-    private readonly ReadDbContext _readDbContext;
+    private readonly EventStoreDbContext _context;
 
-    public EventStoreRepository(ReadDbContext readDbContext)
-        => _readDbContext = readDbContext;
+    public EventStoreRepository(EventStoreDbContext context) => _context = context;
 
-    public async Task InsertManyAsync(IEnumerable<EventStore> eventStores)
+    public async Task StoreAsync(IEnumerable<EventStore> eventStores)
     {
-        var collection = _readDbContext.GetCollection<EventStore>();
-        await collection.InsertManyAsync(eventStores);
+        await _context.EventStores.AddRangeAsync(eventStores);
+        await _context.SaveChangesAsync();
     }
 }

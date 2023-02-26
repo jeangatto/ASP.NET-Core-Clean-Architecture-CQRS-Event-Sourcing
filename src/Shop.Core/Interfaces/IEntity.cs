@@ -1,3 +1,5 @@
+using System;
+
 namespace Shop.Core.Interfaces;
 
 /// <summary>
@@ -11,7 +13,7 @@ public interface IEntity
 /// Interface marcadora para representar uma entidade.
 /// </summary>
 /// <typeparam name="TKey">O tipo da chave.</typeparam>
-public interface IEntityKey<out TKey> : IEntity where TKey : notnull
+public interface IEntity<out TKey> : IEntity where TKey : IEquatable<TKey>
 {
     TKey Id { get; }
 }

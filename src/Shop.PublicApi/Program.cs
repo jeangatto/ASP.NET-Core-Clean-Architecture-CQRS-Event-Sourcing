@@ -1,8 +1,5 @@
-using System;
 using System.Globalization;
 using System.IO.Compression;
-using System.Linq;
-using AutoMapper;
 using FluentValidation;
 using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
@@ -18,11 +15,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shop.Application;
 using Shop.Core;
-using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
 using Shop.Infrastructure;
-using Shop.Infrastructure.Data.Context;
 using Shop.PublicApi.Extensions;
+using Shop.Query;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,21 +63,17 @@ builder.Services.AddControllers()
         options.SuppressModelStateInvalidFilter = true;
     }).AddNewtonsoftJson();
 
+// HealthChecks (API, EF Core, MongoDB)
+builder.Services.AddHealths(builder.Configuration);
+
 // Adicionando os serviços da aplicação no ASP.NET Core DI.
-builder.Services.AddCache(builder.Configuration);
+builder.Services.AddCacheService(builder.Configuration);
 builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
-builder.Services.AddMapperProfiles();
 builder.Services.AddApplication();
-builder.Services.AddShopContext();
-
-var connectionOptions = builder.Configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
-
-var tags = new[] { "database" };
-builder.Services
-    .AddHealthChecks()
-    .AddDbContextCheck<WriteDbContext>(tags: tags)
-    .AddMongoDb(connectionOptions.NoSqlConnection, tags: tags);
+builder.Services.AddQuery();
+builder.Services.AddShopDbContext();
+builder.Services.AddEventDbContext();
 
 // Validando os serviços adicionados no ASP.NET Core DI.
 builder.Host.UseDefaultServiceProvider((context, options) =>
@@ -105,6 +97,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
+    AllowCachingResponses = false,
     ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
 });
 app.UseSwagger();
@@ -116,48 +109,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-await using var serviceScope = app.Services.CreateAsyncScope();
-await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
-var readDbContext = serviceScope.ServiceProvider.GetRequiredService<ReadDbContext>();
-var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
-
-try
-{
-    app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
-
-    mapper.ConfigurationProvider.AssertConfigurationIsValid();
-    mapper.ConfigurationProvider.CompileMappings();
-
-    app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
-
-    app.Logger.LogInformation("----- SQL Server: {Connection}", connectionOptions.SqlConnection);
-    app.Logger.LogInformation("----- SQL Server: Verificando se existem migrações pendentes...");
-
-    if ((await writeDbContext.Database.GetPendingMigrationsAsync()).Any())
-    {
-        app.Logger.LogInformation("----- SQL Server: Criando e migrando a base de dados...");
-
-        await writeDbContext.Database.MigrateAsync();
-
-        app.Logger.LogInformation("----- SQL Server: Base de dados criada e migrada com sucesso!");
-    }
-    else
-    {
-        app.Logger.LogInformation("----- SQL Server: Migrações estão em dia.");
-    }
-
-    app.Logger.LogInformation("----- MongoDB: {Connection}", connectionOptions.NoSqlConnection);
-    app.Logger.LogInformation("----- MongoDB: criando as coleções...");
-
-    await readDbContext.CreateCollectionsAsync();
-
-    app.Logger.LogInformation("----- MongoDB: coleções criadas com sucesso!");
-}
-catch (Exception ex)
-{
-    app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
-    throw;
-}
-
 app.Logger.LogInformation("----- Iniciando a aplicação...");
-app.Run();
+await app.MigrateAsync();
+await app.RunAsync();

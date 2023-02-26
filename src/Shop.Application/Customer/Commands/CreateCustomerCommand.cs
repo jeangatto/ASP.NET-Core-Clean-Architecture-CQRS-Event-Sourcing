@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Ardalis.Result;
 using MediatR;
 using Shop.Application.Customer.Responses;
-using Shop.Domain.Enums;
+using Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.Application.Customer.Commands;
 

@@ -6,11 +6,11 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Customer.Commands;
-using Shop.Application.Customer.Queries;
 using Shop.Application.Customer.Responses;
-using Shop.Domain.QueriesModel;
 using Shop.PublicApi.Extensions;
 using Shop.PublicApi.Models;
+using Shop.Query.Application.Customer.Queries;
+using Shop.Query.QueriesModel;
 
 namespace Shop.PublicApi.Controllers;
 

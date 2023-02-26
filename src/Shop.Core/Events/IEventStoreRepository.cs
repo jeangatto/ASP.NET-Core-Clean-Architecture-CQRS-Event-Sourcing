@@ -12,5 +12,5 @@ public interface IEventStoreRepository
     /// Salva uma lista de eventos.
     /// </summary>
     /// <param name="eventStores">A lista de eventos.</param>
-    Task InsertManyAsync(IEnumerable<EventStore> eventStores);
+    Task StoreAsync(IEnumerable<EventStore> eventStores);
 }
