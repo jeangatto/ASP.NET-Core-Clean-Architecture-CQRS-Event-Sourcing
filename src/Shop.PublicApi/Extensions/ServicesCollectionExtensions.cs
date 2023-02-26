@@ -51,7 +51,7 @@ public static class ServicesCollectionExtensions
         services.AddSwaggerGenNewtonsoftSupport();
     }
 
-    public static void AddHealths(this IServiceCollection services, IConfiguration configuration)
+    public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
 

@@ -63,17 +63,17 @@ builder.Services.AddControllers()
         options.SuppressModelStateInvalidFilter = true;
     }).AddNewtonsoftJson();
 
-// HealthChecks (API, EF Core, MongoDB)
-builder.Services.AddHealths(builder.Configuration);
+// HealthChecks (API, EF Core, MongoDB, Redis)
+builder.Services.AddHealthChecks(builder.Configuration);
 
 // Adicionando os serviços da aplicação no ASP.NET Core DI.
-builder.Services.AddCacheService(builder.Configuration);
 builder.Services.ConfigureAppSettings();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.AddQuery();
 builder.Services.AddShopDbContext();
 builder.Services.AddEventDbContext();
+builder.Services.AddCacheService(builder.Configuration);
 
 // Validando os serviços adicionados no ASP.NET Core DI.
 builder.Host.UseDefaultServiceProvider((context, options) =>
