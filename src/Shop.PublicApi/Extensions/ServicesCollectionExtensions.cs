@@ -18,6 +18,9 @@ namespace Shop.PublicApi.Extensions;
 
 public static class ServicesCollectionExtensions
 {
+    private const string MigrationsAssembly = "Shop.PublicApi";
+    private static readonly string[] DatabaseTags = new[] { "database" };
+
     public static void AddSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(options =>
@@ -49,7 +52,21 @@ public static class ServicesCollectionExtensions
         services.AddSwaggerGenNewtonsoftSupport();
     }
 
-    public static void AddShopContext(this IServiceCollection services)
+    public static void AddHealths(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
+
+        var healthCheckBuilder = services
+             .AddHealthChecks()
+             .AddDbContextCheck<WriteDbContext>(tags: DatabaseTags)
+             .AddDbContextCheck<EventStoreDbContext>(tags: DatabaseTags)
+             .AddMongoDb(connectionOptions.NoSqlConnection, tags: DatabaseTags);
+
+        if (!connectionOptions.CacheConnection.IsInMemoryCache())
+            healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
+    }
+
+    public static void AddShopDbContext(this IServiceCollection services)
     {
         services.AddDbContext<WriteDbContext>((serviceProvider, options) =>
         {
@@ -58,7 +75,7 @@ public static class ServicesCollectionExtensions
 
             options.UseSqlServer(connectionOptions.SqlConnection, sqlOptions =>
             {
-                sqlOptions.MigrationsAssembly("Shop.PublicApi");
+                sqlOptions.MigrationsAssembly(MigrationsAssembly);
 
                 // Configurando a resiliência da conexão.
                 // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
@@ -88,12 +105,50 @@ public static class ServicesCollectionExtensions
         });
     }
 
-    public static void AddCache(this IServiceCollection services, IConfiguration configuration)
+    public static void AddEventDbContext(this IServiceCollection services)
+    {
+        services.AddDbContext<EventStoreDbContext>((serviceProvider, options) =>
+        {
+            var logger = serviceProvider.GetRequiredService<ILogger<EventStoreDbContext>>();
+            var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
+
+            options.UseSqlServer(connectionOptions.SqlConnection, sqlOptions =>
+            {
+                sqlOptions.MigrationsAssembly(MigrationsAssembly);
+
+                // Configurando a resiliência da conexão.
+                // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
+
+                // Log das tentativas de repetição.
+                options.LogTo(
+                    filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
+                    logger: eventData =>
+                    {
+                        if (eventData is not ExecutionStrategyEventData retryEventData) return;
+
+                        var exceptions = retryEventData.ExceptionsEncountered;
+
+                        logger.LogWarning(
+                            "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
+                            exceptions.Count,
+                            retryEventData.Delay,
+                            exceptions[^1].Message);
+                    });
+            });
+
+            // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
+            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+            if (environment.IsDevelopment())
+                options.EnableDetailedErrors().EnableSensitiveDataLogging();
+        });
+    }
+
+    public static void AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
-        var connection = connectionOptions.CacheConnection;
 
-        if (connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase))
+        if (connectionOptions.CacheConnection.IsInMemoryCache())
         {
             // ASP.NET Core Memory Cache.
             services.AddMemoryCache();
@@ -108,11 +163,14 @@ public static class ServicesCollectionExtensions
             services.AddStackExchangeRedisCache(options =>
             {
                 options.InstanceName = "master";
-                options.Configuration = connection;
+                options.Configuration = connectionOptions.CacheConnection;
             });
 
             // Shop Infra Service.
             services.AddDistributedCacheService();
         }
     }
+
+    private static bool IsInMemoryCache(this string cacheConnection)
+        => cacheConnection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 }

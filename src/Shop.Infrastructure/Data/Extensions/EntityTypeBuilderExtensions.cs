@@ -13,12 +13,16 @@ public static class EntityTypeBuilderExtensions
     public static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
         where TEntity : BaseEntity
     {
-        builder.HasKey(entity => entity.Id);
+        builder
+            .HasKey(entity => entity.Id); // Primary Key
 
-        builder.Property(entity => entity.Id)
-            .IsRequired()
+        builder
+            .Property(entity => entity.Id)
+            .IsRequired() // NOT NULL
             .ValueGeneratedNever(); // O Id será gerado ao instanciar a classe
 
-        builder.Ignore(entity => entity.DomainEvents);
+        // Ignorando a propriedade "DomainEvents" para não ser criada a coluna na tabela.
+        builder
+            .Ignore(entity => entity.DomainEvents);
     }
 }

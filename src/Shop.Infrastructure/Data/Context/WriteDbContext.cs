@@ -1,7 +1,7 @@
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Shop.Domain.Entities.Customer;
+using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Infrastructure.Data.Extensions;
+using Shop.Infrastructure.Data.Mappings;
 
 namespace Shop.Infrastructure.Data.Context;
 
@@ -19,7 +19,7 @@ public class WriteDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation(Collation);
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.RemoveCascadeDeleteConvention();
+        modelBuilder.ApplyConfiguration(new CustomerConfiguration());
     }
 }

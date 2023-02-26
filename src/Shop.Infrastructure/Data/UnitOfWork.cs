@@ -78,7 +78,7 @@ public class UnitOfWork : IUnitOfWork
         });
     }
 
-    private (IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores) BeforeSaveChanges()
+    private (IEnumerable<Event> domainEvents, IEnumerable<EventStore> eventStores) BeforeSaveChanges()
     {
         var domainEntities = _writeDbContext
             .ChangeTracker
@@ -86,7 +86,7 @@ public class UnitOfWork : IUnitOfWork
             .Where(entry => entry.Entity.DomainEvents.Any())
             .ToList();
 
-        var domainEvents = new List<IDomainEvent>();
+        var domainEvents = new List<Event>();
         var eventStores = new List<EventStore>();
 
         if (domainEntities.Any())
@@ -97,9 +97,10 @@ public class UnitOfWork : IUnitOfWork
 
             foreach (var @event in domainEvents)
             {
-                var type = @event.GetGenericTypeName();
+                var aggregateId = @event.AggregateId;
+                var messageType = @event.GetGenericTypeName();
                 var data = @event.ToJson();
-                eventStores.Add(new EventStore(type, data));
+                eventStores.Add(new EventStore(aggregateId, messageType, data));
             }
 
             // Limpando os eventos das entidades.
@@ -110,7 +111,7 @@ public class UnitOfWork : IUnitOfWork
         return (domainEvents, eventStores);
     }
 
-    private async Task AfterSaveChangesAsync(IEnumerable<IDomainEvent> domainEvents, IEnumerable<EventStore> eventStores)
+    private async Task AfterSaveChangesAsync(IEnumerable<Event> domainEvents, IEnumerable<EventStore> eventStores)
     {
         if (domainEvents.Any() && eventStores.Any())
         {
@@ -122,7 +123,7 @@ public class UnitOfWork : IUnitOfWork
             await Task.WhenAll(tasks);
 
             // Salvando os eventos.
-            await _eventStoreRepository.InsertManyAsync(eventStores);
+            await _eventStoreRepository.StoreAsync(eventStores);
         }
     }
 }

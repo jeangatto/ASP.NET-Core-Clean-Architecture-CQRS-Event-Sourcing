@@ -1,30 +1,25 @@
 using System;
-using Shop.Core.Abstractions;
 
 namespace Shop.Core.Events;
 
 /// <summary>
 /// A classe de armazenamento de evento.
 /// </summary>
-public class EventStore : BaseDomainEvent
+public class EventStore : Event
 {
-    public EventStore(string type, string data)
+    public EventStore(Guid aggregateId, string messageType, string data)
     {
-        Type = type;
+        AggregateId = aggregateId;
+        MessageType = messageType;
         Data = data;
     }
 
-    private EventStore() { }
+    private EventStore() { } // ORM
 
     /// <summary>
     /// ID do evento.
     /// </summary>
     public Guid Id { get; private init; } = Guid.NewGuid();
-
-    /// <summary>
-    /// O tipo do evento.
-    /// </summary>
-    public string Type { get; private init; }
 
     /// <summary>
     /// O dadso do evento serializado em JSON.
