@@ -25,24 +25,23 @@ public static class ServicesCollectionExtensions
     {
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1",
-                new OpenApiInfo
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "Shop (e-commerce)",
+                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture",
+                Contact = new OpenApiContact
                 {
-                    Version = "v1",
-                    Title = "Shop (e-commerce)",
-                    Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Jean Gatto",
-                        Email = "jean_gatto@hotmail.com",
-                        Url = new Uri("https://www.linkedin.com/in/jeangatto/")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "MIT License",
-                        Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
-                    }
-                });
+                    Name = "Jean Gatto",
+                    Email = "jean_gatto@hotmail.com",
+                    Url = new Uri("https://www.linkedin.com/in/jeangatto/")
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "MIT License",
+                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
+                }
+            });
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -107,30 +106,30 @@ public static class ServicesCollectionExtensions
         var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
         var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-        options.UseSqlServer(connectionOptions.SqlConnection, sqlOptions =>
+        options.UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
         {
-            sqlOptions.MigrationsAssembly(MigrationsAssembly);
+            sqlServerOptions.MigrationsAssembly(MigrationsAssembly);
 
             // Configurando a resiliência da conexão.
             // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-            sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
-
-            // Log das tentativas de repetição.
-            options.LogTo(
-                filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
-                logger: eventData =>
-                {
-                    if (eventData is not ExecutionStrategyEventData retryEventData) return;
-
-                    var exceptions = retryEventData.ExceptionsEncountered;
-
-                    logger.LogWarning(
-                        "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
-                        exceptions.Count,
-                        retryEventData.Delay,
-                        exceptions[^1].Message);
-                });
+            sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 3);
         });
+
+        // Log das tentativas de repetição.
+        options.LogTo(
+            filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
+            logger: eventData =>
+            {
+                if (eventData is not ExecutionStrategyEventData retryEventData) return;
+
+                var exceptions = retryEventData.ExceptionsEncountered;
+
+                logger.LogWarning(
+                    "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
+                    exceptions.Count,
+                    retryEventData.Delay,
+                    exceptions[^1].Message);
+            });
 
         // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();

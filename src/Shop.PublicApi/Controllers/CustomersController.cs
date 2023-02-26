@@ -24,6 +24,13 @@ public class CustomersController : ControllerBase
     public CustomersController(IMediator mediator)
         => _mediator = mediator;
 
+    /// <summary>
+    /// Cadastra um novo cliente.
+    /// </summary>
+    /// <param name="command">A requisição.</param>
+    /// <response code="200">Retorna o Id do novo cliente.</response>
+    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
+    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -33,6 +40,14 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCustomerCommand command)
         => (await _mediator.Send(command)).ToActionResult();
 
+    /// <summary>
+    /// Atualiza um cliente existente.
+    /// </summary>
+    /// <param name="command">A requisição.</param>
+    /// <response code="200">Retorna a resposta com a mensagem de sucesso.</response>
+    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
+    /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
+    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
     [HttpPut]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -42,6 +57,14 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> Update([FromBody] UpdateCustomerCommand command)
         => (await _mediator.Send(command)).ToActionResult();
 
+    /// <summary>
+    /// Deleta o cliente pelo Id.
+    /// </summary>
+    /// <param name="id">O Id.</param>
+    /// <response code="200">Retorna a resposta com a mensagem de sucesso.</response>
+    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
+    /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
+    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
     [HttpDelete("{id}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -51,6 +74,14 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> Delete(Guid id)
         => (await _mediator.Send(new DeleteCustomerCommand(id))).ToActionResult();
 
+    /// <summary>
+    /// Obtém o cliente pelo Id.
+    /// </summary>
+    /// <param name="id">O Id.</param>
+    /// <response code="200">Retorna o cliente.</response>
+    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
+    /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
+    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
     [HttpGet("{id}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -60,6 +91,11 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> GetById(Guid id)
         => (await _mediator.Send(new GetCustomerByIdQuery(id))).ToActionResult();
 
+    /// <summary>
+    /// Obtém uma lista com todos os clientes.
+    /// </summary>
+    /// <response code="200">Retorna a lista de clientes.</response>
+    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
     [HttpGet]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
