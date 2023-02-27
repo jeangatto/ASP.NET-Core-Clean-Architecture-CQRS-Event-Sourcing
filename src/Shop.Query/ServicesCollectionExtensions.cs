@@ -23,7 +23,7 @@ public static class ServicesCollectionExtensions
         services.AddAutoMapper(executingAssembly);
         services.AddValidatorsFromAssemblies(new[] { executingAssembly });
 
-        services.AddScoped<ReadDbContext>();
+        services.AddScoped<IReadDbContext, ReadDbContext>();
         services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
         ConfigureMongoDB();

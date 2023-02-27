@@ -15,7 +15,7 @@ using Shop.Query.Abstractions;
 
 namespace Shop.Query.Data.Context;
 
-public class ReadDbContext
+public class ReadDbContext : IReadDbContext
 {
     private const string DatabaseName = "Shop";
 
@@ -36,11 +36,13 @@ public class ReadDbContext
 
     public string ConnectionString { get; }
 
-    public IMongoCollection<T> GetCollection<T>() where T : IQueryModel => _database.GetCollection<T>(typeof(T).Name);
+    public IMongoCollection<TQueryModel> GetCollection<TQueryModel>() where TQueryModel : IQueryModel
+        => _database.GetCollection<TQueryModel>(typeof(TQueryModel).Name);
 
-    public async Task UpsertAsync<T>(T queryModel, Expression<Func<T, bool>> upsertFilter) where T : IQueryModel
+    public async Task UpsertAsync<TQueryModel>(TQueryModel queryModel, Expression<Func<TQueryModel, bool>> upsertFilter)
+        where TQueryModel : IQueryModel
     {
-        var collection = GetCollection<T>();
+        var collection = GetCollection<TQueryModel>();
 
         // ReplaceOptions:
         // Se o documento existir, será substituído.
@@ -51,9 +53,10 @@ public class ReadDbContext
             .ExecuteAsync(async () => await collection.ReplaceOneAsync(upsertFilter, queryModel, replaceOptions));
     }
 
-    public async Task DeleteAsync<T>(Expression<Func<T, bool>> deleteFilter) where T : IQueryModel
+    public async Task DeleteAsync<TQueryModel>(Expression<Func<TQueryModel, bool>> deleteFilter)
+        where TQueryModel : IQueryModel
     {
-        var collection = GetCollection<T>();
+        var collection = GetCollection<TQueryModel>();
         await _mongoRetryPolicy
             .ExecuteAsync(async () => await collection.DeleteOneAsync(deleteFilter));
     }
@@ -66,10 +69,9 @@ public class ReadDbContext
 
         foreach (var collectionName in GetCollectionNamesFromAssembly())
         {
-            if (!collections.Any(name => name == collectionName))
+            if (!collections.Any(name => string.Equals(name, collectionName, StringComparison.Ordinal)))
             {
                 _logger.LogInformation("----- MongoDB: criando a coleção {Name}", collectionName);
-
                 await _database.CreateCollectionAsync(collectionName);
             }
             else
@@ -80,13 +82,11 @@ public class ReadDbContext
     }
 
     private static IEnumerable<string> GetCollectionNamesFromAssembly()
-    {
-        return Assembly
+        => Assembly
             .GetExecutingAssembly()
             .GetAllTypesOfInterface<IQueryModel>()
             .Select(impl => impl.Name)
             .ToList();
-    }
 
     private static AsyncRetryPolicy CreateRetryPolicy(ILogger<ReadDbContext> logger)
     {

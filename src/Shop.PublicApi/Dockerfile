@@ -18,13 +18,14 @@ COPY ["src/Shop.Infrastructure/Shop.Infrastructure.csproj", "src/Shop.Infrastruc
 COPY ["src/Shop.Domain/Shop.Domain.csproj", "src/Shop.Domain/"]
 COPY ["src/Shop.Core/Shop.Core.csproj", "src/Shop.Core/"]
 COPY ["src/Shop.Application/Shop.Application.csproj", "src/Shop.Application/"]
+COPY ["src/Shop.Query/Shop.Query.csproj", "src/Shop.Query/"]
 RUN dotnet restore "src/Shop.PublicApi/Shop.PublicApi.csproj"
 COPY . .
 WORKDIR "/src/src/Shop.PublicApi"
 RUN dotnet build "Shop.PublicApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Shop.PublicApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Shop.PublicApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

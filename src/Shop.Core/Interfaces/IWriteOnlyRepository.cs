@@ -7,21 +7,21 @@ namespace Shop.Core.Interfaces;
 /// <summary>
 /// Repositório (somente escrita).
 /// </summary>
-/// <typeparam name="T">O tipo da entidade.</typeparam>
-/// <typeparam name="TKey">O tipo da chave.</typeparam>
-public interface IWriteOnlyRepository<T, in TKey> where T : IEntity<TKey> where TKey : IEquatable<TKey>
+/// <typeparam name="TEntity">O tipo da entidade.</typeparam>
+public interface IWriteOnlyRepository<TEntity> where TEntity : IEntity<Guid>
 {
-    void Add(T entity);
-    void AddRange(IEnumerable<T> entities);
-    void Update(T entity);
-    void UpdateRange(IEnumerable<T> entities);
-    void Remove(T entity);
-    void RemoveRange(IEnumerable<T> entities);
+    void Add(TEntity entity);
+    void AddRange(IEnumerable<TEntity> entities);
+    void Update(TEntity entity);
+    void UpdateRange(IEnumerable<TEntity> entities);
+    void Remove(TEntity entity);
+    void RemoveRange(IEnumerable<TEntity> entities);
 
     /// <summary>
     /// Obtém a entidade por Id.
+    /// Utilizado somente para efetuar UPDATE ou DELETE.
     /// </summary>
     /// <param name="id">O Id.</param>
     /// <returns>A entidade se existir, caso contrário; nulo.</returns>
-    Task<T> GetByIdAsync(TKey id);
+    Task<TEntity> GetByIdAsync(Guid id);
 }

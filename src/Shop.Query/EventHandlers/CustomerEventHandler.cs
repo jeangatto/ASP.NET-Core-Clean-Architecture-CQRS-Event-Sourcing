@@ -4,8 +4,8 @@ using AutoMapper;
 using MediatR;
 using Shop.Core.Interfaces;
 using Shop.Domain.Entities.CustomerAggregate.Events;
+using Shop.Query.Abstractions;
 using Shop.Query.Application.Customer.Queries;
-using Shop.Query.Data.Context;
 using Shop.Query.QueriesModel;
 
 namespace Shop.Query.EventHandlers;
@@ -19,10 +19,13 @@ public class CustomerEventHandler :
     INotificationHandler<CustomerDeletedEvent>
 {
     private readonly IMapper _mapper;
-    private readonly ReadDbContext _readDbContext;
+    private readonly IReadDbContext _readDbContext;
     private readonly ICacheService _cacheService;
 
-    public CustomerEventHandler(IMapper mapper, ReadDbContext readDbContext, ICacheService cacheService)
+    public CustomerEventHandler(
+        IMapper mapper,
+        IReadDbContext readDbContext,
+        ICacheService cacheService)
     {
         _mapper = mapper;
         _readDbContext = readDbContext;

@@ -2,18 +2,18 @@ using System;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Shop.Query.Abstractions;
-using Shop.Query.Data.Context;
 
 namespace Shop.Query.Data.Repositories;
 
-public abstract class BaseReadOnlyRepository<T> : IReadOnlyRepository<T, Guid> where T : class, IQueryModel<Guid>
+public abstract class BaseReadOnlyRepository<TQueryModel> : IReadOnlyRepository<TQueryModel>
+    where TQueryModel : IQueryModel<Guid>
 {
-    protected readonly IMongoCollection<T> Collection;
+    protected readonly IMongoCollection<TQueryModel> Collection;
 
-    protected BaseReadOnlyRepository(ReadDbContext readDbContext)
-        => Collection = readDbContext.GetCollection<T>();
+    protected BaseReadOnlyRepository(IReadDbContext readDbContext)
+        => Collection = readDbContext.GetCollection<TQueryModel>();
 
-    public async Task<T> GetByIdAsync(Guid id)
+    public async Task<TQueryModel> GetByIdAsync(Guid id)
         => await Collection
             .Find(queryModel => queryModel.Id == id)
             .FirstOrDefaultAsync();

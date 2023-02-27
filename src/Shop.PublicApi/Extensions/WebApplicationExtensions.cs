@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shop.Infrastructure.Data.Context;
-using Shop.Query.Data.Context;
+using Shop.Query.Abstractions;
 
 namespace Shop.PublicApi.Extensions;
 
@@ -15,29 +15,32 @@ public static class WebApplicationExtensions
 {
     public static async Task MigrateAsync(this WebApplication app)
     {
-        await using var serviceScope = app.Services.CreateAsyncScope();
-        await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
-        await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
-        var readDbContext = serviceScope.ServiceProvider.GetRequiredService<ReadDbContext>();
-        var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
-
-        try
+        var serviceScope = app.Services.CreateAsyncScope();
+        await using (serviceScope)
         {
-            app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
+            await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
+            await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
+            var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
+            var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
 
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
-            mapper.ConfigurationProvider.CompileMappings();
+            try
+            {
+                app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
 
-            app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
+                mapper.ConfigurationProvider.AssertConfigurationIsValid();
+                mapper.ConfigurationProvider.CompileMappings();
 
-            await app.MigrateDbContextAsync(writeDbContext);
-            await app.MigrateDbContextAsync(eventStoreDbContext);
-            await app.MigrateMongoDbContextAsync(readDbContext);
-        }
-        catch (Exception ex)
-        {
-            app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
-            throw;
+                app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
+
+                await app.MigrateDbContextAsync(writeDbContext);
+                await app.MigrateDbContextAsync(eventStoreDbContext);
+                await app.MigrateMongoDbContextAsync(readDbContext);
+            }
+            catch (Exception ex)
+            {
+                app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
+                throw;
+            }
         }
     }
 
@@ -63,7 +66,7 @@ public static class WebApplicationExtensions
         }
     }
 
-    private static async Task MigrateMongoDbContextAsync(this WebApplication app, ReadDbContext readDbContext)
+    private static async Task MigrateMongoDbContextAsync(this WebApplication app, IReadDbContext readDbContext)
     {
         app.Logger.LogInformation("----- MongoDB: {Connection}", readDbContext.ConnectionString);
         app.Logger.LogInformation("----- MongoDB: criando as coleções...");
