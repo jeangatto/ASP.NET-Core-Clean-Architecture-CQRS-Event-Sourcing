@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Shop.Core.Abstractions;
@@ -6,7 +7,7 @@ namespace Shop.Core.Abstractions;
 /// Unidade de Trabalho.
 /// Responsável por salvar as alterações na base de escrita e disparar os eventos.
 /// </summary>
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
     Task SaveChangesAsync();
 }

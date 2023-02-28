@@ -8,7 +8,8 @@ namespace Shop.Core.Abstractions;
 /// Repositório (somente escrita).
 /// </summary>
 /// <typeparam name="TEntity">O tipo da entidade.</typeparam>
-public interface IWriteOnlyRepository<TEntity> where TEntity : IEntity<Guid>
+public interface IWriteOnlyRepository<TEntity> : IDisposable
+    where TEntity : IEntity<Guid>
 {
     void Add(TEntity entity);
     void AddRange(IEnumerable<TEntity> entities);

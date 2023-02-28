@@ -10,10 +10,14 @@ namespace Shop.Infrastructure.Data.Repositories;
 public abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity>
     where TEntity : class, IEntity<Guid>
 {
+    private readonly WriteDbContext _context;
     protected readonly DbSet<TEntity> DbSet;
 
     protected BaseWriteOnlyRepository(WriteDbContext context)
-        => DbSet = context.Set<TEntity>();
+    {
+        _context = context;
+        DbSet = context.Set<TEntity>();
+    }
 
     public void Add(TEntity entity)
         => DbSet.Add(entity);
@@ -35,4 +39,35 @@ public abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TE
 
     public async Task<TEntity> GetByIdAsync(Guid id)
         => await DbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id);
+
+    #region IDisposable
+
+    // To detect redundant calls.
+    private bool _disposed;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    ~BaseWriteOnlyRepository()
+        => Dispose(false);
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    // Protected implementation of Dispose pattern.
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        // Dispose managed state (managed objects).
+        if (disposing)
+            _context.Dispose();
+
+        _disposed = true;
+    }
+
+    #endregion
 }

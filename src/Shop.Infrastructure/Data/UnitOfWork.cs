@@ -126,4 +126,38 @@ public class UnitOfWork : IUnitOfWork
             await _eventStoreRepository.StoreAsync(eventStores);
         }
     }
+
+    #region IDisposable
+
+    // To detect redundant calls.
+    private bool _disposed;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    ~UnitOfWork()
+        => Dispose(false);
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    // Protected implementation of Dispose pattern.
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        // Dispose managed state (managed objects).
+        if (disposing)
+        {
+            _writeDbContext.Dispose();
+            _eventStoreRepository.Dispose();
+        }
+
+        _disposed = true;
+    }
+
+    #endregion
 }

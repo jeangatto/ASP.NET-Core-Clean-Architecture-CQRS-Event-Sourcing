@@ -7,7 +7,8 @@ namespace Shop.Query.Abstractions;
 /// Repositório (somente leitura).
 /// </summary>
 /// <typeparam name="TQueryModel">O tipo do modelo da query.</typeparam>
-public interface IReadOnlyRepository<TQueryModel> where TQueryModel : IQueryModel<Guid>
+public interface IReadOnlyRepository<TQueryModel> : IDisposable
+    where TQueryModel : IQueryModel<Guid>
 {
     /// <summary>
     /// Obtém o modelo da query por Id.

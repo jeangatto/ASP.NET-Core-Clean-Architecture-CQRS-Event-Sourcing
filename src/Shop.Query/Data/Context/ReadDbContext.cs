@@ -108,4 +108,34 @@ public class ReadDbContext : IReadDbContext
               return sleepDuration;
           }, (ex, _) => logger.LogError(ex, "Ocorreu uma exceção não esperada ao salvar no MongoDB: {Message}", ex.Message));
     }
+
+    #region IDisposable
+
+    // To detect redundant calls.
+    private bool _disposed;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    ~ReadDbContext()
+        => Dispose(false);
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    // Protected implementation of Dispose pattern.
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        // Dispose managed state (managed objects).
+        if (disposing) { }
+
+        _disposed = true;
+    }
+
+    #endregion
 }

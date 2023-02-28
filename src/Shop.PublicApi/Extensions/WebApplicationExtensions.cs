@@ -15,32 +15,29 @@ public static class WebApplicationExtensions
 {
     public static async Task MigrateAsync(this WebApplication app)
     {
-        var serviceScope = app.Services.CreateAsyncScope();
-        await using (serviceScope)
+        await using var serviceScope = app.Services.CreateAsyncScope();
+        await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
+        var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
+        var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+
+        try
         {
-            await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
-            await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
-            var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
-            var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+            app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
 
-            try
-            {
-                app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
+            mapper.ConfigurationProvider.CompileMappings();
 
-                mapper.ConfigurationProvider.AssertConfigurationIsValid();
-                mapper.ConfigurationProvider.CompileMappings();
+            app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
 
-                app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
-
-                await app.MigrateDbContextAsync(writeDbContext);
-                await app.MigrateDbContextAsync(eventStoreDbContext);
-                await app.MigrateMongoDbContextAsync(readDbContext);
-            }
-            catch (Exception ex)
-            {
-                app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
-                throw;
-            }
+            await app.MigrateDbContextAsync(writeDbContext);
+            await app.MigrateDbContextAsync(eventStoreDbContext);
+            await app.MigrateMongoDbContextAsync(readDbContext);
+        }
+        catch (Exception ex)
+        {
+            app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
+            throw;
         }
     }
 

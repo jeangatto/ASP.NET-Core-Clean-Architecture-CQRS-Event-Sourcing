@@ -27,7 +27,7 @@ public class CustomersController : ControllerBase
     /// <summary>
     /// Cadastra um novo cliente.
     /// </summary>
-    /// <param name="command">A requisição.</param>
+    /// <param name="command"></param>
     /// <response code="200">Retorna o Id do novo cliente.</response>
     /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
     /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
@@ -43,7 +43,7 @@ public class CustomersController : ControllerBase
     /// <summary>
     /// Atualiza um cliente existente.
     /// </summary>
-    /// <param name="command">A requisição.</param>
+    /// <param name="command"></param>
     /// <response code="200">Retorna a resposta com a mensagem de sucesso.</response>
     /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
     /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
@@ -61,7 +61,7 @@ public class CustomersController : ControllerBase
     /// <summary>
     /// Deleta o cliente pelo Id.
     /// </summary>
-    /// <param name="id">O Id.</param>
+    /// <param name="id"></param>
     /// <response code="200">Retorna a resposta com a mensagem de sucesso.</response>
     /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
     /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
@@ -79,7 +79,7 @@ public class CustomersController : ControllerBase
     /// <summary>
     /// Obtém o cliente pelo Id.
     /// </summary>
-    /// <param name="id">O Id.</param>
+    /// <param name="id"></param>
     /// <response code="200">Retorna o cliente.</response>
     /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
     /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
