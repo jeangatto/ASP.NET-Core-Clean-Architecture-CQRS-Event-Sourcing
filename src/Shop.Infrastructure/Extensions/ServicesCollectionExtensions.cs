@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Core.Abstractions;
 using Shop.Core.Events;
-using Shop.Core.Interfaces;
 using Shop.Domain.Entities.CustomerAggregate.Repositories;
 using Shop.Infrastructure.Behaviors;
 using Shop.Infrastructure.Data;
@@ -9,12 +9,14 @@ using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Repositories;
 using Shop.Infrastructure.Data.Services;
 
-namespace Shop.Infrastructure;
+namespace Shop.Infrastructure.Extensions;
 
 public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddMemoryCacheService(this IServiceCollection services)
-        => services.AddScoped<ICacheService, MemoryCacheService>();
+    {
+        return services.AddScoped<ICacheService, MemoryCacheService>();
+    }
 
     public static IServiceCollection AddDistributedCacheService(this IServiceCollection services)
         => services.AddScoped<ICacheService, DistributedCacheService>();

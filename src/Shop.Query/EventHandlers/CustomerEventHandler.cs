@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Shop.Core.Interfaces;
+using Shop.Core.Abstractions;
 using Shop.Domain.Entities.CustomerAggregate.Events;
 using Shop.Query.Abstractions;
 using Shop.Query.Application.Customer.Queries;

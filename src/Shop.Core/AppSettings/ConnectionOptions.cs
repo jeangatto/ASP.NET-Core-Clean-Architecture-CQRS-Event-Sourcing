@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Shop.Core.Abstractions;
 
 namespace Shop.Core.AppSettings;
 

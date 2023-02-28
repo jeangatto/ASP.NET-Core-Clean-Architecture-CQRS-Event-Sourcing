@@ -1,8 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Core.Abstractions;
 using Shop.Core.AppSettings;
 
-namespace Shop.Core;
+namespace Shop.Core.Extensions;
 
 public static class ServicesCollectionExtensions
 {

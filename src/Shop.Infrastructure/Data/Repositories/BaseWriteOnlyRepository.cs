@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Shop.Core.Interfaces;
+using Shop.Core.Abstractions;
 using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories;

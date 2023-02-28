@@ -11,8 +11,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
-using Shop.Infrastructure;
 using Shop.Infrastructure.Data.Context;
+using Shop.Infrastructure.Extensions;
 
 namespace Shop.PublicApi.Extensions;
 

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shop.Core.Abstractions;
+using Shop.Core;
 
 namespace Shop.Infrastructure.Data.Extensions;
 

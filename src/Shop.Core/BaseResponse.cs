@@ -1,4 +1,4 @@
-namespace Shop.Core.Abstractions;
+namespace Shop.Core;
 
 /// <summary>
 /// Classe base usada pelas respostas da API.

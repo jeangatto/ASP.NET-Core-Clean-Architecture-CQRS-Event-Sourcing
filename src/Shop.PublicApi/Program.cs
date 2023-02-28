@@ -14,11 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shop.Application;
-using Shop.Core;
 using Shop.Core.Extensions;
-using Shop.Infrastructure;
+using Shop.Infrastructure.Extensions;
 using Shop.PublicApi.Extensions;
-using Shop.Query;
+using Shop.Query.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

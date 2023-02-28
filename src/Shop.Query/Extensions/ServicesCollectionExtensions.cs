@@ -10,9 +10,9 @@ using Shop.Core.Extensions;
 using Shop.Query.Abstractions;
 using Shop.Query.Data.Context;
 using Shop.Query.Data.Repositories;
-using Shop.Query.Data.Repositories.Interfaces;
+using Shop.Query.Data.Repositories.Abstractions;
 
-namespace Shop.Query;
+namespace Shop.Query.Extensions;
 
 public static class ServicesCollectionExtensions
 {

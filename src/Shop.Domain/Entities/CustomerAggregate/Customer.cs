@@ -1,6 +1,6 @@
 using System;
+using Shop.Core;
 using Shop.Core.Abstractions;
-using Shop.Core.Interfaces;
 using Shop.Domain.Entities.CustomerAggregate.Events;
 using Shop.Domain.ValueObjects;
 

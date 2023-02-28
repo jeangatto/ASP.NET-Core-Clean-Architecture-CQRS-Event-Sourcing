@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using MediatR;
-using Shop.Core.Interfaces;
+using Shop.Core.Abstractions;
 using Shop.Query.Application.Customer.Queries;
-using Shop.Query.Data.Repositories.Interfaces;
+using Shop.Query.Data.Repositories.Abstractions;
 using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Application.Customer.Handlers;

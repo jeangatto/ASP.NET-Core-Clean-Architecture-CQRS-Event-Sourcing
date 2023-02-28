@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Shop.Core.Interfaces;
+namespace Shop.Core.Abstractions;
 
 /// <summary>
 /// Repositório (somente escrita).

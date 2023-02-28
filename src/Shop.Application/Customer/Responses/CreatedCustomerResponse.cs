@@ -1,5 +1,5 @@
 using System;
-using Shop.Core.Abstractions;
+using Shop.Core;
 
 namespace Shop.Application.Customer.Responses;
 

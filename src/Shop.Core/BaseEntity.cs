@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Shop.Core.Abstractions;
 using Shop.Core.Events;
-using Shop.Core.Interfaces;
 
-namespace Shop.Core.Abstractions;
+namespace Shop.Core;
 
 /// <summary>
 /// Classe base que contém os comportamentos de uma entidade.

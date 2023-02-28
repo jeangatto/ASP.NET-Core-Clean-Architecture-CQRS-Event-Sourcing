@@ -1,5 +1,3 @@
-using Shop.Core.Abstractions;
-
 namespace Shop.Core.AppSettings;
 
 public sealed class CacheOptions : BaseOptions
