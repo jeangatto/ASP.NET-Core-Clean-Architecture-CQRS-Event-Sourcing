@@ -18,6 +18,7 @@ using Shop.Core.Extensions;
 using Shop.Infrastructure.Extensions;
 using Shop.PublicApi.Extensions;
 using Shop.Query.Extensions;
+using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +75,22 @@ builder.Services.AddShopDbContext();
 builder.Services.AddEventDbContext();
 builder.Services.AddCacheService(builder.Configuration);
 
+// MiniProfiler for .NET
+// https://miniprofiler.com/dotnet/
+builder.Services.AddMiniProfiler(options =>
+{
+    // Route: /profiler/results-index
+    options.RouteBasePath = "/profiler";
+    options.ColorScheme = ColorScheme.Dark;
+    options.EnableServerTimingHeader = true;
+
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableDebugMode = true;
+        options.TrackConnectionOpenClose = true;
+    }
+}).AddEntityFramework();
+
 // Validando os serviços adicionados no ASP.NET Core DI.
 builder.Host.UseDefaultServiceProvider((context, options) =>
 {
@@ -104,10 +121,16 @@ app.UseSwaggerUI();
 app.UseResponseCompression();
 app.UseHttpLogging();
 app.UseHttpsRedirection();
+app.UseMiniProfiler();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Logger.LogInformation("----- Iniciando a aplicação...");
+app.Logger.LogInformation("----- Migrando as bases de dados...");
+
 await app.MigrateAsync();
+
+app.Logger.LogInformation("----- Bases de dados migradas com sucesso!");
+
+app.Logger.LogInformation("----- Iniciando a aplicação...");
 await app.RunAsync();
