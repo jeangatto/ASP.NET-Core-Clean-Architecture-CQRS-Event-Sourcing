@@ -34,12 +34,16 @@ public static class ServicesCollectionExtensions
                 {
                     Name = "Jean Gatto",
                     Email = "jean_gatto@hotmail.com",
+#pragma warning disable S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
                     Url = new Uri("https://www.linkedin.com/in/jeangatto/")
+#pragma warning restore S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
                 },
                 License = new OpenApiLicense
                 {
                     Name = "MIT License",
+#pragma warning disable S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
                     Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
+#pragma warning restore S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
                 }
             });
 

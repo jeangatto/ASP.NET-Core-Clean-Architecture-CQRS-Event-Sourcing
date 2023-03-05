@@ -19,7 +19,6 @@ public class ReadDbContext : IReadDbContext
 {
     private const string DatabaseName = "Shop";
 
-    private readonly IMongoClient _client;
     private readonly IMongoDatabase _database;
     private readonly ILogger<ReadDbContext> _logger;
     private readonly AsyncRetryPolicy _mongoRetryPolicy;
@@ -28,8 +27,8 @@ public class ReadDbContext : IReadDbContext
     {
         ConnectionString = options.Value.NoSqlConnection;
 
-        _client = new MongoClient(options.Value.NoSqlConnection);
-        _database = _client.GetDatabase(DatabaseName);
+        var client = new MongoClient(options.Value.NoSqlConnection);
+        _database = client.GetDatabase(DatabaseName);
         _logger = logger;
         _mongoRetryPolicy = CreateRetryPolicy(logger);
     }
@@ -130,9 +129,6 @@ public class ReadDbContext : IReadDbContext
     {
         if (_disposed)
             return;
-
-        // Dispose managed state (managed objects).
-        if (disposing) { }
 
         _disposed = true;
     }
