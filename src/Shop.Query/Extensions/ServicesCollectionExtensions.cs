@@ -52,7 +52,7 @@ public static class ServicesCollectionExtensions
 
     private static void ApplyMongoDbMappingsFromAssembly()
     {
-        foreach (var mapping in Assembly.GetExecutingAssembly().GetAllInstacesOfInterface<IReadDbMapping>())
+        foreach (var mapping in Assembly.GetExecutingAssembly().GetAllInstacesOf<IReadDbMapping>())
         {
             mapping.Configure();
         }

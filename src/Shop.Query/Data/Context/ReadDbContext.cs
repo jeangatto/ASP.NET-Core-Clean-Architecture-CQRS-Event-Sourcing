@@ -83,7 +83,7 @@ public class ReadDbContext : IReadDbContext
     private static IEnumerable<string> GetCollectionNamesFromAssembly()
         => Assembly
             .GetExecutingAssembly()
-            .GetAllTypesOfInterface<IQueryModel>()
+            .GetAllTypesOf<IQueryModel>()
             .Select(impl => impl.Name)
             .ToList();
 

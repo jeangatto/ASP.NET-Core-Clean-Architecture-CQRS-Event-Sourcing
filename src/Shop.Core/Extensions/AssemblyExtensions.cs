@@ -7,7 +7,7 @@ namespace Shop.Core.Extensions;
 
 public static class AssemblyExtensions
 {
-    public static IEnumerable<Type> GetAllTypesOfInterface<TInterface>(this Assembly assembly)
+    public static IEnumerable<Type> GetAllTypesOf<TInterface>(this Assembly assembly)
     {
         return assembly
             .GetTypes()
@@ -15,9 +15,9 @@ public static class AssemblyExtensions
             .ToList();
     }
 
-    public static IEnumerable<TInterface> GetAllInstacesOfInterface<TInterface>(this Assembly assembly)
+    public static IEnumerable<TInterface> GetAllInstacesOf<TInterface>(this Assembly assembly)
     {
-        foreach (var impl in assembly.GetAllTypesOfInterface<TInterface>())
+        foreach (var impl in assembly.GetAllTypesOf<TInterface>())
         {
             yield return (TInterface)Activator.CreateInstance(impl);
         }
