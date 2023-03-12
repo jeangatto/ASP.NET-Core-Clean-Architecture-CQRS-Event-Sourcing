@@ -18,8 +18,6 @@ public static class AssemblyExtensions
     public static IEnumerable<TInterface> GetAllInstacesOf<TInterface>(this Assembly assembly)
     {
         foreach (var impl in assembly.GetAllTypesOf<TInterface>())
-        {
             yield return (TInterface)Activator.CreateInstance(impl);
-        }
     }
 }

@@ -101,8 +101,8 @@ public static class ServicesCollectionExtensions
         }
     }
 
-    private static bool IsInMemoryCache(this string cacheConnection)
-        => cacheConnection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
+    private static bool IsInMemoryCache(this string connection)
+        => connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 
     private static void ConfigureDbContext<TContext>(IServiceProvider serviceProvider, DbContextOptionsBuilder options)
         where TContext : DbContext

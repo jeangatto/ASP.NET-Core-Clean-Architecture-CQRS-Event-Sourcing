@@ -36,6 +36,7 @@ public class CustomerEventHandler :
     {
         var customerQueryModel = _mapper.Map<CustomerQueryModel>(notification);
         await _readDbContext.UpsertAsync(customerQueryModel, filter => filter.Id == customerQueryModel.Id);
+        await ClearCacheAsync(notification);
     }
 
     public async Task Handle(CustomerUpdatedEvent notification, CancellationToken cancellationToken)
