@@ -1,8 +1,8 @@
 using System;
-using Shop.Core;
 using Shop.Core.Abstractions;
+using Shop.Core.Common;
+using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate.Events;
-using Shop.Domain.ValueObjects;
 
 namespace Shop.Domain.Entities.CustomerAggregate;
 

@@ -1,3 +1,5 @@
+using Shop.Core.Common;
+
 namespace Shop.Core.AppSettings;
 
 public sealed class CacheOptions : BaseOptions

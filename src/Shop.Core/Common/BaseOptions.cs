@@ -1,4 +1,4 @@
-namespace Shop.Core;
+namespace Shop.Core.Common;
 
 /// <summary>
 /// Classe base usada para representar uma seção do AppSettings.

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Shop.Core.Common;
 
 namespace Shop.Core.Extensions;
 

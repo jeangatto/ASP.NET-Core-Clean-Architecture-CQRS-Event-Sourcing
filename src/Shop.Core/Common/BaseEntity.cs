@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Shop.Core.Abstractions;
 using Shop.Core.Events;
 
-namespace Shop.Core;
+namespace Shop.Core.Common;
 
 /// <summary>
 /// Classe base que contém os comportamentos de uma entidade.

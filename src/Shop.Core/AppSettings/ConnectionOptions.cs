@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Shop.Core.Common;
 
 namespace Shop.Core.AppSettings;
 

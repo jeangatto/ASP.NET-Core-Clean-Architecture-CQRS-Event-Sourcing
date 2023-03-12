@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shop.Core.ValueObjects;
+namespace Shop.Core.Common;
 
 public abstract class ValueObject
 {

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.AppSettings;
+using Shop.Core.Common;
 
 namespace Shop.Core.Extensions;
 

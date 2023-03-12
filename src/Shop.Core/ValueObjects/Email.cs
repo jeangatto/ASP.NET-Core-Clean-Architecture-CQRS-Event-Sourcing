@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Shop.Core.ValueObjects;
+using Shop.Core.Common;
 
-namespace Shop.Domain.ValueObjects;
+namespace Shop.Core.ValueObjects;
 
 public class Email : ValueObject
 {

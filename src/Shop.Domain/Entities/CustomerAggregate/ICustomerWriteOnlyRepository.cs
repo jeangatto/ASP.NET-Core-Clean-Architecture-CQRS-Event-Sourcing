@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Shop.Core.Abstractions;
-using Shop.Domain.ValueObjects;
+using Shop.Core.ValueObjects;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Repositories;
 
