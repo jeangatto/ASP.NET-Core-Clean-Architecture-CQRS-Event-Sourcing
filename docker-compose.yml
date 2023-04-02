@@ -42,7 +42,7 @@ services:
       - 1433:1433
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Sxc56Nu9V
+      - SA_PASSWORD=pMA63033n6tF
     networks:
       - app-network
 
@@ -62,7 +62,7 @@ services:
   redis:
     image: redis:latest
     container_name: redis
-    command: redis-server --requirepass Sxc56Nu9V
+    command: redis-server --requirepass pMA63033n6tF
     restart: always
     expose:
       - 6379
