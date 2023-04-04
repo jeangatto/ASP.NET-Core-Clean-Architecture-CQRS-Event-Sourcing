@@ -12,6 +12,7 @@ using Polly.Retry;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
 using Shop.Query.Abstractions;
+using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Data.Context;
 
@@ -63,8 +64,8 @@ public class ReadDbContext : IReadDbContext
     public async Task CreateCollectionsAsync()
     {
         // Obtendo as coleções existentes da base.
-        using var asynCursor = await _database.ListCollectionNamesAsync();
-        var collections = await asynCursor.ToListAsync();
+        using var asyncCursor = await _database.ListCollectionNamesAsync();
+        var collections = await asyncCursor.ToListAsync();
 
         foreach (var collectionName in GetCollectionNamesFromAssembly())
         {
@@ -78,6 +79,26 @@ public class ReadDbContext : IReadDbContext
                 _logger.LogInformation("----- MongoDB: a coleção {Name} já existe", collectionName);
             }
         }
+
+        await CreateIndexAsync();
+    }
+
+    private async Task CreateIndexAsync()
+    {
+        var indexDefinition = Builders<CustomerQueryModel>.IndexKeys.Ascending(model => model.Email);
+
+        var indexModel = new CreateIndexModel<CustomerQueryModel>(indexDefinition, new CreateIndexOptions
+        {
+            // Restrição Exclusiva
+            Unique = true,
+
+            // Índices esparsos são como índices não esparsos, exceto que eles omitem referências a documentos que não incluem o campo indexado.
+            // Para campos que estão presentes apenas em alguns documentos, índices esparsos podem fornecer uma economia significativa de espaço.
+            Sparse = true
+        });
+
+        var collection = GetCollection<CustomerQueryModel>();
+        await collection.Indexes.CreateOneAsync(indexModel);
     }
 
     private static IEnumerable<string> GetCollectionNamesFromAssembly()
