@@ -27,7 +27,7 @@ public class Customer : BaseEntity, IAggregateRoot
         Email = email;
         DateOfBirth = dateOfBirth;
 
-        // Adicionando a nova instãncia nos eventos de domínio.
+        // Adicionando a nova instancia nos eventos de domínio.
         AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email.Address, dateOfBirth));
     }
 
