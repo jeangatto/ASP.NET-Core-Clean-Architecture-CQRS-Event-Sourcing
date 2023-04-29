@@ -19,7 +19,7 @@ namespace Shop.UnitTests.Application.Customer.Handlers;
 public class CreateCustomerCommandHandlerTests
 {
     [Fact]
-    public async Task Add_ValidCommand_ReturnsSuccessResult()
+    public async Task Add_ValidCommand_ShouldReturnsSuccessResult()
     {
         // Arrange
         var command = new Faker<CreateCustomerCommand>()
@@ -37,21 +37,19 @@ public class CreateCustomerCommandHandlerTests
             .Verifiable();
 
         repositoryMock
-            .Setup(s => s.Add(It.Is<Domain.Entities.CustomerAggregate.Customer>(c => c.FirstName == command.FirstName
-                && c.LastName == command.LastName
-                && c.Gender == command.Gender
-                && c.Email.Address == command.Email
-                && c.DateOfBirth == command.DateOfBirth)))
+            .Setup(s => s.Add(It.Is<Domain.Entities.CustomerAggregate.Customer>(entity =>
+                entity.FirstName == command.FirstName
+                && entity.LastName == command.LastName
+                && entity.Gender == command.Gender
+                && entity.Email.Address == command.Email
+                && entity.DateOfBirth == command.DateOfBirth)))
             .Verifiable();
 
-        var unitOfWorkMock = new Mock<IUnitOfWork>();
-        unitOfWorkMock
-            .Setup(s => s.SaveChangesAsync())
-            .Returns(Task.CompletedTask)
-            .Verifiable();
+        var uowMock = new Mock<IUnitOfWork>();
+        uowMock.Setup(s => s.SaveChangesAsync()).Returns(Task.CompletedTask).Verifiable();
 
         var validator = new CreateCustomerCommandValidator();
-        var handler = new CreateCustomerCommandHandler(validator, repositoryMock.Object, unitOfWorkMock.Object);
+        var handler = new CreateCustomerCommandHandler(validator, repositoryMock.Object, uowMock.Object);
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -65,7 +63,7 @@ public class CreateCustomerCommandHandlerTests
     }
 
     [Fact]
-    public async Task Add_DuplicateEmailCommand_ReturnsFailResult()
+    public async Task Add_DuplicateEmailCommand_ShouldReturnsFailResult()
     {
         // Arrange
         var command = new Faker<CreateCustomerCommand>()
@@ -97,7 +95,7 @@ public class CreateCustomerCommandHandlerTests
     }
 
     [Fact]
-    public async Task Add_InvalidCommand_ReturnsFailResult()
+    public async Task Add_InvalidCommand_ShouldReturnsFailResult()
     {
         // Arrange
         var validator = new CreateCustomerCommandValidator();
