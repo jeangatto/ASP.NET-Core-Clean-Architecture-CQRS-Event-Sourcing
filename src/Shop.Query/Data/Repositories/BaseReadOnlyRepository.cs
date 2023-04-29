@@ -5,7 +5,7 @@ using Shop.Query.Abstractions;
 
 namespace Shop.Query.Data.Repositories;
 
-public abstract class BaseReadOnlyRepository<TQueryModel> : IReadOnlyRepository<TQueryModel>
+internal abstract class BaseReadOnlyRepository<TQueryModel> : IReadOnlyRepository<TQueryModel>
     where TQueryModel : IQueryModel<Guid>
 {
     private readonly IReadDbContext _context;

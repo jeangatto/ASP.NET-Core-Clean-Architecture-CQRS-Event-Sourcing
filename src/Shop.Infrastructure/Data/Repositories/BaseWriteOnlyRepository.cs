@@ -7,7 +7,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-public abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity>
+internal abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity>
     where TEntity : class, IEntity<Guid>
 {
     private readonly WriteDbContext _context;

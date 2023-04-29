@@ -10,7 +10,7 @@ using Shop.Core.AppSettings;
 
 namespace Shop.Infrastructure.Data.Services;
 
-public class MemoryCacheService : ICacheService
+internal class MemoryCacheService : ICacheService
 {
     private readonly IMemoryCache _memoryCache;
     private readonly ILogger<MemoryCacheService> _logger;

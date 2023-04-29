@@ -12,7 +12,7 @@ using Shop.Core.Extensions;
 
 namespace Shop.Infrastructure.Data.Services;
 
-public class DistributedCacheService : ICacheService
+internal class DistributedCacheService : ICacheService
 {
     private readonly IDistributedCache _distributedCache;
     private readonly ILogger<DistributedCacheService> _logger;

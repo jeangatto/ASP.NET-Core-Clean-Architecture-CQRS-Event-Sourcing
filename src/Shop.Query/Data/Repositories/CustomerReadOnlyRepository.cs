@@ -7,7 +7,7 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Data.Repositories;
 
-public class CustomerReadOnlyRepository : BaseReadOnlyRepository<CustomerQueryModel>, ICustomerReadOnlyRepository
+internal class CustomerReadOnlyRepository : BaseReadOnlyRepository<CustomerQueryModel>, ICustomerReadOnlyRepository
 {
     public CustomerReadOnlyRepository(IReadDbContext readDbContext) : base(readDbContext) { }
 

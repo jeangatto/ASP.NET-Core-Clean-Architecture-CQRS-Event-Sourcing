@@ -6,7 +6,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-public class EventStoreRepository : IEventStoreRepository
+internal class EventStoreRepository : IEventStoreRepository
 {
     private readonly EventStoreDbContext _context;
 

@@ -14,7 +14,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;
 
-public class UnitOfWork : IUnitOfWork
+internal class UnitOfWork : IUnitOfWork
 {
     private readonly WriteDbContext _writeDbContext;
     private readonly IEventStoreRepository _eventStoreRepository;
