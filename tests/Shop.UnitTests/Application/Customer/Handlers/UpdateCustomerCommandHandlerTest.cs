@@ -12,6 +12,7 @@ using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.Entities.CustomerAggregate.Repositories;
 using Xunit;
 using Xunit.Categories;
+using CustomerAggregate = Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.UnitTests.Application.Customer.Handlers;
 
@@ -22,8 +23,8 @@ public class UpdateCustomerCommandHandlerTest
     public async Task Update_ValidCommand_ShouldReturnsSuccessResult()
     {
         // Arrange
-        var customerEntity = new Faker<Domain.Entities.CustomerAggregate.Customer>()
-            .CustomInstantiator(faker => new Domain.Entities.CustomerAggregate.Customer(
+        var customerEntity = new Faker<CustomerAggregate.Customer>()
+            .CustomInstantiator(faker => new CustomerAggregate.Customer(
                 faker.Person.FirstName,
                 faker.Person.LastName,
                 faker.PickRandom<EGender>(),
@@ -70,8 +71,8 @@ public class UpdateCustomerCommandHandlerTest
     public async Task Update_DuplicateEmailCommand_ShouldReturnsFailResult()
     {
         // Arrange
-        var customerEntity = new Faker<Domain.Entities.CustomerAggregate.Customer>()
-            .CustomInstantiator(faker => new Domain.Entities.CustomerAggregate.Customer(
+        var customerEntity = new Faker<CustomerAggregate.Customer>()
+            .CustomInstantiator(faker => new CustomerAggregate.Customer(
                 faker.Person.FirstName,
                 faker.Person.LastName,
                 faker.PickRandom<EGender>(),
@@ -125,7 +126,7 @@ public class UpdateCustomerCommandHandlerTest
         var repositoryMock = new Mock<ICustomerWriteOnlyRepository>();
         repositoryMock
             .Setup(s => s.GetByIdAsync(It.Is<Guid>(id => id == command.Id)))
-            .ReturnsAsync((Domain.Entities.CustomerAggregate.Customer)null)
+            .ReturnsAsync((CustomerAggregate.Customer)null)
             .Verifiable();
 
         var handler = new UpdateCustomerCommandHandler(

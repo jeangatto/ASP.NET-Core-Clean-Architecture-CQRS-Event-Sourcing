@@ -3,7 +3,7 @@ using Shop.Core.Common;
 
 namespace Shop.Core.ValueObjects;
 
-public class Email : ValueObject
+public sealed class Email : ValueObject
 {
     public Email(string address)
         => Address = address.Trim().ToLowerInvariant();

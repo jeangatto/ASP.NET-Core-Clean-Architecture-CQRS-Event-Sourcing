@@ -12,6 +12,7 @@ using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.Entities.CustomerAggregate.Repositories;
 using Xunit;
 using Xunit.Categories;
+using CustomerAggregate = Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.UnitTests.Application.Customer.Handlers;
 
@@ -37,7 +38,7 @@ public class CreateCustomerCommandHandlerTests
             .Verifiable();
 
         repositoryMock
-            .Setup(s => s.Add(It.Is<Domain.Entities.CustomerAggregate.Customer>(entity =>
+            .Setup(s => s.Add(It.Is<CustomerAggregate.Customer>(entity =>
                 entity.FirstName == command.FirstName
                 && entity.LastName == command.LastName
                 && entity.Gender == command.Gender
