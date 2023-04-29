@@ -23,12 +23,12 @@ public class DeleteCustomerCommandHandlerTests
     {
         // Arrange
         var customerEntity = new Faker<Domain.Entities.CustomerAggregate.Customer>()
-            .CustomInstantiator(f => new Domain.Entities.CustomerAggregate.Customer(
-                f.Person.FirstName,
-                f.Person.LastName,
-                f.PickRandom<EGender>(),
-                new Email(f.Person.Email),
-                f.Person.DateOfBirth))
+            .CustomInstantiator(faker => new Domain.Entities.CustomerAggregate.Customer(
+                faker.Person.FirstName,
+                faker.Person.LastName,
+                faker.PickRandom<EGender>(),
+                new Email(faker.Person.Email),
+                faker.Person.DateOfBirth))
             .Generate();
 
         var command = new DeleteCustomerCommand(customerEntity.Id);

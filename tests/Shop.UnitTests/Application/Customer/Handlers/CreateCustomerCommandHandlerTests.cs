@@ -48,8 +48,10 @@ public class CreateCustomerCommandHandlerTests
         var uowMock = new Mock<IUnitOfWork>();
         uowMock.Setup(s => s.SaveChangesAsync()).Returns(Task.CompletedTask).Verifiable();
 
-        var validator = new CreateCustomerCommandValidator();
-        var handler = new CreateCustomerCommandHandler(validator, repositoryMock.Object, uowMock.Object);
+        var handler = new CreateCustomerCommandHandler(
+            new CreateCustomerCommandValidator(),
+            repositoryMock.Object,
+            uowMock.Object);
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -80,8 +82,10 @@ public class CreateCustomerCommandHandlerTests
             .ReturnsAsync(true)
             .Verifiable();
 
-        var validator = new CreateCustomerCommandValidator();
-        var handler = new CreateCustomerCommandHandler(validator, repositoryMock.Object, Mock.Of<IUnitOfWork>());
+        var handler = new CreateCustomerCommandHandler(
+            new CreateCustomerCommandValidator(),
+            repositoryMock.Object,
+            Mock.Of<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -98,8 +102,10 @@ public class CreateCustomerCommandHandlerTests
     public async Task Add_InvalidCommand_ShouldReturnsFailResult()
     {
         // Arrange
-        var validator = new CreateCustomerCommandValidator();
-        var handler = new CreateCustomerCommandHandler(validator, Mock.Of<ICustomerWriteOnlyRepository>(), Mock.Of<IUnitOfWork>());
+        var handler = new CreateCustomerCommandHandler(
+            new CreateCustomerCommandValidator(),
+            Mock.Of<ICustomerWriteOnlyRepository>(),
+            Mock.Of<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(new CreateCustomerCommand(), CancellationToken.None);
