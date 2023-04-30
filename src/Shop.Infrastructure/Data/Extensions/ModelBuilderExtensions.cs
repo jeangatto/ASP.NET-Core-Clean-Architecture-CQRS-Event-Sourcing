@@ -14,7 +14,8 @@ public static class ModelBuilderExtensions
         var foreignKeys = modelBuilder.Model
             .GetEntityTypes()
             .SelectMany(entity => entity.GetForeignKeys())
-            .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+            .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
+            .ToList();
 
         foreach (var fk in foreignKeys)
             fk.DeleteBehavior = DeleteBehavior.Restrict;

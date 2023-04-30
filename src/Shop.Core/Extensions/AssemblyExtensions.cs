@@ -9,9 +9,10 @@ public static class AssemblyExtensions
 {
     public static IEnumerable<Type> GetAllTypesOf<TInterface>(this Assembly assembly)
     {
+        var isAssignableToTInterface = typeof(TInterface).IsAssignableFrom;
         return assembly
             .GetTypes()
-            .Where(t => typeof(TInterface).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && !t.IsInterface)
+            .Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && isAssignableToTInterface(t))
             .ToList();
     }
 
