@@ -1,4 +1,5 @@
 using System.Reflection;
+using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +21,12 @@ public static class ServicesCollectionExtensions
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
         services.AddMediatR(executingAssembly);
-        services.AddAutoMapper(executingAssembly);
-        services.AddValidatorsFromAssemblies(new[] { executingAssembly });
+
+        // Add AutoMapper as a singleton instance
+        services.AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(executingAssembly))));
+
+        // Use AddValidatorsFromAssembly instead of AddValidatorsFromAssemblies
+        services.AddValidatorsFromAssembly(executingAssembly);
 
         services.AddScoped<IReadDbContext, ReadDbContext>();
         services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();

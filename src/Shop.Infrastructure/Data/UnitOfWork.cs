@@ -113,18 +113,13 @@ internal class UnitOfWork : IUnitOfWork
 
     private async Task AfterSaveChangesAsync(IEnumerable<Event> domainEvents, IEnumerable<EventStore> eventStores)
     {
-        if (domainEvents.Any() && eventStores.Any())
-        {
-            // Agrupando todos os eventos em uma lista de Task's.
-            var tasks = domainEvents
-                .Select((@event) => _mediator.Publish(@event));
+        if (!domainEvents.Any() || !eventStores.Any())
+            return;
 
-            // Disparando as notificações.
-            await Task.WhenAll(tasks);
+        var tasks = domainEvents.AsParallel().Select(@event => _mediator.Publish(@event)).ToList();
+        await Task.WhenAll(tasks);
 
-            // Salvando os eventos.
-            await _eventStoreRepository.StoreAsync(eventStores);
-        }
+        await _eventStoreRepository.StoreAsync(eventStores);
     }
 
     #region IDisposable
