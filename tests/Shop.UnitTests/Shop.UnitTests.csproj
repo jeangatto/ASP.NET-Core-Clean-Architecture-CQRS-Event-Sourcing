@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="coverlet.collector" Version="3.2.0">
       <PrivateAssets>all</PrivateAssets>
@@ -42,6 +43,8 @@
     <ProjectReference Include="..\..\src\Shop.Domain\Shop.Domain.csproj" />
     <ProjectReference Include="..\..\src\Shop.Core\Shop.Core.csproj" />
     <ProjectReference Include="..\..\src\Shop.Application\Shop.Application.csproj" />
+    <ProjectReference Include="..\..\src\Shop.PublicApi\Shop.PublicApi.csproj" />
+    <ProjectReference Include="..\..\src\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
 
   <ItemGroup>

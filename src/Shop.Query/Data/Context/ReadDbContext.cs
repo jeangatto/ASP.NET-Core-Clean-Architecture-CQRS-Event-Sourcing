@@ -19,6 +19,7 @@ namespace Shop.Query.Data.Context;
 public class ReadDbContext : IReadDbContext
 {
     private const string DatabaseName = "Shop";
+    private static readonly Random Rnd = new();
 
     private readonly IMongoDatabase _database;
     private readonly ILogger<ReadDbContext> _logger;
@@ -114,14 +115,12 @@ public class ReadDbContext : IReadDbContext
           .Handle<MongoException>()
           .WaitAndRetryAsync(2, (retryAttempt) =>
           {
-              var jitterer = new Random();
-
               // Retry with jitter
               // A well-known retry strategy is exponential backoff, allowing retries to be made initially quickly,
               // but then at progressively longer intervals: for example, after 2, 4, 8, 15, then 30 seconds.
               // REF: https://github.com/App-vNext/Polly/wiki/Retry-with-jitter#simple-jitter
               var sleepDuration
-                = TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000));
+                = TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(Rnd.Next(0, 1000));
 
               logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
 

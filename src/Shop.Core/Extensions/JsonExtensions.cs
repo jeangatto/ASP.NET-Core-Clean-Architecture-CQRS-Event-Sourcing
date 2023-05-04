@@ -32,14 +32,14 @@ public static class JsonExtensions
     public static string ToJson<T>(this T value)
         => value != null ? JsonConvert.SerializeObject(value, JsonSettings) : default;
 
-    public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
+    public static JsonSerializerSettings Configure(this JsonSerializerSettings jsonSettings)
     {
-        settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
-        settings.NullValueHandling = NullValueHandling.Ignore;
-        settings.Formatting = Formatting.None;
-        settings.ContractResolver = ContractResolver;
-        settings.Converters.Add(EnumConverter);
-        return settings;
+        jsonSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        jsonSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+        jsonSettings.NullValueHandling = NullValueHandling.Ignore;
+        jsonSettings.Formatting = Formatting.None;
+        jsonSettings.ContractResolver = ContractResolver;
+        jsonSettings.Converters.Add(EnumConverter);
+        return jsonSettings;
     }
 }

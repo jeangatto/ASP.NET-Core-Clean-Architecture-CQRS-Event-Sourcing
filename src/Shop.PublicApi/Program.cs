@@ -132,5 +132,4 @@ await app.MigrateAsync();
 
 app.Logger.LogInformation("----- Bases de dados migradas com sucesso!");
 
-app.Logger.LogInformation("----- Iniciando a aplicação...");
 await app.RunAsync();
