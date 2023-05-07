@@ -16,7 +16,7 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Data.Context;
 
-public class ReadDbContext : IReadDbContext
+public sealed class ReadDbContext : IReadDbContext
 {
     private const string DatabaseName = "Shop";
     private static readonly Random Rnd = new();
@@ -127,31 +127,4 @@ public class ReadDbContext : IReadDbContext
               return sleepDuration;
           }, (ex, _) => logger.LogError(ex, "Ocorreu uma exceção não esperada ao salvar no MongoDB: {Message}", ex.Message));
     }
-
-    #region IDisposable
-
-    // To detect redundant calls.
-    private bool _disposed;
-
-    // Public implementation of Dispose pattern callable by consumers.
-    ~ReadDbContext()
-        => Dispose(false);
-
-    // Public implementation of Dispose pattern callable by consumers.
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    // Protected implementation of Dispose pattern.
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposed)
-            return;
-
-        _disposed = true;
-    }
-
-    #endregion
 }

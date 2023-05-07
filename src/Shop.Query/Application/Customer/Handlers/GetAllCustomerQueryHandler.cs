@@ -14,6 +14,7 @@ public class GetAllCustomerQueryHandler : IRequestHandler<GetAllCustomerQuery, R
 {
     private readonly ICustomerReadOnlyRepository _readOnlyRepository;
     private readonly ICacheService _cacheService;
+    private const string CacheKey = nameof(GetAllCustomerQuery);
 
     public GetAllCustomerQueryHandler(ICustomerReadOnlyRepository repository, ICacheService cacheService)
     {
@@ -22,8 +23,5 @@ public class GetAllCustomerQueryHandler : IRequestHandler<GetAllCustomerQuery, R
     }
 
     public async Task<Result<IEnumerable<CustomerQueryModel>>> Handle(GetAllCustomerQuery request, CancellationToken cancellationToken)
-    {
-        const string cacheKey = nameof(GetAllCustomerQuery);
-        return Result.Success(await _cacheService.GetOrCreateAsync(cacheKey, _readOnlyRepository.GetAllAsync));
-    }
+        => Result.Success(await _cacheService.GetOrCreateAsync(CacheKey, _readOnlyRepository.GetAllAsync));
 }

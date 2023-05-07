@@ -5,5 +5,5 @@ namespace Shop.Query.QueriesModel;
 
 public abstract class BaseQueryModel : IQueryModel<Guid>
 {
-    public Guid Id { get; private init; } = Guid.NewGuid();
+    public Guid Id { get; } = Guid.NewGuid();
 }

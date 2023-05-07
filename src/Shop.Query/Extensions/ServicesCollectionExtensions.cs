@@ -31,10 +31,10 @@ public static class ServicesCollectionExtensions
         services.AddScoped<IReadDbContext, ReadDbContext>();
         services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
-        ConfigureMongoDB();
+        ConfigureMongoDb();
     }
 
-    private static void ConfigureMongoDB()
+    private static void ConfigureMongoDb()
     {
         // Passo 1º: Configurar o tipo do serializador de Guid.
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));

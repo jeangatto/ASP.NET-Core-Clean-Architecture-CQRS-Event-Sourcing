@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace Shop.Query.Abstractions;
 
-public interface IReadDbContext : IDisposable
+public interface IReadDbContext
 {
     string ConnectionString { get; }
     IMongoCollection<TQueryModel> GetCollection<TQueryModel>() where TQueryModel : IQueryModel;

@@ -6,7 +6,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-internal class EventStoreRepository : IEventStoreRepository
+internal sealed class EventStoreRepository : IEventStoreRepository
 {
     private readonly EventStoreDbContext _context;
 
@@ -36,7 +36,7 @@ internal class EventStoreRepository : IEventStoreRepository
     }
 
     // Protected implementation of Dispose pattern.
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (_disposed)
             return;

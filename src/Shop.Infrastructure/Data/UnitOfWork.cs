@@ -14,7 +14,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;
 
-internal class UnitOfWork : IUnitOfWork
+internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly WriteDbContext _writeDbContext;
     private readonly IEventStoreRepository _eventStoreRepository;
@@ -41,7 +41,7 @@ internal class UnitOfWork : IUnitOfWork
         // Executando a estratégia.
         await strategy.ExecuteAsync(async () =>
         {
-            using var transaction
+            await using var transaction
                 = await _writeDbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
             _logger.LogInformation("----- Begin transaction: '{TransactionId}'", transaction.TransactionId);
@@ -86,27 +86,14 @@ internal class UnitOfWork : IUnitOfWork
             .Where(entry => entry.Entity.DomainEvents.Any())
             .ToList();
 
-        var domainEvents = new List<Event>();
-        var eventStores = new List<EventStore>();
+        var domainEvents = domainEntities
+            .SelectMany(entry => entry.Entity.DomainEvents)
+            .ToList();
 
-        if (domainEntities.Any())
-        {
-            domainEvents = domainEntities
-                .SelectMany(entry => entry.Entity.DomainEvents)
-                .ToList();
+        var eventStores = domainEvents
+            .ConvertAll(@event => new EventStore(@event.AggregateId, @event.GetGenericTypeName(), @event.ToJson()));
 
-            foreach (var @event in domainEvents)
-            {
-                var aggregateId = @event.AggregateId;
-                var messageType = @event.GetGenericTypeName();
-                var data = @event.ToJson();
-                eventStores.Add(new EventStore(aggregateId, messageType, data));
-            }
-
-            // Limpando os eventos das entidades.
-            domainEntities
-                .ForEach(entry => entry.Entity.ClearDomainEvents());
-        }
+        domainEntities.ForEach(entry => entry.Entity.ClearDomainEvents());
 
         return (domainEvents, eventStores);
     }
@@ -139,7 +126,7 @@ internal class UnitOfWork : IUnitOfWork
     }
 
     // Protected implementation of Dispose pattern.
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (_disposed)
             return;
