@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
-using Shop.Domain.Entities.CustomerAggregate.Repositories;
 using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories;

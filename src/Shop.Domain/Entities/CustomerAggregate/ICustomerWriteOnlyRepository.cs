@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Shop.Core.Abstractions;
 using Shop.Core.ValueObjects;
 
-namespace Shop.Domain.Entities.CustomerAggregate.Repositories;
+namespace Shop.Domain.Entities.CustomerAggregate;
 
 public interface ICustomerWriteOnlyRepository : IWriteOnlyRepository<Customer>
 {

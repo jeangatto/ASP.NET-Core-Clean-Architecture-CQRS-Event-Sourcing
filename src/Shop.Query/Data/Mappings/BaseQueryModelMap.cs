@@ -2,7 +2,7 @@ using MongoDB.Bson.Serialization;
 using Shop.Query.Abstractions;
 using Shop.Query.QueriesModel;
 
-namespace Shop.Infrastructure.Data.Mappings.ReadOnly;
+namespace Shop.Query.Data.Mappings;
 
 public class BaseQueryModelMap : IReadDbMapping
 {

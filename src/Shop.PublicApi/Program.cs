@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.IO.Compression;
+using AutoMapper;
 using FluentValidation;
 using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
@@ -9,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -126,10 +126,25 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+await using var serviceScope = app.Services.CreateAsyncScope();
+var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+
+app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
+
+// Dry run all configured type maps and throw AutoMapper.AutoMapperConfigurationException for each problem.
+mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
+// Compile all underlying mapping expressions to cached delegates.
+mapper.ConfigurationProvider.CompileMappings();
+
+app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
+
 app.Logger.LogInformation("----- Migrando as bases de dados...");
 
-await app.MigrateAsync();
+await app.MigrateDbAsync(serviceScope);
 
 app.Logger.LogInformation("----- Bases de dados migradas com sucesso!");
+
+app.Logger.LogInformation("----- Iniciando aplicação...");
 
 await app.RunAsync();

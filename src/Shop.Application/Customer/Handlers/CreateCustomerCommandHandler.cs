@@ -7,7 +7,7 @@ using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Responses;
 using Shop.Core.Abstractions;
 using Shop.Core.ValueObjects;
-using Shop.Domain.Entities.CustomerAggregate.Repositories;
+using Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.Application.Customer.Handlers;
 

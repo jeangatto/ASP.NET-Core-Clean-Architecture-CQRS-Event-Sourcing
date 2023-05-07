@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,23 +12,14 @@ namespace Shop.PublicApi.Extensions;
 
 public static class WebApplicationExtensions
 {
-    public static async Task MigrateAsync(this WebApplication app)
+    public static async Task MigrateDbAsync(this WebApplication app, AsyncServiceScope serviceScope)
     {
-        await using var serviceScope = app.Services.CreateAsyncScope();
         await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
         await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
         var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
-        var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
 
         try
         {
-            app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
-
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
-            mapper.ConfigurationProvider.CompileMappings();
-
-            app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
-
             await app.MigrateDbContextAsync(writeDbContext);
             await app.MigrateDbContextAsync(eventStoreDbContext);
             await app.MigrateMongoDbContextAsync(readDbContext);

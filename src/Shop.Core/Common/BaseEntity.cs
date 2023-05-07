@@ -12,7 +12,7 @@ public abstract class BaseEntity : IEntity<Guid>
 {
     private readonly List<Event> _domainEvents = new();
 
-    public Guid Id { get; private init; } = Guid.NewGuid();
+    public Guid Id { get; } = Guid.NewGuid();
 
     /// <summary>
     /// Eventos de domínio que ocorreram.
@@ -23,7 +23,7 @@ public abstract class BaseEntity : IEntity<Guid>
     /// Adicionar evento de domínio.
     /// </summary>
     /// <param name="domainEvent"></param>
-    public void AddDomainEvent(Event domainEvent) => _domainEvents.Add(domainEvent);
+    protected void AddDomainEvent(Event domainEvent) => _domainEvents.Add(domainEvent);
 
     /// <summary>
     /// Limpa os eventos de domínio.

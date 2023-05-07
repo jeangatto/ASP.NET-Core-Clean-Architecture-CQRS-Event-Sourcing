@@ -9,7 +9,6 @@ using Shop.Application.Customer.Handlers;
 using Shop.Core.Abstractions;
 using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
-using Shop.Domain.Entities.CustomerAggregate.Repositories;
 using Xunit;
 using Xunit.Categories;
 using CustomerAggregate = Shop.Domain.Entities.CustomerAggregate;

@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.Abstractions;
 using Shop.Core.Events;
-using Shop.Domain.Entities.CustomerAggregate.Repositories;
+using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Infrastructure.Behaviors;
 using Shop.Infrastructure.Data;
 using Shop.Infrastructure.Data.Context;
