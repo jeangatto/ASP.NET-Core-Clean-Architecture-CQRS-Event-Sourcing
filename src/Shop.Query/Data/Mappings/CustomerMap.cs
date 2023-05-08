@@ -28,7 +28,10 @@ public class CustomerMap : IReadDbMapping
 
             map.MapMember(customer => customer.DateOfBirth)
                 .SetIsRequired(true)
-                .SetSerializer(new DateTimeSerializer(dateOnly: true));
+                .SetSerializer(new DateTimeSerializer(true));
+
+            // Ignore
+            map.UnmapMember(m => m.FullName);
         });
     }
 }

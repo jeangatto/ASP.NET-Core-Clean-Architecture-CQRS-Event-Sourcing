@@ -12,9 +12,9 @@ namespace Shop.Infrastructure.Data.Services;
 
 internal class MemoryCacheService : ICacheService
 {
-    private readonly IMemoryCache _memoryCache;
-    private readonly ILogger<MemoryCacheService> _logger;
     private readonly MemoryCacheEntryOptions _cacheOptions;
+    private readonly ILogger<MemoryCacheService> _logger;
+    private readonly IMemoryCache _memoryCache;
 
     public MemoryCacheService(
         ILogger<MemoryCacheService> logger,
@@ -32,7 +32,7 @@ internal class MemoryCacheService : ICacheService
 
     public async Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory)
     {
-        return await _memoryCache.GetOrCreateAsync(cacheKey, async (cacheEntry) =>
+        return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
         {
             var cacheValue = cacheEntry?.Value;
             if (cacheValue != null)
@@ -52,9 +52,10 @@ internal class MemoryCacheService : ICacheService
         });
     }
 
-    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<IEnumerable<TItem>>> factory)
+    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
+        Func<Task<IEnumerable<TItem>>> factory)
     {
-        return await _memoryCache.GetOrCreateAsync(cacheKey, async (cacheEntry) =>
+        return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
         {
             var cacheValues = cacheEntry?.Value;
             if (cacheValues != null)
@@ -73,6 +74,7 @@ internal class MemoryCacheService : ICacheService
             return items;
         });
     }
+
     public Task RemoveAsync(params string[] cacheKeys)
     {
         foreach (var cacheKey in cacheKeys)

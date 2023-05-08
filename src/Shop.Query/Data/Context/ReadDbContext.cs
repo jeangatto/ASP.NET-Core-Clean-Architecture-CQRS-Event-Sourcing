@@ -21,6 +21,22 @@ public sealed class ReadDbContext : IReadDbContext
     private const string DatabaseName = "Shop";
     private static readonly Random Rnd = new();
 
+    private static readonly ReplaceOptions DefaultReplaceOptions = new()
+    {
+        // Indica se o documento deve ser inserido se ele não existir.
+        IsUpsert = true
+    };
+
+    private static readonly CreateIndexOptions DefaultCreateIndexOptions = new()
+    {
+        // Restrição Exclusiva
+        Unique = true,
+
+        // Índices esparsos são como índices não esparsos, exceto que eles omitem referências a documentos que não incluem o campo indexado.
+        // Para campos que estão presentes apenas em alguns documentos, índices esparsos podem fornecer uma economia significativa de espaço.
+        Sparse = true
+    };
+
     private readonly IMongoDatabase _database;
     private readonly ILogger<ReadDbContext> _logger;
     private readonly AsyncRetryPolicy _mongoRetryPolicy;
@@ -29,8 +45,8 @@ public sealed class ReadDbContext : IReadDbContext
     {
         ConnectionString = options.Value.NoSqlConnection;
 
-        var client = new MongoClient(options.Value.NoSqlConnection);
-        _database = client.GetDatabase(DatabaseName);
+        var mongoClient = new MongoClient(options.Value.NoSqlConnection);
+        _database = mongoClient.GetDatabase(DatabaseName);
         _logger = logger;
         _mongoRetryPolicy = CreateRetryPolicy(logger);
     }
@@ -45,13 +61,9 @@ public sealed class ReadDbContext : IReadDbContext
     {
         var collection = GetCollection<TQueryModel>();
 
-        // ReplaceOptions:
-        // Se o documento existir, será substituído.
-        // Se o documento não existir, será criado um novo.
-        var replaceOptions = new ReplaceOptions { IsUpsert = true };
-
         await _mongoRetryPolicy
-            .ExecuteAsync(async () => await collection.ReplaceOneAsync(upsertFilter, queryModel, replaceOptions));
+            .ExecuteAsync(async () =>
+                await collection.ReplaceOneAsync(upsertFilter, queryModel, DefaultReplaceOptions));
     }
 
     public async Task DeleteAsync<TQueryModel>(Expression<Func<TQueryModel, bool>> deleteFilter)
@@ -87,17 +99,7 @@ public sealed class ReadDbContext : IReadDbContext
     private async Task CreateIndexAsync()
     {
         var indexDefinition = Builders<CustomerQueryModel>.IndexKeys.Ascending(model => model.Email);
-
-        var indexModel = new CreateIndexModel<CustomerQueryModel>(indexDefinition, new CreateIndexOptions
-        {
-            // Restrição Exclusiva
-            Unique = true,
-
-            // Índices esparsos são como índices não esparsos, exceto que eles omitem referências a documentos que não incluem o campo indexado.
-            // Para campos que estão presentes apenas em alguns documentos, índices esparsos podem fornecer uma economia significativa de espaço.
-            Sparse = true
-        });
-
+        var indexModel = new CreateIndexModel<CustomerQueryModel>(indexDefinition, DefaultCreateIndexOptions);
         var collection = GetCollection<CustomerQueryModel>();
         await collection.Indexes.CreateOneAsync(indexModel);
     }
@@ -109,22 +111,25 @@ public sealed class ReadDbContext : IReadDbContext
             .Select(impl => impl.Name)
             .ToList();
 
-    private static AsyncRetryPolicy CreateRetryPolicy(ILogger<ReadDbContext> logger)
+    private static AsyncRetryPolicy CreateRetryPolicy(ILogger logger)
     {
-        return Policy
-          .Handle<MongoException>()
-          .WaitAndRetryAsync(2, (retryAttempt) =>
-          {
-              // Retry with jitter
-              // A well-known retry strategy is exponential backoff, allowing retries to be made initially quickly,
-              // but then at progressively longer intervals: for example, after 2, 4, 8, 15, then 30 seconds.
-              // REF: https://github.com/App-vNext/Polly/wiki/Retry-with-jitter#simple-jitter
-              var sleepDuration
-                = TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(Rnd.Next(0, 1000));
+        TimeSpan SleepDurationProvider(int retryAttempt)
+        {
+            // Retry with jitter
+            // A well-known retry strategy is exponential backoff, allowing retries to be made initially quickly,
+            // but then at progressively longer intervals: for example, after 2, 4, 8, 15, then 30 seconds.
+            // REF: https://github.com/App-vNext/Polly/wiki/Retry-with-jitter#simple-jitter
+            var sleepDuration = TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) +
+                                TimeSpan.FromMilliseconds(Rnd.Next(0, 1000));
 
-              logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
+            logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
 
-              return sleepDuration;
-          }, (ex, _) => logger.LogError(ex, "Ocorreu uma exceção não esperada ao salvar no MongoDB: {Message}", ex.Message));
+            return sleepDuration;
+        }
+
+        void OnRetry(Exception ex, TimeSpan _) => logger.LogError(ex,
+            "Ocorreu uma exceção não esperada ao salvar no MongoDB: {Message}", ex.Message);
+
+        return Policy.Handle<MongoException>().WaitAndRetryAsync(2, SleepDurationProvider, OnRetry);
     }
 }

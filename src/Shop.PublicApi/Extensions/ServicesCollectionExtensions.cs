@@ -53,6 +53,8 @@ public static class ServicesCollectionExtensions
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             options.IncludeXmlComments(xmlPath, true);
         });
+
+        services.AddSwaggerGenNewtonsoftSupport();
     }
 
     public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
@@ -127,9 +129,7 @@ public static class ServicesCollectionExtensions
             eventData =>
             {
                 if (eventData is not ExecutionStrategyEventData retryEventData)
-                {
                     return;
-                }
 
                 var exceptions = retryEventData.ExceptionsEncountered;
 

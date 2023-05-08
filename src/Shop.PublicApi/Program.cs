@@ -111,11 +111,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
-app.UseHealthChecks("/health", new HealthCheckOptions
-{
-    AllowCachingResponses = false,
-    ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
-});
+app.UseHealthChecks("/health",
+    new HealthCheckOptions
+    {
+        AllowCachingResponses = false,
+        ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
+    });
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseResponseCompression();

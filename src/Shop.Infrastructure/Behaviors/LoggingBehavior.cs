@@ -21,9 +21,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     {
         var commandName = request.GetGenericTypeName();
 
-        _logger.LogInformation(
-            "----- Handling command {CommandName} ({Command})",
-            commandName, request);
+        _logger.LogInformation("----- Handling command {CommandName} ({Command})", commandName, request);
 
         var timer = new Stopwatch();
         timer.Start();
@@ -32,9 +30,8 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         timer.Stop();
 
-        _logger.LogInformation(
-            "----- Command {CommandName} handled ({TimeTaken} seconds) - response: {Response} ",
-            commandName, timer.Elapsed.Seconds, response);
+        var timeTaken = timer.Elapsed.Seconds;
+        _logger.LogInformation("----- Command {CommandName} handled ({TimeTaken} seconds)", commandName, timeTaken);
 
         return response;
     }

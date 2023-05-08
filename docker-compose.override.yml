@@ -3,8 +3,6 @@ version: '3.9'
 services:
 
   shop-webapi:
-    ports:
-      - "5072:5072"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     volumes:

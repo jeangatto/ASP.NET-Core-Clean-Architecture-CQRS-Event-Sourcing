@@ -10,21 +10,10 @@ namespace Shop.Core.Extensions;
 /// </summary>
 public static class JsonExtensions
 {
-    private static readonly CamelCaseNamingStrategy NamingStrategy = new();
-    private static readonly StringEnumConverter EnumConverter = new(NamingStrategy);
-    private static readonly PrivateSetterContractResolver ContractResolver = new() { NamingStrategy = NamingStrategy };
-    private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings().Configure();
-
-    public static JsonSerializerSettings Configure(this JsonSerializerSettings jsonSettings)
-    {
-        jsonSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        jsonSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
-        jsonSettings.NullValueHandling = NullValueHandling.Ignore;
-        jsonSettings.Formatting = Formatting.None;
-        jsonSettings.ContractResolver = ContractResolver;
-        jsonSettings.Converters.Add(EnumConverter);
-        return jsonSettings;
-    }
+    private static readonly CamelCaseNamingStrategy CamelCaseNaming = new();
+    private static readonly StringEnumConverter StringEnumConverter = new(CamelCaseNaming);
+    private static readonly PrivateSetterContractResolver ContractResolver = new() { NamingStrategy = CamelCaseNaming };
+    private static readonly JsonSerializerSettings DefaultJsonSettings = new JsonSerializerSettings().Configure();
 
     /// <summary>
     /// Desserializa o JSON para o tipo especificado.
@@ -33,7 +22,7 @@ public static class JsonExtensions
     /// <param name="value">O objeto a ser desserializado.</param>
     /// <returns>O objeto desserializado da string JSON.</returns>
     public static T FromJson<T>(this string value) =>
-        value != null ? JsonConvert.DeserializeObject<T>(value, JsonSettings) : default;
+        value != null ? JsonConvert.DeserializeObject<T>(value, DefaultJsonSettings) : default;
 
     /// <summary>
     /// Serializa o objeto especificado em uma string JSON.
@@ -41,5 +30,16 @@ public static class JsonExtensions
     /// <param name="value">O objeto a ser serializado.</param>
     /// <returns>Uma representação de string JSON do objeto.</returns>
     public static string ToJson<T>(this T value) =>
-        value != null ? JsonConvert.SerializeObject(value, JsonSettings) : default;
+        value != null ? JsonConvert.SerializeObject(value, DefaultJsonSettings) : default;
+
+    public static JsonSerializerSettings Configure(this JsonSerializerSettings jsonSettings)
+    {
+        jsonSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        jsonSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+        jsonSettings.NullValueHandling = NullValueHandling.Ignore;
+        jsonSettings.Formatting = Formatting.None;
+        jsonSettings.ContractResolver = ContractResolver;
+        jsonSettings.Converters.Add(StringEnumConverter);
+        return jsonSettings;
+    }
 }

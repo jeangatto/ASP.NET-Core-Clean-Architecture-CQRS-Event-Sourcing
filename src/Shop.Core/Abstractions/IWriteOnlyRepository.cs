@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Shop.Core.Abstractions;
@@ -8,15 +7,11 @@ namespace Shop.Core.Abstractions;
 /// Repositório (somente escrita).
 /// </summary>
 /// <typeparam name="TEntity">O tipo da entidade.</typeparam>
-public interface IWriteOnlyRepository<TEntity> : IDisposable
-    where TEntity : IEntity<Guid>
+public interface IWriteOnlyRepository<TEntity> : IDisposable where TEntity : IEntity<Guid>
 {
     void Add(TEntity entity);
-    void AddRange(IEnumerable<TEntity> entities);
     void Update(TEntity entity);
-    void UpdateRange(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);
-    void RemoveRange(IEnumerable<TEntity> entities);
 
     /// <summary>
     /// Obtém a entidade por Id.

@@ -9,4 +9,6 @@ public class CustomerQueryModel : BaseQueryModel
     public string Gender { get; set; }
     public string Email { get; set; }
     public DateTime DateOfBirth { get; set; }
+
+    public string FullName => (FirstName + " " + LastName).Trim();
 }

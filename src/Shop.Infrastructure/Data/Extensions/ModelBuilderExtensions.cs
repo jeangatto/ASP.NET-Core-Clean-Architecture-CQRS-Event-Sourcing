@@ -9,7 +9,7 @@ public static class ModelBuilderExtensions
     /// Remove a delação em cascata de chaves estrangeiras (FK).
     /// </summary>
     /// <param name="modelBuilder">The model builder.</param>
-    public static ModelBuilder RemoveCascadeDeleteConvention(this ModelBuilder modelBuilder)
+    public static void RemoveCascadeDeleteConvention(this ModelBuilder modelBuilder)
     {
         var foreignKeys = modelBuilder.Model
             .GetEntityTypes()
@@ -19,7 +19,5 @@ public static class ModelBuilderExtensions
 
         foreach (var fk in foreignKeys)
             fk.DeleteBehavior = DeleteBehavior.Restrict;
-
-        return modelBuilder;
     }
 }

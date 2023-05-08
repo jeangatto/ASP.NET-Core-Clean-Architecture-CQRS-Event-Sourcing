@@ -14,5 +14,7 @@ public abstract class BaseDbContext<TContext> : DbContext
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-        => modelBuilder.UseCollation(Collation).RemoveCascadeDeleteConvention();
+        => modelBuilder
+            .UseCollation(Collation)
+            .RemoveCascadeDeleteConvention();
 }
