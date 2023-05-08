@@ -17,7 +17,7 @@ services:
     expose:
       - 5072
     ports:
-      - 5072:5072
+      - "5072:5072"
     links:
       - sqlserver
       - mongoserver
@@ -39,7 +39,7 @@ services:
     expose:
       - 1433
     ports:
-      - 1433:1433
+      - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=pMA63033n6tF
@@ -54,7 +54,7 @@ services:
     expose:
       - 27017
     ports:
-      - 27017:27017
+      - "27017:27017"
     networks:
       - app-network
 
@@ -67,6 +67,6 @@ services:
     expose:
       - 6379
     ports:
-      - 6379:6379
+      - "6379:6379"
     networks:
       - app-network

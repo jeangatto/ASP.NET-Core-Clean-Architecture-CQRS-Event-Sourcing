@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Core.Abstractions;
 using Shop.Core.AppSettings;
-using Shop.Core.Common;
 
 namespace Shop.Core.Extensions;
 
@@ -12,14 +12,13 @@ public static class ServicesCollectionExtensions
         services.AddOptionsWithValidation<CacheOptions>(CacheOptions.ConfigSectionPath);
     }
 
-    public static IServiceCollection AddOptionsWithValidation<TOptions>(this IServiceCollection services, string configSectionPath)
-        where TOptions : BaseOptions
+    private static void AddOptionsWithValidation<TOptions>(this IServiceCollection services, string configSectionPath)
+        where TOptions : class, IAppOptions
     {
-        return services
+        services
             .AddOptions<TOptions>()
             .BindConfiguration(configSectionPath, options => options.BindNonPublicProperties = true)
             .ValidateDataAnnotations()
-            .ValidateOnStart()
-            .Services;
+            .ValidateOnStart();
     }
 }

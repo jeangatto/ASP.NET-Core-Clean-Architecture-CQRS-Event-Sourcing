@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Linq;
 using Ardalis.Result;
 using Microsoft.AspNetCore.Mvc;
 using Shop.PublicApi.Models;
@@ -19,11 +19,7 @@ public static class ResultExtensions
 
     private static IActionResult ToHttpNonSuccessResult(this IResult result)
     {
-        var errors = new List<ApiError>();
-        foreach (var error in result.Errors)
-        {
-            errors.Add(new ApiError(error));
-        }
+        var errors = result.Errors.Select(error => new ApiError(error)).ToList();
 
         switch (result.Status)
         {

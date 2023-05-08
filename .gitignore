@@ -360,3 +360,4 @@ MigrationBackup/
 # JetBrains Rider
 *.sln.iml
 .idea/
+.run/*

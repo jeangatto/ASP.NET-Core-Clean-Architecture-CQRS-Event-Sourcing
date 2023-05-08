@@ -1,9 +1,9 @@
 using System;
-using Shop.Core.Common;
+using Shop.Core.Abstractions;
 
 namespace Shop.Application.Customer.Responses;
 
-public class CreatedCustomerResponse : BaseResponse
+public class CreatedCustomerResponse : IResponse
 {
     public CreatedCustomerResponse(Guid id) => Id = id;
 

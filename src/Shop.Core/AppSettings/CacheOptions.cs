@@ -1,8 +1,10 @@
-using Shop.Core.Common;
+using System.Diagnostics.CodeAnalysis;
+using Shop.Core.Abstractions;
 
 namespace Shop.Core.AppSettings;
 
-public sealed class CacheOptions : BaseOptions
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+public sealed class CacheOptions : IAppOptions
 {
     public const string ConfigSectionPath = nameof(CacheOptions);
 

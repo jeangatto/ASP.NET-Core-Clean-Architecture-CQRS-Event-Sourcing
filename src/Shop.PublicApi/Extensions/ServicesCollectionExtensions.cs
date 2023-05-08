@@ -18,8 +18,8 @@ namespace Shop.PublicApi.Extensions;
 
 public static class ServicesCollectionExtensions
 {
-    private static readonly string[] DatabaseTags = new[] { "database" };
     private const string MigrationsAssembly = "Shop.PublicApi";
+    private static readonly string[] DatabaseTags = { "database" };
 
     public static void AddSwagger(this IServiceCollection services)
     {
@@ -29,7 +29,8 @@ public static class ServicesCollectionExtensions
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
-                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture",
+                Description =
+                    "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture",
                 Contact = new OpenApiContact
                 {
                     Name = "Jean Gatto",
@@ -42,7 +43,8 @@ public static class ServicesCollectionExtensions
                 {
                     Name = "MIT License",
 #pragma warning disable S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
-                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
+                    Url = new Uri(
+                        "https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
 #pragma warning restore S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
                 }
             });
@@ -58,13 +60,15 @@ public static class ServicesCollectionExtensions
         var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
 
         var healthCheckBuilder = services
-             .AddHealthChecks()
-             .AddDbContextCheck<WriteDbContext>(tags: DatabaseTags)
-             .AddDbContextCheck<EventStoreDbContext>(tags: DatabaseTags)
-             .AddMongoDb(connectionOptions.NoSqlConnection, tags: DatabaseTags);
+            .AddHealthChecks()
+            .AddDbContextCheck<WriteDbContext>(tags: DatabaseTags)
+            .AddDbContextCheck<EventStoreDbContext>(tags: DatabaseTags)
+            .AddMongoDb(connectionOptions.NoSqlConnection, tags: DatabaseTags);
 
         if (!connectionOptions.CacheConnection.IsInMemoryCache())
+        {
             healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
+        }
     }
 
     public static void AddShopDbContext(this IServiceCollection services)
@@ -114,15 +118,18 @@ public static class ServicesCollectionExtensions
 
             // Configurando a resiliência da conexão.
             // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-            sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 3);
+            sqlServerOptions.EnableRetryOnFailure(3);
         });
 
         // Log das tentativas de repetição.
         options.LogTo(
-            filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
-            logger: eventData =>
+            (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
+            eventData =>
             {
-                if (eventData is not ExecutionStrategyEventData retryEventData) return;
+                if (eventData is not ExecutionStrategyEventData retryEventData)
+                {
+                    return;
+                }
 
                 var exceptions = retryEventData.ExceptionsEncountered;
 
@@ -136,6 +143,8 @@ public static class ServicesCollectionExtensions
         // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
         if (environment.IsDevelopment())
+        {
             options.EnableDetailedErrors().EnableSensitiveDataLogging();
+        }
     }
 }

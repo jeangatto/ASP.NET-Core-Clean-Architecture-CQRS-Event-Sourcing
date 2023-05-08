@@ -49,7 +49,7 @@ public static class WebApplicationExtensions
         }
         else
         {
-            app.Logger.LogInformation("----- {DbName}: Migrações estão em dia.", dbName);
+            app.Logger.LogInformation("----- {DbName}: Migrações estão em dia", dbName);
         }
     }
 

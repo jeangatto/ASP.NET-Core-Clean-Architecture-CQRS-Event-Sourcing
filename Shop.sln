@@ -30,6 +30,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Query", "src\Shop.Query\Shop.Query.csproj", "{C2A82AAD-0348-4B29-B7E7-E36509EE068C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{157AD845-5FAB-4FF2-9980-80FEC878701C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		docker-compose.override.yml = docker-compose.override.yml
+		.dockerignore = .dockerignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{45B3273F-DCE8-48C2-B27A-05AF1343C69C}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		.github\workflows\devskim-analysis.yml = .github\workflows\devskim-analysis.yml
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,5 +90,7 @@ Global
 		{D957E297-38EA-402F-B603-25F3EC156E18} = {DFB189FE-F11B-46EA-A5CD-3571CEC8193A}
 		{E94C4296-DC64-4C22-87A1-B5A054FAADAC} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
 		{C2A82AAD-0348-4B29-B7E7-E36509EE068C} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
+		{157AD845-5FAB-4FF2-9980-80FEC878701C} = {1DAF7B63-F776-4466-908D-56FD1FD02F42}
+		{45B3273F-DCE8-48C2-B27A-05AF1343C69C} = {1DAF7B63-F776-4466-908D-56FD1FD02F42}
 	EndGlobalSection
 EndGlobal

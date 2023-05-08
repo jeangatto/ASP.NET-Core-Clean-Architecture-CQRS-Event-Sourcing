@@ -1,8 +1,8 @@
-namespace Shop.Core.Common;
+namespace Shop.Core.Abstractions;
 
 /// <summary>
 /// Classe base usada para representar uma seção do AppSettings.
 /// </summary>
-public abstract class BaseOptions
+public interface IAppOptions
 {
 }
