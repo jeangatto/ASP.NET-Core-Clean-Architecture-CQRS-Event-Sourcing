@@ -36,17 +36,17 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <summary>
     /// Primeiro Nome.
     /// </summary>
-    public string FirstName { get; private init; }
+    public string FirstName { get; }
 
     /// <summary>
     /// Sobrenome.
     /// </summary>
-    public string LastName { get; private init; }
+    public string LastName { get; }
 
     /// <summary>
     /// Gênero.
     /// </summary>
-    public EGender Gender { get; private init; }
+    public EGender Gender { get; }
 
     /// <summary>
     /// Endereço de e-mail.
@@ -56,7 +56,7 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <summary>
     /// Data de Nascimento.
     /// </summary>
-    public DateTime DateOfBirth { get; private init; }
+    public DateTime DateOfBirth { get; }
 
     /// <summary>
     /// Altera o endereço de e-mail atual.
@@ -65,13 +65,13 @@ public class Customer : BaseEntity, IAggregateRoot
     public void ChangeEmail(Email newEmail)
     {
         // Só será alterado o e-mail se for diferente do existente.
-        if (!Email.Equals(newEmail))
-        {
-            Email = newEmail;
+        if (Email.Equals(newEmail))
+            return;
 
-            // Adicionando a alteração nos eventos de domínio.
-            AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, newEmail.Address, DateOfBirth));
-        }
+        Email = newEmail;
+
+        // Adicionando a alteração nos eventos de domínio.
+        AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, newEmail.Address, DateOfBirth));
     }
 
     /// <summary>

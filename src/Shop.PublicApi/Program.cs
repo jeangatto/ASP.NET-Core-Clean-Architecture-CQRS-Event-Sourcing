@@ -79,16 +79,11 @@ builder.Services.AddCacheService(builder.Configuration);
 // https://miniprofiler.com/dotnet/
 builder.Services.AddMiniProfiler(options =>
 {
-    // Route: /profiler/results-index
-    options.RouteBasePath = "/profiler";
+    options.RouteBasePath = "/profiler"; // Route: /profiler/results-index
     options.ColorScheme = ColorScheme.Dark;
     options.EnableServerTimingHeader = true;
-
-    if (builder.Environment.IsDevelopment())
-    {
-        options.EnableDebugMode = true;
-        options.TrackConnectionOpenClose = true;
-    }
+    options.TrackConnectionOpenClose = true;
+    options.EnableDebugMode = builder.Environment.IsDevelopment();
 }).AddEntityFramework();
 
 // Validando os serviços adicionados no ASP.NET Core DI.
@@ -117,6 +112,7 @@ app.UseHealthChecks("/health",
         AllowCachingResponses = false,
         ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
     });
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseResponseCompression();

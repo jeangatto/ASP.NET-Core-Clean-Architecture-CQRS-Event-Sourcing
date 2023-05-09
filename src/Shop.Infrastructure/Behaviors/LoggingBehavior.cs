@@ -21,7 +21,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     {
         var commandName = request.GetGenericTypeName();
 
-        _logger.LogInformation("----- Handling command {CommandName} ({Command})", commandName, request);
+        _logger.LogInformation("----- Handling command {CommandName}", commandName);
 
         var timer = new Stopwatch();
         timer.Start();

@@ -14,9 +14,10 @@ namespace Shop.Infrastructure.Data.Services;
 
 internal class DistributedCacheService : ICacheService
 {
+    private const string CacheServiceName = nameof(DistributedCacheService);
+    private readonly DistributedCacheEntryOptions _cacheOptions;
     private readonly IDistributedCache _distributedCache;
     private readonly ILogger<DistributedCacheService> _logger;
-    private readonly DistributedCacheEntryOptions _cacheOptions;
 
     public DistributedCacheService(
         IDistributedCache distributedCache,
@@ -37,56 +38,54 @@ internal class DistributedCacheService : ICacheService
         var valueBytes = await _distributedCache.GetAsync(cacheKey);
         if (valueBytes?.Length > 0)
         {
-            _logger.LogInformation("----- Fetched from DistributedCache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation("----- Fetched from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
 
             var value = Encoding.UTF8.GetString(valueBytes);
             return value.FromJson<TItem>();
         }
-        else
+
+        var item = await factory();
+        if (item != null)
         {
-            var item = await factory();
-            if (item != null)
-            {
-                _logger.LogInformation("----- Added to DistributedCache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation("----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
 
-                var value = Encoding.UTF8.GetBytes(item.ToJson());
-                await _distributedCache.SetAsync(cacheKey, value, _cacheOptions);
-            }
-
-            return item;
+            var value = Encoding.UTF8.GetBytes(item.ToJson());
+            await _distributedCache.SetAsync(cacheKey, value, _cacheOptions);
         }
+
+        return item;
     }
 
-    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<IEnumerable<TItem>>> factory)
+    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
+        Func<Task<IEnumerable<TItem>>> factory)
     {
         var valueBytes = await _distributedCache.GetAsync(cacheKey);
         if (valueBytes?.Length > 0)
         {
-            _logger.LogInformation("----- Fetched from DistributedCache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation("----- Fetched from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
 
             var values = Encoding.UTF8.GetString(valueBytes);
             return values.FromJson<IEnumerable<TItem>>();
         }
-        else
+
+        var items = await factory();
+        if (items?.Any() == true)
         {
-            var items = await factory();
-            if (items?.Any() == true)
-            {
-                _logger.LogInformation("----- Added to DistributedCache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation("----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
 
-                var value = Encoding.UTF8.GetBytes(items.ToJson());
-                await _distributedCache.SetAsync(cacheKey, value, _cacheOptions);
-            }
-
-            return items;
+            var value = Encoding.UTF8.GetBytes(items.ToJson());
+            await _distributedCache.SetAsync(cacheKey, value, _cacheOptions);
         }
+
+        return items;
     }
 
     public async Task RemoveAsync(params string[] cacheKeys)
     {
         foreach (var cacheKey in cacheKeys)
         {
-            _logger.LogInformation("----- Removed from DistributedCache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation("----- Removed from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
+
             await _distributedCache.RemoveAsync(cacheKey);
         }
     }

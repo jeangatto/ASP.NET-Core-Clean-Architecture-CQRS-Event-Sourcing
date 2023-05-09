@@ -68,9 +68,7 @@ public static class ServicesCollectionExtensions
             .AddMongoDb(connectionOptions.NoSqlConnection, tags: DatabaseTags);
 
         if (!connectionOptions.CacheConnection.IsInMemoryCache())
-        {
             healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
-        }
     }
 
     public static void AddShopDbContext(this IServiceCollection services)
@@ -142,9 +140,6 @@ public static class ServicesCollectionExtensions
 
         // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-        if (environment.IsDevelopment())
-        {
-            options.EnableDetailedErrors().EnableSensitiveDataLogging();
-        }
+        if (environment.IsDevelopment()) options.EnableDetailedErrors().EnableSensitiveDataLogging();
     }
 }

@@ -12,6 +12,7 @@ namespace Shop.Infrastructure.Data.Services;
 
 internal class MemoryCacheService : ICacheService
 {
+    private const string CacheServiceName = nameof(MemoryCacheService);
     private readonly MemoryCacheEntryOptions _cacheOptions;
     private readonly ILogger<MemoryCacheService> _logger;
     private readonly IMemoryCache _memoryCache;
@@ -37,14 +38,18 @@ internal class MemoryCacheService : ICacheService
             var cacheValue = cacheEntry?.Value;
             if (cacheValue != null)
             {
-                _logger.LogInformation("----- Fetched from MemoryCache: '{CacheKey}'", cacheKey);
+                _logger.LogInformation(
+                    "----- Fetched from {CacheServiceName} '{CacheKey}'", CacheServiceName, cacheKey);
+
                 return (TItem)cacheValue;
             }
 
             var item = await factory();
             if (item != null)
             {
-                _logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
+                _logger.LogInformation(
+                    "----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
+
                 _memoryCache.Set(cacheKey, item, _cacheOptions);
             }
 
@@ -60,14 +65,18 @@ internal class MemoryCacheService : ICacheService
             var cacheValues = cacheEntry?.Value;
             if (cacheValues != null)
             {
-                _logger.LogInformation("----- Fetched from MemoryCache: '{CacheKey}'", cacheKey);
+                _logger.LogInformation(
+                    "----- Fetched from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
+
                 return (IEnumerable<TItem>)cacheValues;
             }
 
             var items = await factory();
             if (items?.Any() == true)
             {
-                _logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
+                _logger.LogInformation(
+                    "----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
+
                 _memoryCache.Set(cacheKey, items, _cacheOptions);
             }
 
@@ -79,7 +88,9 @@ internal class MemoryCacheService : ICacheService
     {
         foreach (var cacheKey in cacheKeys)
         {
-            _logger.LogInformation("----- Removed from MemoryCache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation(
+                "----- Removed from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
+
             _memoryCache.Remove(cacheKey);
         }
 

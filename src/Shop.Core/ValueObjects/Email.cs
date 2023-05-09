@@ -5,12 +5,9 @@ namespace Shop.Core.ValueObjects;
 
 public sealed class Email : ValueObject
 {
-    public Email(string address)
-        => Address = address.Trim().ToLowerInvariant();
+    public Email(string address) => Address = address.Trim().ToLowerInvariant();
 
-    private Email() { } // ORM
-
-    public string Address { get; private init; }
+    public string Address { get; }
 
     public override string ToString() => Address;
 

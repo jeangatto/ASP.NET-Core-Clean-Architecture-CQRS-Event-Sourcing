@@ -21,7 +21,7 @@ public class CustomerEventHandler :
     INotificationHandler<CustomerDeletedEvent>
 {
     private readonly ICacheService _cacheService;
-    private readonly ILogger _logger;
+    private readonly ILogger<CustomerEventHandler> _logger;
     private readonly IMapper _mapper;
     private readonly IReadDbContext _readDbContext;
 
