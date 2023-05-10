@@ -10,11 +10,9 @@ internal abstract class BaseReadOnlyRepository<TQueryModel> : IReadOnlyRepositor
 {
     protected readonly IMongoCollection<TQueryModel> Collection;
 
-    protected BaseReadOnlyRepository(IReadDbContext context)
-        => Collection = context.GetCollection<TQueryModel>();
+    protected BaseReadOnlyRepository(IReadDbContext context) =>
+        Collection = context.GetCollection<TQueryModel>();
 
-    public async Task<TQueryModel> GetByIdAsync(Guid id)
-        => await Collection
-            .Find(queryModel => queryModel.Id == id)
-            .FirstOrDefaultAsync();
+    public async Task<TQueryModel> GetByIdAsync(Guid id) =>
+        await Collection.Find(queryModel => queryModel.Id == id).FirstOrDefaultAsync();
 }

@@ -5,7 +5,7 @@ using Shop.Infrastructure.Data.Extensions;
 
 namespace Shop.Infrastructure.Data.Mappings;
 
-public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {
     public void Configure(EntityTypeBuilder<Customer> builder)
     {

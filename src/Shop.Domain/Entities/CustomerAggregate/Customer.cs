@@ -77,6 +77,6 @@ public class Customer : BaseEntity, IAggregateRoot
     /// <summary>
     /// Adiciona o evento de entidade deletada.
     /// </summary>
-    public void Delete()
-        => AddDomainEvent(new CustomerDeletedEvent(Id, FirstName, LastName, Gender, Email.Address, DateOfBirth));
+    public void Delete() =>
+        AddDomainEvent(new CustomerDeletedEvent(Id, FirstName, LastName, Gender, Email.Address, DateOfBirth));
 }

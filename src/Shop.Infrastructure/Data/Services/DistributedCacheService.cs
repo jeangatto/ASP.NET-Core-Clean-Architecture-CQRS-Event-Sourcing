@@ -85,7 +85,6 @@ internal class DistributedCacheService : ICacheService
         foreach (var cacheKey in cacheKeys)
         {
             _logger.LogInformation("----- Removed from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
-
             await _distributedCache.RemoveAsync(cacheKey);
         }
     }

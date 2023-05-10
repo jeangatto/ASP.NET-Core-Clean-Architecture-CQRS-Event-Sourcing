@@ -42,4 +42,9 @@
     <ProjectReference Include="..\Shop.Query\Shop.Query.csproj"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Shop.UnitTests"/>
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+  </ItemGroup>
+
 </Project>

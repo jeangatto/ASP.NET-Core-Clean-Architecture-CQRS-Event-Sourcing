@@ -11,13 +11,8 @@ internal class CustomerReadOnlyRepository : BaseReadOnlyRepository<CustomerQuery
 {
     public CustomerReadOnlyRepository(IReadDbContext readDbContext) : base(readDbContext) { }
 
-    public async Task<CustomerQueryModel> GetByEmailAsync(string email)
-        => await Collection
-            .Find(customer => customer.Email == email)
-            .FirstOrDefaultAsync();
-
-    public async Task<IEnumerable<CustomerQueryModel>> GetAllAsync()
-        => await Collection
+    public async Task<IEnumerable<CustomerQueryModel>> GetAllAsync() =>
+        await Collection
             .Find(Builders<CustomerQueryModel>.Filter.Empty)
             .SortBy(customer => customer.FirstName)
             .ThenBy(customer => customer.DateOfBirth)

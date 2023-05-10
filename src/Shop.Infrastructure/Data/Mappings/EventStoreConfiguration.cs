@@ -4,7 +4,7 @@ using Shop.Core.Events;
 
 namespace Shop.Infrastructure.Data.Mappings;
 
-public class EventStoreConfiguration : IEntityTypeConfiguration<EventStore>
+internal class EventStoreConfiguration : IEntityTypeConfiguration<EventStore>
 {
     public void Configure(EntityTypeBuilder<EventStore> builder)
     {

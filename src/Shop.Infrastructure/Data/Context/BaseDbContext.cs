@@ -13,8 +13,8 @@ public abstract class BaseDbContext<TContext> : DbContext
         ChangeTracker.LazyLoadingEnabled = false;
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-        => modelBuilder
+    protected override void OnModelCreating(ModelBuilder modelBuilder) =>
+        modelBuilder
             .UseCollation(Collation)
             .RemoveCascadeDeleteConvention();
 }

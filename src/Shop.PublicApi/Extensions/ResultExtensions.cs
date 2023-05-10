@@ -5,7 +5,7 @@ using Shop.PublicApi.Models;
 
 namespace Shop.PublicApi.Extensions;
 
-public static class ResultExtensions
+internal static class ResultExtensions
 {
     public static IActionResult ToActionResult(this Result result)
         => result.IsSuccess

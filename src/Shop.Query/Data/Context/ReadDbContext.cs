@@ -53,8 +53,8 @@ public sealed class ReadDbContext : IReadDbContext
 
     public string ConnectionString { get; }
 
-    public IMongoCollection<TQueryModel> GetCollection<TQueryModel>() where TQueryModel : IQueryModel
-        => _database.GetCollection<TQueryModel>(typeof(TQueryModel).Name);
+    public IMongoCollection<TQueryModel> GetCollection<TQueryModel>() where TQueryModel : IQueryModel =>
+        _database.GetCollection<TQueryModel>(typeof(TQueryModel).Name);
 
     public async Task UpsertAsync<TQueryModel>(TQueryModel queryModel, Expression<Func<TQueryModel, bool>> upsertFilter)
         where TQueryModel : IQueryModel
@@ -104,8 +104,8 @@ public sealed class ReadDbContext : IReadDbContext
         await collection.Indexes.CreateOneAsync(indexModel);
     }
 
-    private static IEnumerable<string> GetCollectionNamesFromAssembly()
-        => Assembly
+    private static IEnumerable<string> GetCollectionNamesFromAssembly() =>
+        Assembly
             .GetExecutingAssembly()
             .GetAllTypesOf<IQueryModel>()
             .Select(impl => impl.Name)

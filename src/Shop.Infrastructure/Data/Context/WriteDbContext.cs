@@ -10,7 +10,7 @@ public class WriteDbContext : BaseDbContext<WriteDbContext>
     {
     }
 
-    public DbSet<Customer> Customers => Set<Customer>();
+    internal DbSet<Customer> Customers => Set<Customer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

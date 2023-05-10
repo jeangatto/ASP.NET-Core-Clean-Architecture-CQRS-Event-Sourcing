@@ -10,7 +10,7 @@ using Shop.Query.Abstractions;
 
 namespace Shop.PublicApi.Extensions;
 
-public static class WebApplicationExtensions
+internal static class WebApplicationExtensions
 {
     public static async Task MigrateDbAsync(this WebApplication app, AsyncServiceScope serviceScope)
     {

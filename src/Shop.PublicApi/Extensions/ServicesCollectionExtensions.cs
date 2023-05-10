@@ -16,7 +16,7 @@ using Shop.Infrastructure.Extensions;
 
 namespace Shop.PublicApi.Extensions;
 
-public static class ServicesCollectionExtensions
+internal static class ServicesCollectionExtensions
 {
     private const string MigrationsAssembly = "Shop.PublicApi";
     private static readonly string[] DatabaseTags = { "database" };
@@ -71,11 +71,14 @@ public static class ServicesCollectionExtensions
             healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
     }
 
-    public static void AddShopDbContext(this IServiceCollection services)
-        => services.AddDbContext<WriteDbContext>(ConfigureDbContext<WriteDbContext>);
+    public static void AddShopDbContext(this IServiceCollection services) =>
+        services.AddDbContext<WriteDbContext>((serviceProvider, optionsBuilder) =>
+            ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
 
-    public static void AddEventDbContext(this IServiceCollection services)
-        => services.AddDbContext<EventStoreDbContext>(ConfigureDbContext<EventStoreDbContext>);
+    public static void AddEventDbContext(this IServiceCollection services) =>
+        services.AddDbContext<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
+            ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder,
+                QueryTrackingBehavior.NoTrackingWithIdentityResolution));
 
     public static void AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
@@ -103,26 +106,29 @@ public static class ServicesCollectionExtensions
         }
     }
 
-    private static bool IsInMemoryCache(this string connection)
-        => connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
+    private static bool IsInMemoryCache(this string connection) =>
+        connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 
-    private static void ConfigureDbContext<TContext>(IServiceProvider serviceProvider, DbContextOptionsBuilder options)
+    private static void ConfigureDbContext<TContext>(
+        IServiceProvider serviceProvider,
+        DbContextOptionsBuilder optionsBuilder,
+        QueryTrackingBehavior queryTrackingBehavior)
         where TContext : DbContext
     {
         var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
         var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-        options.UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
+        optionsBuilder.UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
         {
             sqlServerOptions.MigrationsAssembly(MigrationsAssembly);
 
             // Configurando a resiliência da conexão.
             // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
             sqlServerOptions.EnableRetryOnFailure(3);
-        });
+        }).UseQueryTrackingBehavior(queryTrackingBehavior);
 
         // Log das tentativas de repetição.
-        options.LogTo(
+        optionsBuilder.LogTo(
             (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
             eventData =>
             {
@@ -140,6 +146,7 @@ public static class ServicesCollectionExtensions
 
         // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-        if (environment.IsDevelopment()) options.EnableDetailedErrors().EnableSensitiveDataLogging();
+        if (environment.IsDevelopment())
+            optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
     }
 }

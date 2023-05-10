@@ -14,7 +14,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;
 
-public sealed class UnitOfWork : IUnitOfWork
+internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly IEventStoreRepository _eventStoreRepository;
     private readonly ILogger<UnitOfWork> _logger;

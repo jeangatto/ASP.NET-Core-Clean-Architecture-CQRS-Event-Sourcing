@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Infrastructure.Data.Extensions;
 
-public static class ModelBuilderExtensions
+internal static class ModelBuilderExtensions
 {
     /// <summary>
     /// Remove a delação em cascata de chaves estrangeiras (FK).
     /// </summary>
     /// <param name="modelBuilder">The model builder.</param>
-    public static void RemoveCascadeDeleteConvention(this ModelBuilder modelBuilder)
+    internal static void RemoveCascadeDeleteConvention(this ModelBuilder modelBuilder)
     {
         var foreignKeys = modelBuilder.Model
             .GetEntityTypes()

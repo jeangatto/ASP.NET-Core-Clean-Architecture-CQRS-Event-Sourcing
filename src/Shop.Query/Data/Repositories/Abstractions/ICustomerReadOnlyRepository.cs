@@ -7,6 +7,5 @@ namespace Shop.Query.Data.Repositories.Abstractions;
 
 public interface ICustomerReadOnlyRepository : IReadOnlyRepository<CustomerQueryModel>
 {
-    Task<CustomerQueryModel> GetByEmailAsync(string email);
     Task<IEnumerable<CustomerQueryModel>> GetAllAsync();
 }

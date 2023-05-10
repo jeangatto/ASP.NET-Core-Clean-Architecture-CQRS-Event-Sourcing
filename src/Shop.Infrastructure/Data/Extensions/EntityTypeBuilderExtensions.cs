@@ -3,14 +3,14 @@ using Shop.Core.Common;
 
 namespace Shop.Infrastructure.Data.Extensions;
 
-public static class EntityTypeBuilderExtensions
+internal static class EntityTypeBuilderExtensions
 {
     /// <summary>
     /// Configuração da entidade base.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="builder"></param>
-    public static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
+    internal static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
         where TEntity : BaseEntity
     {
         builder

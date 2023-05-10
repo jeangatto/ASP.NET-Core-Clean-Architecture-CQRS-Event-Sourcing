@@ -4,31 +4,31 @@ using Microsoft.EntityFrameworkCore;
 using Shop.Core.Abstractions;
 using Shop.Infrastructure.Data.Context;
 
-namespace Shop.Infrastructure.Data.Repositories;
+namespace Shop.Infrastructure.Data.Repositories.Common;
 
-public abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity>
+internal abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity>
     where TEntity : class, IEntity<Guid>
 {
-    private readonly WriteDbContext _context;
-    protected readonly DbSet<TEntity> DbSet;
+    private readonly DbSet<TEntity> _dbSet;
+    protected readonly WriteDbContext Context;
 
     protected BaseWriteOnlyRepository(WriteDbContext context)
     {
-        _context = context;
-        DbSet = context.Set<TEntity>();
+        Context = context;
+        _dbSet = context.Set<TEntity>();
     }
 
-    public void Add(TEntity entity)
-        => DbSet.Add(entity);
+    public void Add(TEntity entity) =>
+        _dbSet.Add(entity);
 
-    public void Update(TEntity entity)
-        => DbSet.Update(entity);
+    public void Update(TEntity entity) =>
+        _dbSet.Update(entity);
 
-    public void Remove(TEntity entity)
-        => DbSet.Remove(entity);
+    public void Remove(TEntity entity) =>
+        _dbSet.Remove(entity);
 
-    public async Task<TEntity> GetByIdAsync(Guid id)
-        => await DbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id);
+    public async Task<TEntity> GetByIdAsync(Guid id) =>
+        await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id);
 
     #region IDisposable
 
@@ -54,7 +54,7 @@ public abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TE
 
         // Dispose managed state (managed objects).
         if (disposing)
-            _context.Dispose();
+            Context.Dispose();
 
         _disposed = true;
     }

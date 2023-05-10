@@ -8,10 +8,9 @@ public class EventStoreDbContext : BaseDbContext<EventStoreDbContext>
 {
     public EventStoreDbContext(DbContextOptions<EventStoreDbContext> dbOptions) : base(dbOptions)
     {
-        ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 
-    public DbSet<EventStore> EventStores => Set<EventStore>();
+    internal DbSet<EventStore> EventStores => Set<EventStore>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

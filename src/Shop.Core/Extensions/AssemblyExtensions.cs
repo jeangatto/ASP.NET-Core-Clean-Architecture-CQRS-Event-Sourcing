@@ -16,6 +16,6 @@ public static class AssemblyExtensions
             .ToList();
     }
 
-    public static IEnumerable<TInterface> GetAllInstacesOf<TInterface>(this Assembly assembly)
-        => assembly.GetAllTypesOf<TInterface>().Select(impl => (TInterface)Activator.CreateInstance(impl));
+    public static IEnumerable<TInterface> GetAllInstacesOf<TInterface>(this Assembly assembly) =>
+        assembly.GetAllTypesOf<TInterface>().Select(impl => (TInterface)Activator.CreateInstance(impl));
 }
