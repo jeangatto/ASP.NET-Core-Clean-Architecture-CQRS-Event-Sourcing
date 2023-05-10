@@ -56,8 +56,8 @@ internal class DistributedCacheService : ICacheService
         return item;
     }
 
-    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
-        Func<Task<IEnumerable<TItem>>> factory)
+    public async Task<IReadOnlyList<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
+        Func<Task<IReadOnlyList<TItem>>> factory)
     {
         var valueBytes = await _distributedCache.GetAsync(cacheKey);
         if (valueBytes?.Length > 0)
@@ -65,7 +65,7 @@ internal class DistributedCacheService : ICacheService
             _logger.LogInformation("----- Fetched from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
 
             var values = Encoding.UTF8.GetString(valueBytes);
-            return values.FromJson<IEnumerable<TItem>>();
+            return values.FromJson<IReadOnlyList<TItem>>();
         }
 
         var items = await factory();

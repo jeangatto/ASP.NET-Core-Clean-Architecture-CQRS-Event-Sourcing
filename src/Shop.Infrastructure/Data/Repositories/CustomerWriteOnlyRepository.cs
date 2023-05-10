@@ -14,13 +14,13 @@ internal class CustomerWriteOnlyRepository : BaseWriteOnlyRepository<Customer>, 
     {
     }
 
-    public async Task<bool> ExistsByEmailAsync(Email email)
-        => await Context.Customers
+    public async Task<bool> ExistsByEmailAsync(Email email) =>
+        await Context.Customers
             .AsNoTracking()
             .AnyAsync(customer => customer.Email.Address == email.Address);
 
-    public async Task<bool> ExistsByEmailAsync(Email email, Guid currentId)
-        => await Context.Customers
+    public async Task<bool> ExistsByEmailAsync(Email email, Guid currentId) =>
+        await Context.Customers
             .AsNoTracking()
             .AnyAsync(customer => customer.Email.Address == email.Address && customer.Id != currentId);
 }

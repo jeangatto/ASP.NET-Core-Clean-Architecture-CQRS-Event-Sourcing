@@ -47,9 +47,7 @@ internal class MemoryCacheService : ICacheService
             var item = await factory();
             if (item != null)
             {
-                _logger.LogInformation(
-                    "----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
-
+                _logger.LogInformation("----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
                 _memoryCache.Set(cacheKey, item, _cacheOptions);
             }
 
@@ -57,8 +55,8 @@ internal class MemoryCacheService : ICacheService
         });
     }
 
-    public async Task<IEnumerable<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
-        Func<Task<IEnumerable<TItem>>> factory)
+    public async Task<IReadOnlyList<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
+        Func<Task<IReadOnlyList<TItem>>> factory)
     {
         return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
         {
@@ -68,15 +66,13 @@ internal class MemoryCacheService : ICacheService
                 _logger.LogInformation(
                     "----- Fetched from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
 
-                return (IEnumerable<TItem>)cacheValues;
+                return (IReadOnlyList<TItem>)cacheValues;
             }
 
             var items = await factory();
             if (items?.Any() == true)
             {
-                _logger.LogInformation(
-                    "----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
-
+                _logger.LogInformation("----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
                 _memoryCache.Set(cacheKey, items, _cacheOptions);
             }
 
@@ -88,9 +84,7 @@ internal class MemoryCacheService : ICacheService
     {
         foreach (var cacheKey in cacheKeys)
         {
-            _logger.LogInformation(
-                "----- Removed from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
-
+            _logger.LogInformation("----- Removed from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
             _memoryCache.Remove(cacheKey);
         }
 

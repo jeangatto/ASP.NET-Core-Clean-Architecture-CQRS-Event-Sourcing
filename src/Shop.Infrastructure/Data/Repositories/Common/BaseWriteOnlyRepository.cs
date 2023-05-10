@@ -28,7 +28,7 @@ internal abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<
         _dbSet.Remove(entity);
 
     public async Task<TEntity> GetByIdAsync(Guid id) =>
-        await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id);
+        await _dbSet.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(entity => entity.Id == id);
 
     #region IDisposable
 

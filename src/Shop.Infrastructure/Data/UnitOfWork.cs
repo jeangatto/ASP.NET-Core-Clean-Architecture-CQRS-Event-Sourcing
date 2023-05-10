@@ -78,7 +78,7 @@ internal sealed class UnitOfWork : IUnitOfWork
         });
     }
 
-    private (IEnumerable<Event> domainEvents, IEnumerable<EventStore> eventStores) BeforeSaveChanges()
+    private (IReadOnlyList<Event> domainEvents, IReadOnlyList<EventStore> eventStores) BeforeSaveChanges()
     {
         var domainEntities = _writeDbContext
             .ChangeTracker
@@ -95,10 +95,10 @@ internal sealed class UnitOfWork : IUnitOfWork
 
         domainEntities.ForEach(entry => entry.Entity.ClearDomainEvents());
 
-        return (domainEvents, eventStores);
+        return (domainEvents.AsReadOnly(), eventStores.AsReadOnly());
     }
 
-    private async Task AfterSaveChangesAsync(IEnumerable<Event> domainEvents, IEnumerable<EventStore> eventStores)
+    private async Task AfterSaveChangesAsync(IReadOnlyList<Event> domainEvents, IReadOnlyList<EventStore> eventStores)
     {
         if (!domainEvents.Any() || !eventStores.Any())
             return;
