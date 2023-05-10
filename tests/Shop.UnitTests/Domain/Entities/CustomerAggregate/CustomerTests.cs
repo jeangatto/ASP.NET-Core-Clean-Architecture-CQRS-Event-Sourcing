@@ -3,6 +3,7 @@ using FluentAssertions;
 using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.Entities.CustomerAggregate.Events;
+using Shop.Domain.Factories;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,18 +17,19 @@ public class CustomerTests
     {
         // Arrange
         var customerFaker = new Faker<Customer>()
-            .CustomInstantiator(faker => new Customer(
+            .CustomInstantiator(faker => CustomerFactory.Create(
                 faker.Person.FirstName,
                 faker.Person.LastName,
                 faker.PickRandom<EGender>(),
-                new Email(faker.Person.Email),
+                faker.Person.Email,
                 faker.Person.DateOfBirth));
 
         // Act
         var act = customerFaker.Generate();
 
         // Assert
-        act.DomainEvents.Should().NotBeNullOrEmpty()
+        act.DomainEvents.Should()
+            .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.ContainItemsAssignableTo<CustomerCreatedEvent>();
     }
@@ -37,11 +39,11 @@ public class CustomerTests
     {
         // Arrange
         var customerEntity = new Faker<Customer>()
-            .CustomInstantiator(faker => new Customer(
+            .CustomInstantiator(faker => CustomerFactory.Create(
                 faker.Person.FirstName,
                 faker.Person.LastName,
                 faker.PickRandom<EGender>(),
-                new Email(faker.Person.Email),
+                faker.Person.Email,
                 faker.Person.DateOfBirth))
             .Generate();
 
@@ -53,7 +55,8 @@ public class CustomerTests
         customerEntity.ChangeEmail(email);
 
         // Assert
-        customerEntity.DomainEvents.Should().NotBeNullOrEmpty()
+        customerEntity.DomainEvents.Should()
+            .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.ContainItemsAssignableTo<CustomerUpdatedEvent>();
     }
@@ -63,11 +66,11 @@ public class CustomerTests
     {
         // Arrange
         var customerEntity = new Faker<Customer>()
-            .CustomInstantiator(faker => new Customer(
+            .CustomInstantiator(faker => CustomerFactory.Create(
                 faker.Person.FirstName,
                 faker.Person.LastName,
                 faker.PickRandom<EGender>(),
-                new Email(faker.Person.Email),
+                faker.Person.Email,
                 faker.Person.DateOfBirth))
             .Generate();
 
@@ -75,7 +78,8 @@ public class CustomerTests
         customerEntity.Delete();
 
         // Assert
-        customerEntity.DomainEvents.Should().NotBeNullOrEmpty()
+        customerEntity.DomainEvents.Should()
+            .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.ContainItemsAssignableTo<CustomerDeletedEvent>();
     }

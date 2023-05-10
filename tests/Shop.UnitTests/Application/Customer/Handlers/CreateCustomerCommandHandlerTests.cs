@@ -3,21 +3,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bogus;
 using FluentAssertions;
+using MediatR;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Handlers;
 using Shop.Core.Abstractions;
-using Shop.Core.ValueObjects;
+using Shop.Core.Events;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.Factories;
+using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Data.Repositories;
+using Shop.UnitTests.Fixtures;
 using Xunit;
 using Xunit.Categories;
-using CustomerAggregate = Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.UnitTests.Application.Customer.Handlers;
 
 [UnitTest]
-public class CreateCustomerCommandHandlerTests
+public class CreateCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
 {
+    private readonly EfSqliteFixture _fixture;
+    private readonly CreateCustomerCommandValidator _validator = new();
+
+    public CreateCustomerCommandHandlerTests(EfSqliteFixture fixture) => _fixture = fixture;
+
     [Fact]
     public async Task Add_ValidCommand_ShouldReturnsSuccessResult()
     {
@@ -30,28 +40,16 @@ public class CreateCustomerCommandHandlerTests
             .RuleFor(command => command.DateOfBirth, faker => faker.Person.DateOfBirth)
             .Generate();
 
-        var repositoryMock = new Mock<ICustomerWriteOnlyRepository>();
-        repositoryMock
-            .Setup(s => s.ExistsByEmailAsync(It.Is<Email>(email => email.Address == command.Email)))
-            .ReturnsAsync(false)
-            .Verifiable();
-
-        repositoryMock
-            .Setup(s => s.Add(It.Is<CustomerAggregate.Customer>(entity =>
-                entity.FirstName == command.FirstName
-                && entity.LastName == command.LastName
-                && entity.Gender == command.Gender
-                && entity.Email.Address == command.Email
-                && entity.DateOfBirth == command.DateOfBirth)))
-            .Verifiable();
-
-        var uowMock = new Mock<IUnitOfWork>();
-        uowMock.Setup(s => s.SaveChangesAsync()).Returns(Task.CompletedTask).Verifiable();
+        var unitOfWork = new UnitOfWork(
+            _fixture.Context,
+            Mock.Of<IEventStoreRepository>(),
+            Mock.Of<IMediator>(),
+            Mock.Of<ILogger<UnitOfWork>>());
 
         var handler = new CreateCustomerCommandHandler(
-            new CreateCustomerCommandValidator(),
-            repositoryMock.Object,
-            uowMock.Object);
+            _validator,
+            new CustomerWriteOnlyRepository(_fixture.Context),
+            unitOfWork);
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -76,15 +74,20 @@ public class CreateCustomerCommandHandlerTests
             .RuleFor(command => command.DateOfBirth, faker => faker.Person.DateOfBirth)
             .Generate();
 
-        var repositoryMock = new Mock<ICustomerWriteOnlyRepository>();
-        repositoryMock
-            .Setup(s => s.ExistsByEmailAsync(It.Is<Email>(email => email.Address == command.Email)))
-            .ReturnsAsync(true)
-            .Verifiable();
+        var repository = new CustomerWriteOnlyRepository(_fixture.Context);
+        repository.Add(CustomerFactory.Create(
+            command.FirstName,
+            command.LastName,
+            command.Gender,
+            command.Email,
+            command.DateOfBirth));
+
+        await _fixture.Context.SaveChangesAsync();
+        _fixture.Context.ChangeTracker.Clear();
 
         var handler = new CreateCustomerCommandHandler(
-            new CreateCustomerCommandValidator(),
-            repositoryMock.Object,
+            _validator,
+            repository,
             Mock.Of<IUnitOfWork>());
 
         // Act
@@ -93,7 +96,8 @@ public class CreateCustomerCommandHandlerTests
         // Assert
         act.Should().NotBeNull();
         act.IsSuccess.Should().BeFalse();
-        act.Errors.Should().NotBeNullOrEmpty()
+        act.Errors.Should()
+            .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.Contain(errorMessage => errorMessage == "O endereço de e-mail informado já está sendo utilizado.");
     }
@@ -103,7 +107,7 @@ public class CreateCustomerCommandHandlerTests
     {
         // Arrange
         var handler = new CreateCustomerCommandHandler(
-            new CreateCustomerCommandValidator(),
+            _validator,
             Mock.Of<ICustomerWriteOnlyRepository>(),
             Mock.Of<IUnitOfWork>());
 

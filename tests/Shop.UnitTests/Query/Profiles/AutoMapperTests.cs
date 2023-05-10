@@ -1,11 +1,10 @@
-using System;
 using AutoMapper;
 using FluentAssertions;
 using Shop.Query.Profiles;
 using Xunit;
 using Xunit.Categories;
 
-namespace Shop.UnitTests.Query;
+namespace Shop.UnitTests.Query.Profiles;
 
 [UnitTest]
 public class AutoMapperTests
@@ -18,7 +17,7 @@ public class AutoMapperTests
 
         // Act
         // REF: https://fluentassertions.com/exceptions/
-        Action act = () => mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        var act = () => mapper.ConfigurationProvider.AssertConfigurationIsValid();
 
         // Assert
         act.Should().NotThrow();

@@ -7,7 +7,7 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-internal class CustomerWriteOnlyRepository : BaseWriteOnlyRepository<Customer>, ICustomerWriteOnlyRepository
+public class CustomerWriteOnlyRepository : BaseWriteOnlyRepository<Customer>, ICustomerWriteOnlyRepository
 {
     public CustomerWriteOnlyRepository(WriteDbContext context) : base(context)
     {

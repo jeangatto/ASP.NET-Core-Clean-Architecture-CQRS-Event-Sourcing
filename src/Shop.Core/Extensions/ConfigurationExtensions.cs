@@ -10,8 +10,6 @@ public static class ConfigurationExtensions
         = options => options.BindNonPublicProperties = true;
 
     public static TOptions GetOptions<TOptions>(this IConfiguration configuration, string configSectionPath)
-        where TOptions : IAppOptions
-    {
-        return configuration.GetSection(configSectionPath).Get<TOptions>(ConfigureBinderOptions);
-    }
+        where TOptions : IAppOptions =>
+        configuration.GetRequiredSection(configSectionPath).Get<TOptions>(ConfigureBinderOptions);
 }

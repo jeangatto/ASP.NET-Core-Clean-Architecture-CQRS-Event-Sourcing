@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
 using Xunit;
@@ -11,10 +9,10 @@ using Xunit.Categories;
 namespace Shop.UnitTests.Core.Extensions;
 
 [UnitTest]
-public class ServicesCollectionExtensionsTests
+public class ConfigurationExtensionsTests
 {
     [Fact]
-    public void Should_ReturnClassOptions_WhenConfigureAppSettings()
+    public void Should_ReturnsClassOptions_WhenGetOptions()
     {
         // Arrange
         const int absoluteExpirationInHours = 4;
@@ -29,18 +27,12 @@ public class ServicesCollectionExtensionsTests
 
         var configuration = configurationBuilder.Build();
 
-        var services = new ServiceCollection();
-        services.AddSingleton<IConfiguration>(_ => configuration);
-        services.ConfigureAppSettings();
-        var serviceProvider = services.BuildServiceProvider(true);
-
         // Act
-        var act = serviceProvider.GetRequiredService<IOptions<CacheOptions>>();
+        var act = configuration.GetOptions<CacheOptions>(CacheOptions.ConfigSectionPath);
 
         // Assert
         act.Should().NotBeNull();
-        act.Value.Should().NotBeNull();
-        act.Value.AbsoluteExpirationInHours.Should().Be(absoluteExpirationInHours);
-        act.Value.SlidingExpirationInSeconds.Should().Be(slidingExpirationInSeconds);
+        act.AbsoluteExpirationInHours.Should().Be(absoluteExpirationInHours);
+        act.SlidingExpirationInSeconds.Should().Be(slidingExpirationInSeconds);
     }
 }

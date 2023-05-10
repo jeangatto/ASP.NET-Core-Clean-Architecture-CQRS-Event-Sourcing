@@ -8,14 +8,15 @@ using Shop.Application.Customer.Responses;
 using Shop.Core.Abstractions;
 using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.Factories;
 
 namespace Shop.Application.Customer.Handlers;
 
 public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
 {
-    private readonly CreateCustomerCommandValidator _validator;
     private readonly ICustomerWriteOnlyRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly CreateCustomerCommandValidator _validator;
 
     public CreateCustomerCommandHandler(
         CreateCustomerCommandValidator validator,
@@ -27,7 +28,8 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<CreatedCustomerResponse>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CreatedCustomerResponse>> Handle(CreateCustomerCommand request,
+        CancellationToken cancellationToken)
     {
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
@@ -43,7 +45,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 
         // Criando a instancia da entidade cliente.
         // Ao instanciar será criado o evento: "CustomerCreatedEvent"
-        var customer = new Domain.Entities.CustomerAggregate.Customer(
+        var customer = CustomerFactory.Create(
             request.FirstName,
             request.LastName,
             request.Gender,

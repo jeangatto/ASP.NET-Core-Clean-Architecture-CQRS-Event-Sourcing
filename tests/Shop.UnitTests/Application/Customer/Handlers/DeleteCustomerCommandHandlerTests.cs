@@ -3,53 +3,62 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bogus;
 using FluentAssertions;
+using MediatR;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Handlers;
 using Shop.Core.Abstractions;
-using Shop.Core.ValueObjects;
+using Shop.Core.Events;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.Factories;
+using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Data.Repositories;
+using Shop.UnitTests.Fixtures;
 using Xunit;
 using Xunit.Categories;
-using CustomerAggregate = Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.UnitTests.Application.Customer.Handlers;
 
 [UnitTest]
-public class DeleteCustomerCommandHandlerTests
+public class DeleteCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
 {
+    private readonly EfSqliteFixture _fixture;
+    private readonly DeleteCustomerCommandValidator _validator = new();
+
+    public DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) => _fixture = fixture;
+
     [Fact]
     public async Task Delete_ValidCustomerId_ShouldReturnsSuccessResult()
     {
         // Arrange
-        var customerEntity = new Faker<CustomerAggregate.Customer>()
-            .CustomInstantiator(faker => new CustomerAggregate.Customer(
+        var customer = new Faker<Shop.Domain.Entities.CustomerAggregate.Customer>()
+            .CustomInstantiator(faker => CustomerFactory.Create(
                 faker.Person.FirstName,
                 faker.Person.LastName,
                 faker.PickRandom<EGender>(),
-                new Email(faker.Person.Email),
+                faker.Person.Email,
                 faker.Person.DateOfBirth))
             .Generate();
 
-        var command = new DeleteCustomerCommand(customerEntity.Id);
+        var repository = new CustomerWriteOnlyRepository(_fixture.Context);
+        repository.Add(customer);
 
-        var repositoryMock = new Mock<ICustomerWriteOnlyRepository>();
-        repositoryMock
-            .Setup(s => s.GetByIdAsync(It.Is<Guid>(id => id == command.Id)))
-            .ReturnsAsync(customerEntity)
-            .Verifiable();
+        await _fixture.Context.SaveChangesAsync();
+        _fixture.Context.ChangeTracker.Clear();
 
-        repositoryMock
-            .Setup(s => s.Remove(It.Is<CustomerAggregate.Customer>(entity => entity == customerEntity)))
-            .Verifiable();
-
-        var uowMock = new Mock<IUnitOfWork>();
-        uowMock.Setup(s => s.SaveChangesAsync()).Returns(Task.CompletedTask).Verifiable();
+        var unitOfWork = new UnitOfWork(
+            _fixture.Context,
+            Mock.Of<IEventStoreRepository>(),
+            Mock.Of<IMediator>(),
+            Mock.Of<ILogger<UnitOfWork>>());
 
         var handler = new DeleteCustomerCommandHandler(
-            new DeleteCustomerCommandValidator(),
-            repositoryMock.Object,
-            uowMock.Object);
+            _validator,
+            new CustomerWriteOnlyRepository(_fixture.Context),
+            unitOfWork);
+
+        var command = new DeleteCustomerCommand(customer.Id);
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -66,15 +75,9 @@ public class DeleteCustomerCommandHandlerTests
         // Arrange
         var command = new DeleteCustomerCommand(Guid.NewGuid());
 
-        var repositoryMock = new Mock<ICustomerWriteOnlyRepository>();
-        repositoryMock
-            .Setup(s => s.GetByIdAsync(It.Is<Guid>(id => id == command.Id)))
-            .ReturnsAsync((CustomerAggregate.Customer)null)
-            .Verifiable();
-
         var handler = new DeleteCustomerCommandHandler(
-            new DeleteCustomerCommandValidator(),
-            repositoryMock.Object,
+            _validator,
+            new CustomerWriteOnlyRepository(_fixture.Context),
             Mock.Of<IUnitOfWork>());
 
         // Act
@@ -83,7 +86,8 @@ public class DeleteCustomerCommandHandlerTests
         // Assert
         act.Should().NotBeNull();
         act.IsSuccess.Should().BeFalse();
-        act.Errors.Should().NotBeNullOrEmpty()
+        act.Errors.Should()
+            .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.Contain(errorMessage => errorMessage == $"Nenhum cliente encontrado pelo Id: {command.Id}");
     }
@@ -93,7 +97,7 @@ public class DeleteCustomerCommandHandlerTests
     {
         // Arrange
         var handler = new DeleteCustomerCommandHandler(
-            new DeleteCustomerCommandValidator(),
+            _validator,
             Mock.Of<ICustomerWriteOnlyRepository>(),
             Mock.Of<IUnitOfWork>());
 

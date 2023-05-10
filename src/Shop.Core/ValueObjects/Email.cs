@@ -5,11 +5,13 @@ namespace Shop.Core.ValueObjects;
 
 public sealed class Email : ValueObject
 {
-    public Email(string address) => Address = address.Trim().ToLowerInvariant();
+    public Email(string address)
+        => Address = address.Trim().ToLowerInvariant();
 
     public string Address { get; }
 
-    public override string ToString() => Address;
+    public override string ToString()
+        => Address;
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

@@ -14,12 +14,12 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;
 
-internal sealed class UnitOfWork : IUnitOfWork
+public sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly WriteDbContext _writeDbContext;
     private readonly IEventStoreRepository _eventStoreRepository;
-    private readonly IMediator _mediator;
     private readonly ILogger<UnitOfWork> _logger;
+    private readonly IMediator _mediator;
+    private readonly WriteDbContext _writeDbContext;
 
     public UnitOfWork(
         WriteDbContext writeDbContext,

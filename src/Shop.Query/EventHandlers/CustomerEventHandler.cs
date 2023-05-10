@@ -70,8 +70,6 @@ public class CustomerEventHandler :
     }
 
     private void LogEvent<TEvent>(TEvent @event) where TEvent : CustomerBaseEvent
-    {
-        _logger.LogInformation("----- Triggering the event {EventName}, model: {EventModel}",
-            typeof(TEvent).Name, @event.ToJson());
-    }
+        => _logger.LogInformation(
+            "----- Triggering the event {EventName}, model: {EventModel}", typeof(TEvent).Name, @event.ToJson());
 }

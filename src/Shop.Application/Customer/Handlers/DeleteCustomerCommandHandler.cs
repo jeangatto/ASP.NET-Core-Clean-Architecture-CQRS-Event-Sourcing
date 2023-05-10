@@ -11,9 +11,9 @@ namespace Shop.Application.Customer.Handlers;
 
 public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, Result>
 {
-    private readonly DeleteCustomerCommandValidator _validator;
     private readonly ICustomerWriteOnlyRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly DeleteCustomerCommandValidator _validator;
 
     public DeleteCustomerCommandHandler(
         DeleteCustomerCommandValidator validator,
@@ -37,7 +37,7 @@ public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerComman
         if (customer == null)
             return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
 
-        // Efetuando a removeção na entidade.
+        // Marcando a entidade como deletada, o evento CustomerDeletedEvent será adicionado.
         customer.Delete();
 
         // Removendo a entidade no repositório.
