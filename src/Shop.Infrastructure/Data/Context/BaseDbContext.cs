@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Shop.Infrastructure.Data.Extensions;
 
 namespace Shop.Infrastructure.Data.Context;
@@ -10,7 +11,17 @@ public abstract class BaseDbContext<TContext> : DbContext
 
     protected BaseDbContext(DbContextOptions<TContext> dbOptions) : base(dbOptions)
     {
-        ChangeTracker.LazyLoadingEnabled = false;
+    }
+
+    public override ChangeTracker ChangeTracker
+    {
+        get
+        {
+            base.ChangeTracker.LazyLoadingEnabled = false;
+            base.ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
+            base.ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
+            return base.ChangeTracker;
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
