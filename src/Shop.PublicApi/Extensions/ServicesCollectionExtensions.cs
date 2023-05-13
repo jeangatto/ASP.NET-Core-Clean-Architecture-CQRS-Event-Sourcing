@@ -125,6 +125,7 @@ internal static class ServicesCollectionExtensions
             // Configurando a resiliência da conexão.
             // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
             sqlServerOptions.EnableRetryOnFailure(3);
+            sqlServerOptions.CommandTimeout(60);
         }).UseQueryTrackingBehavior(queryTrackingBehavior);
 
         // Log das tentativas de repetição.
