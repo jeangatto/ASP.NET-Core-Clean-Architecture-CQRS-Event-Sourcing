@@ -103,7 +103,11 @@ internal sealed class UnitOfWork : IUnitOfWork
         if (!domainEvents.Any() || !eventStores.Any())
             return;
 
-        var tasks = domainEvents.AsParallel().Select(@event => _mediator.Publish(@event)).ToList();
+        var tasks = domainEvents
+            .AsParallel()
+            .Select(@event => _mediator.Publish(@event))
+            .ToList();
+
         await Task.WhenAll(tasks);
 
         await _eventStoreRepository.StoreAsync(eventStores);
