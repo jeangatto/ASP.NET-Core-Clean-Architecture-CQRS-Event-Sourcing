@@ -7,11 +7,16 @@
 [![License](https://img.shields.io/github/license/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](LICENSE)
 
 Sobre o respoitório:
-Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code, CQRS (Command Query Responsibility Segregation)
+Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code,
+CQRS (Command Query Responsibility Segregation)
 
 ## Dê uma estrela! ⭐
 
 Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
+
+Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.jetbrains.com/pt-br/rider/)
+
+![Rider logo](https://resources.jetbrains.com/storage/products/company/brand/logos/Rider_icon.svg)
 
 ## **Tecnologias**
 
