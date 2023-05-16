@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories.Common;

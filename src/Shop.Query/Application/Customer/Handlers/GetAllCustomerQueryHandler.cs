@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using MediatR;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Query.Application.Customer.Queries;
 using Shop.Query.Data.Repositories.Abstractions;
 using Shop.Query.QueriesModel;

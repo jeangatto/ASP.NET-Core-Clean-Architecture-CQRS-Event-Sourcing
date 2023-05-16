@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Core.Abstractions;
 using Shop.Core.AppSettings;
+using Shop.Core.Domain;
 
 namespace Shop.Core.Extensions;
 

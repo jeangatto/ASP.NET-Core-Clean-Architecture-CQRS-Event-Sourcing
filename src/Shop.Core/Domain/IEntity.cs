@@ -1,6 +1,6 @@
 using System;
 
-namespace Shop.Core.Abstractions;
+namespace Shop.Core.Domain;
 
 /// <summary>
 /// Interface marcadora para representar uma entidade.

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Shop.Core.Abstractions;
 using Shop.Core.AppSettings;
+using Shop.Core.Domain;
 using Shop.Core.Extensions;
 
 namespace Shop.Infrastructure.Data.Services;

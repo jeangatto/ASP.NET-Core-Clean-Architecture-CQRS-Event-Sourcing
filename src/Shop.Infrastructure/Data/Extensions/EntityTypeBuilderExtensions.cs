@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shop.Core.Common;
+using Shop.Core.Domain;
 
 namespace Shop.Infrastructure.Data.Extensions;
 
@@ -11,7 +11,7 @@ internal static class EntityTypeBuilderExtensions
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="builder"></param>
     internal static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
-        where TEntity : BaseEntity
+        where TEntity : Entity
     {
         builder
             .HasKey(entity => entity.Id); // Primary Key

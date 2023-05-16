@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using MediatR;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Query.Application.Customer.Queries;
 using Shop.Query.Data.Repositories.Abstractions;
 using Shop.Query.QueriesModel;
@@ -12,9 +12,9 @@ namespace Shop.Query.Application.Customer.Handlers;
 
 public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, Result<CustomerQueryModel>>
 {
-    private readonly GetCustomerByIdQueryValidator _validator;
-    private readonly ICustomerReadOnlyRepository _repository;
     private readonly ICacheService _cacheService;
+    private readonly ICustomerReadOnlyRepository _repository;
+    private readonly GetCustomerByIdQueryValidator _validator;
 
     public GetCustomerByIdQueryHandler(
         GetCustomerByIdQueryValidator validator,
@@ -26,7 +26,8 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
         _cacheService = cacheService;
     }
 
-    public async Task<Result<CustomerQueryModel>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CustomerQueryModel>> Handle(GetCustomerByIdQuery request,
+        CancellationToken cancellationToken)
     {
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);

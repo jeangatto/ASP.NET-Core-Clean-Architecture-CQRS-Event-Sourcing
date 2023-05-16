@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Handlers;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Core.Events;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.Factories;

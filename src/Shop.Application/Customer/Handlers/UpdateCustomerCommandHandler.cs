@@ -4,7 +4,7 @@ using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
 
@@ -12,9 +12,9 @@ namespace Shop.Application.Customer.Handlers;
 
 public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Result>
 {
-    private readonly UpdateCustomerCommandValidator _validator;
     private readonly ICustomerWriteOnlyRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly UpdateCustomerCommandValidator _validator;
 
     public UpdateCustomerCommandHandler(
         UpdateCustomerCommandValidator validator,

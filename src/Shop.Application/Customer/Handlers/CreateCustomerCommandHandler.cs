@@ -5,7 +5,7 @@ using Ardalis.Result.FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Responses;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.Factories;

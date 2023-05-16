@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Extensions.Configuration;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 
 namespace Shop.Core.Extensions;
 
@@ -10,6 +10,6 @@ public static class ConfigurationExtensions
         = options => options.BindNonPublicProperties = true;
 
     public static TOptions GetOptions<TOptions>(this IConfiguration configuration, string configSectionPath)
-        where TOptions : IAppOptions =>
+        where TOptions : class, IAppOptions =>
         configuration.GetRequiredSection(configSectionPath).Get<TOptions>(ConfigureBinderOptions);
 }

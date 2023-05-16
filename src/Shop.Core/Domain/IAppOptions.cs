@@ -1,4 +1,4 @@
-namespace Shop.Core.Abstractions;
+namespace Shop.Core.Domain;
 
 /// <summary>
 /// Classe base usada para representar uma seção do AppSettings.

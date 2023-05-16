@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Shop.Core.Abstractions;
-using Shop.Core.Common;
+using Shop.Core.Domain;
 using Shop.Core.Events;
 using Shop.Core.Extensions;
 using Shop.Infrastructure.Data.Context;
@@ -82,7 +81,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     {
         var domainEntities = _writeDbContext
             .ChangeTracker
-            .Entries<BaseEntity>()
+            .Entries<Entity>()
             .Where(entry => entry.Entity.DomainEvents.Any())
             .ToList();
 

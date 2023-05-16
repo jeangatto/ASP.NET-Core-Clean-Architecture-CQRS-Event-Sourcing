@@ -1,6 +1,5 @@
 using System;
-using Shop.Core.Abstractions;
-using Shop.Core.Common;
+using Shop.Core.Domain;
 using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate.Events;
 
@@ -9,7 +8,7 @@ namespace Shop.Domain.Entities.CustomerAggregate;
 /// <summary>
 /// Entidade Cliente.
 /// </summary>
-public class Customer : BaseEntity, IAggregateRoot
+public class Customer : Entity, IAggregateRoot
 {
     /// <summary>
     /// Inicializa uma inståncia de um novo cliente.

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Core.Events;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Infrastructure.Behaviors;

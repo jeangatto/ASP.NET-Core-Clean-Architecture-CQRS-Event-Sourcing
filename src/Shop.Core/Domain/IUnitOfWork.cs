@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Shop.Core.Abstractions;
+namespace Shop.Core.Domain;
 
 /// <summary>
 /// Unidade de Trabalho.

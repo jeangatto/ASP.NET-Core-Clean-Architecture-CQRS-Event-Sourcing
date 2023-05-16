@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 using Shop.Core.Extensions;
 using Shop.Domain.Entities.CustomerAggregate.Events;
 using Shop.Query.Abstractions;

@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Shop.Core.Abstractions;
+using Shop.Core.Domain;
 
 namespace Shop.Core.AppSettings;
 
