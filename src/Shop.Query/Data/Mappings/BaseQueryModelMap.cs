@@ -12,7 +12,7 @@ public class BaseQueryModelMap : IReadDbMapping
         {
             map.AutoMap();
             map.SetIgnoreExtraElements(true);
-            map.SetIsRootClass(true);
+            map.SetIsRootClass(true); // Base Abstract Class
 
             map.MapIdMember(queryModel => queryModel.Id)
                 .SetIsRequired(true);

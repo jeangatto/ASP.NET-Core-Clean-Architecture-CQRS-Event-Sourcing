@@ -31,7 +31,7 @@ public class CustomerMap : IReadDbMapping
                 .SetSerializer(new DateTimeSerializer(true));
 
             // Ignore
-            map.UnmapMember(m => m.FullName);
+            map.UnmapMember(customer => customer.FullName);
         });
     }
 }

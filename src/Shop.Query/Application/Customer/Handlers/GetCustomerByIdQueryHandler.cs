@@ -36,7 +36,8 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
 
         var cacheKey = $"{nameof(GetCustomerByIdQuery)}_{request.Id}";
 
-        // Obtendo o cliente da base.
+        // Obtendo o cliente do base e inserindo no serviço de cache
+        // Na próxima consulta irá buscar no serviço de cache
         var customer = await _cacheService.GetOrCreateAsync(cacheKey, () => _repository.GetByIdAsync(request.Id));
         return customer == null
             ? Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}")
