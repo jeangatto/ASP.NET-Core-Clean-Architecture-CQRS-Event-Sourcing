@@ -82,7 +82,7 @@ public sealed class ReadDbContext : IReadDbContext
 
         foreach (var collectionName in GetCollectionNamesFromAssembly())
         {
-            if (!collections.Any(name => string.Equals(name, collectionName, StringComparison.Ordinal)))
+            if (!collections.Any(n => n.Equals(collectionName, StringComparison.InvariantCultureIgnoreCase)))
             {
                 _logger.LogInformation("----- MongoDB: criando a coleção {Name}", collectionName);
                 await _database.CreateCollectionAsync(collectionName);
