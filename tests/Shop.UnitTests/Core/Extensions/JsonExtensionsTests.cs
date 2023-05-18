@@ -8,7 +8,8 @@ namespace Shop.UnitTests.Core.Extensions;
 [UnitTest]
 public class JsonExtensionsTests
 {
-    private const string UserJson = "{\"email\":\"john.doe@hotmail.com\",\"userName\":\"John Doe\",\"status\":\"active\"}";
+    private const string UserJson =
+        "{\"email\":\"john.doe@hotmail.com\",\"userName\":\"John Doe\",\"status\":\"active\"}";
 
     [Fact]
     public void Should_ReturnJsonString_WhenSerialize()
@@ -34,6 +35,9 @@ public class JsonExtensionsTests
 
         // Assert
         act.Should().NotBeNull().And.BeEquivalentTo(expectedUser);
+        act.UserName.Should().NotBeNullOrWhiteSpace();
+        act.Email.Should().NotBeNullOrWhiteSpace();
+        act.Status.Should().Be(EStatus.Active);
     }
 
     [Fact]
@@ -68,17 +72,10 @@ public class JsonExtensionsTests
         Inactive = 1
     }
 
-    private record User
+    private record User(string UserName, string Email, EStatus Status)
     {
-        public User(string userName, string email, EStatus status)
-        {
-            UserName = userName;
-            Email = email;
-            Status = status;
-        }
-
-        public string Email { get; private set; }
-        public string UserName { get; private set; }
-        public EStatus Status { get; private set; }
+        public string Email { get; } = Email;
+        public string UserName { get; } = UserName;
+        public EStatus Status { get; } = Status;
     }
 }
