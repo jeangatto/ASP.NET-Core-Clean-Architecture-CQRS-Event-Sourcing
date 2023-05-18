@@ -10,6 +10,8 @@ namespace Shop.Domain.Entities.CustomerAggregate;
 /// </summary>
 public class Customer : Entity, IAggregateRoot
 {
+    private bool _isDeleted;
+
     /// <summary>
     /// Inicializa uma inståncia de um novo cliente.
     /// </summary>
@@ -76,6 +78,11 @@ public class Customer : Entity, IAggregateRoot
     /// <summary>
     /// Adiciona o evento de entidade deletada.
     /// </summary>
-    public void Delete() =>
+    public void Delete()
+    {
+        if (_isDeleted) return;
+
+        _isDeleted = true;
         AddDomainEvent(new CustomerDeletedEvent(Id, FirstName, LastName, Gender, Email.Address, DateOfBirth));
+    }
 }
