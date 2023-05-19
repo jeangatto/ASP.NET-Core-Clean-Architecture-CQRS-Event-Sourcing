@@ -8,13 +8,14 @@ public class BaseQueryModelMap : IReadDbMapping
 {
     public void Configure()
     {
-        BsonClassMap.TryRegisterClassMap<BaseQueryModel>(map =>
+        // TryRegisterClassMap: Registers a class map if it is not already registered.
+        BsonClassMap.TryRegisterClassMap<BaseQueryModel>(classMap =>
         {
-            map.AutoMap();
-            map.SetIgnoreExtraElements(true);
-            map.SetIsRootClass(true); // Base Abstract Class
+            classMap.AutoMap();
+            classMap.SetIgnoreExtraElements(true);
+            classMap.SetIsRootClass(true);
 
-            map.MapIdMember(queryModel => queryModel.Id)
+            classMap.MapIdMember(queryModel => queryModel.Id)
                 .SetIsRequired(true);
         });
     }

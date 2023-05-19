@@ -9,29 +9,30 @@ public class CustomerMap : IReadDbMapping
 {
     public void Configure()
     {
-        BsonClassMap.TryRegisterClassMap<CustomerQueryModel>(map =>
+        // TryRegisterClassMap: Registers a class map if it is not already registered.
+        BsonClassMap.TryRegisterClassMap<CustomerQueryModel>(classMap =>
         {
-            map.AutoMap();
-            map.SetIgnoreExtraElements(true);
+            classMap.AutoMap();
+            classMap.SetIgnoreExtraElements(true);
 
-            map.MapMember(customer => customer.FirstName)
+            classMap.MapMember(customer => customer.FirstName)
                 .SetIsRequired(true);
 
-            map.MapMember(customer => customer.LastName)
+            classMap.MapMember(customer => customer.LastName)
                 .SetIsRequired(true);
 
-            map.MapMember(customer => customer.Gender)
+            classMap.MapMember(customer => customer.Gender)
                 .SetIsRequired(true);
 
-            map.MapMember(customer => customer.Email)
+            classMap.MapMember(customer => customer.Email)
                 .SetIsRequired(true);
 
-            map.MapMember(customer => customer.DateOfBirth)
+            classMap.MapMember(customer => customer.DateOfBirth)
                 .SetIsRequired(true)
                 .SetSerializer(new DateTimeSerializer(true));
 
             // Ignore
-            map.UnmapMember(customer => customer.FullName);
+            classMap.UnmapMember(customer => customer.FullName);
         });
     }
 }
