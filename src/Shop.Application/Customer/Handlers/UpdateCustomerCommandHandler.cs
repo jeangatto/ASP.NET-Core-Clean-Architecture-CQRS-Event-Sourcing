@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
 using Shop.Core.Domain;
@@ -14,10 +15,10 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
 {
     private readonly ICustomerWriteOnlyRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly UpdateCustomerCommandValidator _validator;
+    private readonly IValidator<UpdateCustomerCommand> _validator;
 
     public UpdateCustomerCommandHandler(
-        UpdateCustomerCommandValidator validator,
+        IValidator<UpdateCustomerCommand> validator,
         ICustomerWriteOnlyRepository repository,
         IUnitOfWork unitOfWork)
     {

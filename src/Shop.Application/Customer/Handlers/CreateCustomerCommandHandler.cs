@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Responses;
@@ -16,10 +17,10 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 {
     private readonly ICustomerWriteOnlyRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly CreateCustomerCommandValidator _validator;
+    private readonly IValidator<CreateCustomerCommand> _validator;
 
     public CreateCustomerCommandHandler(
-        CreateCustomerCommandValidator validator,
+        IValidator<CreateCustomerCommand> validator,
         ICustomerWriteOnlyRepository repository,
         IUnitOfWork unitOfWork)
     {
@@ -28,7 +29,8 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<CreatedCustomerResponse>> Handle(CreateCustomerCommand request,
+    public async Task<Result<CreatedCustomerResponse>> Handle(
+        CreateCustomerCommand request,
         CancellationToken cancellationToken)
     {
         // Validanto a requisição.

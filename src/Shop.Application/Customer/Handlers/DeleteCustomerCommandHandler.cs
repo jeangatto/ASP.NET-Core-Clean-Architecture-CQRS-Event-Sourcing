@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
 using Shop.Core.Domain;
@@ -13,10 +14,10 @@ public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerComman
 {
     private readonly ICustomerWriteOnlyRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly DeleteCustomerCommandValidator _validator;
+    private readonly IValidator<DeleteCustomerCommand> _validator;
 
     public DeleteCustomerCommandHandler(
-        DeleteCustomerCommandValidator validator,
+        IValidator<DeleteCustomerCommand> validator,
         ICustomerWriteOnlyRepository repository,
         IUnitOfWork unitOfWork)
     {
