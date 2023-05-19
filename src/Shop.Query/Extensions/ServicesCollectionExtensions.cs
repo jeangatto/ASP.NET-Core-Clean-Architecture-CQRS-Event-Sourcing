@@ -28,7 +28,7 @@ public static class ServicesCollectionExtensions
         // Use AddValidatorsFromAssembly instead of AddValidatorsFromAssemblies
         services.AddValidatorsFromAssembly(executingAssembly);
 
-        services.AddScoped<IReadDbContext, ReadDbContext>();
+        services.AddSingleton<IReadDbContext, ReadDbContext>();
         services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
         ConfigureMongoDb();
@@ -53,7 +53,7 @@ public static class ServicesCollectionExtensions
         // Passo 3º: Registrar as configurações dos mapeamento das classes.
         // É recomendável registrar todos os mapeamentos antes de inicializar a conexão com o MongoDb
         // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/
-        new BaseQueryModelMap().Configure();
+        new BaseQueryModelMap().Configure(); // Base abstract class
         new CustomerMap().Configure();
     }
 }
