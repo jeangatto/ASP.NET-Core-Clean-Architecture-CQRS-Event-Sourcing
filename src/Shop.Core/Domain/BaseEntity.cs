@@ -7,14 +7,14 @@ namespace Shop.Core.Domain;
 /// <summary>
 /// Classe base que contém os comportamentos de uma entidade.
 /// </summary>
-public abstract class Entity : IEntity<Guid>
+public abstract class BaseEntity : IEntity<Guid>
 {
-    private readonly List<Event> _domainEvents = new();
+    private readonly List<BaseEvent> _domainEvents = new();
 
     /// <summary>
     /// Eventos de domínio que ocorreram.
     /// </summary>
-    public IEnumerable<Event> DomainEvents => _domainEvents.AsReadOnly();
+    public IEnumerable<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     public Guid Id { get; } = Guid.NewGuid();
 
@@ -22,7 +22,7 @@ public abstract class Entity : IEntity<Guid>
     /// Adicionar evento de domínio.
     /// </summary>
     /// <param name="domainEvent"></param>
-    protected void AddDomainEvent(Event domainEvent) => _domainEvents.Add(domainEvent);
+    protected void AddDomainEvent(BaseEvent domainEvent) => _domainEvents.Add(domainEvent);
 
     /// <summary>
     /// Limpa os eventos de domínio.

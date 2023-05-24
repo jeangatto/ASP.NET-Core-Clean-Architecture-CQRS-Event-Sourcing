@@ -5,7 +5,7 @@ namespace Shop.Core.Events;
 /// <summary>
 /// A classe de armazenamento de evento.
 /// </summary>
-public class EventStore : Event
+public class EventStore : BaseEvent
 {
     public EventStore(Guid aggregateId, string messageType, string data)
     {

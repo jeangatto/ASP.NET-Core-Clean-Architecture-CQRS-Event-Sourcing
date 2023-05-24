@@ -77,11 +77,11 @@ internal sealed class UnitOfWork : IUnitOfWork
         });
     }
 
-    private (IReadOnlyList<Event> domainEvents, IReadOnlyList<EventStore> eventStores) BeforeSaveChanges()
+    private (IReadOnlyList<BaseEvent> domainEvents, IReadOnlyList<EventStore> eventStores) BeforeSaveChanges()
     {
         var domainEntities = _writeDbContext
             .ChangeTracker
-            .Entries<Entity>()
+            .Entries<BaseEntity>()
             .Where(entry => entry.Entity.DomainEvents.Any())
             .ToList();
 
@@ -97,7 +97,9 @@ internal sealed class UnitOfWork : IUnitOfWork
         return (domainEvents.AsReadOnly(), eventStores.AsReadOnly());
     }
 
-    private async Task AfterSaveChangesAsync(IReadOnlyList<Event> domainEvents, IReadOnlyList<EventStore> eventStores)
+    private async Task AfterSaveChangesAsync(
+        IReadOnlyList<BaseEvent> domainEvents,
+        IReadOnlyList<EventStore> eventStores)
     {
         if (!domainEvents.Any() || !eventStores.Any())
             return;

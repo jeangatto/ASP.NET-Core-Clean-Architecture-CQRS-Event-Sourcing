@@ -11,7 +11,7 @@ internal static class EntityTypeBuilderExtensions
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="builder"></param>
     internal static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
-        where TEntity : Entity
+        where TEntity : BaseEntity
     {
         builder
             .HasKey(entity => entity.Id); // Primary Key

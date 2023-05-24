@@ -6,7 +6,7 @@ namespace Shop.Core.Events;
 /// <summary>
 /// Evento.
 /// </summary>
-public abstract class Event : INotification
+public abstract class BaseEvent : INotification
 {
     /// <summary>
     /// O tipo do evento.

@@ -8,7 +8,7 @@ namespace Shop.Domain.Entities.CustomerAggregate;
 /// <summary>
 /// Entidade Cliente.
 /// </summary>
-public class Customer : Entity, IAggregateRoot
+public class Customer : BaseEntity, IAggregateRoot
 {
     private bool _isDeleted;
 

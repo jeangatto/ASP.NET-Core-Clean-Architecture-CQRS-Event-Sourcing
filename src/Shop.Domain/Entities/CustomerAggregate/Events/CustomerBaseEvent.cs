@@ -3,7 +3,7 @@ using Shop.Core.Events;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Events;
 
-public abstract class CustomerBaseEvent : Event
+public abstract class CustomerBaseEvent : BaseEvent
 {
     protected CustomerBaseEvent(
         Guid id,
