@@ -1,3 +1,5 @@
+using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.AppSettings;
 using Shop.Core.Domain;
@@ -6,6 +8,9 @@ namespace Shop.Core.Extensions;
 
 public static class ServicesCollectionExtensions
 {
+    private static readonly Action<BinderOptions> ConfigureBinderOptions
+        = options => options.BindNonPublicProperties = true;
+
     public static void ConfigureAppSettings(this IServiceCollection services)
     {
         services.AddOptionsWithValidation<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
@@ -17,7 +22,7 @@ public static class ServicesCollectionExtensions
     {
         services
             .AddOptions<TOptions>()
-            .BindConfiguration(configSectionPath, options => options.BindNonPublicProperties = true)
+            .BindConfiguration(configSectionPath, ConfigureBinderOptions)
             .ValidateDataAnnotations()
             .ValidateOnStart();
     }
