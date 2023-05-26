@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.DataEncryption;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Infrastructure.Data.Extensions;
@@ -40,7 +41,8 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
                 .IsRequired() // NOT NULL
                 .IsUnicode(false) // VARCHAR
                 .HasMaxLength(254)
-                .HasColumnName(nameof(Customer.Email));
+                .HasColumnName(nameof(Customer.Email))
+                .IsEncrypted(); // Encrypted Column, ref: https://github.com/Eastrall/EntityFrameworkCore.DataEncryption
 
             // Unique Index
             ownedNav
