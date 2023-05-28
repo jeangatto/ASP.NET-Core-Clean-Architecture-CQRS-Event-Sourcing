@@ -6,6 +6,9 @@ on:
     branches: [main]
     paths-ignore:
       - "README.md"
+      - "docs/**"
+      - "**/*.md"
+      - "**/*.yml"
   schedule:
     - cron: "34 13 * * 5"
 
