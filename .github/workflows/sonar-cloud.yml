@@ -14,7 +14,7 @@ permissions:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Set up JDK 11
