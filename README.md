@@ -1,18 +1,20 @@
 # ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture
 
-[![Build](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/dotnet.yml)
-[![CodeQL](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/codeql-analysis.yml)
-[![DevSkim](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/devskim-analysis.yml)
 [![wakatime](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 [![License](https://img.shields.io/github/license/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](LICENSE)
 
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=coverage)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Build](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/dotnet.yml)
+[![SonarCloud](https://github.com/JeanGatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/sonar-cloud.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/sonar-cloud.yml)
+[![CodeQL](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/codeql-analysis.yml)
+[![DevSkim](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/devskim-analysis.yml)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=coverage)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 
 Sobre o respoitório:
 Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code,
