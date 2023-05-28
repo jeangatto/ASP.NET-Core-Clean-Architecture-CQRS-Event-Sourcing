@@ -6,6 +6,14 @@
 [![wakatime](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 [![License](https://img.shields.io/github/license/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](LICENSE)
 
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=coverage)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=jeangatto_ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+
 Sobre o respoitório:
 Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code,
 CQRS (Command Query Responsibility Segregation)
