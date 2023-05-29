@@ -32,7 +32,7 @@ public class Customer : BaseEntity, IAggregateRoot
         AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email.Address, dateOfBirth));
     }
 
-    private Customer() { } // ORM
+    public Customer() { } // Only for EF/ORM
 
     /// <summary>
     /// Primeiro Nome.
