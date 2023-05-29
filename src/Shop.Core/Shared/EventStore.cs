@@ -22,7 +22,7 @@ public class EventStore : BaseEvent
     public Guid Id { get; private init; } = Guid.NewGuid();
 
     /// <summary>
-    /// O dadso do evento serializado em JSON.
+    /// Os dados do evento serializado em JSON.
     /// </summary>
     public string Data { get; private init; }
 }
