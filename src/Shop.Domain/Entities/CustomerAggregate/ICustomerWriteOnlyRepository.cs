@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Shop.Core.Domain;
-using Shop.Core.ValueObjects;
+using Shop.Core.Shared;
+using Shop.Domain.ValueObjects;
 
 namespace Shop.Domain.Entities.CustomerAggregate;
 

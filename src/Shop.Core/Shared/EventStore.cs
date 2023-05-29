@@ -1,6 +1,6 @@
 using System;
 
-namespace Shop.Core.Events;
+namespace Shop.Core.Shared;
 
 /// <summary>
 /// A classe de armazenamento de evento.

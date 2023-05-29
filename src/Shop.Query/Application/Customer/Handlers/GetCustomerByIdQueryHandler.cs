@@ -4,7 +4,7 @@ using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using FluentValidation;
 using MediatR;
-using Shop.Core.Domain;
+using Shop.Core.Shared;
 using Shop.Query.Application.Customer.Queries;
 using Shop.Query.Data.Repositories.Abstractions;
 using Shop.Query.QueriesModel;

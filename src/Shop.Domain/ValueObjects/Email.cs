@@ -1,4 +1,4 @@
-namespace Shop.Core.ValueObjects;
+namespace Shop.Domain.ValueObjects;
 
 public sealed record Email
 {

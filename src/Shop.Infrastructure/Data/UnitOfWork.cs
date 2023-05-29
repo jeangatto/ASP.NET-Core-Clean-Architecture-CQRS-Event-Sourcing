@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Shop.Core.Domain;
-using Shop.Core.Events;
 using Shop.Core.Extensions;
+using Shop.Core.Shared;
 using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;

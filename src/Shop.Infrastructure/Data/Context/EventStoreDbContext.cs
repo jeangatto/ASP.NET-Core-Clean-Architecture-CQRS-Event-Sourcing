@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Shop.Core.Events;
+using Shop.Core.Shared;
 using Shop.Infrastructure.Data.Mappings;
 
 namespace Shop.Infrastructure.Data.Context;

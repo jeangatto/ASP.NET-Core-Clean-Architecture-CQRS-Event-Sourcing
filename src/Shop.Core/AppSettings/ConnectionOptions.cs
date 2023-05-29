@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using Shop.Core.Domain;
+using Shop.Core.Shared;
 
 namespace Shop.Core.AppSettings;
 

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shop.Core.Events;
+using Shop.Core.Shared;
 
 namespace Shop.Infrastructure.Data.Mappings;
 

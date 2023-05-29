@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Shop.Core.Events;
 
-namespace Shop.Core.Domain;
+namespace Shop.Core.Shared;
 
 /// <summary>
 /// Classe base que contém os comportamentos de uma entidade.

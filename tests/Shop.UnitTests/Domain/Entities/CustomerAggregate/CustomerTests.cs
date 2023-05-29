@@ -1,9 +1,9 @@
 using Bogus;
 using FluentAssertions;
-using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.Entities.CustomerAggregate.Events;
 using Shop.Domain.Factories;
+using Shop.Domain.ValueObjects;
 using Xunit;
 using Xunit.Categories;
 

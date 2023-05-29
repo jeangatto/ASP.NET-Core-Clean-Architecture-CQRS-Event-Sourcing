@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Shop.Core.Events;
+namespace Shop.Core.Shared;
 
 /// <summary>
 /// Repositório de armazenamento de eventos.

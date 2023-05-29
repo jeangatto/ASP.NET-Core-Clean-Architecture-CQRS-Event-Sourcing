@@ -5,9 +5,9 @@ using Ardalis.Result.FluentValidation;
 using FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
-using Shop.Core.Domain;
-using Shop.Core.ValueObjects;
+using Shop.Core.Shared;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;
 

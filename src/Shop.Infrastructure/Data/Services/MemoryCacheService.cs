@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Shop.Core.AppSettings;
-using Shop.Core.Domain;
+using Shop.Core.Shared;
 
 namespace Shop.Infrastructure.Data.Services;
 

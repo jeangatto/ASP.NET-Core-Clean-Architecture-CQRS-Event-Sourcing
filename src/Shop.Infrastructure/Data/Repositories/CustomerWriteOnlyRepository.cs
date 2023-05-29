@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.ValueObjects;
 using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Repositories.Common;
 

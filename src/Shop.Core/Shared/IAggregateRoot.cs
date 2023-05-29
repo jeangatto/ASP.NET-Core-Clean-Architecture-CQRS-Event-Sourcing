@@ -1,4 +1,4 @@
-namespace Shop.Core.Domain;
+namespace Shop.Core.Shared;
 
 /// <summary>
 /// Interface marcadora para representar uma raiz de agregação.

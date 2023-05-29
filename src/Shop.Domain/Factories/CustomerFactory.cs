@@ -1,6 +1,6 @@
 using System;
-using Shop.Core.ValueObjects;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.ValueObjects;
 
 namespace Shop.Domain.Factories;
 

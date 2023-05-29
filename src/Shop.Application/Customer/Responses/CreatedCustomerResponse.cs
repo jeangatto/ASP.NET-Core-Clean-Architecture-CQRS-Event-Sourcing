@@ -1,5 +1,5 @@
 using System;
-using Shop.Core.Domain;
+using Shop.Core.Shared;
 
 namespace Shop.Application.Customer.Responses;
 

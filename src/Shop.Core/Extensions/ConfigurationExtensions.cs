@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Extensions.Configuration;
-using Shop.Core.Domain;
+using Shop.Core.Shared;
 
 namespace Shop.Core.Extensions;
 
