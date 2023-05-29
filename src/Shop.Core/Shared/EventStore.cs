@@ -14,7 +14,7 @@ public class EventStore : BaseEvent
         Data = data;
     }
 
-    private EventStore() { } // ORM
+    public EventStore() { } // Only for EF/ORM
 
     /// <summary>
     /// ID do evento.
