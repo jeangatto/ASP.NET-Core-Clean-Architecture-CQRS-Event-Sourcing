@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.Result.FluentValidation" Version="7.0.0" />
-    <PackageReference Include="Ardalis.Result" Version="7.0.0" />
+    <PackageReference Include="Ardalis.Result.FluentValidation" Version="7.1.0" />
+    <PackageReference Include="Ardalis.Result" Version="7.1.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
