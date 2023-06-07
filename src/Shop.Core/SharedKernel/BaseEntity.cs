@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Shop.Core.Shared;
+namespace Shop.Core.SharedKernel;
 
 /// <summary>
 /// Classe base que contém os comportamentos de uma entidade.

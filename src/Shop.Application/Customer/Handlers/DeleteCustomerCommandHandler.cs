@@ -5,7 +5,7 @@ using Ardalis.Result.FluentValidation;
 using FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 using Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.Application.Customer.Handlers;

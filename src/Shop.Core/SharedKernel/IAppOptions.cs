@@ -1,4 +1,4 @@
-namespace Shop.Core.Shared;
+namespace Shop.Core.SharedKernel;
 
 /// <summary>
 /// Classe base usada para representar uma seção do AppSettings.

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Infrastructure.Behaviors;
 using Shop.Infrastructure.Data;

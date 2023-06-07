@@ -1,5 +1,5 @@
 using System;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Events;
 

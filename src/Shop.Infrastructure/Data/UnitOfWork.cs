@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shop.Core.Extensions;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;

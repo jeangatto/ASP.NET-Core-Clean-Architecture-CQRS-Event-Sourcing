@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using MediatR;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 using Shop.Query.Application.Customer.Queries;
 using Shop.Query.Data.Repositories.Abstractions;
 using Shop.Query.QueriesModel;

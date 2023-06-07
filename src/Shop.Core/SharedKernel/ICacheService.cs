@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Shop.Core.Shared;
+namespace Shop.Core.SharedKernel;
 
 public interface ICacheService
 {

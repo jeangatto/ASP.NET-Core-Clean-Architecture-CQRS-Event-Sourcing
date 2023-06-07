@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 
 namespace Shop.Infrastructure.Data.Services;
 

@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 
 namespace Shop.Core.AppSettings;
 

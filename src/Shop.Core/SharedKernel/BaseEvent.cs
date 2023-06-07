@@ -1,7 +1,7 @@
 using System;
 using MediatR;
 
-namespace Shop.Core.Shared;
+namespace Shop.Core.SharedKernel;
 
 /// <summary>
 /// Evento.

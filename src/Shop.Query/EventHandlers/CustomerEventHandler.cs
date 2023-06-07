@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Shop.Core.Extensions;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 using Shop.Domain.Entities.CustomerAggregate.Events;
 using Shop.Query.Abstractions;
 using Shop.Query.Application.Customer.Queries;

@@ -1,4 +1,4 @@
-namespace Shop.Core.Shared;
+namespace Shop.Core.SharedKernel;
 
 /// <summary>
 /// Interface marcadora para representar uma raiz de agregação.

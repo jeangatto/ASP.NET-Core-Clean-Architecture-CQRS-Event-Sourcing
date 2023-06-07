@@ -6,7 +6,7 @@ using FluentValidation;
 using MediatR;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Responses;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.Factories;
 using Shop.Domain.ValueObjects;

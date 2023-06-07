@@ -1,4 +1,4 @@
-namespace Shop.Core.Shared;
+namespace Shop.Core.SharedKernel;
 
 /// <summary>
 /// Classe base usada pelas respostas da API.

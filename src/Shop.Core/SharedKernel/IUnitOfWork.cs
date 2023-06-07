@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Shop.Core.Shared;
+namespace Shop.Core.SharedKernel;
 
 /// <summary>
 /// Unidade de Trabalho.

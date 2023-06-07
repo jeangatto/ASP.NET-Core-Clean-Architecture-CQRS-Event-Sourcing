@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.AppSettings;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 
 namespace Shop.Core.Extensions;
 

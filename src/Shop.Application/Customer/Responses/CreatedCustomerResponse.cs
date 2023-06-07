@@ -1,5 +1,5 @@
 using System;
-using Shop.Core.Shared;
+using Shop.Core.SharedKernel;
 
 namespace Shop.Application.Customer.Responses;
 
