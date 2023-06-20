@@ -15,7 +15,4 @@ public static class AssemblyExtensions
             .Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && isAssignableToTInterface(t))
             .ToList();
     }
-
-    public static IEnumerable<TInterface> GetAllInstacesOf<TInterface>(this Assembly assembly) =>
-        assembly.GetAllTypesOf<TInterface>().Select(impl => (TInterface)Activator.CreateInstance(impl));
 }
