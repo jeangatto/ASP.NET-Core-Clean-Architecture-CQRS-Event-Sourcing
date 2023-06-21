@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
@@ -36,14 +37,19 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
+        {
+            // Retorna o resultado com os erros da validação.
+            return Result<CreatedCustomerResponse>.Invalid(validationResult.AsErrors());
+        }
 
         // Instanciando o VO Email.
-        var email = new Email(request.Email);
+        var emailResult = Email.Create(request.Email);
+        if (!emailResult.IsSuccess)
+            return Result<CreatedCustomerResponse>.Error(emailResult.Errors.ToArray());
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
-        if (await _repository.ExistsByEmailAsync(email))
-            return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
+        if (await _repository.ExistsByEmailAsync(emailResult.Value))
+            return Result<CreatedCustomerResponse>.Error("O endereço de e-mail informado já está sendo utilizado.");
 
         // Criando a instancia da entidade cliente.
         // Ao instanciar será criado o evento: "CustomerCreatedEvent"
@@ -51,7 +57,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             request.FirstName,
             request.LastName,
             request.Gender,
-            email,
+            emailResult.Value,
             request.DateOfBirth);
 
         // Adicionando a entidade no repositório.
@@ -61,6 +67,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         await _unitOfWork.SaveChangesAsync();
 
         // Retornando o ID e a mensagem de sucesso.
-        return Result.Success(new CreatedCustomerResponse(customer.Id), "Cadastrado com sucesso!");
+        return Result<CreatedCustomerResponse>.Success(
+            new CreatedCustomerResponse(customer.Id), "Cadastrado com sucesso!");
     }
 }
