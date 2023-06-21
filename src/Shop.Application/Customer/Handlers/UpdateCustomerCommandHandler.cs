@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
@@ -40,14 +41,16 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
             return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
 
         // Instanciando o VO Email.
-        var newEmail = new Email(request.Email);
+        var emailResult = Email.Create(request.Email);
+        if (!emailResult.IsSuccess)
+            return Result.Error(emailResult.Errors.ToArray());
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
-        if (await _repository.ExistsByEmailAsync(newEmail, customer.Id))
+        if (await _repository.ExistsByEmailAsync(emailResult.Value, customer.Id))
             return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
 
         // Efetuando a alteração do e-mail na entidade.
-        customer.ChangeEmail(newEmail);
+        customer.ChangeEmail(emailResult.Value);
 
         // Atualizando a entidade no repositório.
         _repository.Update(customer);
