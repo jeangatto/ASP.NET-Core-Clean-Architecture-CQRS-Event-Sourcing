@@ -22,7 +22,11 @@ public class GetAllCustomerQueryHandler : IRequestHandler<GetAllCustomerQuery, R
         _cacheService = cacheService;
     }
 
-    public async Task<Result<IEnumerable<CustomerQueryModel>>> Handle(GetAllCustomerQuery request,
-        CancellationToken cancellationToken) =>
-        Result.Success(await _cacheService.GetOrCreateAsync(CacheKey, _readOnlyRepository.GetAllAsync));
+    public async Task<Result<IEnumerable<CustomerQueryModel>>> Handle(
+        GetAllCustomerQuery request,
+        CancellationToken cancellationToken)
+    {
+        return Result<IEnumerable<CustomerQueryModel>>.Success(
+            await _cacheService.GetOrCreateAsync(CacheKey, _readOnlyRepository.GetAllAsync));
+    }
 }
