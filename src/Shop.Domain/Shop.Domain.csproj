@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Result" Version="7.1.0" />
+  </ItemGroup>
+
 </Project>
