@@ -48,7 +48,7 @@ public class CustomerTests
             .Generate();
 
         var email = new Faker<Email>()
-            .CustomInstantiator(faker => new Email(faker.Person.Email))
+            .CustomInstantiator(faker => Email.Create(faker.Person.Email).Value)
             .Generate();
 
         // Act
