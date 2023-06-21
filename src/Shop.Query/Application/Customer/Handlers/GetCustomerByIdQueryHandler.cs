@@ -34,7 +34,10 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
+        {
+            // Retorna o resultado com os erros da validação.
+            return Result<CustomerQueryModel>.Invalid(validationResult.AsErrors());
+        }
 
         var cacheKey = $"{nameof(GetCustomerByIdQuery)}_{request.Id}";
 
@@ -42,7 +45,7 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
         // Na próxima consulta irá buscar no serviço de cache
         var customer = await _cacheService.GetOrCreateAsync(cacheKey, () => _repository.GetByIdAsync(request.Id));
         return customer == null
-            ? Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}")
-            : Result.Success(customer);
+            ? Result<CustomerQueryModel>.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}")
+            : Result<CustomerQueryModel>.Success(customer);
     }
 }
