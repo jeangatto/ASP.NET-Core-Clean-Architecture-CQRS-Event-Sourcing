@@ -9,9 +9,12 @@ public sealed class ConnectionOptions : IAppOptions
 {
     public const string ConfigSectionPath = "ConnectionStrings";
 
-    [Required] public string SqlConnection { get; private init; }
+    [Required]
+    public string SqlConnection { get; private init; }
 
-    [Required] public string NoSqlConnection { get; private init; }
+    [Required]
+    public string NoSqlConnection { get; private init; }
 
-    [Required] public string CacheConnection { get; private init; }
+    [Required]
+    public string CacheConnection { get; private init; }
 }
