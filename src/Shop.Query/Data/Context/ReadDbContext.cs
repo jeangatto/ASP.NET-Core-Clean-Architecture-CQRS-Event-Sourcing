@@ -130,6 +130,8 @@ public sealed class ReadDbContext : IReadDbContext
         void OnRetry(Exception ex, TimeSpan _) => logger.LogError(ex,
             "Ocorreu uma exceção não esperada ao salvar no MongoDB: {Message}", ex.Message);
 
-        return Policy.Handle<MongoException>().WaitAndRetryAsync(2, SleepDurationProvider, OnRetry);
+        return Policy
+            .Handle<MongoException>()
+            .WaitAndRetryAsync(2, SleepDurationProvider, OnRetry);
     }
 }
