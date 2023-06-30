@@ -5,8 +5,8 @@ namespace Shop.Domain.ValueObjects;
 
 public sealed record Email
 {
-    private Email(string address)
-        => Address = address.ToLowerInvariant().Trim();
+    private Email(string address) =>
+        Address = address.ToLowerInvariant().Trim();
 
     public Email() { } // Only for EF/ORM
 
@@ -22,6 +22,6 @@ public sealed record Email
             : Result<Email>.Success(new Email(emailAddress));
     }
 
-    public override string ToString()
-        => Address;
+    public override string ToString() =>
+        Address;
 }
