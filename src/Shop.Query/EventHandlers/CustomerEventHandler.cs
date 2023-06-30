@@ -69,7 +69,6 @@ public class CustomerEventHandler :
         await _cacheService.RemoveAsync(cacheKeys);
     }
 
-    private void LogEvent<TEvent>(TEvent @event) where TEvent : CustomerBaseEvent
-        => _logger.LogInformation(
-            "----- Triggering the event {EventName}, model: {EventModel}", typeof(TEvent).Name, @event.ToJson());
+    private void LogEvent<TEvent>(TEvent @event) where TEvent : CustomerBaseEvent =>
+        _logger.LogInformation("----- Triggering the event {EventName}, model: {EventModel}", typeof(TEvent).Name, @event.ToJson());
 }
