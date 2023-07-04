@@ -17,6 +17,7 @@ using Shop.Application;
 using Shop.Core.Extensions;
 using Shop.Infrastructure.Extensions;
 using Shop.PublicApi.Extensions;
+using Shop.PublicApi.Middlewares;
 using Shop.Query.Extensions;
 using StackExchange.Profiling;
 
@@ -68,6 +69,7 @@ builder.Services.AddHealthChecks(builder.Configuration);
 
 // Adicionando os serviços da aplicação no ASP.NET Core DI.
 builder.Services.ConfigureAppSettings();
+builder.Services.AddCorrelationGenerator();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.AddQuery();
@@ -119,6 +121,7 @@ app.UseResponseCompression();
 app.UseHttpLogging();
 app.UseHttpsRedirection();
 app.UseMiniProfiler();
+app.UseCorrelationId();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
