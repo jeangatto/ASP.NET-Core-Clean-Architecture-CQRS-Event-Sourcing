@@ -3,7 +3,7 @@ name: "CodeQL"
 on:
   push:
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
       - "README.md"
       - ".github/workflows/**.yml"
@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ "csharp" ]
+        language: ["csharp"]
 
     steps:
       - name: Checkout repository
