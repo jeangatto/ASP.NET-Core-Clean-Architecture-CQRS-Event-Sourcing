@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.SharedKernel;
@@ -10,6 +11,7 @@ using Shop.Infrastructure.Data.Services;
 
 namespace Shop.Infrastructure.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
     public static void AddMemoryCacheService(this IServiceCollection services)

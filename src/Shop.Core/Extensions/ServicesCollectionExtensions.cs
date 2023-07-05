@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.AppSettings;
@@ -7,6 +8,7 @@ using Shop.Core.SharedKernel.Correlation;
 
 namespace Shop.Core.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
     private static readonly Action<BinderOptions> ConfigureBinderOptions
