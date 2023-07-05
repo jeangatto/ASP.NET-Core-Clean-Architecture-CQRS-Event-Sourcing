@@ -111,6 +111,7 @@ if (app.Environment.IsDevelopment())
 app.UseHealthChecks("/health",
     new HealthCheckOptions
     {
+        Predicate = _ => true,
         AllowCachingResponses = false,
         ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
     });
@@ -146,5 +147,4 @@ await app.MigrateDbAsync(serviceScope);
 app.Logger.LogInformation("----- Bases de dados migradas com sucesso!");
 
 app.Logger.LogInformation("----- Iniciando aplicação...");
-
 await app.RunAsync();
