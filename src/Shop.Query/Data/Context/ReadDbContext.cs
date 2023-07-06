@@ -69,30 +69,23 @@ public sealed class ReadDbContext : IReadDbContext
 
     public async Task CreateCollectionsAsync()
     {
-        // Retrieve the list of collection names from the database asynchronously
         using var asyncCursor = await _database.ListCollectionNamesAsync();
         var collections = await asyncCursor.ToListAsync();
 
-        // Iterate through each collection name obtained from the assembly
         foreach (var collectionName in GetCollectionNamesFromAssembly())
         {
             // Check if the collection does not exist in the database
-            if (!collections.Exists(n => n.Equals(collectionName, StringComparison.InvariantCultureIgnoreCase)))
+            if (!collections.Exists(db => db.Equals(collectionName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                // Log a message indicating that the collection is being created
                 _logger.LogInformation("----- MongoDB: creating the Collection {Name}", collectionName);
-
-                // Create the collection asynchronously
                 await _database.CreateCollectionAsync(collectionName);
             }
             else
             {
-                // Log a message indicating that the collection already exists
                 _logger.LogInformation("----- MongoDB: the {Name} collection already exists", collectionName);
             }
         }
 
-        // Call the CreateIndexAsync method
         await CreateIndexAsync();
     }
 
@@ -104,10 +97,7 @@ public sealed class ReadDbContext : IReadDbContext
         // Create an index model with the defined index key and default index options
         var indexModel = new CreateIndexModel<CustomerQueryModel>(indexDefinition, DefaultCreateIndexOptions);
 
-        // Get the collection for the CustomerQueryModel class
         var collection = GetCollection<CustomerQueryModel>();
-
-        // Create the index asynchronously for the collection using the index model
         await collection.Indexes.CreateOneAsync(indexModel);
     }
 
