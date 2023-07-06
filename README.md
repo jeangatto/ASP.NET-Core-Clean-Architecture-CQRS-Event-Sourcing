@@ -1,4 +1,4 @@
-# ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID and Clean Architecture Principles
+# ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture
 
 [![wakatime](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 [![License](https://img.shields.io/github/license/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](LICENSE)
