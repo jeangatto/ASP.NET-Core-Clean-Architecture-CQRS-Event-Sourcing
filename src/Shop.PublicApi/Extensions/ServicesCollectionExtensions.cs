@@ -28,7 +28,7 @@ internal static class ServicesCollectionExtensions
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
-                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID and Clean Architecture Principles",
+                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture",
                 Contact = new OpenApiContact
                 {
                     Name = "Jean Gatto",
