@@ -56,7 +56,7 @@ public class CreateCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         // Assert
         act.Should().NotBeNull();
         act.IsSuccess.Should().BeTrue();
-        act.SuccessMessage.Should().Be("Cadastrado com sucesso!");
+        act.SuccessMessage.Should().Be("Successfully registered!");
         act.Value.Should().NotBeNull();
         act.Value.Id.Should().NotBe(Guid.Empty);
     }
@@ -98,7 +98,7 @@ public class CreateCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         act.Errors.Should()
             .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.Contain(errorMessage => errorMessage == "O endereço de e-mail informado já está sendo utilizado.");
+            .And.Contain(errorMessage => errorMessage == "The provided email address is already in use.");
     }
 
     [Fact]

@@ -30,35 +30,38 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
 
     public async Task<Result> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
-        // Validanto a requisição.
+        // Validating the request.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
+        {
+            // Returns the result with validation errors.
+            return Result.Invalid(validationResult.AsErrors());
+        }
 
-        // Obtendo o cliente da base.
+        // Getting the customer from the database.
         var customer = await _repository.GetByIdAsync(request.Id);
         if (customer == null)
-            return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
+            return Result.NotFound($"No customer found by Id: {request.Id}");
 
-        // Instanciando o VO Email.
+        // Instantiating the Email value object.
         var emailResult = Email.Create(request.Email);
         if (!emailResult.IsSuccess)
             return Result.Error(emailResult.Errors.ToArray());
 
-        // Verificiando se já existe um cliente com o endereço de e-mail.
+        // Checking if there is already a customer with the email address.
         if (await _repository.ExistsByEmailAsync(emailResult.Value, customer.Id))
-            return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
+            return Result.Error("The provided email address is already in use.");
 
-        // Efetuando a alteração do e-mail na entidade.
+        // Changing the email in the entity.
         customer.ChangeEmail(emailResult.Value);
 
-        // Atualizando a entidade no repositório.
+        // Updating the entity in the repository.
         _repository.Update(customer);
 
-        // Salvando as alterações no banco e disparando os eventos.
+        // Saving the changes to the database and firing events.
         await _unitOfWork.SaveChangesAsync();
 
-        // Retornando a mensagem de sucesso.
-        return Result.SuccessWithMessage("Atualizado com sucesso!");
+        // Returning the success message.
+        return Result.SuccessWithMessage("Updated successfully!");
     }
 }

@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 namespace Shop.Core.SharedKernel;
 
 /// <summary>
-/// Repositório de armazenamento de eventos.
+/// Represents a repository for storing events in an event store.
 /// </summary>
 public interface IEventStoreRepository : IDisposable
 {
     /// <summary>
-    /// Salva uma lista de eventos.
+    /// Stores a collection of event stores asynchronously.
     /// </summary>
-    /// <param name="eventStores">A lista de eventos.</param>
+    /// <param name="eventStores">The event stores to store.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     Task StoreAsync(IEnumerable<EventStore> eventStores);
 }

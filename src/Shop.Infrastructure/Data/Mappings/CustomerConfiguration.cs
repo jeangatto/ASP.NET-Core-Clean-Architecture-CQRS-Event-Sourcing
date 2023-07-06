@@ -29,8 +29,6 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .IsRequired() // NOT NULL
             .IsUnicode(false) // VARCHAR
             .HasMaxLength(6)
-            // Convertendo o enumerador para string ao persistir no banco de dados.
-            // Ao invés de salvar o valor (ex.: 0, 1, 3), salvará o nome do enumerador, facilitando a leitura no banco.
             .HasConversion<string>();
 
         // Mapeamento de Objetos de Valor (ValueObject)

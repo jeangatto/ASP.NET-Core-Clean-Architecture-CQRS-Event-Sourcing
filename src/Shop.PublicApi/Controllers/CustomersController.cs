@@ -25,12 +25,12 @@ public class CustomersController : ControllerBase
         => _mediator = mediator;
 
     /// <summary>
-    /// Cadastra um novo cliente.
+    /// Register a new customer.
     /// </summary>
     /// <param name="command"></param>
-    /// <response code="200">Retorna o Id do novo cliente.</response>
-    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
-    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
+    /// <response code="200">Returns the Id of the new client.</response>
+    /// <response code="400">Returns list of errors if the request is invalid.</response>
+    /// <response code="500">When an unexpected internal error occurs on the server.</response>
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -41,13 +41,13 @@ public class CustomersController : ControllerBase
         => (await _mediator.Send(command)).ToActionResult();
 
     /// <summary>
-    /// Atualiza um cliente existente.
+    /// Updates an existing client.
     /// </summary>
     /// <param name="command"></param>
-    /// <response code="200">Retorna a resposta com a mensagem de sucesso.</response>
-    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
-    /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
-    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
+    /// <response code="200">Returns the response with the success message.</response>
+    /// <response code="400">Returns list of errors if the request is invalid.</response>
+    /// <response code="404">When no client is found by the given Id.</response>
+    /// <response code="500">When an unexpected internal error occurs on the server.</response>
     [HttpPut]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -59,13 +59,13 @@ public class CustomersController : ControllerBase
         => (await _mediator.Send(command)).ToActionResult();
 
     /// <summary>
-    /// Deleta o cliente pelo Id.
+    /// Deletes the client by Id.
     /// </summary>
     /// <param name="id"></param>
-    /// <response code="200">Retorna a resposta com a mensagem de sucesso.</response>
-    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
-    /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
-    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
+    /// <response code="200">Returns the response with the success message.</response>
+    /// <response code="400">Returns list of errors if the request is invalid.</response>
+    /// <response code="404">When no client is found by the given Id.</response>
+    /// <response code="500">When an unexpected internal error occurs on the server.</response>
     [HttpDelete("{id}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -77,13 +77,13 @@ public class CustomersController : ControllerBase
         => (await _mediator.Send(new DeleteCustomerCommand(id))).ToActionResult();
 
     /// <summary>
-    /// Obtém o cliente pelo Id.
+    /// Gets the client by Id.
     /// </summary>
     /// <param name="id"></param>
-    /// <response code="200">Retorna o cliente.</response>
-    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
-    /// <response code="404">Quando nenhum cliente é encontrado pelo Id fornecido.</response>
-    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
+    /// <response code="200">Returns the client.</response>
+    /// <response code="400">Returns list of errors if the request is invalid.</response>
+    /// <response code="404">When no client is found by the given Id.</response>
+    /// <response code="500">When an unexpected internal error occurs on the server.</response>
     [HttpGet("{id:guid}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -95,10 +95,10 @@ public class CustomersController : ControllerBase
         => (await _mediator.Send(new GetCustomerByIdQuery(id))).ToActionResult();
 
     /// <summary>
-    /// Obtém uma lista com todos os clientes.
+    /// Gets a list of all customers.
     /// </summary>
-    /// <response code="200">Retorna a lista de clientes.</response>
-    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
+    /// <response code="200">Returns the list of clients.</response>
+    /// <response code="500">When an unexpected internal error occurs on the server.</response>
     [HttpGet]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]

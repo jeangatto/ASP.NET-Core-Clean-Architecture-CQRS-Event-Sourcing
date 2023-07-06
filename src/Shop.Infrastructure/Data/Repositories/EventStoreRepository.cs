@@ -10,7 +10,8 @@ internal sealed class EventStoreRepository : IEventStoreRepository
 {
     private readonly EventStoreDbContext _context;
 
-    public EventStoreRepository(EventStoreDbContext context) => _context = context;
+    public EventStoreRepository(EventStoreDbContext context) =>
+        _context = context;
 
     public async Task StoreAsync(IEnumerable<EventStore> eventStores)
     {

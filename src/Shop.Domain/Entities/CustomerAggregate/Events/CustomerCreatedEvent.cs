@@ -2,9 +2,6 @@ using System;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Events;
 
-/// <summary>
-/// Evento que represente um novo cliente.
-/// </summary>
 public class CustomerCreatedEvent : CustomerBaseEvent
 {
     public CustomerCreatedEvent(

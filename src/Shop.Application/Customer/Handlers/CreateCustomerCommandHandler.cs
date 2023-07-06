@@ -34,25 +34,25 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         CreateCustomerCommand request,
         CancellationToken cancellationToken)
     {
-        // Validanto a requisição.
+        // Validating the request.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
-            // Retorna o resultado com os erros da validação.
+            // Return the result with validation errors.
             return Result<CreatedCustomerResponse>.Invalid(validationResult.AsErrors());
         }
 
-        // Instanciando o VO Email.
+        // Instantiating the Email value object.
         var emailResult = Email.Create(request.Email);
         if (!emailResult.IsSuccess)
             return Result<CreatedCustomerResponse>.Error(emailResult.Errors.ToArray());
 
-        // Verificiando se já existe um cliente com o endereço de e-mail.
+        // Checking if a customer with the email address already exists.
         if (await _repository.ExistsByEmailAsync(emailResult.Value))
-            return Result<CreatedCustomerResponse>.Error("O endereço de e-mail informado já está sendo utilizado.");
+            return Result<CreatedCustomerResponse>.Error("The provided email address is already in use.");
 
-        // Criando a instancia da entidade cliente.
-        // Ao instanciar será criado o evento: "CustomerCreatedEvent"
+        // Creating an instance of the customer entity.
+        // When instantiated, the "CustomerCreatedEvent" will be created.
         var customer = CustomerFactory.Create(
             request.FirstName,
             request.LastName,
@@ -60,14 +60,14 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             emailResult.Value,
             request.DateOfBirth);
 
-        // Adicionando a entidade no repositório.
+        // Adding the entity to the repository.
         _repository.Add(customer);
 
-        // Salvando as alterações no banco e disparando os eventos.
+        // Saving changes to the database and triggering events.
         await _unitOfWork.SaveChangesAsync();
 
-        // Retornando o ID e a mensagem de sucesso.
+        // Returning the ID and success message.
         return Result<CreatedCustomerResponse>.Success(
-            new CreatedCustomerResponse(customer.Id), "Cadastrado com sucesso!");
+            new CreatedCustomerResponse(customer.Id), "Successfully registered!");
     }
 }

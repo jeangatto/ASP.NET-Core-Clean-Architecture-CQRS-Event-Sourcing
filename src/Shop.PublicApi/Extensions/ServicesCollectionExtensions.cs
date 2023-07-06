@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
@@ -29,8 +28,7 @@ internal static class ServicesCollectionExtensions
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
-                Description =
-                    "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture",
+                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID and Clean Architecture Principles",
                 Contact = new OpenApiContact
                 {
                     Name = "Jean Gatto",
@@ -43,8 +41,7 @@ internal static class ServicesCollectionExtensions
                 {
                     Name = "MIT License",
 #pragma warning disable S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
-                    Url = new Uri(
-                        "https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
+                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
 #pragma warning restore S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
                 }
             });
@@ -110,25 +107,24 @@ internal static class ServicesCollectionExtensions
         connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 
     private static void ConfigureDbContext<TContext>(
-        IServiceProvider serviceProvider,
-        DbContextOptionsBuilder optionsBuilder,
-        QueryTrackingBehavior queryTrackingBehavior)
-        where TContext : DbContext
+            IServiceProvider serviceProvider,
+            DbContextOptionsBuilder optionsBuilder,
+            QueryTrackingBehavior queryTrackingBehavior)
+            where TContext : DbContext
     {
         var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
-        var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
+        var connectionOptions = serviceProvider.GetOptions<ConnectionOptions>();
 
         optionsBuilder.UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
         {
             sqlServerOptions.MigrationsAssembly(MigrationsAssembly);
 
-            // Configurando a resiliência da conexão.
-            // REF: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
+            // Configure connection resiliency with retry on failure and a command timeout of 60 seconds.
             sqlServerOptions.EnableRetryOnFailure(3);
             sqlServerOptions.CommandTimeout(60);
         }).UseQueryTrackingBehavior(queryTrackingBehavior);
 
-        // Log das tentativas de repetição.
+        // Log retry attempts for execution strategy.
         optionsBuilder.LogTo(
             (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
             eventData =>
@@ -138,6 +134,7 @@ internal static class ServicesCollectionExtensions
 
                 var exceptions = retryEventData.ExceptionsEncountered;
 
+                // Log a warning message with the retry count, delay, and the error message of the last exception encountered.
                 logger.LogWarning(
                     "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
                     exceptions.Count,
@@ -145,7 +142,7 @@ internal static class ServicesCollectionExtensions
                     exceptions[^1].Message);
             });
 
-        // Quando o ambiente for o de "desenvolvimento" será logado informações detalhadas.
+        // Enable detailed errors and sensitive data logging if the environment is "development".
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
         if (environment.IsDevelopment())
             optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();

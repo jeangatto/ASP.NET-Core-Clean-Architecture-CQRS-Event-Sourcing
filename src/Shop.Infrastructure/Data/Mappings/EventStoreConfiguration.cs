@@ -14,7 +14,7 @@ internal class EventStoreConfiguration : IEntityTypeConfiguration<EventStore>
         builder
             .Property(eventStore => eventStore.Id)
             .IsRequired() // NOT NULL
-            .ValueGeneratedNever(); // O Id será gerado ao instanciar a classe
+            .ValueGeneratedNever();
 
         builder
             .Property(eventStore => eventStore.AggregateId)

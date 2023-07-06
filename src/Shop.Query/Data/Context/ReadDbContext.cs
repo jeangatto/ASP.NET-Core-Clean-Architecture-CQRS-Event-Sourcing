@@ -23,17 +23,12 @@ public sealed class ReadDbContext : IReadDbContext
 
     private static readonly ReplaceOptions DefaultReplaceOptions = new()
     {
-        // Indica se o documento deve ser inserido se ele não existir.
         IsUpsert = true
     };
 
     private static readonly CreateIndexOptions DefaultCreateIndexOptions = new()
     {
-        // Restrição Exclusiva
         Unique = true,
-
-        // Índices esparsos são como índices não esparsos, exceto que eles omitem referências a documentos que não incluem o campo indexado.
-        // Para campos que estão presentes apenas em alguns documentos, índices esparsos podem fornecer uma economia significativa de espaço.
         Sparse = true
     };
 
@@ -61,46 +56,58 @@ public sealed class ReadDbContext : IReadDbContext
     {
         var collection = GetCollection<TQueryModel>();
 
-        await _mongoRetryPolicy
-            .ExecuteAsync(async () =>
-                await collection.ReplaceOneAsync(upsertFilter, queryModel, DefaultReplaceOptions));
+        await _mongoRetryPolicy.ExecuteAsync(async () =>
+            await collection.ReplaceOneAsync(upsertFilter, queryModel, DefaultReplaceOptions));
     }
 
     public async Task DeleteAsync<TQueryModel>(Expression<Func<TQueryModel, bool>> deleteFilter)
         where TQueryModel : IQueryModel
     {
         var collection = GetCollection<TQueryModel>();
-        await _mongoRetryPolicy
-            .ExecuteAsync(async () => await collection.DeleteOneAsync(deleteFilter));
+        await _mongoRetryPolicy.ExecuteAsync(async () => await collection.DeleteOneAsync(deleteFilter));
     }
 
     public async Task CreateCollectionsAsync()
     {
-        // Obtendo as coleções existentes da base.
+        // Retrieve the list of collection names from the database asynchronously
         using var asyncCursor = await _database.ListCollectionNamesAsync();
         var collections = await asyncCursor.ToListAsync();
 
+        // Iterate through each collection name obtained from the assembly
         foreach (var collectionName in GetCollectionNamesFromAssembly())
         {
+            // Check if the collection does not exist in the database
             if (!collections.Exists(n => n.Equals(collectionName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                _logger.LogInformation("----- MongoDB: criando a coleção {Name}", collectionName);
+                // Log a message indicating that the collection is being created
+                _logger.LogInformation("----- MongoDB: creating the Collection {Name}", collectionName);
+
+                // Create the collection asynchronously
                 await _database.CreateCollectionAsync(collectionName);
             }
             else
             {
-                _logger.LogInformation("----- MongoDB: a coleção {Name} já existe", collectionName);
+                // Log a message indicating that the collection already exists
+                _logger.LogInformation("----- MongoDB: the {Name} collection already exists", collectionName);
             }
         }
 
+        // Call the CreateIndexAsync method
         await CreateIndexAsync();
     }
 
     private async Task CreateIndexAsync()
     {
+        // Define the index key as ascending order of the Email field in the CustomerQueryModel class
         var indexDefinition = Builders<CustomerQueryModel>.IndexKeys.Ascending(model => model.Email);
+
+        // Create an index model with the defined index key and default index options
         var indexModel = new CreateIndexModel<CustomerQueryModel>(indexDefinition, DefaultCreateIndexOptions);
+
+        // Get the collection for the CustomerQueryModel class
         var collection = GetCollection<CustomerQueryModel>();
+
+        // Create the index asynchronously for the collection using the index model
         await collection.Indexes.CreateOneAsync(indexModel);
     }
 
@@ -109,6 +116,7 @@ public sealed class ReadDbContext : IReadDbContext
             .GetExecutingAssembly()
             .GetAllTypesOf<IQueryModel>()
             .Select(impl => impl.Name)
+            .Distinct()
             .ToList();
 
     private static AsyncRetryPolicy CreateRetryPolicy(ILogger logger)
@@ -123,12 +131,11 @@ public sealed class ReadDbContext : IReadDbContext
                                 TimeSpan.FromMilliseconds(Rnd.Next(0, 1000));
 
             logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
-
             return sleepDuration;
         }
 
-        void OnRetry(Exception ex, TimeSpan _) => logger.LogError(ex,
-            "Ocorreu uma exceção não esperada ao salvar no MongoDB: {Message}", ex.Message);
+        void OnRetry(Exception ex, TimeSpan _) =>
+            logger.LogError(ex, "An unexpected exception occurred while saving to MongoDB: {Message}", ex.Message);
 
         return Policy
             .Handle<MongoException>()

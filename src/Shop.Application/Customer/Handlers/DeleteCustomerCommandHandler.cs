@@ -28,26 +28,29 @@ public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerComman
 
     public async Task<Result> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {
-        // Validanto a requisição.
+        // Validating the request.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.AsErrors()); // Retorna o resultado com os erros da validação.
+        {
+            // Returns the result with validation errors.
+            return Result.Invalid(validationResult.AsErrors());
+        }
 
-        // Obtendo o cliente da base.
+        // Retrieving the customer from the database.
         var customer = await _repository.GetByIdAsync(request.Id);
         if (customer == null)
-            return Result.NotFound($"Nenhum cliente encontrado pelo Id: {request.Id}");
+            return Result.NotFound($"No customer found by Id: {request.Id}");
 
-        // Marcando a entidade como deletada, o evento CustomerDeletedEvent será adicionado.
+        // Marking the entity as deleted, the CustomerDeletedEvent will be added.
         customer.Delete();
 
-        // Removendo a entidade no repositório.
+        // Removing the entity from the repository.
         _repository.Remove(customer);
 
-        // Salvando as alterações no banco e disparando os eventos.
+        // Saving the changes to the database and triggering the events.
         await _unitOfWork.SaveChangesAsync();
 
-        // Retornando a mensagem de sucesso.
-        return Result.SuccessWithMessage("Removido com sucesso!");
+        // Returning the success message.
+        return Result.SuccessWithMessage("Successfully removed!");
     }
 }

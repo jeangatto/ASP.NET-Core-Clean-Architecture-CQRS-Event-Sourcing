@@ -1,7 +1,7 @@
 namespace Shop.Core.SharedKernel;
 
 /// <summary>
-/// Interface marcadora para representar uma raiz de agregação.
+/// Represents an interface for aggregate roots.
 /// </summary>
 public interface IAggregateRoot
 {

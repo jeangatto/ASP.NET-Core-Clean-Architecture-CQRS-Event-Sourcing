@@ -65,7 +65,7 @@ public class DeleteCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         // Assert
         act.Should().NotBeNull();
         act.IsSuccess.Should().BeTrue();
-        act.SuccessMessage.Should().Be("Removido com sucesso!");
+        act.SuccessMessage.Should().Be("Successfully removed!");
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class DeleteCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         act.Errors.Should()
             .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.Contain(errorMessage => errorMessage == $"Nenhum cliente encontrado pelo Id: {command.Id}");
+            .And.Contain(errorMessage => errorMessage == $"No customer found by Id: {command.Id}");
     }
 
     [Fact]

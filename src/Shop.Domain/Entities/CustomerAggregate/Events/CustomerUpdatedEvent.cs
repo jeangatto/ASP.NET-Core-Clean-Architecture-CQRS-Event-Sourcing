@@ -2,9 +2,6 @@ using System;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Events;
 
-/// <summary>
-/// Evento que representa uma atualização de um cliente.
-/// </summary>
 public class CustomerUpdatedEvent : CustomerBaseEvent
 {
     public CustomerUpdatedEvent(

@@ -12,9 +12,6 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.EventHandlers;
 
-/// <summary>
-/// Manipulador de Eventos do Cliente.
-/// </summary>
 public class CustomerEventHandler :
     INotificationHandler<CustomerCreatedEvent>,
     INotificationHandler<CustomerUpdatedEvent>,

@@ -56,7 +56,8 @@ internal class DistributedCacheService : ICacheService
         return item;
     }
 
-    public async Task<IReadOnlyList<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
+    public async Task<IReadOnlyList<TItem>> GetOrCreateAsync<TItem>(
+        string cacheKey,
         Func<Task<IReadOnlyList<TItem>>> factory)
     {
         var valueBytes = await _distributedCache.GetAsync(cacheKey);

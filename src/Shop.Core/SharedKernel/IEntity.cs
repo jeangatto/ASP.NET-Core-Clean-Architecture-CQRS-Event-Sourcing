@@ -3,17 +3,16 @@ using System;
 namespace Shop.Core.SharedKernel;
 
 /// <summary>
-/// Interface marcadora para representar uma entidade.
+/// This is the base interface for all entities
 /// </summary>
 public interface IEntity
 {
 }
 
-/// <summary>
-/// Interface marcadora para representar uma entidade.
-/// </summary>
-/// <typeparam name="TKey">O tipo da chave.</typeparam>
 public interface IEntity<out TKey> : IEntity where TKey : IEquatable<TKey>
 {
+    /// <summary>
+    /// Gets the ID of the entity.
+    /// </summary>
     TKey Id { get; }
 }

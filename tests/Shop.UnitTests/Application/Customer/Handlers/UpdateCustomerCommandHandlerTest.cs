@@ -64,7 +64,7 @@ public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
         // Assert
         act.Should().NotBeNull();
         act.IsSuccess.Should().BeTrue();
-        act.SuccessMessage.Should().Be("Atualizado com sucesso!");
+        act.SuccessMessage.Should().Be("Updated successfully!");
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
         act.Errors.Should()
             .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.Contain(errorMessage => errorMessage == "O endereço de e-mail informado já está sendo utilizado.");
+            .And.Contain(errorMessage => errorMessage == "The provided email address is already in use.");
     }
 
     [Fact]
@@ -132,7 +132,7 @@ public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
         act.Errors.Should()
             .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.Contain(errorMessage => errorMessage == $"Nenhum cliente encontrado pelo Id: {command.Id}");
+            .And.Contain(errorMessage => errorMessage == $"No customer found by Id: {command.Id}");
     }
 
     [Fact]

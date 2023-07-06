@@ -5,21 +5,18 @@ using Shop.Domain.ValueObjects;
 
 namespace Shop.Domain.Entities.CustomerAggregate;
 
-/// <summary>
-/// Entidade Cliente.
-/// </summary>
 public class Customer : BaseEntity, IAggregateRoot
 {
     private bool _isDeleted;
 
     /// <summary>
-    /// Inicializa uma inståncia de um novo cliente.
+    /// Initializes a new instance of the Customer class.
     /// </summary>
-    /// <param name="firstName">Primeiro Nome.</param>
-    /// <param name="lastName">Sobrenome.</param>
-    /// <param name="gender">Gênero.</param>
-    /// <param name="email">Endereço de e-mail.</param>
-    /// <param name="dateOfBirth">Data de Nascimento.</param>
+    /// <param name="firstName">The first name of the customer.</param>
+    /// <param name="lastName">The last name of the customer.</param>
+    /// <param name="gender">The gender of the customer.</param>
+    /// <param name="email">The email address of the customer.</param>
+    /// <param name="dateOfBirth">The date of birth of the customer.</param>
     public Customer(string firstName, string lastName, EGender gender, Email email, DateTime dateOfBirth)
     {
         FirstName = firstName;
@@ -28,55 +25,53 @@ public class Customer : BaseEntity, IAggregateRoot
         Email = email;
         DateOfBirth = dateOfBirth;
 
-        // Adicionando a nova instancia nos eventos de domínio.
         AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email.Address, dateOfBirth));
     }
 
-    public Customer() { } // Only for EF/ORM
+    public Customer() { } // Default constructor for EF/ORM
 
+    // Properties
     /// <summary>
-    /// Primeiro Nome.
+    /// Gets the first name of the customer.
     /// </summary>
     public string FirstName { get; }
 
     /// <summary>
-    /// Sobrenome.
+    /// Gets the last name of the customer.
     /// </summary>
     public string LastName { get; }
 
     /// <summary>
-    /// Gênero.
+    /// Gets the gender of the customer.
     /// </summary>
     public EGender Gender { get; }
 
     /// <summary>
-    /// Endereço de e-mail.
+    /// Gets or sets the email address of the customer.
     /// </summary>
     public Email Email { get; private set; }
 
     /// <summary>
-    /// Data de Nascimento.
+    /// Gets the date of birth of the customer.
     /// </summary>
     public DateTime DateOfBirth { get; }
 
     /// <summary>
-    /// Altera o endereço de e-mail atual.
+    /// Changes the email address of the customer.
     /// </summary>
-    /// <param name="newEmail">Novo endereço de e-mail.</param>
+    /// <param name="newEmail">The new email address.</param>
     public void ChangeEmail(Email newEmail)
     {
-        // Só será alterado o e-mail se for diferente do existente.
         if (Email.Equals(newEmail))
             return;
 
         Email = newEmail;
 
-        // Adicionando a alteração nos eventos de domínio.
         AddDomainEvent(new CustomerUpdatedEvent(Id, FirstName, LastName, Gender, newEmail.Address, DateOfBirth));
     }
 
     /// <summary>
-    /// Adiciona o evento de entidade deletada.
+    /// Deletes the customer.
     /// </summary>
     public void Delete()
     {

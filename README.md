@@ -1,4 +1,4 @@
-# ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, Princípios SOLID e Clean Architecture
+# ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID and Clean Architecture Principles
 
 [![wakatime](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 [![License](https://img.shields.io/github/license/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](LICENSE)
@@ -16,63 +16,59 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 
-Sobre o respoitório:
-Projeto de código aberto escrito na última versão do ASP.NET Core, implementando os conceitos do S.O.L.I.D, Clean Code,
+About the repoitory:
+Open source project written in the latest version of ASP.NET Core, implementing the concepts of S.O.L.I.D, Clean Code,
 CQRS (Command Query Responsibility Segregation)
 
-## Dê uma estrela! ⭐
+## Give it a star! ⭐
 
-Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
+If you liked this project, learned something, give it a star. Thank you!
 
-Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.jetbrains.com/pt-br/rider/)
+## **Technologies**
 
-![Rider logo](https://resources.jetbrains.com/storage/products/company/brand/logos/Rider_icon.svg)
+- ASP.NET Core 7.0
+- Entity Framework Core 7.0
+- SQL Server
+- MongoDB
+- Redis (Cache)
+- Polly
+- AutoMapper
+- FluentValidator
+- MediatR
+- Swagger UI
+- HealthChecks
+- Docker & Docker Compose
 
-## **Tecnologias**
-
-* ASP.NET Core 7.0
-* Entity Framework Core 7.0
-* SQL Server
-* MongoDB
-* Redis (Cache)
-* Polly
-* AutoMapper
-* FluentValidator
-* MediatR
-* Swagger UI
-* HealthChecks
-* Docker & Docker Compose
-
-## **Arquitetura**
+## **Architecture**
 
 ![CQRS Pattern](https://raw.githubusercontent.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/main/img/cqrs-pattern.png "CQRS Pattern")
 
-* Full architecture with responsibility separation concerns, SOLID and Clean Code
-* Domain Driven Design (Layers and Domain Model Pattern)
-* Domain Events
-* Domain Notification
-* Domain Validations
-* CQRS
-* Event Sourcing
-* Unit of Work
-* Repository Pattern
-* Resut Pattern
+- Full architecture with responsibility separation concerns, SOLID and Clean Code
+- Domain Driven Design (Layers and Domain Model Pattern)
+- Domain Events
+- Domain Notification
+- Domain Validations
+- CQRS
+- Event Sourcing
+- Unit of Work
+- Repository Pattern
+- Resut Pattern
 
-## Executando a aplicação
+## Running the application
 
-Após clonar o repositório na pasta desejada, executar o comando no terminal na raiz do projeto:
+After cloning the repository to the desired folder, run the command in the terminal at the root of the project:
 
 ```csharp
 dotnet clean && dotnet build
 ```
 
-Próximo passo, executar o comando no terminal:
+Next step, run the command in the terminal:
 
 ```csharp
 docker-compose up --build
 ```
 
-Agora basta abrir a url no navegador:
+Now just open the url in the browser:
 
 ```csharp
 http://localhost:5072/swagger/
@@ -80,7 +76,7 @@ http://localhost:5072/swagger/
 
 ## MiniProfiler for .NET
 
-Para acessar a página com os indicadores de desempenho e performance:
+To access the page with the performance indicators and performance:
 
 ```csharp
 http://localhost:5072/profiler/results-index
@@ -88,4 +84,4 @@ http://localhost:5072/profiler/results-index
 
 ## License
 
-* [MIT License](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE)
+- [MIT License](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE)

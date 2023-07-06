@@ -24,10 +24,7 @@ public static class ServicesCollectionExtensions
 
         // Add AutoMapper as a singleton instance
         services.AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(executingAssembly))));
-
-        // Use AddValidatorsFromAssembly instead of AddValidatorsFromAssemblies
         services.AddValidatorsFromAssembly(executingAssembly);
-
         services.AddSingleton<IReadDbContext, ReadDbContext>();
         services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
@@ -36,24 +33,24 @@ public static class ServicesCollectionExtensions
 
     private static void ConfigureMongoDb()
     {
-        // Passo 1º: Configurar o tipo do serializador de Guid.
+        // Step 1: Configure the serializer for Guid type.
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
 
-        // Passo 2º: Configurar as convenções, assim será aplicado para todos os mapeamentos.
+        // Step 2: Configure the conventions to be applied to all mappings.
         // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/conventions/
         ConventionRegistry.Register("Conventions",
             new ConventionPack
             {
-                new CamelCaseElementNameConvention(),
-                new EnumRepresentationConvention(BsonType.String),
-                new IgnoreExtraElementsConvention(true),
-                new IgnoreIfNullConvention(true)
+                new CamelCaseElementNameConvention(), // Convert element names to camel case
+                new EnumRepresentationConvention(BsonType.String), // Serialize enums as strings
+                new IgnoreExtraElementsConvention(true), // Ignore extra elements when deserializing
+                new IgnoreIfNullConvention(true) // Ignore null values when serializing
             }, _ => true);
 
-        // Passo 3º: Registrar as configurações dos mapeamento das classes.
-        // É recomendável registrar todos os mapeamentos antes de inicializar a conexão com o MongoDb
+        // Step 3: Register the mappings configurations.
+        // It is recommended to register all mappings before initializing the connection with MongoDb
         // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/
-        new BaseQueryModelMap().Configure(); // Base abstract class
-        new CustomerMap().Configure();
+        new BaseQueryModelMap().Configure(); // Configuration for base abstract class
+        new CustomerMap().Configure(); // Configuration for Customer class
     }
 }

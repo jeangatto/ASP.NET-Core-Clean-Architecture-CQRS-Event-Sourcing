@@ -67,7 +67,7 @@ builder.Services.AddControllers()
 // HealthChecks (API, EF Core, MongoDB, Redis)
 builder.Services.AddHealthChecks(builder.Configuration);
 
-// Adicionando os serviços da aplicação no ASP.NET Core DI.
+// Adding the application services in ASP.NET Core DI.
 builder.Services.ConfigureAppSettings();
 builder.Services.AddCorrelationGenerator();
 builder.Services.AddInfrastructure();
@@ -88,17 +88,17 @@ builder.Services.AddMiniProfiler(options =>
     options.EnableDebugMode = builder.Environment.IsDevelopment();
 }).AddEntityFramework();
 
-// Validando os serviços adicionados no ASP.NET Core DI.
+// Validating the services added in the ASP.NET Core DI.
 builder.Host.UseDefaultServiceProvider((context, options) =>
 {
     options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
     options.ValidateOnBuild = true;
 });
 
-// Utilizando o servidor Kestrel (linux).
+// Using the Kestrel server (linux).
 builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
-// Configuração global do FluentValidation.
+// FluentValidation global configuration.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
 ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
@@ -130,7 +130,7 @@ app.MapControllers();
 await using var serviceScope = app.Services.CreateAsyncScope();
 var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
 
-app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
+app.Logger.LogInformation("----- AutoMapper: mappings are being validated...");
 
 // Dry run all configured type maps and throw AutoMapper.AutoMapperConfigurationException for each problem.
 mapper.ConfigurationProvider.AssertConfigurationIsValid();
@@ -138,13 +138,13 @@ mapper.ConfigurationProvider.AssertConfigurationIsValid();
 // Compile all underlying mapping expressions to cached delegates.
 mapper.ConfigurationProvider.CompileMappings();
 
-app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
+app.Logger.LogInformation("----- AutoMapper: mappings are valid!");
 
-app.Logger.LogInformation("----- Migrando as bases de dados...");
+app.Logger.LogInformation("----- Databases are being migrated....");
 
 await app.MigrateDbAsync(serviceScope);
 
-app.Logger.LogInformation("----- Bases de dados migradas com sucesso!");
+app.Logger.LogInformation("----- Databases have been successfully migrated!");
 
-app.Logger.LogInformation("----- Iniciando aplicação...");
+app.Logger.LogInformation("----- Application is starting....");
 await app.RunAsync();

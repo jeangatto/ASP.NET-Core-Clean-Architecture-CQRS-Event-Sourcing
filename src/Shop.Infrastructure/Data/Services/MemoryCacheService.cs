@@ -55,7 +55,8 @@ internal class MemoryCacheService : ICacheService
         });
     }
 
-    public async Task<IReadOnlyList<TItem>> GetOrCreateAsync<TItem>(string cacheKey,
+    public async Task<IReadOnlyList<TItem>> GetOrCreateAsync<TItem>(
+        string cacheKey,
         Func<Task<IReadOnlyList<TItem>>> factory)
     {
         return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>

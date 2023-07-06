@@ -26,7 +26,7 @@ internal static class WebApplicationExtensions
         }
         catch (Exception ex)
         {
-            app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
+            app.Logger.LogError(ex, "An exception occurred while initializing the application: {Message}", ex.Message);
             throw;
         }
     }
@@ -37,29 +37,30 @@ internal static class WebApplicationExtensions
         var dbName = context.Database.GetDbConnection().Database;
 
         app.Logger.LogInformation("----- {DbName}: {DbConnection}", dbName, context.Database.GetConnectionString());
-        app.Logger.LogInformation("----- {DbName}: Verificando se existem migrações pendentes...", dbName);
+        app.Logger.LogInformation("----- {DbName}: checking if there are any pending migrations...", dbName);
 
+        // Check if there are any pending migrations for the context.
         if ((await context.Database.GetPendingMigrationsAsync()).Any())
         {
-            app.Logger.LogInformation("----- {DbName}: Criando e migrando a base de dados...", dbName);
+            app.Logger.LogInformation("----- {DbName}: creating and migrating the database...", dbName);
 
             await context.Database.MigrateAsync();
 
-            app.Logger.LogInformation("----- {DbName}: Base de dados criada e migrada com sucesso!", dbName);
+            app.Logger.LogInformation("----- {DbName}: database was created and migrated successfully", dbName);
         }
         else
         {
-            app.Logger.LogInformation("----- {DbName}: Migrações estão em dia", dbName);
+            app.Logger.LogInformation("----- {DbName}: all migrations are up to date.", dbName);
         }
     }
 
     private static async Task MigrateMongoDbContextAsync(this WebApplication app, IReadDbContext readDbContext)
     {
         app.Logger.LogInformation("----- MongoDB: {Connection}", readDbContext.ConnectionString);
-        app.Logger.LogInformation("----- MongoDB: criando as coleções...");
+        app.Logger.LogInformation("----- MongoDB: ollections are being created...");
 
         await readDbContext.CreateCollectionsAsync();
 
-        app.Logger.LogInformation("----- MongoDB: coleções criadas com sucesso!");
+        app.Logger.LogInformation("----- MongoDB: collections were created successfully!");
     }
 }

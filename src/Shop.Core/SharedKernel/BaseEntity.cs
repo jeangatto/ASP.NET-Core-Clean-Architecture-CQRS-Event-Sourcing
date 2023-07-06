@@ -4,27 +4,33 @@ using System.Collections.Generic;
 namespace Shop.Core.SharedKernel;
 
 /// <summary>
-/// Classe base que contém os comportamentos de uma entidade.
+/// Represents an abstract base entity class.
 /// </summary>
 public abstract class BaseEntity : IEntity<Guid>
 {
     private readonly List<BaseEvent> _domainEvents = new();
 
     /// <summary>
-    /// Eventos de domínio que ocorreram.
+    /// Gets the domain events associated with this entity.
     /// </summary>
-    public IEnumerable<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
+    public IEnumerable<BaseEvent> DomainEvents =>
+        _domainEvents.AsReadOnly();
 
+    /// <summary>
+    /// Gets the unique identifier of this entity.
+    /// </summary>
     public Guid Id { get; } = Guid.NewGuid();
 
     /// <summary>
-    /// Adicionar evento de domínio.
+    /// Adds a domain event to the entity.
     /// </summary>
-    /// <param name="domainEvent"></param>
-    protected void AddDomainEvent(BaseEvent domainEvent) => _domainEvents.Add(domainEvent);
+    /// <param name="domainEvent">The domain event to add.</param>
+    protected void AddDomainEvent(BaseEvent domainEvent) =>
+        _domainEvents.Add(domainEvent);
 
     /// <summary>
-    /// Limpa os eventos de domínio.
+    /// Clears all the domain events associated with this entity.
     /// </summary>
-    public void ClearDomainEvents() => _domainEvents.Clear();
+    public void ClearDomainEvents() =>
+        _domainEvents.Clear();
 }

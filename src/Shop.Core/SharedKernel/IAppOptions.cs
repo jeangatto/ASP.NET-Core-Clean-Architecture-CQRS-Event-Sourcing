@@ -1,7 +1,7 @@
 namespace Shop.Core.SharedKernel;
 
 /// <summary>
-/// Classe base usada para representar uma seção do AppSettings.
+/// Represents the interface for application options.
 /// </summary>
 public interface IAppOptions
 {

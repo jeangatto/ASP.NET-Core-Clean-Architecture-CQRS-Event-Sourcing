@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
 using Xunit;
@@ -35,12 +34,11 @@ public class ServicesCollectionExtensionsTests
         var serviceProvider = services.BuildServiceProvider(true);
 
         // Act
-        var act = serviceProvider.GetRequiredService<IOptions<CacheOptions>>();
+        var act = serviceProvider.GetOptions<CacheOptions>();
 
         // Assert
         act.Should().NotBeNull();
-        act.Value.Should().NotBeNull();
-        act.Value.AbsoluteExpirationInHours.Should().Be(absoluteExpirationInHours);
-        act.Value.SlidingExpirationInSeconds.Should().Be(slidingExpirationInSeconds);
+        act.AbsoluteExpirationInHours.Should().Be(absoluteExpirationInHours);
+        act.SlidingExpirationInSeconds.Should().Be(slidingExpirationInSeconds);
     }
 }
