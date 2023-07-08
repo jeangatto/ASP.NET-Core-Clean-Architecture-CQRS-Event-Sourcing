@@ -56,7 +56,7 @@ internal static class ServicesCollectionExtensions
 
     public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
+        var connectionOptions = configuration.GetOptions<ConnectionOptions>();
 
         var healthCheckBuilder = services
             .AddHealthChecks()
@@ -79,14 +79,12 @@ internal static class ServicesCollectionExtensions
 
     public static void AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionOptions = configuration.GetOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
+        var connectionOptions = configuration.GetOptions<ConnectionOptions>();
         if (connectionOptions.CacheConnection.IsInMemoryCache())
         {
-            // ASP.NET Core Memory Cache.
-            services.AddMemoryCache();
-
-            // Shop Infra Service.
-            services.AddMemoryCacheService();
+            services
+                .AddMemoryCache() // ASP.NET Core Memory Cache.
+                .AddMemoryCacheService();// Shop Infra Service.
         }
         else
         {
@@ -96,10 +94,7 @@ internal static class ServicesCollectionExtensions
             {
                 options.InstanceName = "master";
                 options.Configuration = connectionOptions.CacheConnection;
-            });
-
-            // Shop Infra Service.
-            services.AddDistributedCacheService();
+            }).AddDistributedCacheService(); // Shop Infra Service.
         }
     }
 
@@ -116,13 +111,10 @@ internal static class ServicesCollectionExtensions
         var connectionOptions = serviceProvider.GetOptions<ConnectionOptions>();
 
         optionsBuilder.UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
-        {
-            sqlServerOptions.MigrationsAssembly(MigrationsAssembly);
-
-            // Configure connection resiliency with retry on failure and a command timeout of 60 seconds.
-            sqlServerOptions.EnableRetryOnFailure(3);
-            sqlServerOptions.CommandTimeout(60);
-        }).UseQueryTrackingBehavior(queryTrackingBehavior);
+            sqlServerOptions
+                .MigrationsAssembly(MigrationsAssembly)
+                .EnableRetryOnFailure(3) // Configure connection resiliency with retry on failure.
+                .CommandTimeout(60)).UseQueryTrackingBehavior(queryTrackingBehavior);
 
         // Log retry attempts for execution strategy.
         optionsBuilder.LogTo(
@@ -145,6 +137,10 @@ internal static class ServicesCollectionExtensions
         // Enable detailed errors and sensitive data logging if the environment is "development".
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
         if (environment.IsDevelopment())
-            optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
+        {
+            optionsBuilder
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging();
+        }
     }
 }

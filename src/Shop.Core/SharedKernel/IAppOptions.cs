@@ -5,4 +5,8 @@ namespace Shop.Core.SharedKernel;
 /// </summary>
 public interface IAppOptions
 {
+    /// <summary>
+    /// The configuration section path.
+    /// </summary>
+    static abstract string ConfigSectionPath { get; }
 }

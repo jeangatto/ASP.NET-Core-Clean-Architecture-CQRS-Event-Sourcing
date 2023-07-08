@@ -12,7 +12,8 @@ public static class ServicesCollectionExtensions
     public static void AddApplication(this IServiceCollection services)
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
-        services.AddMediatR(executingAssembly);
-        services.AddValidatorsFromAssemblies(new[] { executingAssembly });
+        services
+            .AddMediatR(executingAssembly)
+            .AddValidatorsFromAssemblies(new[] { executingAssembly });
     }
 }

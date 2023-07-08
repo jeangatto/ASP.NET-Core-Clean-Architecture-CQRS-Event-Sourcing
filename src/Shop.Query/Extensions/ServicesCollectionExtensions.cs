@@ -20,13 +20,11 @@ public static class ServicesCollectionExtensions
     public static void AddQuery(this IServiceCollection services)
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
-        services.AddMediatR(executingAssembly);
-
-        // Add AutoMapper as a singleton instance
-        services.AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(executingAssembly))));
-        services.AddValidatorsFromAssembly(executingAssembly);
-        services.AddSingleton<IReadDbContext, ReadDbContext>();
-        services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
+        services
+            .AddMediatR(executingAssembly)
+            .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(executingAssembly))))
+            .AddValidatorsFromAssembly(executingAssembly).AddSingleton<IReadDbContext, ReadDbContext>()
+            .AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
         ConfigureMongoDb();
     }

@@ -7,7 +7,7 @@ namespace Shop.Core.AppSettings;
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
 public sealed class ConnectionOptions : IAppOptions
 {
-    public const string ConfigSectionPath = "ConnectionStrings";
+    static string IAppOptions.ConfigSectionPath => "ConnectionStrings";
 
     [Required]
     public string SqlConnection { get; private init; }

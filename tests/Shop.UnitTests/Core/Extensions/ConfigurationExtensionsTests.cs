@@ -28,7 +28,7 @@ public class ConfigurationExtensionsTests
         var configuration = configurationBuilder.Build();
 
         // Act
-        var act = configuration.GetOptions<CacheOptions>(CacheOptions.ConfigSectionPath);
+        var act = configuration.GetOptions<CacheOptions>();
 
         // Assert
         act.Should().NotBeNull();
