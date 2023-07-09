@@ -31,80 +31,86 @@ trim_trailing_whitespace = true
 # .NET Diagnostic             #
 ###############################
 
-# CA1012: Abstract types should not have public constructors
-dotnet_diagnostic.CA1012.severity = warning
+# Simplify name
+dotnet_diagnostic.IDE0001.severity = warning 
 
-# CA1822: Make member static
-dotnet_diagnostic.CA1822.severity = warning 
-
-# IDE0002: Name can be simplified
+# Simplify member access
 dotnet_diagnostic.IDE0002.severity = warning 
 
-# IDE0003: Name can be simplified
+# this and Me preferences
 dotnet_diagnostic.IDE0003.severity = warning 
 
-# IDE0005: Remove unnecessary imports
+# Remove unnecessary cast 
+dotnet_diagnostic.IDE0004.severity = warning 
+
+# Remove unnecessary using directives
 dotnet_diagnostic.IDE0005.severity = warning 
 
-# IDE0007: Prefer "var" everywhere
+# Prefer "var" everywhere
 dotnet_diagnostic.IDE0007.severity = warning
 
-# IDE0017: Use object initializers
+# Use object initializers
 dotnet_diagnostic.IDE0017.severity = warning
 
-# IDE0028: Collection initialization can be simplified
+# Collection initialization can be simplified
 dotnet_diagnostic.IDE0028.severity = warning 
 
-# IDE0034: Simplify 'default' expression
+# Simplify 'default' expression
 dotnet_diagnostic.IDE0034.severity = warning 
 
-# IDE0035: Remove unreachable code
+# Remove unreachable code
 dotnet_diagnostic.IDE0035.severity = warning 
 
-# IDE0036: Order modifiers
+# Order modifiers
 dotnet_diagnostic.IDE0036.severity = warning 
 
-# IDE0040: Add accessibility modifiers
+# Add accessibility modifiers
 dotnet_diagnostic.IDE0040.severity = warning 
 
-# IDE0043: Format string contains invalid placeholder
+# Format string contains invalid placeholder
 dotnet_diagnostic.IDE0043.severity = warning 
 
-# IDE0044: Make field readonly
+# Make field readonly
 dotnet_diagnostic.IDE0044.severity = warning 
 
-# IDE0047: Parentheses can be removed
+# Parentheses can be removed
 dotnet_diagnostic.IDE0047.severity = warning
 
-# IDE0049: Use language keywords instead of framework type names for type references
+# Use language keywords instead of framework type names for type references
 dotnet_diagnostic.IDE0049.severity = warning
 
-# IDE0051: Remove unused private member
+# Remove unused private member
 dotnet_diagnostic.IDE0051.severity = warning 
 
-# IDE0052: Remove unread private member
+# Remove unread private member
 dotnet_diagnostic.IDE0052.severity = warning 
 
-# IDE0059: Unnecessary assignment to a value
+# Unnecessary assignment to a value
 dotnet_diagnostic.IDE0059.severity = warning 
 
-# IDE0060: Remove unused parameter
+# Remove unused parameter
 dotnet_diagnostic.IDE0060.severity = warning 
 
-# IDE0063: Use simple 'using' statement
+# Use simple 'using' statement
 dotnet_diagnostic.IDE0063.severity = warning 
 
-# IDE0170: Prefer extended property pattern
-dotnet_diagnostic.IDE0170.severity = warning
-
-# IDE0071: Simplify interpolation
+# Simplify interpolation
 dotnet_diagnostic.IDE0071.severity = warning 
 
-# IDE0090: Simplify new expression
+# Simplify new expression
 dotnet_diagnostic.IDE0090.severity = warning 
 
-# IDE0161: Convert to file-scoped namespace
+# Convert to file-scoped namespace
 dotnet_diagnostic.IDE0161.severity = warning
+
+# Prefer extended property pattern
+dotnet_diagnostic.IDE0170.severity = warning
+
+# Abstract types should not have public constructors
+dotnet_diagnostic.CA1012.severity = warning
+
+# Make member static
+dotnet_diagnostic.CA1822.severity = warning 
 
 ###############################
 # .NET Coding Conventions     #
