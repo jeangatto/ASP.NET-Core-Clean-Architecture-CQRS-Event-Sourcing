@@ -16,7 +16,7 @@ using Shop.Infrastructure.Extensions;
 
 namespace Shop.PublicApi.Extensions;
 
-[ExcludeFromCodeCoverageAttribute]
+[ExcludeFromCodeCoverage]
 internal static class ServicesCollectionExtensions
 {
     private const string MigrationsAssembly = "Shop.PublicApi";
