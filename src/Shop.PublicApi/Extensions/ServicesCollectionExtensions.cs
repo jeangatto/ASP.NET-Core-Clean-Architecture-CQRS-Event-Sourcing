@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ using Shop.Infrastructure.Extensions;
 
 namespace Shop.PublicApi.Extensions;
 
+[ExcludeFromCodeCoverageAttribute]
 internal static class ServicesCollectionExtensions
 {
     private const string MigrationsAssembly = "Shop.PublicApi";
@@ -102,10 +104,9 @@ internal static class ServicesCollectionExtensions
         connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 
     private static void ConfigureDbContext<TContext>(
-            IServiceProvider serviceProvider,
-            DbContextOptionsBuilder optionsBuilder,
-            QueryTrackingBehavior queryTrackingBehavior)
-            where TContext : DbContext
+        IServiceProvider serviceProvider,
+        DbContextOptionsBuilder optionsBuilder,
+        QueryTrackingBehavior queryTrackingBehavior) where TContext : DbContext
     {
         var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
         var connectionOptions = serviceProvider.GetOptions<ConnectionOptions>();
