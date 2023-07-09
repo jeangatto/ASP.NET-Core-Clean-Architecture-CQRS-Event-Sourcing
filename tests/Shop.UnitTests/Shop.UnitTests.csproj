@@ -28,6 +28,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="xunit" Version="2.5.0"/>
+    <PackageReference Include="xunit.analyzers" Version="1.2.0" />
     <PackageReference Include="xunit.categories" Version="2.0.7"/>
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
       <PrivateAssets>all</PrivateAssets>
