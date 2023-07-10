@@ -1,7 +1,6 @@
 using System.Reflection;
 using AutoMapper;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -21,9 +20,10 @@ public static class ServicesCollectionExtensions
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
         services
-            .AddMediatR(executingAssembly)
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(executingAssembly))
             .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(executingAssembly))))
-            .AddValidatorsFromAssembly(executingAssembly).AddSingleton<IReadDbContext, ReadDbContext>()
+            .AddValidatorsFromAssembly(executingAssembly)
+            .AddSingleton<IReadDbContext, ReadDbContext>()
             .AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
         ConfigureMongoDb();

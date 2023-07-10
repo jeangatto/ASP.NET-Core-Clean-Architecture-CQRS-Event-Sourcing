@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shop.Application;
@@ -13,7 +12,7 @@ public static class ServicesCollectionExtensions
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
         services
-            .AddMediatR(executingAssembly)
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(executingAssembly))
             .AddValidatorsFromAssemblies(new[] { executingAssembly });
     }
 }
