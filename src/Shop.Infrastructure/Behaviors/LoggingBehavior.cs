@@ -30,7 +30,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         timer.Stop();
 
-        var timeTaken = timer.Elapsed.Seconds;
+        var timeTaken = timer.Elapsed.TotalSeconds;
         _logger.LogInformation("----- Command '{CommandName}' handled ({TimeTaken} seconds)", commandName, timeTaken);
 
         return response;
