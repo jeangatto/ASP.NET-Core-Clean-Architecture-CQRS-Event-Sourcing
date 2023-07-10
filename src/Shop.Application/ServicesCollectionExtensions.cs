@@ -13,6 +13,6 @@ public static class ServicesCollectionExtensions
         var executingAssembly = Assembly.GetExecutingAssembly();
         services
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(executingAssembly))
-            .AddValidatorsFromAssemblies(new[] { executingAssembly });
+            .AddValidatorsFromAssembly(executingAssembly);
     }
 }
