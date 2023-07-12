@@ -6,11 +6,17 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!-- Set the neutral language to English -->
     <NeutralLanguage>en</NeutralLanguage>
+    <!-- Set the language version to the latest available -->
     <LangVersion>latest</LangVersion>
+    <!-- Disable implicit usings -->
     <ImplicitUsings>disable</ImplicitUsings>
+    <!-- Disable nullable reference types -->
     <Nullable>disable</Nullable>
+    <!-- Set the analysis level to the latest available -->
     <AnalysisLevel>latest</AnalysisLevel>
+    <!-- Enable .NET analyzers -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <!-- Enabling Build Acceleration can reduce incremental build times by up to 80% for SDK-style .NET projects. -->
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
@@ -40,6 +46,10 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
 </Project>
