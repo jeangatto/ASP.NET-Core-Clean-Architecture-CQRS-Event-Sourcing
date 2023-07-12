@@ -12,6 +12,7 @@
     <Nullable>disable</Nullable>
     <AnalysisLevel>latest</AnalysisLevel>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <!-- Enabling Build Acceleration can reduce incremental build times by up to 80% for SDK-style .NET projects. -->
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <!-- CS1591: Missing XML Comment Warning -->
     <NoWarn>$(NoWarn);1591</NoWarn>
