@@ -13,6 +13,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <!-- CS1591: Missing XML Comment Warning -->
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
