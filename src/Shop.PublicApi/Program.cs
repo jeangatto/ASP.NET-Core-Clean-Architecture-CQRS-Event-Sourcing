@@ -83,7 +83,9 @@ builder.Services.AddMiniProfiler(options =>
 {
     options.RouteBasePath = "/profiler"; // Route: /profiler/results-index
     options.ColorScheme = ColorScheme.Dark;
+    // Enable the inclusion of a Server-Timing header in the HTTP response.
     options.EnableServerTimingHeader = true;
+    // Track the opening and closing of database connections.
     options.TrackConnectionOpenClose = true;
     options.EnableDebugMode = builder.Environment.IsDevelopment();
 }).AddEntityFramework();
@@ -95,7 +97,7 @@ builder.Host.UseDefaultServiceProvider((context, options) =>
     options.ValidateOnBuild = true;
 });
 
-// Using the Kestrel server (linux).
+// Using the Kestrel Server (linux).
 builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
 // FluentValidation global configuration.
