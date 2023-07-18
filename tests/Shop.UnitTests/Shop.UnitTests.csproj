@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <PropertyGroup Label="Build">
     <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <SonarQubeTestProject>True</SonarQubeTestProject>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="Package References">
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="coverlet.collector" Version="6.0.0">
@@ -36,7 +36,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="Project References">
     <ProjectReference Include="..\..\src\Shop.Infrastructure\Shop.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Shop.Domain\Shop.Domain.csproj" />
     <ProjectReference Include="..\..\src\Shop.Core\Shop.Core.csproj" />
