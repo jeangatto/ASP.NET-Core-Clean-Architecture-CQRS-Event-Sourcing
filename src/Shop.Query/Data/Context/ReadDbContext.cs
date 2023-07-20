@@ -19,6 +19,7 @@ namespace Shop.Query.Data.Context;
 public sealed class ReadDbContext : IReadDbContext
 {
     private const string DatabaseName = "Shop";
+    private const int RetryCount = 2;
     private static readonly Random Rnd = new();
 
     private static readonly ReplaceOptions DefaultReplaceOptions = new()
@@ -129,6 +130,6 @@ public sealed class ReadDbContext : IReadDbContext
 
         return Policy
             .Handle<MongoException>()
-            .WaitAndRetryAsync(2, SleepDurationProvider, OnRetry);
+            .WaitAndRetryAsync(RetryCount, SleepDurationProvider, OnRetry);
     }
 }
