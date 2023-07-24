@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Extensions.Configuration;
 using Shop.Core.SharedKernel;
 
@@ -6,9 +5,6 @@ namespace Shop.Core.Extensions;
 
 public static class ConfigurationExtensions
 {
-    private static readonly Action<BinderOptions> ConfigureBinderOptions = options =>
-        options.BindNonPublicProperties = true;
-
     /// <summary>
     /// Get options from IConfiguration object.
     /// </summary>
@@ -18,5 +14,5 @@ public static class ConfigurationExtensions
     public static TOptions GetOptions<TOptions>(this IConfiguration configuration) where TOptions : class, IAppOptions
         => configuration
             .GetRequiredSection(TOptions.ConfigSectionPath)
-            .Get<TOptions>(ConfigureBinderOptions);
+            .Get<TOptions>(options => options.BindNonPublicProperties = true);
 }
