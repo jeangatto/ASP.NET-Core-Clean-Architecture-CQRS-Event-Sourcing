@@ -26,7 +26,7 @@ WORKDIR "/src/src/Shop.PublicApi"
 RUN dotnet build "Shop.PublicApi.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "Shop.PublicApi.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish "Shop.PublicApi.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
