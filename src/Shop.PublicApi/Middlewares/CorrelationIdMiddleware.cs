@@ -9,7 +9,7 @@ namespace Shop.PublicApi.Middlewares;
 public class CorrelationIdMiddleware
 {
     private readonly RequestDelegate _next;
-    private const string CorrelationIdHeader = "X-Correlation-Id";
+    private const string CorrelationIdHeaderKey = "X-Correlation-Id";
 
     public CorrelationIdMiddleware(RequestDelegate next) => _next = next;
 
@@ -22,7 +22,7 @@ public class CorrelationIdMiddleware
 
     private static StringValues GetCorrelationId(HttpContext context, ICorrelationIdGenerator correlationIdGenerator)
     {
-        if (context.Request.Headers.TryGetValue(CorrelationIdHeader, out var correlationId))
+        if (context.Request.Headers.TryGetValue(CorrelationIdHeaderKey, out var correlationId))
         {
             correlationIdGenerator.Set(correlationId);
             return correlationId;
@@ -37,7 +37,7 @@ public class CorrelationIdMiddleware
     {
         context.Response.OnStarting(() =>
         {
-            context.Response.Headers.Add(CorrelationIdHeader, new[] { correlationId.ToString() });
+            context.Response.Headers.Add(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
             return Task.CompletedTask;
         });
     }
