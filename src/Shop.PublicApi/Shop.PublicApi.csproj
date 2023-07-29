@@ -2,6 +2,8 @@
 
   <PropertyGroup Label="Build">
     <TargetFramework>net7.0</TargetFramework>
+    <!-- Enables the inclusion of OpenAPI analyzers in the project. -->
+    <!-- OpenAPI analyzers help to validate and analyze OpenAPI specifications, ensuring compliance with best practices and identifying potential issues -->
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DockerTargetOS>Linux</DockerTargetOS>
