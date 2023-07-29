@@ -56,7 +56,7 @@ internal static class ServicesCollectionExtensions
         services.AddSwaggerGenNewtonsoftSupport();
     }
 
-    public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>();
 
@@ -68,18 +68,20 @@ internal static class ServicesCollectionExtensions
 
         if (!connectionOptions.CacheConnection.IsInMemoryCache())
             healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
+
+        return services;
     }
 
-    public static void AddShopDbContext(this IServiceCollection services) =>
+    public static IServiceCollection AddShopDbContext(this IServiceCollection services) =>
         services.AddDbContext<WriteDbContext>((serviceProvider, optionsBuilder) =>
             ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
 
-    public static void AddEventDbContext(this IServiceCollection services) =>
+    public static IServiceCollection AddEventDbContext(this IServiceCollection services) =>
         services.AddDbContext<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
             ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder,
                 QueryTrackingBehavior.NoTrackingWithIdentityResolution));
 
-    public static void AddCacheService(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>();
         if (connectionOptions.CacheConnection.IsInMemoryCache())
@@ -98,6 +100,8 @@ internal static class ServicesCollectionExtensions
                 options.Configuration = connectionOptions.CacheConnection;
             }).AddDistributedCacheService(); // Shop Infra Service.
         }
+
+        return services;
     }
 
     private static bool IsInMemoryCache(this string connection) =>

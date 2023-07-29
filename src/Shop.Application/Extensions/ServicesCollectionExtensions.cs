@@ -10,7 +10,7 @@ public static class ServicesCollectionExtensions
 {
     private static readonly Assembly ThisAssembly = Assembly.GetExecutingAssembly();
 
-    public static void AddHandlers(this IServiceCollection services) =>
+    public static IServiceCollection AddCommandHandlers(this IServiceCollection services) =>
         services
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(ThisAssembly))
             .AddValidatorsFromAssembly(ThisAssembly);

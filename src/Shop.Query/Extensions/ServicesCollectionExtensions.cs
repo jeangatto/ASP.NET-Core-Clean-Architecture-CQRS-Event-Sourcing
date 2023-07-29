@@ -18,7 +18,7 @@ public static class ServicesCollectionExtensions
 {
     private static readonly Assembly ThisAssembly = Assembly.GetExecutingAssembly();
 
-    public static void AddQuery(this IServiceCollection services)
+    public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
     {
         services
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(ThisAssembly))
@@ -28,6 +28,8 @@ public static class ServicesCollectionExtensions
             .AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
         ConfigureMongoDb();
+
+        return services;
     }
 
     private static void ConfigureMongoDb()

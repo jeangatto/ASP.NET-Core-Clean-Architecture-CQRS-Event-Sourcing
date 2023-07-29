@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Package Versions">
+    <PackageVersion Include="System.Net.NameResolution" Version="4.3.0" />
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.1.0" />
     <PackageVersion Include="Ardalis.Result" Version="7.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="6.0.2" />

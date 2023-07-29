@@ -9,10 +9,10 @@ namespace Shop.Core.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
-    public static void AddCorrelationGenerator(this IServiceCollection services) =>
+    public static IServiceCollection AddCorrelationGenerator(this IServiceCollection services) =>
         services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
 
-    public static void ConfigureAppSettings(this IServiceCollection services) =>
+    public static IServiceCollection ConfigureAppSettings(this IServiceCollection services) =>
         services
             .AddOptionsWithValidation<ConnectionOptions>()
             .AddOptionsWithValidation<CacheOptions>();
