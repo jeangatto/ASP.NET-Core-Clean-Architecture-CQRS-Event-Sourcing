@@ -16,13 +16,14 @@ namespace Shop.Query.Extensions;
 
 public static class ServicesCollectionExtensions
 {
+    private static readonly Assembly ThisAssembly = Assembly.GetExecutingAssembly();
+
     public static void AddQuery(this IServiceCollection services)
     {
-        var executingAssembly = Assembly.GetExecutingAssembly();
         services
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(executingAssembly))
-            .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(executingAssembly))))
-            .AddValidatorsFromAssembly(executingAssembly)
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(ThisAssembly))
+            .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(ThisAssembly))))
+            .AddValidatorsFromAssembly(ThisAssembly)
             .AddSingleton<IReadDbContext, ReadDbContext>()
             .AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
