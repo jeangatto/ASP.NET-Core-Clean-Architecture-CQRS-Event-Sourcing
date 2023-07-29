@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,7 @@ using StackExchange.Profiling;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .Configure<KestrelServerOptions>(kestrelOptions => kestrelOptions.AddServerHeader = false)
     .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
     .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
     .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
@@ -37,34 +39,31 @@ builder.Services
         compressionOptions.Providers.Add<GzipCompressionProvider>();
     })
     .AddEndpointsApiExplorer()
-    .AddApiVersioning(options =>
+    .AddApiVersioning(versioningOptions =>
     {
         // Specify the default API Version as 1.0
-        options.DefaultApiVersion = ApiVersion.Default;
-
+        versioningOptions.DefaultApiVersion = ApiVersion.Default;
         // Reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
-        options.ReportApiVersions = true;
-
+        versioningOptions.ReportApiVersions = true;
         // If the client hasn't specified the API version in the request, use the default API version number
-        options.AssumeDefaultVersionWhenUnspecified = true;
+        versioningOptions.AssumeDefaultVersionWhenUnspecified = true;
     })
-    .AddVersionedApiExplorer(options =>
+    .AddVersionedApiExplorer(explorerOptions =>
     {
         // Add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
         // NOTE: the specified format code will format the version as "'v'major[.minor][-status]"
-        options.GroupNameFormat = "'v'VVV";
-
+        explorerOptions.GroupNameFormat = "'v'VVV";
         // NOTE: this option is only necessary when versioning by url segment. the SubstitutionFormat
         // can also be used to control the format of the API version in route templates
-        options.SubstituteApiVersionInUrl = true;
+        explorerOptions.SubstituteApiVersionInUrl = true;
     })
     .AddSwagger();
 
 builder.Services.AddControllers()
-    .ConfigureApiBehaviorOptions(options =>
+    .ConfigureApiBehaviorOptions(behaviorOptions =>
     {
-        options.SuppressMapClientErrors = true;
-        options.SuppressModelStateInvalidFilter = true;
+        behaviorOptions.SuppressMapClientErrors = true;
+        behaviorOptions.SuppressModelStateInvalidFilter = true;
     }).AddNewtonsoftJson();
 
 // Adding the application services in ASP.NET Core DI.
