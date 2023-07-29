@@ -35,16 +35,16 @@ internal static class ServicesCollectionExtensions
                 {
                     Name = "Jean Gatto",
                     Email = "jean_gatto@hotmail.com",
-#pragma warning disable S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
+#pragma warning disable S1075
                     Url = new Uri("https://www.linkedin.com/in/jeangatto/")
-#pragma warning restore S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
+#pragma warning restore S1075
                 },
                 License = new OpenApiLicense
                 {
                     Name = "MIT License",
-#pragma warning disable S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
+#pragma warning disable S1075
                     Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
-#pragma warning restore S1075 // Refactor your code not to use hardcoded absolute paths or URIs.
+#pragma warning restore S1075
                 }
             });
 
@@ -94,10 +94,10 @@ internal static class ServicesCollectionExtensions
         {
             // ASP.NET Core Redis Distributed Cache.
             // REF: https://learn.microsoft.com/pt-br/aspnet/core/performance/caching/distributed?view=aspnetcore-7.0
-            services.AddStackExchangeRedisCache(options =>
+            services.AddStackExchangeRedisCache(redisOptions =>
             {
-                options.InstanceName = "master";
-                options.Configuration = connectionOptions.CacheConnection;
+                redisOptions.InstanceName = "master";
+                redisOptions.Configuration = connectionOptions.CacheConnection;
             }).AddDistributedCacheService(); // Shop Infra Service.
         }
 
