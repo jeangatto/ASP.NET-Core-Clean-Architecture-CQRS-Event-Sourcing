@@ -22,11 +22,11 @@ internal static class ServicesCollectionExtensions
     private const string MigrationsAssembly = "Shop.PublicApi";
     private static readonly string[] DatabaseTags = { "database" };
 
-    public static void AddSwagger(this IServiceCollection services)
+    public static IServiceCollection AddSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen(options =>
+        services.AddSwaggerGen(swaggerOptions =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo
+            swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
@@ -50,10 +50,12 @@ internal static class ServicesCollectionExtensions
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            options.IncludeXmlComments(xmlPath, true);
+            swaggerOptions.IncludeXmlComments(xmlPath, true);
         });
 
         services.AddSwaggerGenNewtonsoftSupport();
+
+        return services;
     }
 
     public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
