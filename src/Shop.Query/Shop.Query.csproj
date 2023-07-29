@@ -5,17 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup Label="Package References">
-    <PackageReference Include="Ardalis.Result.FluentValidation" Version="7.1.0" />
-    <PackageReference Include="Ardalis.Result" Version="7.1.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
-    <PackageReference Include="FluentValidation" Version="11.6.0" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="MongoDB.Bson" Version="2.20.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
-    <PackageReference Include="Polly" Version="7.2.4" />
+    <PackageReference Include="Ardalis.Result.FluentValidation" />
+    <PackageReference Include="Ardalis.Result" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="MongoDB.Bson" />
+    <PackageReference Include="MongoDB.Driver" />
+    <PackageReference Include="Polly" />
   </ItemGroup>
 
   <ItemGroup Label="Project References">

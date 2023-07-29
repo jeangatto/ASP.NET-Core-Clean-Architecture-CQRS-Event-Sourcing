@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Package References">
-    <PackageReference Include="Ardalis.Result" Version="7.1.0" />
+    <PackageReference Include="Ardalis.Result" />
   </ItemGroup>
 
   <ItemGroup Label="Project References">

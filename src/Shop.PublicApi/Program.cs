@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Shop.Application;
+using Shop.Application.Extensions;
 using Shop.Core.Extensions;
 using Shop.Infrastructure.Extensions;
 using Shop.PublicApi.Extensions;
@@ -23,13 +23,18 @@ using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
-builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure());
-builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services
+    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
+    .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
+    .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
+builder.Services.AddResponseCompression(compressionOptions =>
+{
+    compressionOptions.EnableForHttps = true;
+    compressionOptions.Providers.Add<GzipCompressionProvider>();
+});
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApiVersioning(options =>
@@ -71,7 +76,7 @@ builder.Services.AddHealthChecks(builder.Configuration);
 builder.Services.ConfigureAppSettings();
 builder.Services.AddCorrelationGenerator();
 builder.Services.AddInfrastructure();
-builder.Services.AddApplication();
+builder.Services.AddHandlers();
 builder.Services.AddQuery();
 builder.Services.AddShopDbContext();
 builder.Services.AddEventDbContext();
