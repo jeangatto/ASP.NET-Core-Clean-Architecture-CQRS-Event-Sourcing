@@ -62,7 +62,7 @@
     <PackageVersion Include="Moq" Version="4.18.4" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Polly" Version="7.2.4" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.3.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.4.0" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.6.0.74858" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
