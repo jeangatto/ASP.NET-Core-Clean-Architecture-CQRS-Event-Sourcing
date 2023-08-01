@@ -1,8 +1,6 @@
-using System.Globalization;
 using System.IO.Compression;
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +24,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .Configure<KestrelServerOptions>(kestrelOptions => kestrelOptions.AddServerHeader = false)
-    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
+    .Configure<GzipCompressionProviderOptions>(
+        compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
     .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
     .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
 
@@ -93,10 +92,10 @@ builder.Services.AddMiniProfiler(options =>
 }).AddEntityFramework();
 
 // Validating the services added in the ASP.NET Core DI.
-builder.Host.UseDefaultServiceProvider((context, options) =>
+builder.Host.UseDefaultServiceProvider((context, serviceProviderOptions) =>
 {
-    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
-    options.ValidateOnBuild = true;
+    serviceProviderOptions.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+    serviceProviderOptions.ValidateOnBuild = true;
 });
 
 // Using the Kestrel Server (linux).
@@ -104,7 +103,6 @@ builder.WebHost.UseKestrel(kestrelOptions => kestrelOptions.AddServerHeader = fa
 
 // FluentValidation global configuration.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
-ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
 var app = builder.Build();
 
