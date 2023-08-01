@@ -31,7 +31,7 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasMaxLength(6)
             .HasConversion<string>();
 
-        // Mapeamento de Objetos de Valor (ValueObject)
+        // Value Object Mapping (ValueObject)
         builder.OwnsOne(customer => customer.Email, ownedNav =>
         {
             ownedNav
