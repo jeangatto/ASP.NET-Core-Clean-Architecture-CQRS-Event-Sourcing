@@ -49,7 +49,7 @@
     <ProjectReference Include="..\..\src\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="xUnit Configuration File">
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
