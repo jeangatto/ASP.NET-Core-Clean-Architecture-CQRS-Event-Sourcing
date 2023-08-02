@@ -50,7 +50,7 @@ internal static class WebApplicationExtensions
         }
         else
         {
-            app.Logger.LogInformation("----- {DbName}: all migrations are up to date.", dbName);
+            app.Logger.LogInformation("----- {DbName}: all migrations are up to date", dbName);
         }
     }
 
