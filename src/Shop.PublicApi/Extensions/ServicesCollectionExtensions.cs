@@ -22,7 +22,7 @@ internal static class ServicesCollectionExtensions
     private const string MigrationsAssembly = "Shop.PublicApi";
     private static readonly string[] DatabaseTags = { "database" };
 
-    public static IServiceCollection AddSwagger(this IServiceCollection services)
+    public static void AddSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(swaggerOptions =>
         {
@@ -30,7 +30,8 @@ internal static class ServicesCollectionExtensions
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
-                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture",
+                Description =
+                    "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture",
                 Contact = new OpenApiContact
                 {
                     Name = "Jean Gatto",
@@ -43,7 +44,8 @@ internal static class ServicesCollectionExtensions
                 {
                     Name = "MIT License",
 #pragma warning disable S1075
-                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
+                    Url = new Uri(
+                        "https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
 #pragma warning restore S1075
                 }
             });
@@ -54,11 +56,9 @@ internal static class ServicesCollectionExtensions
         });
 
         services.AddSwaggerGenNewtonsoftSupport();
-
-        return services;
     }
 
-    public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>();
 
@@ -70,8 +70,6 @@ internal static class ServicesCollectionExtensions
 
         if (!connectionOptions.CacheConnection.IsInMemoryCache())
             healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
-
-        return services;
     }
 
     public static IServiceCollection AddShopDbContext(this IServiceCollection services) =>
@@ -90,7 +88,7 @@ internal static class ServicesCollectionExtensions
         {
             services
                 .AddMemoryCache() // ASP.NET Core Memory Cache.
-                .AddMemoryCacheService();// Shop Infra Service.
+                .AddMemoryCacheService(); // Shop Infrastructure Service.
         }
         else
         {
@@ -100,7 +98,7 @@ internal static class ServicesCollectionExtensions
             {
                 redisOptions.InstanceName = "master";
                 redisOptions.Configuration = connectionOptions.CacheConnection;
-            }).AddDistributedCacheService(); // Shop Infra Service.
+            }).AddDistributedCacheService(); // Shop Infrastructure Service.
         }
 
         return services;

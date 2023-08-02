@@ -14,10 +14,10 @@ namespace Shop.Infrastructure.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
-    public static IServiceCollection AddMemoryCacheService(this IServiceCollection services) =>
+    public static void AddMemoryCacheService(this IServiceCollection services) =>
         services.AddScoped<ICacheService, MemoryCacheService>();
 
-    public static IServiceCollection AddDistributedCacheService(this IServiceCollection services) =>
+    public static void AddDistributedCacheService(this IServiceCollection services) =>
         services.AddScoped<ICacheService, DistributedCacheService>();
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
