@@ -39,22 +39,16 @@ public static class JsonExtensions
     {
         // Ignore circular references
         jsonSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
         // Disable preserving references
         jsonSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
-
         // Ignore null values during serialization
         jsonSettings.NullValueHandling = NullValueHandling.Ignore;
-
         // Disable formatting of the JSON output
         jsonSettings.Formatting = Formatting.None;
-
         // Set the contract resolver for custom serialization behavior
         jsonSettings.ContractResolver = ContractResolver;
-
         // Add a converter for string enum values
         jsonSettings.Converters.Add(StringEnumConverter);
-
         return jsonSettings;
     }
 }
