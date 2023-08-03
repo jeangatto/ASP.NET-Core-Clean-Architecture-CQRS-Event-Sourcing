@@ -15,13 +15,10 @@ public static class AssemblyExtensions
     /// <returns>An enumerable collection of types that implement or inherit from the specified interface or base class.</returns>
     public static IEnumerable<Type> GetAllTypesOf<TInterface>(this Assembly assembly)
     {
-        // Check if a type is assignable to TInterface
         var isAssignableToTInterface = typeof(TInterface).IsAssignableFrom;
-
-        // Get all types in the assembly
         return assembly
             .GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && isAssignableToTInterface(t))
+            .Where(type => type.IsClass && !type.IsAbstract && !type.IsInterface && isAssignableToTInterface(type))
             .ToList();
     }
 }
