@@ -30,8 +30,7 @@ internal static class ServicesCollectionExtensions
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
-                Description =
-                    "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture",
+                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture",
                 Contact = new OpenApiContact
                 {
                     Name = "Jean Gatto",
@@ -44,8 +43,7 @@ internal static class ServicesCollectionExtensions
                 {
                     Name = "MIT License",
 #pragma warning disable S1075
-                    Url = new Uri(
-                        "https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
+                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
 #pragma warning restore S1075
                 }
             });
