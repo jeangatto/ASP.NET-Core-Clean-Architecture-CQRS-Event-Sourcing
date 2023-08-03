@@ -27,8 +27,7 @@ public static class ServicesCollectionExtensions
     {
         return services
             .AddOptions<TOptions>()
-            .BindConfiguration(TOptions.ConfigSectionPath,
-                binderOptions => binderOptions.BindNonPublicProperties = true)
+            .BindConfiguration(TOptions.ConfigSectionPath, binderOptions => binderOptions.BindNonPublicProperties = true)
             .ValidateDataAnnotations()
             .ValidateOnStart()
             .Services;
