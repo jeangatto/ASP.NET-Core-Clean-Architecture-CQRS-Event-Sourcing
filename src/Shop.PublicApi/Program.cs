@@ -24,8 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .Configure<KestrelServerOptions>(kestrelOptions => kestrelOptions.AddServerHeader = false)
-    .Configure<GzipCompressionProviderOptions>(
-        compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
+    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
     .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
     .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
 
