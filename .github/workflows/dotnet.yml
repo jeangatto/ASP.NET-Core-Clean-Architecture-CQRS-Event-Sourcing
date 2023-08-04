@@ -16,6 +16,7 @@ env:
   DOTNET_VERSION: "7.0.x"
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_EnableDiagnostics: 0
 
 jobs:
   build-and-test:
