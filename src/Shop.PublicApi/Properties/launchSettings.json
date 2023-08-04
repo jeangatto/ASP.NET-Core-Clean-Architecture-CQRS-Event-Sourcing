@@ -9,13 +9,24 @@
     }
   },
   "profiles": {
-    "Shop.PublicApi": {
+    "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "hotReloadEnabled": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7225;http://localhost:5072",
+      "applicationUrl": "http://localhost:5072",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "hotReloadEnabled": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7225;",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
