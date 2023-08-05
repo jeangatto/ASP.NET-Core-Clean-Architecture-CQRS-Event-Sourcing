@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Application.Behaviors;
 
 namespace Shop.Application.Extensions;
 
@@ -12,6 +14,8 @@ public static class ServicesCollectionExtensions
 
     public static IServiceCollection AddCommandHandlers(this IServiceCollection services) =>
         services
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(ThisAssembly))
-            .AddValidatorsFromAssembly(ThisAssembly);
+            .AddValidatorsFromAssembly(ThisAssembly)
+            .AddMediatR(cfg => cfg
+                .RegisterServicesFromAssembly(ThisAssembly)
+                .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)));
 }
