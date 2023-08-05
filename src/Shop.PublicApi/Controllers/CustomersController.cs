@@ -22,7 +22,8 @@ public class CustomersController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public CustomersController(IMediator mediator) => _mediator = mediator;
+    public CustomersController(IMediator mediator) =>
+        _mediator = mediator;
 
     /// <summary>
     /// Register a new customer.
