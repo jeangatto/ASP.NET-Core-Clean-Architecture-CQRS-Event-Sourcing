@@ -5,6 +5,7 @@ EXPOSE 5072
 ENV ASPNETCORE_URLS=http://+:5072
 ENV DOTNET_NOLOGO=true
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
+ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 ENV DOTNET_EnableDiagnostics=0
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
