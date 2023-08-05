@@ -34,7 +34,6 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" />
     <PackageReference Include="MiniProfiler.EntityFrameworkCore" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
