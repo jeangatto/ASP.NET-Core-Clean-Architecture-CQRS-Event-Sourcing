@@ -1,9 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.SharedKernel;
 using Shop.Domain.Entities.CustomerAggregate;
-using Shop.Infrastructure.Behaviors;
 using Shop.Infrastructure.Data;
 using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Repositories;
@@ -22,7 +20,6 @@ public static class ServicesCollectionExtensions
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
         services
-            .AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
             .AddScoped<IEventStoreRepository, EventStoreRepository>()
             .AddScoped<ICustomerWriteOnlyRepository, CustomerWriteOnlyRepository>()
             .AddScoped<WriteDbContext>()
