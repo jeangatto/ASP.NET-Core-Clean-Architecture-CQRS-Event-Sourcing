@@ -52,7 +52,7 @@
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Primitives" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.3.8" />
     <PackageVersion Include="MongoDB.Bson" Version="2.20.0" />
@@ -62,7 +62,7 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Polly" Version="7.2.4" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.4.0" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.6.0.74858" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.7.0.75501" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
