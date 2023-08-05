@@ -1,7 +1,7 @@
 using System.Linq;
 using Ardalis.Result;
 using Microsoft.AspNetCore.Mvc;
-using Shop.PublicApi.Models;
+using Shop.PublicApi.Models.Responses;
 
 namespace Shop.PublicApi.Extensions;
 
@@ -13,7 +13,9 @@ internal static class ResultExtensions
     /// <param name="result">The Result object to convert.</param>
     /// <returns>An IActionResult representing the Result object.</returns>
     public static IActionResult ToActionResult(this Result result) =>
-        result.IsSuccess ? new OkObjectResult(ApiResponse.Ok(result.SuccessMessage)) : result.ToHttpNonSuccessResult();
+        result.IsSuccess ?
+            new OkObjectResult(ApiResponse.Ok(result.SuccessMessage)) :
+            result.ToHttpNonSuccessResult();
 
     /// <summary>
     /// Converts a <see cref="Result{T}"/> to an <see cref="IActionResult"/>.
@@ -28,7 +30,7 @@ internal static class ResultExtensions
 
     private static IActionResult ToHttpNonSuccessResult(this IResult result)
     {
-        var errors = result.Errors.Select(error => new ApiError(error)).ToList();
+        var errors = result.Errors.Select(error => new ApiErrorResponse(error)).ToList();
 
         switch (result.Status)
         {
@@ -36,7 +38,7 @@ internal static class ResultExtensions
 
                 var validationErrors = result
                     .ValidationErrors
-                    .ConvertAll(validation => new ApiError(validation.ErrorMessage));
+                    .ConvertAll(validation => new ApiErrorResponse(validation.ErrorMessage));
 
                 return new BadRequestObjectResult(ApiResponse.BadRequest(validationErrors));
 
