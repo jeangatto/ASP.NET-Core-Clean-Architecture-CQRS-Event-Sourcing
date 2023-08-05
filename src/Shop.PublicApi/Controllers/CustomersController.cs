@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
@@ -36,7 +37,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<CreatedCustomerResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] CreateCustomerCommand command) =>
+    public async Task<IActionResult> Create([FromBody][Required] CreateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
 
     /// <summary>
@@ -54,7 +55,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromBody] UpdateCustomerCommand command) =>
+    public async Task<IActionResult> Update([FromBody][Required] UpdateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
 
     /// <summary>
@@ -72,7 +73,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Delete(Guid id) =>
+    public async Task<IActionResult> Delete([Required] Guid id) =>
         (await _mediator.Send(new DeleteCustomerCommand(id))).ToActionResult();
 
     /// <summary>
@@ -90,7 +91,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetById(Guid id) =>
+    public async Task<IActionResult> GetById([Required] Guid id) =>
         (await _mediator.Send(new GetCustomerByIdQuery(id))).ToActionResult();
 
     /// <summary>
