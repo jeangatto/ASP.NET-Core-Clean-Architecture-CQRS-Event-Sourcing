@@ -25,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .Configure<KestrelServerOptions>(kestrelOptions => kestrelOptions.AddServerHeader = false)
     .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
-    .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
+    .Configure<JsonOptions>(jsonOptions => jsonOptions.JsonSerializerOptions.Configure())
     .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
 
 builder.Services
@@ -62,7 +62,8 @@ builder.Services.AddControllers()
     {
         behaviorOptions.SuppressMapClientErrors = true;
         behaviorOptions.SuppressModelStateInvalidFilter = true;
-    }).AddNewtonsoftJson();
+    })
+    .AddJsonOptions(_ => { });
 
 // Adding the application services in ASP.NET Core DI.
 builder.Services

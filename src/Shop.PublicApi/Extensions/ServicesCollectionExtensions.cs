@@ -52,8 +52,6 @@ internal static class ServicesCollectionExtensions
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             swaggerOptions.IncludeXmlComments(xmlPath, true);
         });
-
-        services.AddSwaggerGenNewtonsoftSupport();
     }
 
     public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)

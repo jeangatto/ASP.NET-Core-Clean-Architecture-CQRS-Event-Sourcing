@@ -21,7 +21,6 @@
     <PackageVersion Include="FluentAssertions" Version="6.11.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
     <PackageVersion Include="FluentValidation" Version="11.6.0" />
-    <PackageVersion Include="JsonNet.ContractResolvers" Version="2.0.0" />
     <PackageVersion Include="MediatR" Version="12.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
@@ -59,13 +58,12 @@
     <PackageVersion Include="MongoDB.Driver" Version="2.20.0" />
     <PackageVersion Include="Moq.Analyzers" Version="0.0.9" />
     <PackageVersion Include="Moq" Version="4.18.4" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Polly" Version="7.2.4" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.4.0" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.7.0.75501" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageVersion Include="System.Text.Json" Version="7.0.3" />
     <PackageVersion Include="xunit.analyzers" Version="1.2.0" />
     <PackageVersion Include="xunit.categories" Version="2.0.7" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
