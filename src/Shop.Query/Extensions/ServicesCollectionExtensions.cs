@@ -51,7 +51,6 @@ public static class ServicesCollectionExtensions
         // Step 3: Register the mappings configurations.
         // It is recommended to register all mappings before initializing the connection with MongoDb
         // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/
-        new BaseQueryModelMap().Configure(); // Configuration for base abstract class
         new CustomerMap().Configure(); // Configuration for Customer class
     }
 }
