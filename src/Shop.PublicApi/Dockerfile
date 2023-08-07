@@ -8,11 +8,6 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 ENV DOTNET_EnableDiagnostics=0
 
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
-
 FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim AS build
 WORKDIR /src
 COPY ["Directory.Build.props", "src/"]
@@ -29,7 +24,7 @@ WORKDIR "/src/src/Shop.PublicApi"
 RUN dotnet build "Shop.PublicApi.csproj" --configuration Release --output /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "Shop.PublicApi.csproj" --configuration Release --output /app/publish --no-restore /p:UseAppHost=false
+RUN dotnet publish "Shop.PublicApi.csproj" --configuration Release --output /app/publish /p:UseAppHost=false --no-restore
 
 FROM base AS final
 WORKDIR /app
