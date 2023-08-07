@@ -12,7 +12,8 @@ namespace Shop.PublicApi.Middlewares;
 
 public class ErrorHandlingMiddleware
 {
-    private const string DefaultErrorMessage = "An internal error occurred while processing your request.";
+    private const string ErrorMessage = "An internal error occurred while processing your request.";
+    private static readonly string ApiResponseJson = ApiResponse.InternalServerError(ErrorMessage).ToJson();
 
     private readonly RequestDelegate _next;
     private readonly ILogger<ErrorHandlingMiddleware> _logger;
@@ -40,7 +41,6 @@ public class ErrorHandlingMiddleware
 
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-            // Quando for ambiente de desenvolvimento, será exibida a stack trace completa da exception.
             if (_environment.IsDevelopment())
             {
                 context.Response.ContentType = MediaTypeNames.Text.Plain;
@@ -49,7 +49,7 @@ public class ErrorHandlingMiddleware
             else
             {
                 context.Response.ContentType = MediaTypeNames.Application.Json;
-                await context.Response.WriteAsync(ApiResponse.InternalServerError(DefaultErrorMessage).ToJson());
+                await context.Response.WriteAsync(ApiResponseJson);
             }
         }
     }
