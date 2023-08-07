@@ -28,7 +28,12 @@ public class Customer : BaseEntity, IAggregateRoot
         AddDomainEvent(new CustomerCreatedEvent(Id, firstName, lastName, gender, email.Address, dateOfBirth));
     }
 
-    public Customer() { } // Default constructor for EF/ORM
+    /// <summary>
+    /// Default constructor for Entity Framework or other ORM frameworks.
+    /// </summary>
+    public Customer()
+    {
+    }
 
     // Properties
     /// <summary>
