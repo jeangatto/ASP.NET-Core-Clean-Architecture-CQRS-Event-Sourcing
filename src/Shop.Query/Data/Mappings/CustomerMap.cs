@@ -15,6 +15,9 @@ public class CustomerMap : IReadDbMapping
             classMap.AutoMap();
             classMap.SetIgnoreExtraElements(true);
 
+            classMap.MapMember(customer => customer.Id)
+                .SetIsRequired(true);
+
             classMap.MapMember(customer => customer.FirstName)
                 .SetIsRequired(true);
 
