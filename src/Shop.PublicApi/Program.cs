@@ -118,6 +118,7 @@ app.UseHealthChecks("/health",
         ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
     });
 
+app.UseErrorHandling();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseResponseCompression();
