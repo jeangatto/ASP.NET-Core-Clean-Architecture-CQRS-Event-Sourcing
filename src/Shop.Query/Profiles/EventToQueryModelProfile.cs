@@ -15,7 +15,7 @@ public class EventToQueryModelProfile : Profile
             .ConstructUsing(@event => Create(@event));
 
         CreateMap<CustomerDeletedEvent, CustomerQueryModel>(MemberList.Destination)
-           .ConstructUsing(@event => Create(@event));
+            .ConstructUsing(@event => Create(@event));
     }
 
     private static CustomerQueryModel Create(CustomerBaseEvent @event) =>
