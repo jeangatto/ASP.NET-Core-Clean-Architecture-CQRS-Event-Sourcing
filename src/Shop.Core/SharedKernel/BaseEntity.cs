@@ -10,8 +10,15 @@ public abstract class BaseEntity : IEntity<Guid>
 {
     private readonly List<BaseEvent> _domainEvents = new();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BaseEntity"/> class.
+    /// </summary>
     protected BaseEntity() => Id = Guid.NewGuid();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BaseEntity"/> class with the specified identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the entity.</param>
     protected BaseEntity(Guid id) => Id = id;
 
     /// <summary>
