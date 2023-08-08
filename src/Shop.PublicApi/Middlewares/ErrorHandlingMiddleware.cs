@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shop.Core.Extensions;
-using Shop.PublicApi.Models.Responses;
+using Shop.PublicApi.Models;
 
 namespace Shop.PublicApi.Middlewares;
 

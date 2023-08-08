@@ -1,7 +1,7 @@
 using System.Linq;
 using Ardalis.Result;
 using Microsoft.AspNetCore.Mvc;
-using Shop.PublicApi.Models.Responses;
+using Shop.PublicApi.Models;
 
 namespace Shop.PublicApi.Extensions;
 

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Responses;
 using Shop.PublicApi.Extensions;
-using Shop.PublicApi.Models.Responses;
+using Shop.PublicApi.Models;
 using Shop.Query.Application.Customer.Queries;
 using Shop.Query.QueriesModel;
 
