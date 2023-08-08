@@ -27,25 +27,25 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="7.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0" />
