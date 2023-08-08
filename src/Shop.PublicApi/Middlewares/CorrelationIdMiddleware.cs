@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Shop.Core.SharedKernel.Correlation;
@@ -39,10 +38,4 @@ public class CorrelationIdMiddleware
             return Task.CompletedTask;
         });
     }
-}
-
-public static class CorrelationIdMiddlewareExtensions
-{
-    public static void UseCorrelationId(this IApplicationBuilder builder) =>
-        builder.UseMiddleware<CorrelationIdMiddleware>();
 }

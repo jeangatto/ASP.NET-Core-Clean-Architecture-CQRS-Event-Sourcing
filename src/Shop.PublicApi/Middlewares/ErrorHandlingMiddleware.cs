@@ -1,7 +1,6 @@
 using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -53,10 +52,4 @@ public class ErrorHandlingMiddleware
             }
         }
     }
-}
-
-public static class ErrorHandlingMiddlewareExtensions
-{
-    public static void UseErrorHandling(this IApplicationBuilder builder) =>
-        builder.UseMiddleware<ErrorHandlingMiddleware>();
 }

@@ -16,7 +16,6 @@ using Shop.Application.Extensions;
 using Shop.Core.Extensions;
 using Shop.Infrastructure.Extensions;
 using Shop.PublicApi.Extensions;
-using Shop.PublicApi.Middlewares;
 using Shop.Query.Extensions;
 using StackExchange.Profiling;
 
