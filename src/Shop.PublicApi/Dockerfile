@@ -9,6 +9,7 @@ ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 ENV DOTNET_EnableDiagnostics=0
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim AS build
+ARG configuration=Release
 WORKDIR /src
 COPY ["Directory.Build.props", "src/"]
 COPY ["Directory.Packages.props", "src/"]
@@ -21,10 +22,11 @@ COPY ["src/Shop.Query/Shop.Query.csproj", "src/Shop.Query/"]
 RUN dotnet restore "src/Shop.PublicApi/Shop.PublicApi.csproj"
 COPY . .
 WORKDIR "/src/src/Shop.PublicApi"
-RUN dotnet build "Shop.PublicApi.csproj" --configuration Release --output /app/build --no-restore
+RUN dotnet build "Shop.PublicApi.csproj" --configuration $configuration --output /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "Shop.PublicApi.csproj" --configuration Release --output /app/publish /p:UseAppHost=false --no-restore
+ARG configuration=Release
+RUN dotnet publish "Shop.PublicApi.csproj" --configuration $configuration --output /app/publish /p:UseAppHost=false --no-restore
 
 FROM base AS final
 WORKDIR /app
