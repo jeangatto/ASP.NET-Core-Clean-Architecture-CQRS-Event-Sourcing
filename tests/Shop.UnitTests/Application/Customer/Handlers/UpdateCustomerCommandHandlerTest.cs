@@ -4,7 +4,7 @@ using Bogus;
 using FluentAssertions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Handlers;
 using Shop.Core.SharedKernel;
@@ -47,9 +47,9 @@ public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
 
         var unitOfWork = new UnitOfWork(
             _fixture.Context,
-            Mock.Of<IEventStoreRepository>(),
-            Mock.Of<IMediator>(),
-            Mock.Of<ILogger<UnitOfWork>>());
+            Substitute.For<IEventStoreRepository>(),
+            Substitute.For<IMediator>(),
+            Substitute.For<ILogger<UnitOfWork>>());
 
         var command = new Faker<UpdateCustomerCommand>()
             .RuleFor(command => command.Id, customer.Id)
@@ -95,7 +95,10 @@ public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
             .RuleFor(command => command.Email, _ => customers[1].Email.Address) // O E-mail do segundo customer
             .Generate();
 
-        var handler = new UpdateCustomerCommandHandler(_validator, repository, Mock.Of<IUnitOfWork>());
+        var handler = new UpdateCustomerCommandHandler(
+            _validator,
+            repository,
+            Substitute.For<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -121,7 +124,7 @@ public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
         var handler = new UpdateCustomerCommandHandler(
             _validator,
             new CustomerWriteOnlyRepository(_fixture.Context),
-            Mock.Of<IUnitOfWork>());
+            Substitute.For<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -141,8 +144,8 @@ public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
         // Arrange
         var handler = new UpdateCustomerCommandHandler(
             _validator,
-            Mock.Of<ICustomerWriteOnlyRepository>(),
-            Mock.Of<IUnitOfWork>());
+            Substitute.For<ICustomerWriteOnlyRepository>(),
+            Substitute.For<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(new UpdateCustomerCommand(), CancellationToken.None);

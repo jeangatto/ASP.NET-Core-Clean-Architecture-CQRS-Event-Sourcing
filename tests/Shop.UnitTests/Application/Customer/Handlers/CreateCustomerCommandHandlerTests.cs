@@ -5,7 +5,7 @@ using Bogus;
 using FluentAssertions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Handlers;
 using Shop.Core.SharedKernel;
@@ -41,9 +41,9 @@ public class CreateCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
 
         var unitOfWork = new UnitOfWork(
             _fixture.Context,
-            Mock.Of<IEventStoreRepository>(),
-            Mock.Of<IMediator>(),
-            Mock.Of<ILogger<UnitOfWork>>());
+            Substitute.For<IEventStoreRepository>(),
+            Substitute.For<IMediator>(),
+            Substitute.For<ILogger<UnitOfWork>>());
 
         var handler = new CreateCustomerCommandHandler(
             _validator,
@@ -87,7 +87,7 @@ public class CreateCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         var handler = new CreateCustomerCommandHandler(
             _validator,
             repository,
-            Mock.Of<IUnitOfWork>());
+            Substitute.For<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -107,8 +107,8 @@ public class CreateCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         // Arrange
         var handler = new CreateCustomerCommandHandler(
             _validator,
-            Mock.Of<ICustomerWriteOnlyRepository>(),
-            Mock.Of<IUnitOfWork>());
+            Substitute.For<ICustomerWriteOnlyRepository>(),
+            Substitute.For<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(new CreateCustomerCommand(), CancellationToken.None);

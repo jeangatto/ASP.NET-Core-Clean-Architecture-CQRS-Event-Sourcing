@@ -5,7 +5,7 @@ using Bogus;
 using FluentAssertions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Handlers;
 using Shop.Core.SharedKernel;
@@ -48,9 +48,9 @@ public class DeleteCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
 
         var unitOfWork = new UnitOfWork(
             _fixture.Context,
-            Mock.Of<IEventStoreRepository>(),
-            Mock.Of<IMediator>(),
-            Mock.Of<ILogger<UnitOfWork>>());
+            Substitute.For<IEventStoreRepository>(),
+            Substitute.For<IMediator>(),
+            Substitute.For<ILogger<UnitOfWork>>());
 
         var handler = new DeleteCustomerCommandHandler(
             _validator,
@@ -77,7 +77,7 @@ public class DeleteCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         var handler = new DeleteCustomerCommandHandler(
             _validator,
             new CustomerWriteOnlyRepository(_fixture.Context),
-            Mock.Of<IUnitOfWork>());
+            Substitute.For<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(command, CancellationToken.None);
@@ -97,8 +97,8 @@ public class DeleteCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
         // Arrange
         var handler = new DeleteCustomerCommandHandler(
             _validator,
-            Mock.Of<ICustomerWriteOnlyRepository>(),
-            Mock.Of<IUnitOfWork>());
+            Substitute.For<ICustomerWriteOnlyRepository>(),
+            Substitute.For<IUnitOfWork>());
 
         // Act
         var act = await handler.Handle(new DeleteCustomerCommand(Guid.Empty), CancellationToken.None);
