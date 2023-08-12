@@ -5,7 +5,6 @@
     <!-- Enables the inclusion of OpenAPI analyzers in the project. -->
     <!-- OpenAPI analyzers help to validate and analyze OpenAPI specifications, ensuring compliance with best practices and identifying potential issues -->
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <!-- Generates a documentation file for the project -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- The target OS used when building the Docker image. -->
     <DockerTargetOS>Linux</DockerTargetOS>
