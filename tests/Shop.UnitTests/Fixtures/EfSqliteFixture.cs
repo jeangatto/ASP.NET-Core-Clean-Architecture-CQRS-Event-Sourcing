@@ -41,10 +41,7 @@ public class EfSqliteFixture : IAsyncLifetime, IDisposable
     private bool _disposed;
 
     // Public implementation of Dispose pattern callable by consumers.
-    ~EfSqliteFixture()
-    {
-        Dispose(false);
-    }
+    ~EfSqliteFixture() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()
