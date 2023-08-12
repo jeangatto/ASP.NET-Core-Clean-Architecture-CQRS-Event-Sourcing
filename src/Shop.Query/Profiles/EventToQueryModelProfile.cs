@@ -18,6 +18,8 @@ public class EventToQueryModelProfile : Profile
             .ConstructUsing(@event => Create(@event));
     }
 
-    private static CustomerQueryModel Create(CustomerBaseEvent @event) =>
+    public override string ProfileName => nameof(EventToQueryModelProfile);
+
+    private static CustomerQueryModel Create<TEvent>(TEvent @event) where TEvent : CustomerBaseEvent =>
         new(@event.Id, @event.FirstName, @event.LastName, @event.Gender.ToString(), @event.Email, @event.DateOfBirth);
 }
