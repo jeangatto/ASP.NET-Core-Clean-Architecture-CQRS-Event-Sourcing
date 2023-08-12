@@ -39,7 +39,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build --nologo --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --no-restore --configuration Release --verbosity normal --logger "console;verbosity=detailed"
+        run: dotnet test --nologo --no-build --no-restore --configuration Release --verbosity normal --logger "console;verbosity=detailed"
