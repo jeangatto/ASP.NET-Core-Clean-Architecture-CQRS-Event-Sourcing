@@ -25,8 +25,7 @@ internal sealed class EventStoreRepository : IEventStoreRepository
     private bool _disposed;
 
     // Public implementation of Dispose pattern callable by consumers.
-    ~EventStoreRepository()
-        => Dispose(false);
+    ~EventStoreRepository() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()
