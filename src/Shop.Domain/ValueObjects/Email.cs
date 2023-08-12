@@ -13,9 +13,9 @@ public sealed record Email
         Address = address.ToLowerInvariant().Trim();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Email"/> class.
+    /// Default constructor for EF/ORM.
     /// </summary>
-    public Email() { } // Default constructor for EF/ORM
+    public Email() { }
 
     /// <summary>
     /// Gets the email address.
@@ -41,6 +41,5 @@ public sealed record Email
     /// Returns a string that represents the current <see cref="Email"/> object.
     /// </summary>
     /// <returns>A string that represents the current <see cref="Email"/> object.</returns>
-    public override string ToString() =>
-        Address;
+    public override string ToString() => Address;
 }
