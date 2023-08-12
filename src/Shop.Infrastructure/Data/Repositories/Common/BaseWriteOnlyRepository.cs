@@ -36,8 +36,7 @@ internal abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<
     private bool _disposed;
 
     // Public implementation of Dispose pattern callable by consumers.
-    ~BaseWriteOnlyRepository()
-        => Dispose(false);
+    ~BaseWriteOnlyRepository() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()
