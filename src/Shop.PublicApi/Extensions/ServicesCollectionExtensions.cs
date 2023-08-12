@@ -19,7 +19,6 @@ namespace Shop.PublicApi.Extensions;
 [ExcludeFromCodeCoverage]
 internal static class ServicesCollectionExtensions
 {
-    private const string MigrationsAssembly = "Shop.PublicApi";
     private static readonly string[] DatabaseTags = { "database" };
 
     public static void AddSwagger(this IServiceCollection services)
@@ -74,8 +73,7 @@ internal static class ServicesCollectionExtensions
 
     public static IServiceCollection AddEventDbContext(this IServiceCollection services) =>
         services.AddDbContext<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
-            ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder,
-                QueryTrackingBehavior.NoTrackingWithIdentityResolution));
+            ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
 
     public static IServiceCollection AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
@@ -100,9 +98,6 @@ internal static class ServicesCollectionExtensions
         return services;
     }
 
-    private static bool IsInMemoryCache(this string connection) =>
-        connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
-
     private static void ConfigureDbContext<TContext>(
         IServiceProvider serviceProvider,
         DbContextOptionsBuilder optionsBuilder,
@@ -111,23 +106,19 @@ internal static class ServicesCollectionExtensions
         var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
         var connectionOptions = serviceProvider.GetOptions<ConnectionOptions>();
 
-        optionsBuilder.UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
-            sqlServerOptions
-                .MigrationsAssembly(MigrationsAssembly)
-                .EnableRetryOnFailure(3) // Configure connection resiliency with retry on failure.
-                .CommandTimeout(60)).UseQueryTrackingBehavior(queryTrackingBehavior);
-
-        // Log retry attempts for execution strategy.
-        optionsBuilder.LogTo(
-            (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
-            eventData =>
+        optionsBuilder
+            .UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
             {
-                if (eventData is not ExecutionStrategyEventData retryEventData)
-                    return;
-
+                sqlServerOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
+                sqlServerOptions.EnableRetryOnFailure(3);
+                sqlServerOptions.CommandTimeout(30);
+            })
+            .UseQueryTrackingBehavior(queryTrackingBehavior)
+            .LogTo((eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying, eventData =>
+            {
+                if (eventData is not ExecutionStrategyEventData retryEventData) return;
                 var exceptions = retryEventData.ExceptionsEncountered;
 
-                // Log a warning message with the retry count, delay, and the error message of the last exception encountered.
                 logger.LogWarning(
                     "----- DbContext: Retry #{Count} with delay {Delay} due to error: {Message}",
                     exceptions.Count,
@@ -135,13 +126,18 @@ internal static class ServicesCollectionExtensions
                     exceptions[^1].Message);
             });
 
-        // Enable detailed errors and sensitive data logging if the environment is "development".
+        // Get the current hosting environment.
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
         if (environment.IsDevelopment())
         {
-            optionsBuilder
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging();
+            // Enable detailed errors for debugging purposes.
+            optionsBuilder.EnableDetailedErrors();
+
+            // Enable sensitive data logging for debugging purposes.
+            optionsBuilder.EnableSensitiveDataLogging();
         }
     }
+
+    private static bool IsInMemoryCache(this string connection) =>
+        connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 }
