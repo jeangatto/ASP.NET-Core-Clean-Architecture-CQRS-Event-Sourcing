@@ -1,4 +1,7 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-bullseye-slim AS base
+# https://hub.docker.com/_/microsoft-dotnet-sdk/ 
+ARG sdkVersion=7.0-bookworm-slim 
+
+FROM mcr.microsoft.com/dotnet/aspnet:$sdkVersion AS base
 WORKDIR /app
 EXPOSE 5072
 
@@ -8,7 +11,7 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 ENV DOTNET_EnableDiagnostics=0
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:$sdkVersion AS build
 ARG configuration=Release
 WORKDIR /src
 COPY ["Directory.Build.props", "src/"]
@@ -19,14 +22,14 @@ COPY ["src/Shop.Domain/Shop.Domain.csproj", "src/Shop.Domain/"]
 COPY ["src/Shop.Core/Shop.Core.csproj", "src/Shop.Core/"]
 COPY ["src/Shop.Application/Shop.Application.csproj", "src/Shop.Application/"]
 COPY ["src/Shop.Query/Shop.Query.csproj", "src/Shop.Query/"]
-RUN dotnet restore "src/Shop.PublicApi/Shop.PublicApi.csproj"
+RUN dotnet restore "src/Shop.PublicApi/Shop.PublicApi.csproj" --nologo
 COPY . .
 WORKDIR "/src/src/Shop.PublicApi"
-RUN dotnet build "Shop.PublicApi.csproj" --configuration $configuration --output /app/build --no-restore
+RUN dotnet build "Shop.PublicApi.csproj" --configuration $configuration --output /app/build --nologo --no-restore
 
 FROM build AS publish
 ARG configuration=Release
-RUN dotnet publish "Shop.PublicApi.csproj" --configuration $configuration --output /app/publish /p:UseAppHost=false --no-restore
+RUN dotnet publish "Shop.PublicApi.csproj" --configuration $configuration --output /app/publish /p:UseAppHost=false --nologo --no-restore
 
 FROM base AS final
 WORKDIR /app
