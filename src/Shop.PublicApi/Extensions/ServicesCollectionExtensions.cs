@@ -63,22 +63,25 @@ internal static class ServicesCollectionExtensions
             .AddDbContextCheck<EventStoreDbContext>(tags: DatabaseTags)
             .AddMongoDb(connectionOptions.NoSqlConnection, tags: DatabaseTags);
 
-        if (!connectionOptions.CacheConnection.IsInMemoryCache())
+        if (!connectionOptions.CacheConnection.IsInMemory())
             healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
     }
 
-    public static IServiceCollection AddShopDbContext(this IServiceCollection services) =>
+    public static IServiceCollection AddWriteDbContext(this IServiceCollection services)
+    {
         services.AddDbContext<WriteDbContext>((serviceProvider, optionsBuilder) =>
             ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
 
-    public static IServiceCollection AddEventDbContext(this IServiceCollection services) =>
         services.AddDbContext<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
             ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
+
+        return services;
+    }
 
     public static IServiceCollection AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>();
-        if (connectionOptions.CacheConnection.IsInMemoryCache())
+        if (connectionOptions.CacheConnection.IsInMemory())
         {
             services
                 .AddMemoryCache() // ASP.NET Core Memory Cache.
@@ -138,6 +141,6 @@ internal static class ServicesCollectionExtensions
         }
     }
 
-    private static bool IsInMemoryCache(this string connection) =>
+    private static bool IsInMemory(this string connection) =>
         connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 }
