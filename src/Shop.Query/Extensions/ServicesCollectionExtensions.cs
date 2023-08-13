@@ -18,6 +18,10 @@ namespace Shop.Query.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
+    /// <summary>
+    /// Adds query handlers to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
     public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
     {
         var assembly = Assembly.GetExecutingAssembly();
@@ -27,19 +31,32 @@ public static class ServicesCollectionExtensions
             .AddValidatorsFromAssembly(assembly);
     }
 
+    /// <summary>
+    /// Adds the read database context to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
     public static IServiceCollection AddReadDbContext(this IServiceCollection services)
     {
-        services.AddSingleton<IReadDbContext, ReadDbContext>();
-        services.AddSingleton<ReadDbContext>();
+        services
+            .AddSingleton<ISynchronizeDb, NoSqlDbContext>()
+            .AddSingleton<IReadDbContext, NoSqlDbContext>()
+            .AddSingleton<NoSqlDbContext>();
 
         ConfigureMongoDb();
 
         return services;
     }
 
+    /// <summary>
+    /// Adds read-only repositories to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
     public static IServiceCollection AddReadOnlyRepositories(this IServiceCollection services) =>
-        services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
+    services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
+    /// <summary>
+    /// Configures the MongoDB settings and mappings.
+    /// </summary>
     private static void ConfigureMongoDb()
     {
         // Step 1: Configure the serializer for Guid type.
