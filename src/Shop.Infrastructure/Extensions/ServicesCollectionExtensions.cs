@@ -20,9 +20,12 @@ public static class ServicesCollectionExtensions
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
         services
-            .AddScoped<IEventStoreRepository, EventStoreRepository>()
-            .AddScoped<ICustomerWriteOnlyRepository, CustomerWriteOnlyRepository>()
             .AddScoped<WriteDbContext>()
             .AddScoped<EventStoreDbContext>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
+
+    public static IServiceCollection AddWriteOnlyRepositories(this IServiceCollection services) =>
+         services
+            .AddScoped<IEventStoreRepository, EventStoreRepository>()
+            .AddScoped<ICustomerWriteOnlyRepository, CustomerWriteOnlyRepository>();
 }
