@@ -71,8 +71,10 @@ builder.Services
     .AddInfrastructure()
     .AddCommandHandlers()
     .AddQueryHandlers()
-    .AddShopDbContext()
-    .AddEventDbContext()
+    .AddWriteDbContext()
+    .AddWriteOnlyRepositories()
+    .AddReadDbContext()
+    .AddReadOnlyRepositories()
     .AddCacheService(builder.Configuration)
     .AddHealthChecks(builder.Configuration); // HealthChecks (API, EF Core, MongoDB, Redis)
 
