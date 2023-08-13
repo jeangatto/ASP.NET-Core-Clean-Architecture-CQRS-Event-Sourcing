@@ -52,7 +52,7 @@ public static class ServicesCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     public static IServiceCollection AddReadOnlyRepositories(this IServiceCollection services) =>
-    services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
+        services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
     /// <summary>
     /// Configures the MongoDB settings and mappings.
