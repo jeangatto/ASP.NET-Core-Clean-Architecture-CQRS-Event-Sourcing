@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AutoMapper;
 using FluentValidation;
@@ -14,6 +15,7 @@ using Shop.Query.Data.Repositories.Abstractions;
 
 namespace Shop.Query.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
@@ -28,6 +30,7 @@ public static class ServicesCollectionExtensions
     public static IServiceCollection AddReadDbContext(this IServiceCollection services)
     {
         services.AddSingleton<IReadDbContext, ReadDbContext>();
+        services.AddSingleton<ReadDbContext>();
 
         ConfigureMongoDb();
 
