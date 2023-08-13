@@ -63,7 +63,7 @@ internal static class ServicesCollectionExtensions
             .AddDbContextCheck<EventStoreDbContext>(tags: DatabaseTags)
             .AddMongoDb(connectionOptions.NoSqlConnection, tags: DatabaseTags);
 
-        if (!connectionOptions.CacheConnection.IsInMemory())
+        if (!connectionOptions.CacheConnectionInMemory())
             healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
     }
 
@@ -81,7 +81,7 @@ internal static class ServicesCollectionExtensions
     public static IServiceCollection AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionOptions = configuration.GetOptions<ConnectionOptions>();
-        if (connectionOptions.CacheConnection.IsInMemory())
+        if (connectionOptions.CacheConnectionInMemory())
         {
             services
                 .AddMemoryCache() // ASP.NET Core Memory Cache.
@@ -119,7 +119,9 @@ internal static class ServicesCollectionExtensions
             .UseQueryTrackingBehavior(queryTrackingBehavior)
             .LogTo((eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying, eventData =>
             {
-                if (eventData is not ExecutionStrategyEventData retryEventData) return;
+                if (eventData is not ExecutionStrategyEventData retryEventData)
+                    return;
+
                 var exceptions = retryEventData.ExceptionsEncountered;
 
                 logger.LogWarning(
@@ -140,7 +142,4 @@ internal static class ServicesCollectionExtensions
             optionsBuilder.EnableSensitiveDataLogging();
         }
     }
-
-    private static bool IsInMemory(this string connection) =>
-        connection.Equals("InMemory", StringComparison.InvariantCultureIgnoreCase);
 }
