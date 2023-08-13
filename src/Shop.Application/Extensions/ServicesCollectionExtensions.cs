@@ -10,12 +10,13 @@ namespace Shop.Application.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
-    private static readonly Assembly ThisAssembly = Assembly.GetExecutingAssembly();
-
-    public static IServiceCollection AddCommandHandlers(this IServiceCollection services) =>
-        services
-            .AddValidatorsFromAssembly(ThisAssembly)
+    public static IServiceCollection AddCommandHandlers(this IServiceCollection services)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        return services
+            .AddValidatorsFromAssembly(assembly)
             .AddMediatR(cfg => cfg
-                .RegisterServicesFromAssembly(ThisAssembly)
+                .RegisterServicesFromAssembly(assembly)
                 .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)));
+    }
 }
