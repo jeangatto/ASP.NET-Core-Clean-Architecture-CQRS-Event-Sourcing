@@ -49,7 +49,7 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
         // If the customer is null, returns a result indicating that no customer was found.
         // Otherwise, returns a successful result with the customer.
         return customer == null
-            ? Result<CustomerQueryModel>.NotFound($"No customer found by ID: {request.Id}")
+            ? Result<CustomerQueryModel>.NotFound($"No customer found by Id: {request.Id}")
             : Result<CustomerQueryModel>.Success(customer);
     }
 }

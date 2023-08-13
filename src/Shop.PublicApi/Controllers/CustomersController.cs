@@ -25,6 +25,10 @@ public class CustomersController : ControllerBase
     public CustomersController(IMediator mediator) =>
         _mediator = mediator;
 
+    ////////////////////////
+    // POST: /api/customers
+    ////////////////////////
+
     /// <summary>
     /// Register a new customer.
     /// </summary>
@@ -40,6 +44,10 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([FromBody][Required] CreateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
+
+    ///////////////////////
+    // PUT: /api/customers
+    //////////////////////
 
     /// <summary>
     /// Updates an existing client.
@@ -59,6 +67,10 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> Update([FromBody][Required] UpdateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
 
+    //////////////////////////////
+    // DELETE: /api/customers/{id}
+    //////////////////////////////
+
     /// <summary>
     /// Deletes the client by Id.
     /// </summary>
@@ -77,6 +89,10 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> Delete([Required] Guid id) =>
         (await _mediator.Send(new DeleteCustomerCommand(id))).ToActionResult();
 
+    ///////////////////////////
+    // GET: /api/customers/{id}
+    ///////////////////////////
+
     /// <summary>
     /// Gets the client by Id.
     /// </summary>
@@ -94,6 +110,10 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetById([Required] Guid id) =>
         (await _mediator.Send(new GetCustomerByIdQuery(id))).ToActionResult();
+
+    //////////////////////
+    // GET: /api/customers
+    //////////////////////
 
     /// <summary>
     /// Gets a list of all customers.

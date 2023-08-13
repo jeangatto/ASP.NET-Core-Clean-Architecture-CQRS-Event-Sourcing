@@ -7,7 +7,10 @@ namespace Shop.Core.SharedKernel;
 /// Represents a repository that allows write-only operations on entities.
 /// </summary>
 /// <typeparam name="TEntity">The type of entity.</typeparam>
-public interface IWriteOnlyRepository<TEntity> : IDisposable where TEntity : IEntity<Guid>
+/// <typeparam name="TKey">The type of the entity's key.</typeparam>
+public interface IWriteOnlyRepository<TEntity, TKey> : IDisposable
+    where TEntity : IEntity<TKey>
+    where TKey : IEquatable<TKey>
 {
     /// <summary>
     /// Adds a new entity to the repository.
@@ -32,5 +35,5 @@ public interface IWriteOnlyRepository<TEntity> : IDisposable where TEntity : IEn
     /// </summary>
     /// <param name="id">The ID of the entity to retrieve.</param>
     /// <returns>The retrieved entity.</returns>
-    Task<TEntity> GetByIdAsync(Guid id);
+    Task<TEntity> GetByIdAsync(TKey id);
 }

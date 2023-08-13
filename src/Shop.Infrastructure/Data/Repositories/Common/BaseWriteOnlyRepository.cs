@@ -6,8 +6,14 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories.Common;
 
-internal abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<TEntity>
-    where TEntity : class, IEntity<Guid>
+/// <summary>
+/// Base class for write-only repositories.
+/// </summary>
+/// <typeparam name="TEntity">The type of the entity.</typeparam>
+/// <typeparam name="Tkey">The type of the entity's key.</typeparam>
+internal abstract class BaseWriteOnlyRepository<TEntity, Tkey> : IWriteOnlyRepository<TEntity, Tkey>
+    where TEntity : class, IEntity<Tkey>
+    where Tkey : IEquatable<Tkey>
 {
     private readonly DbSet<TEntity> _dbSet;
     protected readonly WriteDbContext Context;
@@ -27,8 +33,8 @@ internal abstract class BaseWriteOnlyRepository<TEntity> : IWriteOnlyRepository<
     public void Remove(TEntity entity) =>
         _dbSet.Remove(entity);
 
-    public async Task<TEntity> GetByIdAsync(Guid id) =>
-        await _dbSet.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(entity => entity.Id == id);
+    public async Task<TEntity> GetByIdAsync(Tkey id) =>
+        await _dbSet.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(entity => entity.Id.Equals(id));
 
     #region IDisposable
 

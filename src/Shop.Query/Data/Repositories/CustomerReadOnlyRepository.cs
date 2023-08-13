@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
@@ -7,7 +8,7 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Data.Repositories;
 
-internal class CustomerReadOnlyRepository : BaseReadOnlyRepository<CustomerQueryModel>, ICustomerReadOnlyRepository
+internal class CustomerReadOnlyRepository : BaseReadOnlyRepository<CustomerQueryModel, Guid>, ICustomerReadOnlyRepository
 {
     public CustomerReadOnlyRepository(IReadDbContext readDbContext) : base(readDbContext) { }
 

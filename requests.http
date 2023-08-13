@@ -1,6 +1,33 @@
 @baseUrl = http://localhost:5072/api
 
 ### 
+# @name createCustomers
+POST {{baseUrl}}/customers HTTP/1.1
+accept: application/json
+accept-encoding: gzip, deflate, br
+content-type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "gender": "male",
+  "email": "john_doe@gmail.com",
+  "dateOfBirth": "1990-01-01"
+}
+
+### 
 # @name getCustomers
 GET {{baseUrl}}/customers HTTP/1.1
-content-type: application/json
+accept: application/json
+
+### 
+# @prompt customerId
+# @name getCustomerById
+GET {{baseUrl}}/customers/{{customerId}} HTTP/1.1
+accept: application/json
+
+### 
+# @prompt customerId
+# @name deleteCustomers
+DELETE {{baseUrl}}/customers/{{customerId}} HTTP/1.1
+accept: application/json

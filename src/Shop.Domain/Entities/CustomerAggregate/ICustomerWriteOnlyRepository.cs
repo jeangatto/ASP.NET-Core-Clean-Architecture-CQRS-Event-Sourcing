@@ -5,7 +5,7 @@ using Shop.Domain.ValueObjects;
 
 namespace Shop.Domain.Entities.CustomerAggregate;
 
-public interface ICustomerWriteOnlyRepository : IWriteOnlyRepository<Customer>
+public interface ICustomerWriteOnlyRepository : IWriteOnlyRepository<Customer, Guid>
 {
     /// <summary>
     /// Checks if a customer with the specified email already exists asynchronously.
