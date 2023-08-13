@@ -20,16 +20,16 @@ public class CustomerEventHandler :
     private readonly ICacheService _cacheService;
     private readonly ILogger<CustomerEventHandler> _logger;
     private readonly IMapper _mapper;
-    private readonly IReadDbContext _readDbContext;
+    private readonly ISynchronizeDb _synchronizeDb;
 
     public CustomerEventHandler(
         IMapper mapper,
-        IReadDbContext readDbContext,
+        ISynchronizeDb synchronizeDb,
         ICacheService cacheService,
         ILogger<CustomerEventHandler> logger)
     {
         _mapper = mapper;
-        _readDbContext = readDbContext;
+        _synchronizeDb = synchronizeDb;
         _cacheService = cacheService;
         _logger = logger;
     }
@@ -39,7 +39,7 @@ public class CustomerEventHandler :
         LogEvent(notification);
 
         var customerQueryModel = _mapper.Map<CustomerQueryModel>(notification);
-        await _readDbContext.UpsertAsync(customerQueryModel, filter => filter.Id == customerQueryModel.Id);
+        await _synchronizeDb.UpsertAsync(customerQueryModel, filter => filter.Id == customerQueryModel.Id);
         await ClearCacheAsync(notification);
     }
 
@@ -47,7 +47,7 @@ public class CustomerEventHandler :
     {
         LogEvent(notification);
 
-        await _readDbContext.DeleteAsync<CustomerQueryModel>(filter => filter.Email == notification.Email);
+        await _synchronizeDb.DeleteAsync<CustomerQueryModel>(filter => filter.Email == notification.Email);
         await ClearCacheAsync(notification);
     }
 
@@ -56,7 +56,7 @@ public class CustomerEventHandler :
         LogEvent(notification);
 
         var customerQueryModel = _mapper.Map<CustomerQueryModel>(notification);
-        await _readDbContext.UpsertAsync(customerQueryModel, filter => filter.Id == customerQueryModel.Id);
+        await _synchronizeDb.UpsertAsync(customerQueryModel, filter => filter.Id == customerQueryModel.Id);
         await ClearCacheAsync(notification);
     }
 
