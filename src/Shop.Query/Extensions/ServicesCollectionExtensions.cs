@@ -16,21 +16,26 @@ namespace Shop.Query.Extensions;
 
 public static class ServicesCollectionExtensions
 {
-    private static readonly Assembly ThisAssembly = Assembly.GetExecutingAssembly();
-
     public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
     {
-        services
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(ThisAssembly))
-            .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(ThisAssembly))))
-            .AddValidatorsFromAssembly(ThisAssembly)
-            .AddSingleton<IReadDbContext, ReadDbContext>()
-            .AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
+        var assembly = Assembly.GetExecutingAssembly();
+        return services
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly))
+            .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(assembly))))
+            .AddValidatorsFromAssembly(assembly);
+    }
+
+    public static IServiceCollection AddReadDbContext(this IServiceCollection services)
+    {
+        services.AddSingleton<IReadDbContext, ReadDbContext>();
 
         ConfigureMongoDb();
 
         return services;
     }
+
+    public static IServiceCollection AddReadOnlyRepositories(this IServiceCollection services) =>
+        services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
 
     private static void ConfigureMongoDb()
     {
