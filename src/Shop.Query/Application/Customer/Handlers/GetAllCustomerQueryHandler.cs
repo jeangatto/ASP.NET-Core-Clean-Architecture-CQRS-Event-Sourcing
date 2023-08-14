@@ -26,7 +26,8 @@ public class GetAllCustomerQueryHandler : IRequestHandler<GetAllCustomerQuery, R
           GetAllCustomerQuery request,
           CancellationToken cancellationToken)
     {
-        // This method will either return the cached data associated with the CacheKey or create it by calling the GetAllAsync method.
+        // This method will either return the cached data associated with the CacheKey
+        // or create it by calling the GetAllAsync method.
         return Result<IEnumerable<CustomerQueryModel>>.Success(
             await _cacheService.GetOrCreateAsync(CacheKey, _readOnlyRepository.GetAllAsync));
     }
