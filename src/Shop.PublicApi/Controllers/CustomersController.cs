@@ -42,7 +42,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<CreatedCustomerResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody][Required] CreateCustomerCommand command) =>
+    public async Task<IActionResult> Create([FromBody] [Required] CreateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
 
     ///////////////////////
@@ -64,7 +64,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromBody][Required] UpdateCustomerCommand command) =>
+    public async Task<IActionResult> Update([FromBody] [Required] UpdateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
 
     //////////////////////////////
@@ -79,7 +79,7 @@ public class CustomersController : ControllerBase
     /// <response code="400">Returns list of errors if the request is invalid.</response>
     /// <response code="404">When no client is found by the given Id.</response>
     /// <response code="500">When an unexpected internal error occurs on the server.</response>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
