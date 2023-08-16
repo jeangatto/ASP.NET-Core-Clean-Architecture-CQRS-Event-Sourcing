@@ -122,6 +122,13 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
 
     private static AsyncRetryPolicy CreateRetryPolicy(ILogger logger)
     {
+        return Policy
+            .Handle<MongoException>()
+            .WaitAndRetryAsync(RetryCount, SleepDurationProvider, OnRetry);
+
+        void OnRetry(Exception ex, TimeSpan _) =>
+            logger.LogError(ex, "An unexpected exception occurred while saving to MongoDB: {Message}", ex.Message);
+
         TimeSpan SleepDurationProvider(int retryAttempt)
         {
             // Retry with jitter
@@ -134,13 +141,6 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
             logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
             return sleepDuration;
         }
-
-        void OnRetry(Exception ex, TimeSpan _) =>
-            logger.LogError(ex, "An unexpected exception occurred while saving to MongoDB: {Message}", ex.Message);
-
-        return Policy
-            .Handle<MongoException>()
-            .WaitAndRetryAsync(RetryCount, SleepDurationProvider, OnRetry);
     }
 
     #endregion
