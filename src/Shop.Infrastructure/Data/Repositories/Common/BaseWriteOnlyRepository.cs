@@ -41,7 +41,6 @@ internal abstract class BaseWriteOnlyRepository<TEntity, Tkey> : IWriteOnlyRepos
     // To detect redundant calls.
     private bool _disposed;
 
-    // Public implementation of Dispose pattern callable by consumers.
     ~BaseWriteOnlyRepository() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
