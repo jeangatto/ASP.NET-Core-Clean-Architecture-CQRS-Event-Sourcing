@@ -42,7 +42,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<CreatedCustomerResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] [Required] CreateCustomerCommand command) =>
+    public async Task<IActionResult> Create([FromBody][Required] CreateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
 
     ///////////////////////
@@ -64,7 +64,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromBody] [Required] UpdateCustomerCommand command) =>
+    public async Task<IActionResult> Update([FromBody][Required] UpdateCustomerCommand command) =>
         (await _mediator.Send(command)).ToActionResult();
 
     //////////////////////////////
