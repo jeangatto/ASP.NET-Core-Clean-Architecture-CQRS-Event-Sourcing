@@ -8,7 +8,7 @@ namespace Shop.Core.SharedKernel;
 /// </summary>
 /// <typeparam name="TEntity">The type of entity.</typeparam>
 /// <typeparam name="TKey">The type of the entity's key.</typeparam>
-public interface IWriteOnlyRepository<TEntity, TKey> : IDisposable
+public interface IWriteOnlyRepository<TEntity, in TKey> : IDisposable
     where TEntity : IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
