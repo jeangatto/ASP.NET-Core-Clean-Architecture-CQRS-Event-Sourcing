@@ -8,7 +8,7 @@ namespace Shop.Query.Abstractions;
 /// </summary>
 /// <typeparam name="TQueryModel">The type of the query model.</typeparam>
 /// <typeparam name="TKey">The type of the key for the query model.</typeparam>
-public interface IReadOnlyRepository<TQueryModel, TKey>
+public interface IReadOnlyRepository<TQueryModel, in TKey>
     where TQueryModel : IQueryModel<TKey>
     where TKey : IEquatable<TKey>
 {
