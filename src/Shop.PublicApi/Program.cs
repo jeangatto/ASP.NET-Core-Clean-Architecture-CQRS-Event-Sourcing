@@ -106,7 +106,7 @@ builder.WebHost.UseKestrel(kestrelOptions => kestrelOptions.AddServerHeader = fa
 
 // FluentValidation global configuration.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
-ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("en-US") };
+ValidatorOptions.Global.LanguageManager = new LanguageManager { Enabled = true, Culture = new CultureInfo("en-US") };
 
 var app = builder.Build();
 
