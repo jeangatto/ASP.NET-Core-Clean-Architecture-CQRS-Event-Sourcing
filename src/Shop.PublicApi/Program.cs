@@ -1,6 +1,8 @@
+using System.Globalization;
 using System.IO.Compression;
 using AutoMapper;
 using FluentValidation;
+using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -104,6 +106,7 @@ builder.WebHost.UseKestrel(kestrelOptions => kestrelOptions.AddServerHeader = fa
 
 // FluentValidation global configuration.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
+ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("en-US") };
 
 var app = builder.Build();
 
