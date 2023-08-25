@@ -24,14 +24,9 @@ public abstract class BaseDbContext<TContext> : DbContext
         }
     }
 
-    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-    {
-        // Set default convention string to VARCHAR(255)
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder) =>
         configurationBuilder.Properties<string>().AreUnicode(false).HaveMaxLength(255);
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
-        modelBuilder
-            .UseCollation(Collation)
-            .RemoveCascadeDeleteConvention();
+        modelBuilder.UseCollation(Collation).RemoveCascadeDeleteConvention();
 }
