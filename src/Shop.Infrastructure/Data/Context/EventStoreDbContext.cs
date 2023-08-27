@@ -10,7 +10,7 @@ public class EventStoreDbContext : BaseDbContext<EventStoreDbContext>
     {
     }
 
-    internal DbSet<EventStore> EventStores => Set<EventStore>();
+    public DbSet<EventStore> EventStores => Set<EventStore>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
