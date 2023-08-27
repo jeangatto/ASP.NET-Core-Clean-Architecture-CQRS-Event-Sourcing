@@ -15,19 +15,16 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder
             .Property(customer => customer.FirstName)
             .IsRequired() // NOT NULL
-            .IsUnicode(false) // VARCHAR
             .HasMaxLength(100);
 
         builder
             .Property(customer => customer.LastName)
             .IsRequired() // NOT NULL
-            .IsUnicode(false) // VARCHAR
             .HasMaxLength(100);
 
         builder
             .Property(customer => customer.Gender)
             .IsRequired() // NOT NULL
-            .IsUnicode(false) // VARCHAR
             .HasMaxLength(6)
             .HasConversion<string>();
 
@@ -37,7 +34,6 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             ownedNav
                 .Property(email => email.Address)
                 .IsRequired() // NOT NULL
-                .IsUnicode(false) // VARCHAR
                 .HasMaxLength(254)
                 .HasColumnName(nameof(Customer.Email))
                 .IsEncrypted(); // Encrypted Column, ref: https://github.com/Eastrall/EntityFrameworkCore.DataEncryption

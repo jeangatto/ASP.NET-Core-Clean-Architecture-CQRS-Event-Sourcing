@@ -58,8 +58,9 @@
   </ItemGroup>
 
   <ItemGroup Label="Unit Tests">
-    <InternalsVisibleTo Include="Shop.UnitTests" />
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+    <InternalsVisibleTo Include="Shop.IntegrationTests" />
+    <InternalsVisibleTo Include="Shop.UnitTests" />
   </ItemGroup>
 
 </Project>

@@ -23,14 +23,11 @@ internal class EventStoreConfiguration : IEntityTypeConfiguration<EventStore>
         builder
             .Property(eventStore => eventStore.MessageType)
             .IsRequired() // NOT NULL
-            .IsUnicode(false) // VARCHAR
             .HasMaxLength(100);
 
         builder
             .Property(eventStore => eventStore.Data)
             .IsRequired() // NOT NULL
-            .IsUnicode(false) // VARCHAR
-            .HasColumnType("VARCHAR(MAX)")
             .HasComment("JSON serialized event");
 
         builder

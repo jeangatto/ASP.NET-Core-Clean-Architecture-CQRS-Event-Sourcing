@@ -20,5 +20,5 @@ public sealed class ConnectionOptions : IAppOptions
     [Required]
     public string CacheConnection { get; private init; }
 
-    public bool CacheConnectionInMemory() => SqlConnection.Equals("InMemory", ComparisonType);
+    public bool CacheConnectionInMemory() => CacheConnection.Equals("InMemory", ComparisonType);
 }

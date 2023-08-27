@@ -16,7 +16,7 @@ public class WriteDbContext : BaseDbContext<WriteDbContext>
     public WriteDbContext(DbContextOptions<WriteDbContext> dbOptions) : base(dbOptions) =>
         _encryptionProvider = new AesProvider(EncryptionKey, EncryptionIv);
 
-    internal DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Customer> Customers => Set<Customer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,35 @@ namespace Shop.PublicApi.Extensions;
 
 internal static class WebApplicationExtensions
 {
-    public static async Task MigrateDbAsync(this WebApplication app, AsyncServiceScope serviceScope)
+    public static async Task RunAppAsync(this WebApplication app)
+    {
+        await using var serviceScope = app.Services.CreateAsyncScope();
+
+        var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+
+        app.Logger.LogInformation("----- AutoMapper: mappings are being validated...");
+
+        // Validate the AutoMapper configuration by asserting that the mappings are valid
+        mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
+        // Compile the AutoMapper mappings for better performance
+        mapper.ConfigurationProvider.CompileMappings();
+
+        app.Logger.LogInformation("----- AutoMapper: mappings are valid!");
+
+        app.Logger.LogInformation("----- Databases are being migrated....");
+
+        // Migrate the databases asynchronously using the provided service scope
+        await app.MigrateDataBasesAsync(serviceScope);
+
+        app.Logger.LogInformation("----- Databases have been successfully migrated!");
+
+        app.Logger.LogInformation("----- Application is starting....");
+
+        await app.RunAsync();
+    }
+
+    private static async Task MigrateDataBasesAsync(this WebApplication app, AsyncServiceScope serviceScope)
     {
         await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
         await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();

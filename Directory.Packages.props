@@ -3,6 +3,8 @@
 
   <PropertyGroup Label="Build">
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- Disable overriding package versions -->
+    <!-- https://devblogs.microsoft.com/nuget/introducing-central-package-management/#overriding-package-versions -->
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
@@ -22,6 +24,7 @@
     <PackageVersion Include="FluentValidation" Version="11.7.1" />
     <PackageVersion Include="MediatR" Version="12.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
@@ -58,7 +61,7 @@
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
     <PackageVersion Include="NSubstitute" Version="5.0.0" />
     <PackageVersion Include="Polly" Version="7.2.4" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.4.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.5.0" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.8.0.76515" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />

@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 
 namespace Shop.PublicApi.Models;
 
 public sealed class ApiErrorResponse
 {
+    [JsonConstructor]
     public ApiErrorResponse(string message) => Message = message;
 
     public string Message { get; }
@@ -15,9 +17,22 @@ public sealed class ApiErrorResponse
 
 public class ApiResponse
 {
-    public bool Success { get; protected init; }
-    public string SuccessMessage { get; protected init; }
-    public int StatusCode { get; protected init; }
+    [JsonConstructor]
+    public ApiResponse(bool success, string successMessage, int statusCode, IEnumerable<ApiErrorResponse> errors)
+    {
+        Success = success;
+        SuccessMessage = successMessage;
+        StatusCode = statusCode;
+        Errors = errors;
+    }
+
+    public ApiResponse()
+    {
+    }
+
+    public bool Success { get; protected set; }
+    public string SuccessMessage { get; protected set; }
+    public int StatusCode { get; protected set; }
     public IEnumerable<ApiErrorResponse> Errors { get; private init; } = Enumerable.Empty<ApiErrorResponse>();
 
     public static ApiResponse Ok() =>
@@ -70,10 +85,24 @@ public class ApiResponse
 
     private static IEnumerable<ApiErrorResponse> CreateErrors(string errorMessage) =>
         new[] { new ApiErrorResponse(errorMessage) };
+
+    public override string ToString() =>
+        $"Success: {Success} | StatusCode: {StatusCode} | HasErrors: {Errors.Any()}";
 }
 
 public sealed class ApiResponse<T> : ApiResponse
 {
+    [JsonConstructor]
+    public ApiResponse(T result, bool success, string successMessage, int statusCode, IEnumerable<ApiErrorResponse> errors)
+        : base(success, successMessage, statusCode, errors)
+    {
+        Result = result;
+    }
+
+    public ApiResponse()
+    {
+    }
+
     public T Result { get; private init; }
 
     public static ApiResponse<T> Ok(T result) =>

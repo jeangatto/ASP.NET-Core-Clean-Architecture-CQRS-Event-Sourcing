@@ -13,7 +13,7 @@ using Shop.PublicApi.Models;
 using Shop.Query.Application.Customer.Queries;
 using Shop.Query.QueriesModel;
 
-namespace Shop.PublicApi.Controllers;
+namespace Shop.PublicApi.Controllers.V1;
 
 [ApiController]
 [ApiVersion("1.0")]

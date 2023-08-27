@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		global.json = global.json
 		Directory.Packages.props = Directory.Packages.props
-        requests.http = requests.http
+		requests.http = requests.http
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Query", "src\Shop.Query\Shop.Query.csproj", "{C2A82AAD-0348-4B29-B7E7-E36509EE068C}"
@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		.github\workflows\sonar-cloud.yml = .github\workflows\sonar-cloud.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.IntegrationTests", "tests\Shop.IntegrationTests\Shop.IntegrationTests.csproj", "{7BA06288-8446-4099-9341-D213A835763C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{C2A82AAD-0348-4B29-B7E7-E36509EE068C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2A82AAD-0348-4B29-B7E7-E36509EE068C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2A82AAD-0348-4B29-B7E7-E36509EE068C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA06288-8446-4099-9341-D213A835763C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA06288-8446-4099-9341-D213A835763C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA06288-8446-4099-9341-D213A835763C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA06288-8446-4099-9341-D213A835763C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D957E297-38EA-402F-B603-25F3EC156E18} = {DFB189FE-F11B-46EA-A5CD-3571CEC8193A}
@@ -96,5 +102,6 @@ Global
 		{C2A82AAD-0348-4B29-B7E7-E36509EE068C} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
 		{E94C4296-DC64-4C22-87A1-B5A054FAADAC} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
 		{11296DB2-D948-4ADF-A4CE-3F2BFF627478} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
+		{7BA06288-8446-4099-9341-D213A835763C} = {DFB189FE-F11B-46EA-A5CD-3571CEC8193A}
 	EndGlobalSection
 EndGlobal

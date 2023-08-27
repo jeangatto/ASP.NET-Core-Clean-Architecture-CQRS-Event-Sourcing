@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.IO.Compression;
-using AutoMapper;
 using FluentValidation;
 using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -24,8 +22,7 @@ using StackExchange.Profiling;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .Configure<KestrelServerOptions>(kestrelOptions => kestrelOptions.AddServerHeader = false)
-    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
+    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Fastest)
     .Configure<JsonOptions>(jsonOptions => jsonOptions.JsonSerializerOptions.Configure())
     .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
 
@@ -134,24 +131,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-await using var serviceScope = app.Services.CreateAsyncScope();
-var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+await app.RunAppAsync();
 
-app.Logger.LogInformation("----- AutoMapper: mappings are being validated...");
-
-// Dry run all configured type maps and throw AutoMapper.AutoMapperConfigurationException for each problem.
-mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
-// Compile all underlying mapping expressions to cached delegates.
-mapper.ConfigurationProvider.CompileMappings();
-
-app.Logger.LogInformation("----- AutoMapper: mappings are valid!");
-
-app.Logger.LogInformation("----- Databases are being migrated....");
-
-await app.MigrateDbAsync(serviceScope);
-
-app.Logger.LogInformation("----- Databases have been successfully migrated!");
-
-app.Logger.LogInformation("----- Application is starting....");
-await app.RunAsync();
+#pragma warning disable S1118
+public partial class Program { }
+#pragma warning restore S1118
