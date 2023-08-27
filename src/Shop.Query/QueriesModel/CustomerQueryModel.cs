@@ -21,12 +21,16 @@ public class CustomerQueryModel : IQueryModel<Guid>
         DateOfBirth = dateOfBirth;
     }
 
-    public Guid Id { get; }
-    public string FirstName { get; }
-    public string LastName { get; }
-    public string Gender { get; }
-    public string Email { get; }
-    public DateTime DateOfBirth { get; }
+    private CustomerQueryModel()
+    {
+    }
+
+    public Guid Id { get; private init; }
+    public string FirstName { get; private init; }
+    public string LastName { get; private init; }
+    public string Gender { get; private init; }
+    public string Email { get; private init; }
+    public DateTime DateOfBirth { get; private init; }
 
     public string FullName => (FirstName + " " + LastName).Trim();
 }
