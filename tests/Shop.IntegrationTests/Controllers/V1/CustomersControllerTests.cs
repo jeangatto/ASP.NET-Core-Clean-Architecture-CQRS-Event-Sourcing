@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shop.Application.Customer.Commands;
 using Shop.Application.Customer.Responses;
@@ -21,9 +22,12 @@ using Shop.Core.Extensions;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.ValueObjects;
 using Shop.Infrastructure.Data.Context;
+using Shop.IntegrationTests.Extensions;
 using Shop.PublicApi.Models;
 using Shop.Query.Abstractions;
 using Shop.Query.Data.Context;
+using Shop.Query.Data.Repositories.Abstractions;
+using Shop.Query.QueriesModel;
 using Xunit;
 using Xunit.Categories;
 
@@ -58,19 +62,19 @@ public class CustomersControllerTests : IAsyncLifetime
         using var jsonContent = new StringContent(commandAsJsonString, Encoding.UTF8, MediaTypeNames.Application.Json);
         using var act = await httpClient.PostAsync(Endpoint, jsonContent);
 
-        // Assert (Http)
+        // Assert (HTTP)
         act.Should().NotBeNull();
         act.IsSuccessStatusCode.Should().BeTrue();
         act.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        // Assert (Http Content Response)
+        // Assert (HTTP Content Response)
         var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<CreatedCustomerResponse>>();
         response.Should().NotBeNull();
         response.Success.Should().BeTrue();
         response.StatusCode.Should().Be(StatusCodes.Status200OK);
+        response.Errors.Should().BeEmpty();
         response.Result.Should().NotBeNull();
         response.Result.Id.Should().NotBeEmpty();
-        response.Errors.Should().BeEmpty();
     }
 
     [Fact]
@@ -87,12 +91,12 @@ public class CustomersControllerTests : IAsyncLifetime
         using var jsonContent = new StringContent(commandAsJsonString, Encoding.UTF8, MediaTypeNames.Application.Json);
         using var act = await httpClient.PostAsync(Endpoint, jsonContent);
 
-        // Assert (Http)
+        // Assert (HTTP)
         act.Should().NotBeNull();
         act.IsSuccessStatusCode.Should().BeFalse();
         act.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-        // Assert (Http Content Response)
+        // Assert (HTTP Content Response)
         var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<CreatedCustomerResponse>>();
         response.Should().NotBeNull();
         response.Success.Should().BeFalse();
@@ -118,7 +122,7 @@ public class CustomersControllerTests : IAsyncLifetime
            })
            .Generate();
 
-        await using var webApplicationFactory = InitializeWebAppFactory((serviceScope) =>
+        await using var webApplicationFactory = InitializeWebAppFactory(configureServiceScope: (serviceScope) =>
         {
             var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
             writeDbContext.Customers.Add(customer);
@@ -140,12 +144,12 @@ public class CustomersControllerTests : IAsyncLifetime
         using var jsonContent = new StringContent(commandAsJsonString, Encoding.UTF8, MediaTypeNames.Application.Json);
         using var act = await httpClient.PostAsync(Endpoint, jsonContent);
 
-        // Assert (Http)
+        // Assert (HTTP)
         act.Should().NotBeNull();
         act.IsSuccessStatusCode.Should().BeFalse();
         act.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-        // Assert (Http Content Response)
+        // Assert (HTTP Content Response)
         var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<CreatedCustomerResponse>>();
         response.Should().NotBeNull();
         response.Success.Should().BeFalse();
@@ -154,6 +158,57 @@ public class CustomersControllerTests : IAsyncLifetime
         response.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.AllSatisfy(error => error.Message.Should().Be("The provided email address is already in use."));
+    }
+
+    [Fact]
+    public async Task Should_ReturnsHttpStatus200Ok_When_GetById()
+    {
+        // Arrange
+        var queryModel = new Faker<CustomerQueryModel>()
+            .UsePrivateConstructor()
+            .RuleFor(queryModel => queryModel.Id, faker => faker.Random.Guid())
+            .RuleFor(queryModel => queryModel.FirstName, faker => faker.Person.FirstName)
+            .RuleFor(queryModel => queryModel.LastName, faker => faker.Person.LastName)
+            .RuleFor(queryModel => queryModel.Email, faker => faker.Person.Email)
+            .RuleFor(queryModel => queryModel.Gender, faker => faker.PickRandom<EGender>().ToString())
+            .RuleFor(queryModel => queryModel.DateOfBirth, faker => faker.Person.DateOfBirth)
+            .Generate();
+
+        var readOnlyRepository = Substitute.For<ICustomerReadOnlyRepository>();
+        readOnlyRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(queryModel);
+
+        await using var webApplicationFactory = InitializeWebAppFactory(configureServices: (services) =>
+        {
+            services.RemoveAll<ICustomerReadOnlyRepository>();
+            services.AddScoped(_ => readOnlyRepository);
+        });
+
+        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
+
+        // Act
+        using var act = await httpClient.GetAsync($"/api/customers/{queryModel.Id}");
+
+        // Assert (HTTP)
+        act.Should().NotBeNull();
+        act.IsSuccessStatusCode.Should().BeTrue();
+        act.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Assert (HTTP Content Response)
+        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<CustomerQueryModel>>();
+        response.Should().NotBeNull();
+        response.Success.Should().BeTrue();
+        response.StatusCode.Should().Be(StatusCodes.Status200OK);
+        response.Errors.Should().BeEmpty();
+        response.Result.Should().NotBeNull();
+        response.Result.Id.Should().NotBeEmpty().And.Be(queryModel.Id);
+        response.Result.FirstName.Should().NotBeNullOrWhiteSpace().And.Be(queryModel.FirstName);
+        response.Result.LastName.Should().NotBeNullOrWhiteSpace().And.Be(queryModel.LastName);
+        response.Result.Email.Should().NotBeNullOrWhiteSpace().And.Be(queryModel.Email);
+        response.Result.Gender.Should().NotBeNullOrWhiteSpace().And.Be(queryModel.Gender);
+        response.Result.DateOfBirth.Should().Be(queryModel.DateOfBirth);
+        response.Result.FullName.Should().NotBeNullOrWhiteSpace().And.Be(queryModel.FullName);
+
+        await readOnlyRepository.Received(1).GetByIdAsync(Arg.Is<Guid>(id => id == queryModel.Id));
     }
 
     #region IAsyncLifetime
@@ -172,7 +227,9 @@ public class CustomersControllerTests : IAsyncLifetime
 
     #endregion
 
-    private WebApplicationFactory<Program> InitializeWebAppFactory(Action<IServiceScope> configureServices = null)
+    private WebApplicationFactory<Program> InitializeWebAppFactory(
+        Action<IServiceCollection> configureServices = null,
+        Action<IServiceScope> configureServiceScope = null)
     {
         return new WebApplicationFactory<Program>()
             .WithWebHostBuilder(hostBuilder =>
@@ -184,6 +241,8 @@ public class CustomersControllerTests : IAsyncLifetime
                 hostBuilder.UseSetting("CacheOptions:SlidingExpirationInSeconds", "30");
 
                 hostBuilder.UseEnvironment(Environments.Production);
+
+                hostBuilder.ConfigureLogging(logging => logging.ClearProviders());
 
                 hostBuilder.ConfigureServices(services =>
                 {
@@ -199,6 +258,8 @@ public class CustomersControllerTests : IAsyncLifetime
                     services.AddSingleton(_ => Substitute.For<IReadDbContext>());
                     services.AddSingleton(_ => Substitute.For<ISynchronizeDb>());
 
+                    configureServices?.Invoke(services);
+
                     var serviceProvider = services.BuildServiceProvider(true);
                     using var serviceScope = serviceProvider.CreateScope();
 
@@ -208,7 +269,7 @@ public class CustomersControllerTests : IAsyncLifetime
                     var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
                     eventStoreDbContext.Database.EnsureCreated();
 
-                    configureServices?.Invoke(serviceScope);
+                    configureServiceScope?.Invoke(serviceScope);
 
                     writeDbContext.Dispose();
                     eventStoreDbContext.Dispose();
