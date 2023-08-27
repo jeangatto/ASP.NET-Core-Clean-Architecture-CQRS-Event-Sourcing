@@ -161,7 +161,7 @@ public class CustomersControllerTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Should_ReturnsHttpStatus200Ok_When_GetById()
+    public async Task Should_ReturnsHttpStatus200Ok_When_GetById_ValidRequest()
     {
         // Arrange
         var queryModel = new Faker<CustomerQueryModel>()
@@ -186,7 +186,7 @@ public class CustomersControllerTests : IAsyncLifetime
         using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
 
         // Act
-        using var act = await httpClient.GetAsync($"/api/customers/{queryModel.Id}");
+        using var act = await httpClient.GetAsync($"{Endpoint}/{queryModel.Id}");
 
         // Assert (HTTP)
         act.Should().NotBeNull();
@@ -209,6 +209,80 @@ public class CustomersControllerTests : IAsyncLifetime
         response.Result.FullName.Should().NotBeNullOrWhiteSpace().And.Be(queryModel.FullName);
 
         await readOnlyRepository.Received(1).GetByIdAsync(Arg.Is<Guid>(id => id == queryModel.Id));
+    }
+
+    [Fact]
+    public async Task Should_eturnsHttpStatus400BadRequest_When_GetById_InvalidRequest()
+    {
+        // Arrange
+        var readOnlyRepository = Substitute.For<ICustomerReadOnlyRepository>();
+        readOnlyRepository.GetByIdAsync(Arg.Any<Guid>()).Returns((CustomerQueryModel)null);
+
+        await using var webApplicationFactory = InitializeWebAppFactory(configureServices: (services) =>
+        {
+            services.RemoveAll<ICustomerReadOnlyRepository>();
+            services.AddScoped(_ => readOnlyRepository);
+        });
+
+        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
+
+        var customerId = Guid.Empty;
+
+        // Act
+        using var act = await httpClient.GetAsync($"{Endpoint}/{customerId}");
+
+        // Assert (HTTP)
+        act.Should().NotBeNull();
+        act.IsSuccessStatusCode.Should().BeFalse();
+        act.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        // Assert (HTTP Content Response)
+        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<CustomerQueryModel>>();
+        response.Should().NotBeNull();
+        response.Success.Should().BeFalse();
+        response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+        response.Result.Should().BeNull();
+        response.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
+
+        await readOnlyRepository.DidNotReceive().GetByIdAsync(Arg.Is<Guid>(id => id == customerId));
+    }
+
+    [Fact]
+    public async Task Should_ReturnsStatus404NotFound_When_GetById_NonExistingCustomer()
+    {
+        // Arrange
+        var readOnlyRepository = Substitute.For<ICustomerReadOnlyRepository>();
+        readOnlyRepository.GetByIdAsync(Arg.Any<Guid>()).Returns((CustomerQueryModel)null);
+
+        await using var webApplicationFactory = InitializeWebAppFactory(configureServices: (services) =>
+        {
+            services.RemoveAll<ICustomerReadOnlyRepository>();
+            services.AddScoped(_ => readOnlyRepository);
+        });
+
+        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
+
+        var customerId = Guid.NewGuid();
+
+        // Act
+        using var act = await httpClient.GetAsync($"{Endpoint}/{customerId}");
+
+        // Assert (HTTP)
+        act.Should().NotBeNull();
+        act.IsSuccessStatusCode.Should().BeFalse();
+        act.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        // Assert (HTTP Content Response)
+        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<CustomerQueryModel>>();
+        response.Should().NotBeNull();
+        response.Success.Should().BeFalse();
+        response.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+        response.Result.Should().BeNull();
+        response.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.AllSatisfy(error => error.Message.Should().Be($"No customer found by Id: {customerId}"));
+
+        await readOnlyRepository.Received(1).GetByIdAsync(Arg.Is<Guid>(id => id == customerId));
     }
 
     #region IAsyncLifetime
