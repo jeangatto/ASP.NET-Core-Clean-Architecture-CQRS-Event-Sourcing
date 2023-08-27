@@ -28,15 +28,16 @@ If you liked this project, learned something, give it a star. Thank you!
 
 - ASP.NET Core 7.0
 - Entity Framework Core 7.0
-- SQL Server
-- MongoDB
-- Redis (Cache)
+- Unit & Integration Tests + xUnit + FluentAssertions
 - Polly
 - AutoMapper
 - FluentValidator
 - MediatR
 - Swagger UI
 - HealthChecks
+- SQL Server
+- MongoDB
+- Redis (Cache)
 - Docker & Docker Compose
 
 ## **Architecture**
