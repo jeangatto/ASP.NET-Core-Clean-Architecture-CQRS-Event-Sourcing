@@ -58,7 +58,7 @@ public class EmailTests
         act.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.HaveCount(1)
-            .And.Satisfy(errorMessage => errorMessage == "O endereço de e-mail não é valido.");
+            .And.Satisfy(errorMessage => errorMessage == "The e-mail address is invalid.");
     }
 
     [Theory]
@@ -77,6 +77,6 @@ public class EmailTests
         act.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.HaveCount(1)
-            .And.Satisfy(message => message == "O endereço de e-mail deve ser informado.");
+            .And.Satisfy(message => message == "The e-mail address must be provided.");
     }
 }

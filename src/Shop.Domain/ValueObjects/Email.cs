@@ -30,10 +30,10 @@ public sealed record Email
     public static Result<Email> Create(string emailAddress)
     {
         if (string.IsNullOrWhiteSpace(emailAddress))
-            return Result<Email>.Error("O endereço de e-mail deve ser informado.");
+            return Result<Email>.Error("The e-mail address must be provided.");
 
         return !RegexPatterns.EmailIsValid.IsMatch(emailAddress)
-            ? Result<Email>.Error("O endereço de e-mail não é valido.")
+            ? Result<Email>.Error("The e-mail address is invalid.")
             : Result<Email>.Success(new Email(emailAddress));
     }
 
