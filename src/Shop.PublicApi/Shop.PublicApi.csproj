@@ -51,11 +51,6 @@
     <ProjectReference Include="..\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="SonarQube Settings">
-    <SonarQubeSetting Include="sonar.coverage.exclusions">
-      <Value>Migrations/**/*, /Migrations/**/*</Value>
-    </SonarQubeSetting>
-  </ItemGroup>
 
   <ItemGroup Label="Unit Tests">
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
