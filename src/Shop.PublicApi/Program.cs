@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Shop.Application.Extensions;
 using Shop.Core.Extensions;
 using Shop.Infrastructure.Extensions;
@@ -134,5 +133,7 @@ app.MapControllers();
 await app.RunAppAsync();
 
 #pragma warning disable S1118
-public partial class Program { }
+public partial class Program
+{
+}
 #pragma warning restore S1118
