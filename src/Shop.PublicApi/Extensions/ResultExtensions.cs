@@ -45,6 +45,9 @@ internal static class ResultExtensions
             case ResultStatus.NotFound:
                 return new NotFoundObjectResult(ApiResponse.NotFound(errors));
 
+            case ResultStatus.Forbidden:
+                return new ForbidResult();
+
             case ResultStatus.Unauthorized:
                 return new UnauthorizedObjectResult(ApiResponse.Unauthorized(errors));
 
