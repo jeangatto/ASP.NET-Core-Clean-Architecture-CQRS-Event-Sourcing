@@ -30,6 +30,7 @@
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
+  <!-- Code Analyzers, for style issues, code quality and best practices. -->
   <ItemGroup Label="Code Analyzers Package References">
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers">
       <PrivateAssets>all</PrivateAssets>
