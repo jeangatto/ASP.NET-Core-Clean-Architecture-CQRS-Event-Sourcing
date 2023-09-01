@@ -3,8 +3,6 @@
 
   <PropertyGroup Label="Build">
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <!-- Disable overriding package versions -->
-    <!-- https://devblogs.microsoft.com/nuget/introducing-central-package-management/#overriding-package-versions -->
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
