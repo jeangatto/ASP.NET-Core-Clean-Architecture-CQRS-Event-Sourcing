@@ -42,161 +42,6 @@ public class CustomersControllerTests : IAsyncLifetime
     private readonly SqliteConnection _eventStoreDbContextSqlite = new(ConnectionString);
     private readonly SqliteConnection _writeDbContextSqlite = new(ConnectionString);
 
-    #region GET: /api/customer/
-
-    [Fact]
-    public async Task Should_ReturnsHttpStatus200Ok_When_GetAll()
-    {
-        // Arrange
-        var queryModels = new Faker<CustomerQueryModel>()
-            .UsePrivateConstructor()
-            .RuleFor(queryModel => queryModel.Id, faker => faker.Random.Guid())
-            .RuleFor(queryModel => queryModel.FirstName, faker => faker.Person.FirstName)
-            .RuleFor(queryModel => queryModel.LastName, faker => faker.Person.LastName)
-            .RuleFor(queryModel => queryModel.Email, faker => faker.Person.Email)
-            .RuleFor(queryModel => queryModel.Gender, faker => faker.PickRandom<EGender>().ToString())
-            .RuleFor(queryModel => queryModel.DateOfBirth, faker => faker.Person.DateOfBirth)
-            .Generate(10);
-
-        var readOnlyRepository = Substitute.For<ICustomerReadOnlyRepository>();
-        readOnlyRepository.GetAllAsync().Returns(queryModels);
-
-        await using var webApplicationFactory = InitializeWebAppFactory(services =>
-        {
-            services.RemoveAll<ICustomerReadOnlyRepository>();
-            services.AddScoped(_ => readOnlyRepository);
-        });
-
-        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
-
-        // Act
-        using var act = await httpClient.GetAsync(Endpoint);
-
-        // Assert (HTTP)
-        act.Should().NotBeNull();
-        act.IsSuccessStatusCode.Should().BeTrue();
-        act.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        // Assert (HTTP Content Response)
-        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<IEnumerable<CustomerQueryModel>>>();
-        response.Should().NotBeNull();
-        response.Success.Should().BeTrue();
-        response.StatusCode.Should().Be(StatusCodes.Status200OK);
-        response.Errors.Should().BeEmpty();
-        response.Result.Should().NotBeNullOrEmpty()
-            .And.OnlyHaveUniqueItems()
-            .And.HaveCount(queryModels.Count)
-            .And.AllSatisfy(model =>
-            {
-                model.Id.Should().NotBeEmpty();
-                model.FirstName.Should().NotBeNullOrWhiteSpace();
-                model.LastName.Should().NotBeNullOrWhiteSpace();
-                model.Email.Should().NotBeNullOrWhiteSpace();
-                model.Gender.Should().NotBeNullOrWhiteSpace();
-                model.FullName.Should().NotBeNullOrWhiteSpace();
-            });
-
-        await readOnlyRepository.Received(1).GetAllAsync();
-    }
-
-    #endregion
-
-    #region DELETE: /api/customer/{id}
-
-    [Fact]
-    public async Task Should_ReturnsHttpStatus200Ok_When_Delete_ValidRequest()
-    {
-        // Arrange
-        var customer = new Faker<Customer>()
-            .CustomInstantiator(faker =>
-            {
-                var emailResult = Email.Create(faker.Person.Email);
-                return new Customer(
-                    faker.Person.FirstName,
-                    faker.Person.LastName,
-                    faker.PickRandom<EGender>(),
-                    emailResult.Value,
-                    faker.Person.DateOfBirth);
-            })
-            .Generate();
-
-        await using var webApplicationFactory = InitializeWebAppFactory(configureServiceScope: serviceScope =>
-        {
-            var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
-            writeDbContext.Customers.Add(customer);
-            writeDbContext.SaveChanges();
-        });
-
-        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
-
-        // Act
-        using var act = await httpClient.DeleteAsync($"{Endpoint}/{customer.Id}");
-
-        // Assert (HTTP)
-        act.Should().NotBeNull();
-        act.IsSuccessStatusCode.Should().BeTrue();
-        act.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        // Assert (HTTP Content Response)
-        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse>();
-        response.Should().NotBeNull();
-        response.Success.Should().BeTrue();
-        response.StatusCode.Should().Be(StatusCodes.Status200OK);
-        response.Errors.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task Should_ReturnsHttpStatus400BadRequest_When_Delete_InvalidRequest()
-    {
-        // Arrange
-        await using var webApplicationFactory = InitializeWebAppFactory();
-        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
-
-        // Act
-        using var act = await httpClient.DeleteAsync($"{Endpoint}/{Guid.Empty}");
-
-        // Assert (HTTP)
-        act.Should().NotBeNull();
-        act.IsSuccessStatusCode.Should().BeFalse();
-        act.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        // Assert (HTTP Content Response)
-        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse>();
-        response.Should().NotBeNull();
-        response.Success.Should().BeFalse();
-        response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
-        response.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
-    }
-
-    [Fact]
-    public async Task Should_ReturnsStatus404NotFound_When_Delete_NonExistingCustomer()
-    {
-        // Arrange
-        var customerId = Guid.NewGuid();
-
-        await using var webApplicationFactory = InitializeWebAppFactory();
-        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
-
-        // Act
-        using var act = await httpClient.DeleteAsync($"{Endpoint}/{customerId}");
-
-        // Assert (HTTP)
-        act.Should().NotBeNull();
-        act.IsSuccessStatusCode.Should().BeFalse();
-        act.StatusCode.Should().Be(HttpStatusCode.NotFound);
-
-        // Assert (HTTP Content Response)
-        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse>();
-        response.Should().NotBeNull();
-        response.Success.Should().BeFalse();
-        response.StatusCode.Should().Be(StatusCodes.Status404NotFound);
-        response.Errors.Should().NotBeNullOrEmpty()
-            .And.OnlyHaveUniqueItems()
-            .And.AllSatisfy(error => error.Message.Should().Be($"No customer found by Id: {customerId}"));
-    }
-
-    #endregion
-
     #region POST: /api/customer/
 
     [Fact]
@@ -316,6 +161,65 @@ public class CustomersControllerTests : IAsyncLifetime
         response.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.AllSatisfy(error => error.Message.Should().Be("The provided email address is already in use."));
+    }
+
+    #endregion
+
+    #region GET: /api/customer/
+
+    [Fact]
+    public async Task Should_ReturnsHttpStatus200Ok_When_GetAll()
+    {
+        // Arrange
+        var queryModels = new Faker<CustomerQueryModel>()
+            .UsePrivateConstructor()
+            .RuleFor(queryModel => queryModel.Id, faker => faker.Random.Guid())
+            .RuleFor(queryModel => queryModel.FirstName, faker => faker.Person.FirstName)
+            .RuleFor(queryModel => queryModel.LastName, faker => faker.Person.LastName)
+            .RuleFor(queryModel => queryModel.Email, faker => faker.Person.Email)
+            .RuleFor(queryModel => queryModel.Gender, faker => faker.PickRandom<EGender>().ToString())
+            .RuleFor(queryModel => queryModel.DateOfBirth, faker => faker.Person.DateOfBirth)
+            .Generate(10);
+
+        var readOnlyRepository = Substitute.For<ICustomerReadOnlyRepository>();
+        readOnlyRepository.GetAllAsync().Returns(queryModels);
+
+        await using var webApplicationFactory = InitializeWebAppFactory(services =>
+        {
+            services.RemoveAll<ICustomerReadOnlyRepository>();
+            services.AddScoped(_ => readOnlyRepository);
+        });
+
+        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
+
+        // Act
+        using var act = await httpClient.GetAsync(Endpoint);
+
+        // Assert (HTTP)
+        act.Should().NotBeNull();
+        act.IsSuccessStatusCode.Should().BeTrue();
+        act.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Assert (HTTP Content Response)
+        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<IEnumerable<CustomerQueryModel>>>();
+        response.Should().NotBeNull();
+        response.Success.Should().BeTrue();
+        response.StatusCode.Should().Be(StatusCodes.Status200OK);
+        response.Errors.Should().BeEmpty();
+        response.Result.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.HaveCount(queryModels.Count)
+            .And.AllSatisfy(model =>
+            {
+                model.Id.Should().NotBeEmpty();
+                model.FirstName.Should().NotBeNullOrWhiteSpace();
+                model.LastName.Should().NotBeNullOrWhiteSpace();
+                model.Email.Should().NotBeNullOrWhiteSpace();
+                model.Gender.Should().NotBeNullOrWhiteSpace();
+                model.FullName.Should().NotBeNullOrWhiteSpace();
+            });
+
+        await readOnlyRepository.Received(1).GetAllAsync();
     }
 
     #endregion
@@ -449,6 +353,102 @@ public class CustomersControllerTests : IAsyncLifetime
 
     #endregion
 
+    #region DELETE: /api/customer/{id}
+
+    [Fact]
+    public async Task Should_ReturnsHttpStatus200Ok_When_Delete_ValidRequest()
+    {
+        // Arrange
+        var customer = new Faker<Customer>()
+            .CustomInstantiator(faker =>
+            {
+                var emailResult = Email.Create(faker.Person.Email);
+                return new Customer(
+                    faker.Person.FirstName,
+                    faker.Person.LastName,
+                    faker.PickRandom<EGender>(),
+                    emailResult.Value,
+                    faker.Person.DateOfBirth);
+            })
+            .Generate();
+
+        await using var webApplicationFactory = InitializeWebAppFactory(configureServiceScope: serviceScope =>
+        {
+            var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
+            writeDbContext.Customers.Add(customer);
+            writeDbContext.SaveChanges();
+        });
+
+        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
+
+        // Act
+        using var act = await httpClient.DeleteAsync($"{Endpoint}/{customer.Id}");
+
+        // Assert (HTTP)
+        act.Should().NotBeNull();
+        act.IsSuccessStatusCode.Should().BeTrue();
+        act.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Assert (HTTP Content Response)
+        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse>();
+        response.Should().NotBeNull();
+        response.Success.Should().BeTrue();
+        response.StatusCode.Should().Be(StatusCodes.Status200OK);
+        response.Errors.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Should_ReturnsHttpStatus400BadRequest_When_Delete_InvalidRequest()
+    {
+        // Arrange
+        await using var webApplicationFactory = InitializeWebAppFactory();
+        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
+
+        // Act
+        using var act = await httpClient.DeleteAsync($"{Endpoint}/{Guid.Empty}");
+
+        // Assert (HTTP)
+        act.Should().NotBeNull();
+        act.IsSuccessStatusCode.Should().BeFalse();
+        act.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        // Assert (HTTP Content Response)
+        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse>();
+        response.Should().NotBeNull();
+        response.Success.Should().BeFalse();
+        response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+        response.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
+    }
+
+    [Fact]
+    public async Task Should_ReturnsStatus404NotFound_When_Delete_NonExistingCustomer()
+    {
+        // Arrange
+        var customerId = Guid.NewGuid();
+
+        await using var webApplicationFactory = InitializeWebAppFactory();
+        using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
+
+        // Act
+        using var act = await httpClient.DeleteAsync($"{Endpoint}/{customerId}");
+
+        // Assert (HTTP)
+        act.Should().NotBeNull();
+        act.IsSuccessStatusCode.Should().BeFalse();
+        act.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        // Assert (HTTP Content Response)
+        var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse>();
+        response.Should().NotBeNull();
+        response.Success.Should().BeFalse();
+        response.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+        response.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.AllSatisfy(error => error.Message.Should().Be($"No customer found by Id: {customerId}"));
+    }
+
+    #endregion
+
     #region IAsyncLifetime
 
     public async Task InitializeAsync()
@@ -521,8 +521,7 @@ public class CustomersControllerTests : IAsyncLifetime
             });
     }
 
-    private static WebApplicationFactoryClientOptions CreateClientOptions() =>
-        new() { BaseAddress = new Uri("https://127.0.0.1"), AllowAutoRedirect = false };
+    private static WebApplicationFactoryClientOptions CreateClientOptions() => new() { AllowAutoRedirect = false };
 
     #endregion
 }
