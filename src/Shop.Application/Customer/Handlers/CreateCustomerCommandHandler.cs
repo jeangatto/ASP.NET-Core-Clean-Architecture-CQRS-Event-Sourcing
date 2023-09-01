@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
@@ -43,12 +42,10 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         }
 
         // Instantiating the Email value object.
-        var emailResult = Email.Create(request.Email);
-        if (!emailResult.IsSuccess)
-            return Result<CreatedCustomerResponse>.Error(emailResult.Errors.ToArray());
+        var email = Email.Create(request.Email).Value;
 
         // Checking if a customer with the email address already exists.
-        if (await _repository.ExistsByEmailAsync(emailResult.Value))
+        if (await _repository.ExistsByEmailAsync(email))
             return Result<CreatedCustomerResponse>.Error("The provided email address is already in use.");
 
         // Creating an instance of the customer entity.
@@ -57,7 +54,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             request.FirstName,
             request.LastName,
             request.Gender,
-            emailResult.Value,
+            email,
             request.DateOfBirth);
 
         // Adding the entity to the repository.
