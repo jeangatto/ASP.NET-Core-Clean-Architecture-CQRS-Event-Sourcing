@@ -1,11 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using Shop.Core.SharedKernel;
 
 namespace Shop.Core.AppSettings;
 
-[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
 public sealed class ConnectionOptions : IAppOptions
 {
     static string IAppOptions.ConfigSectionPath => "ConnectionStrings";
