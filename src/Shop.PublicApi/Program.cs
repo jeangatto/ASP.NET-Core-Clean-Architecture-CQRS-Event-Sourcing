@@ -133,7 +133,5 @@ app.MapControllers();
 await app.RunAppAsync();
 
 #pragma warning disable S1118
-public partial class Program
-{
-}
+public partial class Program { }
 #pragma warning restore S1118
