@@ -60,7 +60,7 @@
     <PackageVersion Include="NSubstitute" Version="5.0.0" />
     <PackageVersion Include="Polly" Version="7.2.4" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.5.0" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.8.0.76515" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.9.0.77355" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageVersion Include="System.Text.Json" Version="7.0.3" />
