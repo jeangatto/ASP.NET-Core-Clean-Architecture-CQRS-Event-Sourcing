@@ -24,10 +24,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!-- Enabling Build Acceleration can reduce incremental build times by up to 80% for SDK-style .NET projects. -->
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
-    <!-- CS1591: Missing XML Comment Warning -->
-    <NoWarn>$(NoWarn);1591</NoWarn>
     <!-- The ContinuousIntegrationBuild property indicates whether a build is executing on a continuous integration (CI) server. -->
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <!-- CS1591: Missing XML Comment Warning -->
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <!-- Code Analyzers, for style issues, code quality and best practices. -->
