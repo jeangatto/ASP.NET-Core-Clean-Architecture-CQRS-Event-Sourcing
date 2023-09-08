@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <PropertyGroup Label="Build">
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
-
   <ItemGroup Label="Package Versions">
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.1.0" />
     <PackageVersion Include="Ardalis.Result" Version="7.1.0" />
@@ -27,6 +25,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
@@ -69,5 +68,4 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
     <PackageVersion Include="xunit" Version="2.5.0" />
   </ItemGroup>
-
 </Project>
