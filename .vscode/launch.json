@@ -14,7 +14,8 @@
       "logging": { "moduleLoad": false },
       "serverReadyAction": {
         "action": "openExternally",
-        "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+        "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)", 
+        "uriFormat": "%s/swagger/"
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
