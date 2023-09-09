@@ -16,6 +16,8 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
 
+[![Sparkline](https://stars.medv.io/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](https://stars.medv.io/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+
 About the repoitory:
 Open source project written in the latest version of ASP.NET Core, implementing the concepts of S.O.L.I.D, Clean Code,
 CQRS (Command Query Responsibility Segregation)
