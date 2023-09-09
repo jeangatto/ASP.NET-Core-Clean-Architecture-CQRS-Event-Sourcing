@@ -42,7 +42,7 @@ internal static class ServicesCollectionExtensions
                 {
                     Name = "MIT License",
 #pragma warning disable S1075
-                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE")
+                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/blob/main/LICENSE")
 #pragma warning restore S1075
                 }
             });

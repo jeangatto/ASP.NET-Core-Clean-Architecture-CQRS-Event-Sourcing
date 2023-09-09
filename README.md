@@ -1,22 +1,20 @@
 # ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture
 
-[![wakatime](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](https://wakatime.com/badge/github/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![License](https://img.shields.io/github/license/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](LICENSE)
+[![Build](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/dotnet.yml)
+[![SonarCloud](https://github.com/JeanGatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/sonar-cloud.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/sonar-cloud.yml)
+[![CodeQL](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/codeql-analysis.yml)
+[![DevSkim](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/devskim-analysis.yml)
+[![License](https://img.shields.io/github/license/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing.svg)](LICENSE)
 
-[![Build](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/dotnet.yml)
-[![SonarCloud](https://github.com/JeanGatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/sonar-cloud.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/sonar-cloud.yml)
-[![CodeQL](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/codeql-analysis.yml)
-[![DevSkim](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/actions/workflows/devskim-analysis.yml)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&metric=coverage)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
 
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=coverage)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
-
-[![Sparkline](https://stars.medv.io/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID.svg)](https://stars.medv.io/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID)
+[![Sparkline](https://stars.medv.io/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing.svg)](https://stars.medv.io/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
 
 About the repoitory:
 Open source project written in the latest version of ASP.NET Core, implementing the concepts of S.O.L.I.D, Clean Code,
@@ -87,4 +85,4 @@ http://localhost:5072/profiler/results-index
 
 ## License
 
-- [MIT License](https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID/blob/main/LICENSE)
+- [MIT License](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/blob/main/LICENSE)

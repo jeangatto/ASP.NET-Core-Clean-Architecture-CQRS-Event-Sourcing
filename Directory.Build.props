@@ -5,7 +5,7 @@
     <Authors>Jean Gatto (@jeangatto)</Authors>
     <MaintainerEmail>jean_gatto@hotmail.com</MaintainerEmail>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/jeangatto/ASP.NET-Core-API-CQRS-EVENT-DDD-SOLID</RepositoryUrl>
+    <RepositoryUrl>https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <!-- Set the neutral language to English -->
     <NeutralLanguage>en</NeutralLanguage>
