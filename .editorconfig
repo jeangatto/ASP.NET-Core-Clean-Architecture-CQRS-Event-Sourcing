@@ -28,8 +28,7 @@ end_of_line = lf
 trim_trailing_whitespace = true
 
 ###############################
-# .NET Diagnostic
-# https://learn.microsoft.com/en-us/visualstudio/ide/code-styles-and-code-cleanup
+# .NET Diagnostic             #
 ###############################
 
 # Simplify name
