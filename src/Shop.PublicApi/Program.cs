@@ -2,10 +2,10 @@ using System.Globalization;
 using System.IO.Compression;
 using FluentValidation;
 using FluentValidation.Resources;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
@@ -74,7 +74,7 @@ builder.Services
     .AddReadDbContext()
     .AddReadOnlyRepositories()
     .AddCacheService(builder.Configuration)
-    .AddHealthChecks(builder.Configuration); // HealthChecks (API, EF Core, MongoDB, Redis)
+    .AddHealthChecks(builder.Configuration);
 
 // MiniProfiler for .NET
 // https://miniprofiler.com/dotnet/
@@ -110,13 +110,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
-app.UseHealthChecks("/health",
-    new HealthCheckOptions
-    {
-        Predicate = _ => true,
-        AllowCachingResponses = false,
-        ResponseWriter = (httpContext, healthReport) => httpContext.Response.WriteAsync(healthReport.ToJson())
-    });
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseErrorHandling();
 app.UseSwagger();
@@ -131,7 +129,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 await app.RunAppAsync();
-
-#pragma warning disable S1118
-public partial class Program { }
-#pragma warning restore S1118

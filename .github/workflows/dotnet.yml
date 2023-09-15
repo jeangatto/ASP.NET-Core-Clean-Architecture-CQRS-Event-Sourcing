@@ -14,9 +14,9 @@ on:
 
 env:
   DOTNET_VERSION: "7.0.x"
-  DOTNET_NOLOGO: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_EnableDiagnostics: 0
 
 jobs:
@@ -42,4 +42,4 @@ jobs:
         run: dotnet build --nologo --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --nologo --no-build --no-restore --configuration Release --verbosity normal --logger "console;verbosity=detailed"
+        run: dotnet test --nologo --no-build --no-restore --configuration Release --verbosity minimal --logger "console;verbosity=detailed"
