@@ -60,5 +60,5 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing" /o:"jeangatto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.verbose=false
           dotnet restore
           dotnet build --nologo --no-restore
-          dotnet test --nologo --no-build --no-restore --verbosity Minimal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=TestResults/
+          dotnet test --nologo --no-build --no-restore --verbosity minimal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=TestResults/
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
