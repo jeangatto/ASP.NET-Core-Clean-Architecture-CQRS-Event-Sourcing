@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <PropertyGroup Label="Build">
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
-
   <ItemGroup Label="Package Versions">
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.1.0" />
     <PackageVersion Include="Ardalis.Result" Version="7.1.0" />
@@ -71,5 +69,4 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
     <PackageVersion Include="xunit" Version="2.5.0" />
   </ItemGroup>
-
 </Project>
