@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Build">
+  <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />

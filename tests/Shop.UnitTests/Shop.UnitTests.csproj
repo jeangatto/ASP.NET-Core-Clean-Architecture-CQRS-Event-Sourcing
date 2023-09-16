@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Build">
+  <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <SonarQubeTestProject>True</SonarQubeTestProject>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="Bogus" />
     <PackageReference Include="coverlet.collector">
@@ -36,7 +36,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Label="Project References">
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Shop.Infrastructure\Shop.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Shop.Domain\Shop.Domain.csproj" />
     <ProjectReference Include="..\..\src\Shop.Core\Shop.Core.csproj" />
@@ -45,7 +45,7 @@
     <ProjectReference Include="..\..\src\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="xUnit Configuration File">
+  <ItemGroup>
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

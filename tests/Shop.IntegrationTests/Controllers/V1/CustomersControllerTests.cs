@@ -504,7 +504,7 @@ public class CustomersControllerTests : IAsyncLifetime
 
                     configureServices?.Invoke(services);
 
-                    var serviceProvider = services.BuildServiceProvider(true);
+                    using var serviceProvider = services.BuildServiceProvider(true);
                     using var serviceScope = serviceProvider.CreateScope();
 
                     var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();

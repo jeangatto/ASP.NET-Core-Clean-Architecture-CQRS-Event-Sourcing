@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Build">
+  <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
   </ItemGroup>
 
-  <ItemGroup Label="Project References">
+  <ItemGroup>
     <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
   </ItemGroup>
 

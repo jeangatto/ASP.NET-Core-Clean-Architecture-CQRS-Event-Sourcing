@@ -36,20 +36,13 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddApiVersioning(versioningOptions =>
     {
-        // Specify the default API Version as 1.0
         versioningOptions.DefaultApiVersion = ApiVersion.Default;
-        // Reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
         versioningOptions.ReportApiVersions = true;
-        // If the client hasn't specified the API version in the request, use the default API version number
         versioningOptions.AssumeDefaultVersionWhenUnspecified = true;
     })
     .AddVersionedApiExplorer(explorerOptions =>
     {
-        // Add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
-        // NOTE: the specified format code will format the version as "'v'major[.minor][-status]"
         explorerOptions.GroupNameFormat = "'v'VVV";
-        // NOTE: this option is only necessary when versioning by url segment. the SubstitutionFormat
-        // can also be used to control the format of the API version in route templates
         explorerOptions.SubstituteApiVersionInUrl = true;
     })
     .AddSwagger();
@@ -83,9 +76,7 @@ builder.Services.AddMiniProfiler(options =>
     // Route: /profiler/results-index
     options.RouteBasePath = "/profiler";
     options.ColorScheme = ColorScheme.Dark;
-    // Enable the inclusion of a Server-Timing header in the HTTP response.
     options.EnableServerTimingHeader = true;
-    // Track the opening and closing of database connections.
     options.TrackConnectionOpenClose = true;
     options.EnableDebugMode = builder.Environment.IsDevelopment();
 }).AddEntityFramework();

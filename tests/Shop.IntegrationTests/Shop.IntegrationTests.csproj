@@ -6,7 +6,7 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="Bogus" />
@@ -38,7 +38,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Label="Project References">
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Shop.PublicApi\Shop.PublicApi.csproj" />
   </ItemGroup>
 

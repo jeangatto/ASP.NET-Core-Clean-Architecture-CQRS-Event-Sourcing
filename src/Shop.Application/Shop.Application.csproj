@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Build">
+  <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="Ardalis.Result.FluentValidation" />
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
 
-  <ItemGroup Label="Project References">
+  <ItemGroup>
     <ProjectReference Include="..\Shop.Domain\Shop.Domain.csproj" />
     <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
   </ItemGroup>

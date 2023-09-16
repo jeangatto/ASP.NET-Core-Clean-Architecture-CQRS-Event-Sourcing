@@ -1,24 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup Label="Build">
+  <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <!-- Enables the inclusion of OpenAPI analyzers in the project. -->
-    <!-- OpenAPI analyzers help to validate and analyze OpenAPI specifications, ensuring compliance with best practices and identifying potential issues -->
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- The target OS used when building the Docker image. -->
     <DockerTargetOS>Linux</DockerTargetOS>
-    <!-- The default target operating system used when building the Docker image. -->
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <!-- Specifies the runtime identifiers for the project -->
     <RuntimeIdentifiers>linux-arm64;linux-x64</RuntimeIdentifiers>
-    <!-- Compiles application assemblies as ReadyToRun (R2R) format. R2R is a form of ahead-of-time (AOT) compilation. -->
     <PublishReadyToRun>true</PublishReadyToRun>
-    <!-- To see warnings about missing dependencies that could cause runtime failures -->
     <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="AspNetCore.HealthChecks.MongoDb" />
     <PackageReference Include="AspNetCore.HealthChecks.Redis" />
@@ -47,13 +40,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
-  <ItemGroup Label="Project References">
+  <ItemGroup>
     <ProjectReference Include="..\Shop.Application\Shop.Application.csproj" />
     <ProjectReference Include="..\Shop.Infrastructure\Shop.Infrastructure.csproj" />
     <ProjectReference Include="..\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="Unit Tests">
+  <ItemGroup>
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     <InternalsVisibleTo Include="Shop.IntegrationTests" />
     <InternalsVisibleTo Include="Shop.UnitTests" />
