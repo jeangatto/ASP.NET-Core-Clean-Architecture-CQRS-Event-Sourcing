@@ -21,7 +21,7 @@ internal static class ServicesCollectionExtensions
 {
     private static readonly string[] DatabaseTags = { "database" };
 
-    public static void AddSwagger(this IServiceCollection services)
+    public static void AddSwagger(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSwaggerGen(swaggerOptions =>
         {
@@ -34,16 +34,12 @@ internal static class ServicesCollectionExtensions
                 {
                     Name = "Jean Gatto",
                     Email = "jean_gatto@hotmail.com",
-#pragma warning disable S1075
-                    Url = new Uri("https://www.linkedin.com/in/jeangatto/")
-#pragma warning restore S1075
+                    Url = new Uri(configuration.GetValue<string>("Urls:LinkedIn"))
                 },
                 License = new OpenApiLicense
                 {
                     Name = "MIT License",
-#pragma warning disable S1075
-                    Url = new Uri("https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/blob/main/LICENSE")
-#pragma warning restore S1075
+                    Url = new Uri(configuration.GetValue<string>("Urls:Github"))
                 }
             });
 
@@ -55,16 +51,16 @@ internal static class ServicesCollectionExtensions
 
     public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionOptions = configuration.GetOptions<ConnectionOptions>();
+        var options = configuration.GetOptions<ConnectionOptions>();
 
         var healthCheckBuilder = services
             .AddHealthChecks()
             .AddDbContextCheck<WriteDbContext>(tags: DatabaseTags)
             .AddDbContextCheck<EventStoreDbContext>(tags: DatabaseTags)
-            .AddMongoDb(connectionOptions.NoSqlConnection, tags: DatabaseTags);
+            .AddMongoDb(options.NoSqlConnection, tags: DatabaseTags);
 
-        if (!connectionOptions.CacheConnectionInMemory())
-            healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
+        if (!options.CacheConnectionInMemory())
+            healthCheckBuilder.AddRedis(options.CacheConnection);
     }
 
     public static IServiceCollection AddWriteDbContext(this IServiceCollection services)
@@ -80,8 +76,8 @@ internal static class ServicesCollectionExtensions
 
     public static IServiceCollection AddCacheService(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionOptions = configuration.GetOptions<ConnectionOptions>();
-        if (connectionOptions.CacheConnectionInMemory())
+        var options = configuration.GetOptions<ConnectionOptions>();
+        if (options.CacheConnectionInMemory())
         {
             services
                 .AddMemoryCache() // ASP.NET Core Memory Cache.
@@ -94,7 +90,7 @@ internal static class ServicesCollectionExtensions
             services.AddStackExchangeRedisCache(redisOptions =>
             {
                 redisOptions.InstanceName = "master";
-                redisOptions.Configuration = connectionOptions.CacheConnection;
+                redisOptions.Configuration = options.CacheConnection;
             }).AddDistributedCacheService(); // Shop Infrastructure Service.
         }
 
@@ -107,10 +103,10 @@ internal static class ServicesCollectionExtensions
         QueryTrackingBehavior queryTrackingBehavior) where TContext : DbContext
     {
         var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
-        var connectionOptions = serviceProvider.GetOptions<ConnectionOptions>();
+        var options = serviceProvider.GetOptions<ConnectionOptions>();
 
         optionsBuilder
-            .UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
+            .UseSqlServer(options.SqlConnection, sqlServerOptions =>
             {
                 sqlServerOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
                 sqlServerOptions.EnableRetryOnFailure(3);
