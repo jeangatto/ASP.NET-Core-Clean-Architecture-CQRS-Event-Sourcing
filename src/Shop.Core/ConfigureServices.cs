@@ -4,10 +4,10 @@ using Shop.Core.AppSettings;
 using Shop.Core.SharedKernel;
 using Shop.Core.SharedKernel.Correlation;
 
-namespace Shop.Core.Extensions;
+namespace Shop.Core;
 
 [ExcludeFromCodeCoverage]
-public static class ServicesCollectionExtensions
+public static class ConfigureServices
 {
     public static IServiceCollection AddCorrelationGenerator(this IServiceCollection services) =>
         services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();

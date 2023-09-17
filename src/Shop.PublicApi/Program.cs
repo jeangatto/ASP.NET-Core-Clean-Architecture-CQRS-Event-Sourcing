@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shop.Application;
+using Shop.Core;
 using Shop.Core.Extensions;
 using Shop.Infrastructure;
 using Shop.PublicApi.Extensions;
@@ -23,9 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Fastest)
     .Configure<JsonOptions>(jsonOptions => jsonOptions.JsonSerializerOptions.Configure())
-    .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
-
-builder.Services
+    .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true)
     .AddHttpClient()
     .AddHttpContextAccessor()
     .AddResponseCompression(compressionOptions =>

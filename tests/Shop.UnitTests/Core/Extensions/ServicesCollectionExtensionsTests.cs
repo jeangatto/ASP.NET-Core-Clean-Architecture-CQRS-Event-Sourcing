@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Core;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
 using Xunit;
