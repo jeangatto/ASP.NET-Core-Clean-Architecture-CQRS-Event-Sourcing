@@ -48,7 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\workflows\devskim-analysis.yml = .github\workflows\devskim-analysis.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-		.github\workflows\nightly_cleanup.yml = .github\workflows\nightly_cleanup.yml
+		.github\workflows\nightly-cleanup.yml = .github\workflows\nightly-cleanup.yml
 		.github\workflows\sonar-cloud.yml = .github\workflows\sonar-cloud.yml
 	EndProjectSection
 EndProject

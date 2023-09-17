@@ -17,22 +17,22 @@ services:
     expose:
       - 80
     links:
-      - sqlserver
-      - mongoserver
-      - redis
+      - shop-sql-server
+      - shop-mongo-server
+      - shop-redis
     networks:
       - app-network
     depends_on:
-      - sqlserver
-      - mongoserver
-      - redis
+      - shop-sql-server
+      - shop-mongo-server
+      - shop-redis
 
   # SQL Server
-  sqlserver:
+  shop-sql-server:
     image: mcr.microsoft.com/azure-sql-edge:latest
     cap_add: [ 'SYS_PTRACE' ]
     hostname: mssql
-    container_name: sqlserver
+    container_name: shop-sql-server
     restart: always
     expose:
       - 1433
@@ -45,9 +45,9 @@ services:
       - app-network
 
   # MongoDB Server
-  mongoserver:
+  shop-mongo-server:
     image: mongo:latest
-    container_name: mongoserver
+    container_name: shop-mongo-server
     restart: always
     expose:
       - 27017
@@ -57,9 +57,9 @@ services:
       - app-network
 
   # Redis Cache Server
-  redis:
+  shop-redis:
     image: redis:latest
-    container_name: redis
+    container_name: shop-redis
     command: redis-server --requirepass pMA63033n6tF
     restart: always
     expose:
