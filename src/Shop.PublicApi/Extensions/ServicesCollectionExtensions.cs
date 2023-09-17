@@ -19,9 +19,15 @@ namespace Shop.PublicApi.Extensions;
 [ExcludeFromCodeCoverage]
 internal static class ServicesCollectionExtensions
 {
-    private static readonly string[] DatabaseTags = { "database" };
+    private const int DbMaxRetryCount = 3;
+    private const int DbCommandTimeout = 35;
+    private const string DbMigrationAssemblyName = "Shop.PublicApi";
+    private const string RedisInstanceName = "master";
 
-    public static void AddSwagger(this IServiceCollection services, IConfiguration configuration)
+    private static readonly string[] DbRelationalTags = { "database", "ef-core", "sql-server", "relational" };
+    private static readonly string[] DbNoSqlTags = { "database", "mongodb", "no-sql" };
+
+    public static void AddSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(swaggerOptions =>
         {
@@ -44,9 +50,9 @@ internal static class ServicesCollectionExtensions
 
         var healthCheckBuilder = services
             .AddHealthChecks()
-            .AddDbContextCheck<WriteDbContext>(tags: DatabaseTags)
-            .AddDbContextCheck<EventStoreDbContext>(tags: DatabaseTags)
-            .AddMongoDb(options.NoSqlConnection, tags: DatabaseTags);
+            .AddDbContextCheck<WriteDbContext>(tags: DbRelationalTags)
+            .AddDbContextCheck<EventStoreDbContext>(tags: DbRelationalTags)
+            .AddMongoDb(options.NoSqlConnection, tags: DbNoSqlTags);
 
         if (!options.CacheConnectionInMemory())
             healthCheckBuilder.AddRedis(options.CacheConnection);
@@ -68,19 +74,17 @@ internal static class ServicesCollectionExtensions
         var options = configuration.GetOptions<ConnectionOptions>();
         if (options.CacheConnectionInMemory())
         {
-            services
-                .AddMemoryCache() // ASP.NET Core Memory Cache.
-                .AddMemoryCacheService(); // Shop Infrastructure Service.
+            services.AddMemoryCacheService();
+            services.AddMemoryCache(memoryOptions => memoryOptions.TrackStatistics = true);
         }
         else
         {
-            // ASP.NET Core Redis Distributed Cache.
-            // REF: https://learn.microsoft.com/pt-br/aspnet/core/performance/caching/distributed?view=aspnetcore-7.0
+            services.AddDistributedCacheService();
             services.AddStackExchangeRedisCache(redisOptions =>
             {
-                redisOptions.InstanceName = "master";
+                redisOptions.InstanceName = RedisInstanceName;
                 redisOptions.Configuration = options.CacheConnection;
-            }).AddDistributedCacheService(); // Shop Infrastructure Service.
+            });
         }
 
         return services;
@@ -97,9 +101,9 @@ internal static class ServicesCollectionExtensions
         optionsBuilder
             .UseSqlServer(options.SqlConnection, sqlServerOptions =>
             {
-                sqlServerOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
-                sqlServerOptions.EnableRetryOnFailure(3);
-                sqlServerOptions.CommandTimeout(30);
+                sqlServerOptions.MigrationsAssembly(DbMigrationAssemblyName);
+                sqlServerOptions.EnableRetryOnFailure(DbMaxRetryCount);
+                sqlServerOptions.CommandTimeout(DbCommandTimeout);
             })
             .UseQueryTrackingBehavior(queryTrackingBehavior)
             .LogTo((eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying, eventData =>
@@ -116,14 +120,10 @@ internal static class ServicesCollectionExtensions
                     exceptions[^1].Message);
             });
 
-        // Get the current hosting environment.
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-        if (environment.IsDevelopment())
+        if (!environment.IsProduction())
         {
-            // Enable detailed errors for debugging purposes.
             optionsBuilder.EnableDetailedErrors();
-
-            // Enable sensitive data logging for debugging purposes.
             optionsBuilder.EnableSensitiveDataLogging();
         }
     }

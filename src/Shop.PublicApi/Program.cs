@@ -44,7 +44,7 @@ builder.Services
         explorerOptions.GroupNameFormat = "'v'VVV";
         explorerOptions.SubstituteApiVersionInUrl = true;
     })
-    .AddSwagger(builder.Configuration);
+    .AddSwagger();
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(behaviorOptions =>

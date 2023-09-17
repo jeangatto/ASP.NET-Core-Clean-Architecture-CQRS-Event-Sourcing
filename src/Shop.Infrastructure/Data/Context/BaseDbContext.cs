@@ -9,7 +9,8 @@ public abstract class BaseDbContext<TContext> : DbContext
 {
     private const string Collation = "Latin1_General_CI_AI";
 
-    protected BaseDbContext(DbContextOptions<TContext> dbOptions) : base(dbOptions)
+    protected BaseDbContext(DbContextOptions<TContext> dbOptions)
+        : base(dbOptions)
     {
     }
 
