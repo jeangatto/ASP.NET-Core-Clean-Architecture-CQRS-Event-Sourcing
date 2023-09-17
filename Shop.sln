@@ -48,7 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\workflows\devskim-analysis.yml = .github\workflows\devskim-analysis.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-		nightly_cleanup.yml = nightly_cleanup.yml
+		.github\workflows\nightly_cleanup.yml = .github\workflows\nightly_cleanup.yml
 		.github\workflows\sonar-cloud.yml = .github\workflows\sonar-cloud.yml
 	EndProjectSection
 EndProject
@@ -122,5 +122,8 @@ Global
 		{691795FC-1A5E-4144-9730-F61D0F701EBA} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
 		{BF75AAA0-1EDD-47F1-A38C-69128AB9927B} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
 		{9371D508-9FCA-4AED-ABCF-AF9457E743AC} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3430C31-E885-4BC5-97D3-B2FF8E8F28B7}
 	EndGlobalSection
 EndGlobal
