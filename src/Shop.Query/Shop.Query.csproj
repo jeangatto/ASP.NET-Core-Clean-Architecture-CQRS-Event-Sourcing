@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Ardalis.Result.FluentValidation" />
     <PackageReference Include="Ardalis.Result" />
@@ -17,15 +17,15 @@
     <PackageReference Include="MongoDB.Driver" />
     <PackageReference Include="Polly" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
     <ProjectReference Include="..\Shop.Domain\Shop.Domain.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     <InternalsVisibleTo Include="Shop.UnitTests" />
   </ItemGroup>
-
+  
 </Project>

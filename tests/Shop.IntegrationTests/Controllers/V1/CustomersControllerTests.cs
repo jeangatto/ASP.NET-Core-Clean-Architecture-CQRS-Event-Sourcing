@@ -474,9 +474,6 @@ public class CustomersControllerTests : IAsyncLifetime
         return new WebApplicationFactory<Program>()
             .WithWebHostBuilder(hostBuilder =>
             {
-                hostBuilder.UseSetting("Urls:LinkedIn", "https://www.linkedin.com/in/jeangatto/");
-                hostBuilder.UseSetting("Urls:Github", "https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/blob/main/LICENSE");
-
                 hostBuilder.UseSetting("ConnectionStrings:SqlConnection", "InMemory");
                 hostBuilder.UseSetting("ConnectionStrings:NoSqlConnection", "InMemory");
                 hostBuilder.UseSetting("ConnectionStrings:CacheConnection", "InMemory");

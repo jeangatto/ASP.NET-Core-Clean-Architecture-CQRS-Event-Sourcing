@@ -29,18 +29,7 @@ internal static class ServicesCollectionExtensions
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
-                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture",
-                Contact = new OpenApiContact
-                {
-                    Name = "Jean Gatto",
-                    Email = "jean_gatto@hotmail.com",
-                    Url = new Uri(configuration.GetValue<string>("Urls:LinkedIn"))
-                },
-                License = new OpenApiLicense
-                {
-                    Name = "MIT License",
-                    Url = new Uri(configuration.GetValue<string>("Urls:Github"))
-                }
+                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture"
             });
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

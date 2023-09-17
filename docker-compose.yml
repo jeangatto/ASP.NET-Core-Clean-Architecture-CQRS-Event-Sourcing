@@ -15,9 +15,7 @@ services:
       context: .
       dockerfile: src/Shop.PublicApi/Dockerfile
     expose:
-      - 5072
-    ports:
-      - "5072:5072"
+      - 80
     links:
       - sqlserver
       - mongoserver

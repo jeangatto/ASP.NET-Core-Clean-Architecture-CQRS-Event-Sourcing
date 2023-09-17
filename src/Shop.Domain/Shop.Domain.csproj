@@ -1,15 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
   </ItemGroup>
-
+  
 </Project>

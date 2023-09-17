@@ -1,16 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <RuntimeIdentifiers>linux-arm64;linux-x64</RuntimeIdentifiers>
-    <PublishReadyToRun>true</PublishReadyToRun>
-    <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
+    <UserSecretsId>7d8d0af0-7540-48a6-b160-d34c988a1ad6</UserSecretsId>
+    <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="AspNetCore.HealthChecks.MongoDb" />
@@ -35,21 +34,22 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" />
     <PackageReference Include="MiniProfiler.EntityFrameworkCore" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Shop.Application\Shop.Application.csproj" />
     <ProjectReference Include="..\Shop.Infrastructure\Shop.Infrastructure.csproj" />
     <ProjectReference Include="..\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     <InternalsVisibleTo Include="Shop.IntegrationTests" />
     <InternalsVisibleTo Include="Shop.UnitTests" />
   </ItemGroup>
-
+  
 </Project>
