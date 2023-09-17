@@ -7,10 +7,10 @@ using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Repositories;
 using Shop.Infrastructure.Data.Services;
 
-namespace Shop.Infrastructure.Extensions;
+namespace Shop.Infrastructure;
 
 [ExcludeFromCodeCoverage]
-public static class ServicesCollectionExtensions
+public static class ConfigureServices
 {
     /// <summary>
     /// Adds the memory cache service to the service collection.

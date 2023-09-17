@@ -6,7 +6,8 @@ namespace Shop.Infrastructure.Data.Context;
 
 public class EventStoreDbContext : BaseDbContext<EventStoreDbContext>
 {
-    public EventStoreDbContext(DbContextOptions<EventStoreDbContext> dbOptions) : base(dbOptions)
+    public EventStoreDbContext(DbContextOptions<EventStoreDbContext> dbOptions)
+        : base(dbOptions)
     {
     }
 

@@ -13,10 +13,10 @@ using Shop.Query.Data.Mappings;
 using Shop.Query.Data.Repositories;
 using Shop.Query.Data.Repositories.Abstractions;
 
-namespace Shop.Query.Extensions;
+namespace Shop.Query;
 
 [ExcludeFromCodeCoverage]
-public static class ServicesCollectionExtensions
+public static class ConfigureServices
 {
     /// <summary>
     /// Adds query handlers to the service collection.

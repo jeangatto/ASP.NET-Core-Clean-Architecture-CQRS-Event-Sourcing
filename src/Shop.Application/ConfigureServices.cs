@@ -5,10 +5,10 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Behaviors;
 
-namespace Shop.Application.Extensions;
+namespace Shop.Application;
 
 [ExcludeFromCodeCoverage]
-public static class ServicesCollectionExtensions
+public static class ConfigureServices
 {
     /// <summary>
     /// Adds command handlers to the service collection.
@@ -19,8 +19,7 @@ public static class ServicesCollectionExtensions
         var assembly = Assembly.GetExecutingAssembly();
         return services
             .AddValidatorsFromAssembly(assembly)
-            .AddMediatR(cfg => cfg
-                .RegisterServicesFromAssembly(assembly)
-                .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)));
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly)
+            .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)));
     }
 }

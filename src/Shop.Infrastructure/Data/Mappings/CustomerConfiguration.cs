@@ -36,7 +36,7 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
                 .IsRequired() // NOT NULL
                 .HasMaxLength(254)
                 .HasColumnName(nameof(Customer.Email))
-                .IsEncrypted(); // Encrypted Column, ref: https://github.com/Eastrall/EntityFrameworkCore.DataEncryption
+                .IsEncrypted();
 
             // Unique Index
             ownedNav

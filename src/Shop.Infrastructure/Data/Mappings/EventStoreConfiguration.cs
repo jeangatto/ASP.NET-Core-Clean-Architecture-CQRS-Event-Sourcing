@@ -9,7 +9,7 @@ internal class EventStoreConfiguration : IEntityTypeConfiguration<EventStore>
     public void Configure(EntityTypeBuilder<EventStore> builder)
     {
         builder
-            .HasKey(eventStore => eventStore.Id); // Primary Key
+            .HasKey(eventStore => eventStore.Id);
 
         builder
             .Property(eventStore => eventStore.Id)

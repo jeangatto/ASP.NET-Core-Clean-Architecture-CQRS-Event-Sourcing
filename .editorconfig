@@ -1,6 +1,9 @@
+#https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
+
 ###############################
 # Core EditorConfig Options   #
 ###############################
+
 root = true
 
 # All files
@@ -15,188 +18,22 @@ indent_size = 2
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
 indent_size = 2
 
-# JSON files
-[*.json]
-indent_size = 2
-
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
-insert_final_newline = false
+insert_final_newline = true
 charset = utf-8
 end_of_line = lf
 trim_trailing_whitespace = true
 
 ###############################
-# .NET Diagnostic             #
-###############################
-
-# Simplify name
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0001
-dotnet_diagnostic.IDE0001.severity = warning 
-
-# Simplify member access
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0002
-dotnet_diagnostic.IDE0002.severity = warning 
-
-# this and Me preferences
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0003-ide0009
-dotnet_diagnostic.IDE0003.severity = warning 
-
-# Remove unnecessary cast 
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0004
-dotnet_diagnostic.IDE0004.severity = warning 
-
-# Remove unnecessary using directives
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0005
-dotnet_diagnostic.IDE0005.severity = warning 
-
-# Prefer "var" everywhere
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0007-ide0008
-dotnet_diagnostic.IDE0007.severity = warning
-
-# Use throw expression
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0016
-dotnet_diagnostic.IDE0016.severity = warning
-
-# Use object initializers
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0017
-dotnet_diagnostic.IDE0017.severity = warning
-
-# Inline variable declaration
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0018
-dotnet_diagnostic.IDE0018.severity = warning
-
-# Collection initialization can be simplified
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0028
-dotnet_diagnostic.IDE0028.severity = warning 
-
-# Null check can be simplified
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0029-ide0030-ide0270
-dotnet_diagnostic.IDE0029.severity = warning 
-dotnet_diagnostic.IDE0030.severity = warning 
-dotnet_diagnostic.IDE0270.severity = warning 
-
-# Use null propagation
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0031
-dotnet_diagnostic.IDE0031.severity = warning
-
-# Use auto-implemented property
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0032
-dotnet_diagnostic.IDE0032.severity = warning 
-
-# Use explicitly provided tuple name
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0033
-dotnet_diagnostic.IDE0033.severity = warning 
-
-# Simplify 'default' expression
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0034
-dotnet_diagnostic.IDE0034.severity = warning 
-
-# Remove unreachable code
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0035
-dotnet_diagnostic.IDE0035.severity = warning 
-
-# Order modifiers
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0036
-dotnet_diagnostic.IDE0036.severity = warning 
-
-# Use local function instead of lambda
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0039
-dotnet_diagnostic.IDE0039.severity = warning 
-
-# Add accessibility modifiers
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0040
-dotnet_diagnostic.IDE0040.severity = warning 
-
-# Deconstruct variable declaration
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0042
-dotnet_diagnostic.IDE0042.severity = warning 
-
-# Make field readonly
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0044
-dotnet_diagnostic.IDE0044.severity = warning 
-
-# Use conditional expression for assignment
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0045
-dotnet_diagnostic.IDE0045.severity = warning 
-
-# Parentheses can be removed
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0047-ide0048
-dotnet_diagnostic.IDE0047.severity = warning
-
-# Use language keywords instead of framework type names for type references
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0049
-dotnet_diagnostic.IDE0049.severity = warning
-
-# Remove unused private member
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0051
-dotnet_diagnostic.IDE0051.severity = warning 
-
-# Remove unread private member
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0052
-dotnet_diagnostic.IDE0052.severity = warning 
-
-# Use compound assignment
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0054-ide0074
-dotnet_diagnostic.IDE0054.severity = warning 
-
-# Unnecessary assignment to a value
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0059
-dotnet_diagnostic.IDE0059.severity = warning 
-
-# Remove unused parameter
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0060
-dotnet_diagnostic.IDE0060.severity = warning 
-
-# Make local function static
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0062
-dotnet_diagnostic.IDE0062.severity = warning 
-
-# Use simple 'using' statement
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0063
-dotnet_diagnostic.IDE0063.severity = warning 
-
-# Simplify interpolation
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0071
-dotnet_diagnostic.IDE0071.severity = warning 
-
-# Simplify conditional expression
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0075
-dotnet_diagnostic.IDE0075.severity = warning 
-
-# Simplify new expression
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0090
-dotnet_diagnostic.IDE0090.severity = warning 
-
-# Convert to file-scoped namespace
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0160-ide0161
-dotnet_diagnostic.IDE0161.severity = warning
-
-# Prefer extended property pattern
-# https://learn.microsoft.com/pt-pt/dotnet/fundamentals/code-analysis/style-rules/ide0170
-dotnet_diagnostic.IDE0170.severity = warning
-
-# Use conditional delegate call
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide1005
-dotnet_diagnostic.IDE1005.severity = warning
-
-# Abstract types should not have public constructors
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1012
-dotnet_diagnostic.CA1012.severity = warning
-
-# Make member static
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
-dotnet_diagnostic.CA1822.severity = warning 
-
-###############################
 # .NET Coding Conventions     #
 ###############################
+
 [*.{cs,vb}]
 
-# Sort using and Import directives with System.* appearing first
+# Organize usings
 dotnet_sort_system_directives_first = true
-dotnet_separate_import_directive_groups = false
 
 # this. preferences
 dotnet_style_qualification_for_field = false:silent
@@ -236,91 +73,27 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 ###############################
 
 # Style Definitions
-dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
 
 # Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style = non_private_static_field_style
-dotnet_naming_symbols.constant_fields.applicable_kinds = field
-dotnet_naming_symbols.constant_fields.applicable_accessibilities = *
-dotnet_naming_symbols.constant_fields.required_modifiers = const
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_symbols.constant_fields.applicable_kinds            = field
+dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
+dotnet_naming_symbols.constant_fields.required_modifiers          = const
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+end_of_line = crlf
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_compound_assignment = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
 
-# Whitespace options
-dotnet_style_allow_multiple_blank_lines_experimental = false
-
-# Non-private static fields are PascalCase
-dotnet_naming_rule.non_private_static_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_private_static_fields_should_be_pascal_case.symbols = non_private_static_fields
-dotnet_naming_rule.non_private_static_fields_should_be_pascal_case.style = non_private_static_field_style
-dotnet_naming_symbols.non_private_static_fields.applicable_kinds = field
-dotnet_naming_symbols.non_private_static_fields.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
-dotnet_naming_symbols.non_private_static_fields.required_modifiers = static
-dotnet_naming_style.non_private_static_field_style.capitalization = pascal_case
-
-# Non-private readonly fields are PascalCase
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.symbols = non_private_readonly_fields
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.style = non_private_static_field_style
-dotnet_naming_symbols.non_private_readonly_fields.applicable_kinds = field
-dotnet_naming_symbols.non_private_readonly_fields.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
-dotnet_naming_symbols.non_private_readonly_fields.required_modifiers = readonly
-dotnet_naming_style.non_private_readonly_field_style.capitalization = pascal_case
-
-# Constants are PascalCase
-dotnet_naming_rule.constants_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.constants_should_be_pascal_case.symbols = constants
-dotnet_naming_rule.constants_should_be_pascal_case.style = camel_case_style
-dotnet_naming_symbols.constants.applicable_kinds = field, local
-dotnet_naming_symbols.constants.required_modifiers = const
-dotnet_naming_style.constant_style.capitalization = camel_case
-
-# Static fields are camelCase
-dotnet_naming_rule.static_fields_should_be_camel_case.severity = suggestion
-dotnet_naming_rule.static_fields_should_be_camel_case.symbols = static_fields
-dotnet_naming_rule.static_fields_should_be_camel_case.style = non_private_static_field_style
-dotnet_naming_symbols.static_fields.applicable_kinds = field
-dotnet_naming_symbols.static_fields.required_modifiers = static
-dotnet_naming_style.static_field_style.capitalization = pascal_case
-
-# Instance fields are camelCase and start with _
-dotnet_naming_rule.instance_fields_should_be_camel_case.severity = suggestion
-dotnet_naming_rule.instance_fields_should_be_camel_case.symbols = instance_fields
-dotnet_naming_rule.instance_fields_should_be_camel_case.style = instance_field_style
-dotnet_naming_symbols.instance_fields.applicable_kinds = field
-dotnet_naming_style.instance_field_style.capitalization = camel_case
-dotnet_naming_style.instance_field_style.required_prefix = _
-
-# Locals and parameters are camelCase
-dotnet_naming_rule.locals_should_be_camel_case.severity = suggestion
-dotnet_naming_rule.locals_should_be_camel_case.symbols = locals_and_parameters
-dotnet_naming_rule.locals_should_be_camel_case.style = camel_case_style
-dotnet_naming_symbols.locals_and_parameters.applicable_kinds = parameter, local
-dotnet_naming_style.camel_case_style.capitalization = camel_case
-
-# Local functions are PascalCase
-dotnet_naming_rule.local_functions_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.local_functions_should_be_pascal_case.symbols = local_functions
-dotnet_naming_rule.local_functions_should_be_pascal_case.style = non_private_static_field_style
-dotnet_naming_symbols.local_functions.applicable_kinds = local_function
-dotnet_naming_style.local_function_style.capitalization = pascal_case
-
-# By default, name items with PascalCase
-dotnet_naming_rule.members_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.members_should_be_pascal_case.symbols = all_members
-dotnet_naming_rule.members_should_be_pascal_case.style = non_private_static_field_style
-dotnet_naming_symbols.all_members.applicable_kinds = *
-dotnet_naming_style.pascal_case_style.capitalization = pascal_case
-tab_width = 4
-
 ###############################
 # C# Coding Conventions       #
 ###############################
+
 [*.cs]
 
 # var preferences
@@ -345,13 +118,13 @@ csharp_style_throw_expression = true:suggestion
 csharp_style_conditional_delegate_call = true:suggestion
 
 # Modifier preferences
-csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:suggestion
 
 # Expression-level preferences
 csharp_prefer_braces = true:silent
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
-csharp_style_pattern_local_over_anonymous_function = true:suggestion
+csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
 
 ###############################
@@ -390,18 +163,141 @@ csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_style_namespace_declarations = file_scoped:silent
-csharp_style_expression_bodied_lambdas = true:silent
-csharp_style_expression_bodied_local_functions = false:silent
-csharp_style_prefer_null_check_over_type_check = true:suggestion
+csharp_style_namespace_declarations = block_scoped:silent
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
 
 ###############################
 # VB Coding Conventions       #
 ###############################
 
 [*.vb]
+
 # Modifier preferences
 visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion
+
+###############################
+# .NET Diagnostic             #
+###############################
+
+# Simplify name
+dotnet_diagnostic.IDE0001.severity = warning 
+
+# Simplify member access
+dotnet_diagnostic.IDE0002.severity = warning 
+
+# this and Me preferences
+dotnet_diagnostic.IDE0003.severity = warning 
+
+# Remove unnecessary cast 
+dotnet_diagnostic.IDE0004.severity = warning 
+
+# Remove unnecessary using directives
+dotnet_diagnostic.IDE0005.severity = warning 
+
+# Prefer "var" everywhere
+dotnet_diagnostic.IDE0007.severity = warning
+
+# Use throw expression
+dotnet_diagnostic.IDE0016.severity = warning
+
+# Use object initializers
+dotnet_diagnostic.IDE0017.severity = warning
+
+# Inline variable declaration
+dotnet_diagnostic.IDE0018.severity = warning
+
+# Collection initialization can be simplified
+dotnet_diagnostic.IDE0028.severity = warning 
+
+# Null check can be simplified
+dotnet_diagnostic.IDE0029.severity = warning 
+dotnet_diagnostic.IDE0030.severity = warning 
+dotnet_diagnostic.IDE0270.severity = warning 
+
+# Use null propagation
+dotnet_diagnostic.IDE0031.severity = warning
+
+# Use auto-implemented property
+dotnet_diagnostic.IDE0032.severity = warning 
+
+# Use explicitly provided tuple name
+dotnet_diagnostic.IDE0033.severity = warning 
+
+# Simplify 'default' expression
+dotnet_diagnostic.IDE0034.severity = warning 
+
+# Remove unreachable code
+dotnet_diagnostic.IDE0035.severity = warning 
+
+# Order modifiers
+dotnet_diagnostic.IDE0036.severity = warning 
+
+# Use local function instead of lambda
+dotnet_diagnostic.IDE0039.severity = warning 
+
+# Add accessibility modifiers
+dotnet_diagnostic.IDE0040.severity = warning 
+
+# Deconstruct variable declaration
+dotnet_diagnostic.IDE0042.severity = warning 
+
+# Make field readonly
+dotnet_diagnostic.IDE0044.severity = warning 
+
+# Use conditional expression for assignment
+dotnet_diagnostic.IDE0045.severity = warning 
+
+# Parentheses can be removed
+dotnet_diagnostic.IDE0047.severity = warning
+
+# Use language keywords instead of framework type names for type references
+dotnet_diagnostic.IDE0049.severity = warning
+
+# Remove unused private member
+dotnet_diagnostic.IDE0051.severity = warning 
+
+# Remove unread private member
+dotnet_diagnostic.IDE0052.severity = warning 
+
+# Use compound assignment
+dotnet_diagnostic.IDE0054.severity = warning 
+
+# Unnecessary assignment to a value
+dotnet_diagnostic.IDE0059.severity = warning 
+
+# Remove unused parameter
+dotnet_diagnostic.IDE0060.severity = warning 
+
+# Make local function static
+dotnet_diagnostic.IDE0062.severity = warning 
+
+# Use simple 'using' statement
+dotnet_diagnostic.IDE0063.severity = warning 
+
+# Simplify interpolation
+dotnet_diagnostic.IDE0071.severity = warning 
+
+# Simplify conditional expression
+dotnet_diagnostic.IDE0075.severity = warning 
+
+# Simplify new expression
+dotnet_diagnostic.IDE0090.severity = warning 
+
+# Convert to file-scoped namespace
+dotnet_diagnostic.IDE0161.severity = warning
+
+# Prefer extended property pattern
+dotnet_diagnostic.IDE0170.severity = warning
+
+# Use conditional delegate call
+dotnet_diagnostic.IDE1005.severity = warning
+
+# Abstract types should not have public constructors
+dotnet_diagnostic.CA1012.severity = warning
+
+# Make member static
+dotnet_diagnostic.CA1822.severity = warning 

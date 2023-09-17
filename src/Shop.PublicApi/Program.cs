@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Shop.Application.Extensions;
+using Shop.Application;
 using Shop.Core.Extensions;
-using Shop.Infrastructure.Extensions;
+using Shop.Infrastructure;
 using Shop.PublicApi.Extensions;
-using Shop.Query.Extensions;
+using Shop.Query;
 using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
