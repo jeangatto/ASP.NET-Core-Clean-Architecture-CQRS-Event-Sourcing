@@ -8,7 +8,8 @@ namespace Shop.Core.Extensions;
 
 public static class JsonExtensions
 {
-    private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions().Configure();
+    private static readonly Lazy<JsonSerializerOptions> LazyOptions =
+        new(() => new JsonSerializerOptions().Configure(), isThreadSafe: true);
 
     /// <summary>
     /// Converts a JSON string to an object of type T.
@@ -17,7 +18,7 @@ public static class JsonExtensions
     /// <param name="value">The JSON string to deserialize.</param>
     /// <returns>The deserialized object of type T.</returns>
     public static T FromJson<T>(this string value) =>
-        value != null ? JsonSerializer.Deserialize<T>(value, JsonOptions) : default;
+        value != null ? JsonSerializer.Deserialize<T>(value, LazyOptions.Value) : default;
 
     /// <summary>
     /// Converts an object to JSON string.
@@ -26,7 +27,7 @@ public static class JsonExtensions
     /// <param name="value">The object to convert.</param>
     /// <returns>The JSON string representation of the object.</returns>
     public static string ToJson<T>(this T value) =>
-        value != null ? JsonSerializer.Serialize(value, JsonOptions) : default;
+        value != null ? JsonSerializer.Serialize(value, LazyOptions.Value) : default;
 
     /// <summary>
     /// Configures the JsonSerializerOptions instance.

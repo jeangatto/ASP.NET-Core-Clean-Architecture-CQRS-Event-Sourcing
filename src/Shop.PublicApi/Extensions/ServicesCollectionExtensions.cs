@@ -35,7 +35,16 @@ internal static class ServicesCollectionExtensions
             {
                 Version = "v1",
                 Title = "Shop (e-commerce)",
-                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture"
+                Description = "ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture",
+                Contact = new OpenApiContact
+                {
+                    Name = "Jean Gatto",
+                    Email = "jean_gatto@hotmail.com"
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "MIT License"
+                }
             });
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

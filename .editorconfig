@@ -183,6 +183,8 @@ visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public
 # .NET Diagnostic             #
 ###############################
 
+[*.{cs,vb}]
+
 # Simplify name
 dotnet_diagnostic.IDE0001.severity = warning 
 
