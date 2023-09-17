@@ -36,10 +36,10 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore Shop.sln
 
       - name: Build
-        run: dotnet build --nologo --no-restore --configuration Release
+        run: dotnet build Shop.sln --nologo --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --nologo --no-build --no-restore --configuration Release --verbosity minimal --logger "console;verbosity=detailed"
+        run: dotnet test Shop.sln --nologo --no-build --no-restore --configuration Release --verbosity minimal --logger "console;verbosity=detailed"

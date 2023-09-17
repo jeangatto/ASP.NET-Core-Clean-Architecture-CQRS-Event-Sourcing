@@ -24,8 +24,6 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
@@ -60,8 +58,6 @@
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="Polly" Version="7.2.4" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.5.0" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.10.0.77988" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageVersion Include="System.Text.Json" Version="7.0.3" />
