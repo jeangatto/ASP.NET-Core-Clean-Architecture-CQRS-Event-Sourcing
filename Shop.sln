@@ -21,12 +21,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.PublicApi", "src\Shop.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1DAF7B63-F776-4466-908D-56FD1FD02F42}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		img\cqrs-pattern.png = img\cqrs-pattern.png
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		docker-compose.override.yml = docker-compose.override.yml
+		docker-compose.yml = docker-compose.yml
 		global.json = global.json
 		LICENSE = LICENSE
 		nuget.config = nuget.config
@@ -35,13 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Query", "src\Shop.Query\Shop.Query.csproj", "{C2A82AAD-0348-4B29-B7E7-E36509EE068C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{157AD845-5FAB-4FF2-9980-80FEC878701C}"
-	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
-		docker-compose.override.yml = docker-compose.override.yml
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{45B3273F-DCE8-48C2-B27A-05AF1343C69C}"
 	ProjectSection(SolutionItems) = preProject
@@ -116,7 +112,6 @@ Global
 		{D957E297-38EA-402F-B603-25F3EC156E18} = {DFB189FE-F11B-46EA-A5CD-3571CEC8193A}
 		{E94C4296-DC64-4C22-87A1-B5A054FAADAC} = {691795FC-1A5E-4144-9730-F61D0F701EBA}
 		{C2A82AAD-0348-4B29-B7E7-E36509EE068C} = {9371D508-9FCA-4AED-ABCF-AF9457E743AC}
-		{157AD845-5FAB-4FF2-9980-80FEC878701C} = {1DAF7B63-F776-4466-908D-56FD1FD02F42}
 		{45B3273F-DCE8-48C2-B27A-05AF1343C69C} = {1DAF7B63-F776-4466-908D-56FD1FD02F42}
 		{7BA06288-8446-4099-9341-D213A835763C} = {DFB189FE-F11B-46EA-A5CD-3571CEC8193A}
 		{691795FC-1A5E-4144-9730-F61D0F701EBA} = {8011CDDD-0814-4C74-9B74-C3E3365D50CC}
