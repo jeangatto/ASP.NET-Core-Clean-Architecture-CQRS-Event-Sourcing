@@ -46,6 +46,8 @@ builder.Services
     })
     .AddSwagger();
 
+builder.Services.AddDataProtection();
+
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(behaviorOptions =>
     {
