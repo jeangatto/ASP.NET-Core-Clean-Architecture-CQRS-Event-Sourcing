@@ -41,4 +41,4 @@ jobs:
         run: dotnet build Shop.sln --nologo --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test Shop.sln --nologo --no-build --no-restore --configuration Release --verbosity minimal --logger "console;verbosity=detailed"
+        run: dotnet test Shop.sln --nologo --no-build --no-restore --configuration Release --verbosity minimal
