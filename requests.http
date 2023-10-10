@@ -1,8 +1,8 @@
-### 
-# @name createCustomers
-POST http://localhost:5072/api/customers HTTP/1.1
-accept: application/json
-accept-encoding: gzip, deflate, br
+@baseUrl = http://localhost:5072
+
+### Register a new customer
+
+POST {{baseUrl}}/api/customers HTTP/1.1
 content-type: application/json
 
 {
@@ -13,7 +13,7 @@ content-type: application/json
   "dateOfBirth": "1990-01-01"
 }
 
-### 
-# @name getCustomers
-GET http://localhost:5072/api/customers HTTP/1.1
+### Gets a list of all customers
+
+GET {{baseUrl}}/api/customers HTTP/1.1
 accept: application/json
