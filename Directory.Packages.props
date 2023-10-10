@@ -21,29 +21,29 @@
     <PackageVersion Include="FluentValidation" Version="11.7.1" />
     <PackageVersion Include="MediatR" Version="12.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.12" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.11" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="7.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0" />
@@ -53,11 +53,11 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.3.8" />
-    <PackageVersion Include="MongoDB.Bson" Version="2.21.0" />
-    <PackageVersion Include="MongoDB.Driver" Version="2.21.0" />
+    <PackageVersion Include="MongoDB.Bson" Version="2.22.0" />
+    <PackageVersion Include="MongoDB.Driver" Version="2.22.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
-    <PackageVersion Include="Polly" Version="7.2.4" />
+    <PackageVersion Include="Polly" Version="8.0.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageVersion Include="System.Text.Json" Version="7.0.3" />
