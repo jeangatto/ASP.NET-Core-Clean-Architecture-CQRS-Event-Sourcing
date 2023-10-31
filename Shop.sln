@@ -42,9 +42,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{45B3273F-DCE8-48C2-B27A-05AF1343C69C}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		.github\workflows\delete-workflow-runs.yml = .github\workflows\delete-workflow-runs.yml
 		.github\workflows\devskim-analysis.yml = .github\workflows\devskim-analysis.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-		.github\workflows\nightly-cleanup.yml = .github\workflows\nightly-cleanup.yml
 		.github\workflows\sonar-cloud.yml = .github\workflows\sonar-cloud.yml
 	EndProjectSection
 EndProject
