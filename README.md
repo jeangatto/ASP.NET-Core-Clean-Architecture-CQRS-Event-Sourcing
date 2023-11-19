@@ -26,8 +26,8 @@ If you liked this project, learned something, give it a star. Thank you!
 
 ## **Technologies**
 
-- ASP.NET Core 7.0
-- Entity Framework Core 7.0
+- ASP.NET Core 8
+- Entity Framework Core 8
 - Unit & Integration Tests + xUnit + FluentAssertions
 - Polly
 - AutoMapper
