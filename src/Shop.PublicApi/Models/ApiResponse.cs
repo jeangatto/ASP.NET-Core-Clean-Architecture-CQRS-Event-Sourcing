@@ -73,7 +73,7 @@ public class ApiResponse
     public static ApiResponse InternalServerError(IEnumerable<ApiErrorResponse> errors) =>
         new() { Success = false, StatusCode = StatusCodes.Status500InternalServerError, Errors = errors };
 
-    private static IEnumerable<ApiErrorResponse> CreateErrors(string errorMessage) =>
+    private static ApiErrorResponse[] CreateErrors(string errorMessage) =>
         new[] { new ApiErrorResponse(errorMessage) };
 
     public override string ToString() =>

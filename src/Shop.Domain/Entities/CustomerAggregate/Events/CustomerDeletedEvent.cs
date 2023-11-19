@@ -2,15 +2,12 @@ using System;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Events;
 
-public class CustomerDeletedEvent : CustomerBaseEvent
+public class CustomerDeletedEvent(
+    Guid id,
+    string firstName,
+    string lastName,
+    EGender gender,
+    string email,
+    DateTime dateOfBirth) : CustomerBaseEvent(id, firstName, lastName, gender, email, dateOfBirth)
 {
-    public CustomerDeletedEvent(
-        Guid id,
-        string firstName,
-        string lastName,
-        EGender gender,
-        string email,
-        DateTime dateOfBirth) : base(id, firstName, lastName, gender, email, dateOfBirth)
-    {
-    }
 }

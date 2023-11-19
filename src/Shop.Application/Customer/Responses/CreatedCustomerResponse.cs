@@ -3,9 +3,7 @@ using Shop.Core.SharedKernel;
 
 namespace Shop.Application.Customer.Responses;
 
-public class CreatedCustomerResponse : IResponse
+public class CreatedCustomerResponse(Guid id) : IResponse
 {
-    public CreatedCustomerResponse(Guid id) => Id = id;
-
-    public Guid Id { get; }
+    public Guid Id { get; } = id;
 }

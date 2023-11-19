@@ -2,15 +2,12 @@ using System;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Events;
 
-public class CustomerCreatedEvent : CustomerBaseEvent
+public class CustomerCreatedEvent(
+    Guid id,
+    string firstName,
+    string lastName,
+    EGender gender,
+    string email,
+    DateTime dateOfBirth) : CustomerBaseEvent(id, firstName, lastName, gender, email, dateOfBirth)
 {
-    public CustomerCreatedEvent(
-        Guid id,
-        string firstName,
-        string lastName,
-        EGender gender,
-        string email,
-        DateTime dateOfBirth) : base(id, firstName, lastName, gender, email, dateOfBirth)
-    {
-    }
 }

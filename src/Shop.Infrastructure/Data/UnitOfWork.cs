@@ -12,24 +12,16 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data;
 
-internal sealed class UnitOfWork : IUnitOfWork
+internal sealed class UnitOfWork(
+    WriteDbContext writeDbContext,
+    IEventStoreRepository eventStoreRepository,
+    IMediator mediator,
+    ILogger<UnitOfWork> logger) : IUnitOfWork
 {
-    private readonly IEventStoreRepository _eventStoreRepository;
-    private readonly ILogger<UnitOfWork> _logger;
-    private readonly IMediator _mediator;
-    private readonly WriteDbContext _writeDbContext;
-
-    public UnitOfWork(
-        WriteDbContext writeDbContext,
-        IEventStoreRepository eventStoreRepository,
-        IMediator mediator,
-        ILogger<UnitOfWork> logger)
-    {
-        _writeDbContext = writeDbContext;
-        _eventStoreRepository = eventStoreRepository;
-        _mediator = mediator;
-        _logger = logger;
-    }
+    private readonly IEventStoreRepository _eventStoreRepository = eventStoreRepository;
+    private readonly ILogger<UnitOfWork> _logger = logger;
+    private readonly IMediator _mediator = mediator;
+    private readonly WriteDbContext _writeDbContext = writeDbContext;
 
     /// <summary>
     /// Saves changes asynchronously.

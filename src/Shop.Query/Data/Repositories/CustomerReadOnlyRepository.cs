@@ -8,10 +8,8 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Data.Repositories;
 
-internal class CustomerReadOnlyRepository : BaseReadOnlyRepository<CustomerQueryModel, Guid>, ICustomerReadOnlyRepository
+internal class CustomerReadOnlyRepository(IReadDbContext readDbContext) : BaseReadOnlyRepository<CustomerQueryModel, Guid>(readDbContext), ICustomerReadOnlyRepository
 {
-    public CustomerReadOnlyRepository(IReadDbContext readDbContext) : base(readDbContext) { }
-
     public async Task<IEnumerable<CustomerQueryModel>> GetAllAsync() =>
         await Collection
             .Find(Builders<CustomerQueryModel>.Filter.Empty)

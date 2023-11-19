@@ -13,21 +13,14 @@ using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
+public class CreateCustomerCommandHandler(
+    IValidator<CreateCustomerCommand> validator,
+    ICustomerWriteOnlyRepository repository,
+    IUnitOfWork unitOfWork) : IRequestHandler<CreateCustomerCommand, Result<CreatedCustomerResponse>>
 {
-    private readonly ICustomerWriteOnlyRepository _repository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<CreateCustomerCommand> _validator;
-
-    public CreateCustomerCommandHandler(
-        IValidator<CreateCustomerCommand> validator,
-        ICustomerWriteOnlyRepository repository,
-        IUnitOfWork unitOfWork)
-    {
-        _validator = validator;
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly ICustomerWriteOnlyRepository _repository = repository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IValidator<CreateCustomerCommand> _validator = validator;
 
     public async Task<Result<CreatedCustomerResponse>> Handle(
         CreateCustomerCommand request,

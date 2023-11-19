@@ -12,27 +12,19 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.EventHandlers;
 
-public class CustomerEventHandler :
+public class CustomerEventHandler(
+    IMapper mapper,
+    ISynchronizeDb synchronizeDb,
+    ICacheService cacheService,
+    ILogger<CustomerEventHandler> logger) :
     INotificationHandler<CustomerCreatedEvent>,
     INotificationHandler<CustomerUpdatedEvent>,
     INotificationHandler<CustomerDeletedEvent>
 {
-    private readonly ICacheService _cacheService;
-    private readonly ILogger<CustomerEventHandler> _logger;
-    private readonly IMapper _mapper;
-    private readonly ISynchronizeDb _synchronizeDb;
-
-    public CustomerEventHandler(
-        IMapper mapper,
-        ISynchronizeDb synchronizeDb,
-        ICacheService cacheService,
-        ILogger<CustomerEventHandler> logger)
-    {
-        _mapper = mapper;
-        _synchronizeDb = synchronizeDb;
-        _cacheService = cacheService;
-        _logger = logger;
-    }
+    private readonly ICacheService _cacheService = cacheService;
+    private readonly ILogger<CustomerEventHandler> _logger = logger;
+    private readonly IMapper _mapper = mapper;
+    private readonly ISynchronizeDb _synchronizeDb = synchronizeDb;
 
     public async Task Handle(CustomerCreatedEvent notification, CancellationToken cancellationToken)
     {

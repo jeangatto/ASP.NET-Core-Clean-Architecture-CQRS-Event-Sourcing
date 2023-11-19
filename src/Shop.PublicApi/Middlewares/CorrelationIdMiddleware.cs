@@ -5,12 +5,10 @@ using Shop.Core.SharedKernel.Correlation;
 
 namespace Shop.PublicApi.Middlewares;
 
-public class CorrelationIdMiddleware
+public class CorrelationIdMiddleware(RequestDelegate next)
 {
     private const string CorrelationIdHeaderKey = "X-Correlation-Id";
-    private readonly RequestDelegate _next;
-
-    public CorrelationIdMiddleware(RequestDelegate next) => _next = next;
+    private readonly RequestDelegate _next = next;
 
     public async Task Invoke(HttpContext context, ICorrelationIdGenerator correlationIdGenerator)
     {
@@ -34,7 +32,7 @@ public class CorrelationIdMiddleware
     {
         context.Response.OnStarting(() =>
         {
-            context.Response.Headers.Add(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
+            context.Response.Headers.Append(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
             return Task.CompletedTask;
         });
     }

@@ -112,7 +112,6 @@ app.UseErrorHandling();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseResponseCompression();
-app.UseHttpLogging();
 app.UseHttpsRedirection();
 app.UseMiniProfiler();
 app.UseCorrelationId();

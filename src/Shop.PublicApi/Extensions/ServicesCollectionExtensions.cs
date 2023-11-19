@@ -24,8 +24,8 @@ internal static class ServicesCollectionExtensions
     private const string DbMigrationAssemblyName = "Shop.PublicApi";
     private const string RedisInstanceName = "master";
 
-    private static readonly string[] DbRelationalTags = { "database", "ef-core", "sql-server", "relational" };
-    private static readonly string[] DbNoSqlTags = { "database", "mongodb", "no-sql" };
+    private static readonly string[] DbRelationalTags = ["database", "ef-core", "sql-server", "relational"];
+    private static readonly string[] DbNoSqlTags = ["database", "mongodb", "no-sql"];
 
     public static void AddSwagger(this IServiceCollection services)
     {

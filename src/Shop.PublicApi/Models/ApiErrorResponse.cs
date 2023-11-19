@@ -2,12 +2,10 @@ using System.Text.Json.Serialization;
 
 namespace Shop.PublicApi.Models;
 
-public sealed class ApiErrorResponse
+[method: JsonConstructor]
+public sealed class ApiErrorResponse(string message)
 {
-    [JsonConstructor]
-    public ApiErrorResponse(string message) => Message = message;
-
-    public string Message { get; }
+    public string Message { get; } = message;
 
     public override string ToString() => Message;
 }

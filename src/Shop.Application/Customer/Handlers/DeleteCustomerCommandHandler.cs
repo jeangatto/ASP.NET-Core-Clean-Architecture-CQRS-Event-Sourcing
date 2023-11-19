@@ -10,21 +10,14 @@ using Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, Result>
+public class DeleteCustomerCommandHandler(
+    IValidator<DeleteCustomerCommand> validator,
+    ICustomerWriteOnlyRepository repository,
+    IUnitOfWork unitOfWork) : IRequestHandler<DeleteCustomerCommand, Result>
 {
-    private readonly ICustomerWriteOnlyRepository _repository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<DeleteCustomerCommand> _validator;
-
-    public DeleteCustomerCommandHandler(
-        IValidator<DeleteCustomerCommand> validator,
-        ICustomerWriteOnlyRepository repository,
-        IUnitOfWork unitOfWork)
-    {
-        _validator = validator;
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly ICustomerWriteOnlyRepository _repository = repository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IValidator<DeleteCustomerCommand> _validator = validator;
 
     public async Task<Result> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {

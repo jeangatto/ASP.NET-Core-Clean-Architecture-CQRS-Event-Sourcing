@@ -10,17 +10,11 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Application.Customer.Handlers;
 
-public class GetAllCustomerQueryHandler : IRequestHandler<GetAllCustomerQuery, Result<IEnumerable<CustomerQueryModel>>>
+public class GetAllCustomerQueryHandler(ICustomerReadOnlyRepository repository, ICacheService cacheService) : IRequestHandler<GetAllCustomerQuery, Result<IEnumerable<CustomerQueryModel>>>
 {
     private const string CacheKey = nameof(GetAllCustomerQuery);
-    private readonly ICacheService _cacheService;
-    private readonly ICustomerReadOnlyRepository _readOnlyRepository;
-
-    public GetAllCustomerQueryHandler(ICustomerReadOnlyRepository repository, ICacheService cacheService)
-    {
-        _readOnlyRepository = repository;
-        _cacheService = cacheService;
-    }
+    private readonly ICacheService _cacheService = cacheService;
+    private readonly ICustomerReadOnlyRepository _readOnlyRepository = repository;
 
     public async Task<Result<IEnumerable<CustomerQueryModel>>> Handle(
           GetAllCustomerQuery request,

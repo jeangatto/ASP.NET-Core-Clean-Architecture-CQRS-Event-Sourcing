@@ -11,21 +11,14 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Application.Customer.Handlers;
 
-public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, Result<CustomerQueryModel>>
+public class GetCustomerByIdQueryHandler(
+    IValidator<GetCustomerByIdQuery> validator,
+    ICustomerReadOnlyRepository repository,
+    ICacheService cacheService) : IRequestHandler<GetCustomerByIdQuery, Result<CustomerQueryModel>>
 {
-    private readonly ICacheService _cacheService;
-    private readonly ICustomerReadOnlyRepository _repository;
-    private readonly IValidator<GetCustomerByIdQuery> _validator;
-
-    public GetCustomerByIdQueryHandler(
-        IValidator<GetCustomerByIdQuery> validator,
-        ICustomerReadOnlyRepository repository,
-        ICacheService cacheService)
-    {
-        _validator = validator;
-        _repository = repository;
-        _cacheService = cacheService;
-    }
+    private readonly ICacheService _cacheService = cacheService;
+    private readonly ICustomerReadOnlyRepository _repository = repository;
+    private readonly IValidator<GetCustomerByIdQuery> _validator = validator;
 
     public async Task<Result<CustomerQueryModel>> Handle(
         GetCustomerByIdQuery request,

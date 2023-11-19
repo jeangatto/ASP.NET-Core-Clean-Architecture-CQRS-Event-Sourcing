@@ -92,7 +92,7 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
         await collection.Indexes.CreateOneAsync(indexModel);
     }
 
-    private static IEnumerable<string> GetCollectionNamesFromAssembly() =>
+    private static List<string> GetCollectionNamesFromAssembly() =>
         Assembly
             .GetExecutingAssembly()
             .GetAllTypesOf<IQueryModel>()

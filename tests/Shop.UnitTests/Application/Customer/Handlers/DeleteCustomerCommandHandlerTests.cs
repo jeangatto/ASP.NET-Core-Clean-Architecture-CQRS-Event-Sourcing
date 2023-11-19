@@ -20,12 +20,10 @@ using Xunit.Categories;
 namespace Shop.UnitTests.Application.Customer.Handlers;
 
 [UnitTest]
-public class DeleteCustomerCommandHandlerTests : IClassFixture<EfSqliteFixture>
+public class DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
     private readonly DeleteCustomerCommandValidator _validator = new();
-
-    public DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) => _fixture = fixture;
 
     [Fact]
     public async Task Delete_ValidCustomerId_ShouldReturnsSuccessResult()

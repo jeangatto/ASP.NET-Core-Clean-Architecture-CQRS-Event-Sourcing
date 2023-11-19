@@ -6,12 +6,9 @@ using Shop.Infrastructure.Data.Context;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-internal sealed class EventStoreRepository : IEventStoreRepository
+internal sealed class EventStoreRepository(EventStoreDbContext context) : IEventStoreRepository
 {
-    private readonly EventStoreDbContext _context;
-
-    public EventStoreRepository(EventStoreDbContext context) =>
-        _context = context;
+    private readonly EventStoreDbContext _context = context;
 
     public async Task StoreAsync(IEnumerable<EventStore> eventStores)
     {

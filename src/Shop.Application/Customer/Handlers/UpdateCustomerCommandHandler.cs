@@ -12,21 +12,14 @@ using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Result>
+public class UpdateCustomerCommandHandler(
+    IValidator<UpdateCustomerCommand> validator,
+    ICustomerWriteOnlyRepository repository,
+    IUnitOfWork unitOfWork) : IRequestHandler<UpdateCustomerCommand, Result>
 {
-    private readonly ICustomerWriteOnlyRepository _repository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<UpdateCustomerCommand> _validator;
-
-    public UpdateCustomerCommandHandler(
-        IValidator<UpdateCustomerCommand> validator,
-        ICustomerWriteOnlyRepository repository,
-        IUnitOfWork unitOfWork)
-    {
-        _validator = validator;
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly ICustomerWriteOnlyRepository _repository = repository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IValidator<UpdateCustomerCommand> _validator = validator;
 
     public async Task<Result> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {

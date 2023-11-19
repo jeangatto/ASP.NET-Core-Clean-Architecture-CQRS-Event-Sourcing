@@ -19,12 +19,10 @@ using Xunit.Categories;
 namespace Shop.UnitTests.Application.Customer.Handlers;
 
 [UnitTest]
-public class UpdateCustomerCommandHandlerTest : IClassFixture<EfSqliteFixture>
+public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
     private readonly UpdateCustomerCommandValidator _validator = new();
-
-    public UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) => _fixture = fixture;
 
     [Fact]
     public async Task Update_ValidCommand_ShouldReturnsSuccessResult()

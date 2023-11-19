@@ -9,24 +9,17 @@ using Shop.PublicApi.Models;
 
 namespace Shop.PublicApi.Middlewares;
 
-public class ErrorHandlingMiddleware
+public class ErrorHandlingMiddleware(
+    RequestDelegate next,
+    ILogger<ErrorHandlingMiddleware> logger,
+    IHostEnvironment environment)
 {
     private const string ErrorMessage = "An internal error occurred while processing your request.";
     private static readonly string ApiResponseJson = ApiResponse.InternalServerError(ErrorMessage).ToJson();
 
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
-    private readonly IHostEnvironment _environment;
-
-    public ErrorHandlingMiddleware(
-        RequestDelegate next,
-        ILogger<ErrorHandlingMiddleware> logger,
-        IHostEnvironment environment)
-    {
-        _next = next;
-        _logger = logger;
-        _environment = environment;
-    }
+    private readonly RequestDelegate _next = next;
+    private readonly ILogger<ErrorHandlingMiddleware> _logger = logger;
+    private readonly IHostEnvironment _environment = environment;
 
     public async Task Invoke(HttpContext context)
     {

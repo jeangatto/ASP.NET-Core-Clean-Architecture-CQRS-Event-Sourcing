@@ -4,13 +4,8 @@ using Shop.Infrastructure.Data.Mappings;
 
 namespace Shop.Infrastructure.Data.Context;
 
-public class EventStoreDbContext : BaseDbContext<EventStoreDbContext>
+public class EventStoreDbContext(DbContextOptions<EventStoreDbContext> dbOptions) : BaseDbContext<EventStoreDbContext>(dbOptions)
 {
-    public EventStoreDbContext(DbContextOptions<EventStoreDbContext> dbOptions)
-        : base(dbOptions)
-    {
-    }
-
     public DbSet<EventStore> EventStores => Set<EventStore>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
