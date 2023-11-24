@@ -13,7 +13,13 @@ public class CorrelationIdMiddleware(RequestDelegate next)
     public async Task Invoke(HttpContext context, ICorrelationIdGenerator correlationIdGenerator)
     {
         var correlationId = GetCorrelationId(context, correlationIdGenerator);
-        AddcorrelationIdHeader(context, correlationId);
+
+        context.Response.OnStarting(() =>
+        {
+            context.Response.Headers.Append(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
+            return Task.CompletedTask;
+        });
+
         await _next(context);
     }
 
@@ -26,14 +32,5 @@ public class CorrelationIdMiddleware(RequestDelegate next)
         }
 
         return correlationIdGenerator.Get();
-    }
-
-    private static void AddcorrelationIdHeader(HttpContext context, StringValues correlationId)
-    {
-        context.Response.OnStarting(() =>
-        {
-            context.Response.Headers.Append(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
-            return Task.CompletedTask;
-        });
     }
 }
