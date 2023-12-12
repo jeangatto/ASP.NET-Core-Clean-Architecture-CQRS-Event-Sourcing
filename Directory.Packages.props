@@ -12,7 +12,7 @@
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
     <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
-    <PackageVersion Include="Bogus" Version="34.0.2" />
+    <PackageVersion Include="Bogus" Version="35.0.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.0" />
     <PackageVersion Include="EntityFrameworkCore.DataEncryption" Version="5.0.0" />
@@ -53,17 +53,17 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.3.8" />
-    <PackageVersion Include="MongoDB.Bson" Version="2.22.0" />
-    <PackageVersion Include="MongoDB.Driver" Version="2.22.0" />
+    <PackageVersion Include="MongoDB.Bson" Version="2.23.0" />
+    <PackageVersion Include="MongoDB.Driver" Version="2.23.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="Polly" Version="8.2.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <PackageVersion Include="System.Text.Json" Version="8.0.0" />
-    <PackageVersion Include="xunit.analyzers" Version="1.6.0" />
+    <PackageVersion Include="xunit.analyzers" Version="1.7.0" />
     <PackageVersion Include="xunit.categories" Version="2.0.8" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.4" />
-    <PackageVersion Include="xunit" Version="2.6.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.5" />
+    <PackageVersion Include="xunit" Version="2.6.3" />
   </ItemGroup>
 </Project>
