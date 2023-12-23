@@ -17,8 +17,8 @@
     <PackageVersion Include="coverlet.msbuild" Version="6.0.0" />
     <PackageVersion Include="EntityFrameworkCore.DataEncryption" Version="5.0.0" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
-    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
-    <PackageVersion Include="FluentValidation" Version="11.8.1" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+    <PackageVersion Include="FluentValidation" Version="11.9.0" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
@@ -61,9 +61,9 @@
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <PackageVersion Include="System.Text.Json" Version="8.0.0" />
-    <PackageVersion Include="xunit.analyzers" Version="1.7.0" />
+    <PackageVersion Include="xunit.analyzers" Version="1.8.0" />
     <PackageVersion Include="xunit.categories" Version="2.0.8" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.5" />
-    <PackageVersion Include="xunit" Version="2.6.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageVersion Include="xunit" Version="2.6.4" />
   </ItemGroup>
 </Project>
