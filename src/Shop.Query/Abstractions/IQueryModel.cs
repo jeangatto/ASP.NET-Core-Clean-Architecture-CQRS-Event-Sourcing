@@ -5,9 +5,7 @@ namespace Shop.Query.Abstractions;
 /// <summary>
 /// Represents the query model interface.
 /// </summary>
-public interface IQueryModel
-{
-}
+public interface IQueryModel;
 
 /// <summary>
 /// Represents the interface for a query model with a generic key type.

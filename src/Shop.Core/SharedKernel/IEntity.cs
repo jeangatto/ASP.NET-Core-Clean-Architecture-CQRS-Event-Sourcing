@@ -5,9 +5,7 @@ namespace Shop.Core.SharedKernel;
 /// <summary>
 /// This is the base interface for all entities
 /// </summary>
-public interface IEntity
-{
-}
+public interface IEntity;
 
 /// <summary>
 /// This is the base interface for all entities with a key.
