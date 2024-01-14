@@ -11,18 +11,12 @@ namespace Shop.Infrastructure.Data.Repositories.Common;
 /// </summary>
 /// <typeparam name="TEntity">The type of the entity.</typeparam>
 /// <typeparam name="Tkey">The type of the entity's key.</typeparam>
-internal abstract class BaseWriteOnlyRepository<TEntity, Tkey> : IWriteOnlyRepository<TEntity, Tkey>
+internal abstract class BaseWriteOnlyRepository<TEntity, Tkey>(WriteDbContext context) : IWriteOnlyRepository<TEntity, Tkey>
     where TEntity : class, IEntity<Tkey>
     where Tkey : IEquatable<Tkey>
 {
-    private readonly DbSet<TEntity> _dbSet;
-    protected readonly WriteDbContext Context;
-
-    protected BaseWriteOnlyRepository(WriteDbContext context)
-    {
-        Context = context;
-        _dbSet = context.Set<TEntity>();
-    }
+    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+    protected readonly WriteDbContext Context = context;
 
     public void Add(TEntity entity) =>
         _dbSet.Add(entity);

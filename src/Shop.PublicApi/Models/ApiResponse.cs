@@ -74,7 +74,7 @@ public class ApiResponse
         new() { Success = false, StatusCode = StatusCodes.Status500InternalServerError, Errors = errors };
 
     private static ApiErrorResponse[] CreateErrors(string errorMessage) =>
-        new[] { new ApiErrorResponse(errorMessage) };
+        [new ApiErrorResponse(errorMessage)];
 
     public override string ToString() =>
         $"Success: {Success} | StatusCode: {StatusCode} | HasErrors: {Errors.Any()}";
