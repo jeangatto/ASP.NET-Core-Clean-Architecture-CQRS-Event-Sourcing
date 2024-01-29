@@ -29,7 +29,6 @@ public class CustomersController(IMediator mediator) : ControllerBase
     /// <summary>
     /// Register a new customer.
     /// </summary>
-    /// <param name="command"></param>
     /// <response code="200">Returns the Id of the new client.</response>
     /// <response code="400">Returns list of errors if the request is invalid.</response>
     /// <response code="500">When an unexpected internal error occurs on the server.</response>
@@ -49,7 +48,6 @@ public class CustomersController(IMediator mediator) : ControllerBase
     /// <summary>
     /// Updates an existing client.
     /// </summary>
-    /// <param name="command"></param>
     /// <response code="200">Returns the response with the success message.</response>
     /// <response code="400">Returns list of errors if the request is invalid.</response>
     /// <response code="404">When no client is found by the given Id.</response>
@@ -71,7 +69,6 @@ public class CustomersController(IMediator mediator) : ControllerBase
     /// <summary>
     /// Deletes the client by Id.
     /// </summary>
-    /// <param name="id"></param>
     /// <response code="200">Returns the response with the success message.</response>
     /// <response code="400">Returns list of errors if the request is invalid.</response>
     /// <response code="404">When no client is found by the given Id.</response>
@@ -93,7 +90,6 @@ public class CustomersController(IMediator mediator) : ControllerBase
     /// <summary>
     /// Gets the client by Id.
     /// </summary>
-    /// <param name="id"></param>
     /// <response code="200">Returns the client.</response>
     /// <response code="400">Returns list of errors if the request is invalid.</response>
     /// <response code="404">When no client is found by the given Id.</response>
