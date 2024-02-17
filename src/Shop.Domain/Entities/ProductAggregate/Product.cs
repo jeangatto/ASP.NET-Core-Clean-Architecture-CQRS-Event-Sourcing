@@ -33,6 +33,8 @@ public class Product : BaseEntity, IAggregateRoot
         Name = name;
         Description = description;
         Price = price;
+
+        AddDomainEvent(new ProductCreatedEvent(Id, name, description, price));
     }
 
     /// <summary>
