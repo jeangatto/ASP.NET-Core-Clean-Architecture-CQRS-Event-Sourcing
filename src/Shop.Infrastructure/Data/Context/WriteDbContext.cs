@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.DataEncryption;
 using Microsoft.EntityFrameworkCore.DataEncryption.Providers;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.Entities.ProductAggregate;
 using Shop.Infrastructure.Data.Mappings;
 
 namespace Shop.Infrastructure.Data.Context;
@@ -15,11 +16,14 @@ public class WriteDbContext(DbContextOptions<WriteDbContext> dbOptions) : BaseDb
 
     public DbSet<Customer> Customers => Set<Customer>();
 
+    public DbSet<Product> Products => Set<Product>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.UseEncryption(_encryptionProvider);
     }
 }

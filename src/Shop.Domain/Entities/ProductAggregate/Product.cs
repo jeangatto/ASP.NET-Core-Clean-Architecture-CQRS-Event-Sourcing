@@ -68,6 +68,15 @@ public class Product : BaseEntity, IAggregateRoot
         AddDomainEvent(new ProductUpdatedEvent(Id, Name, newDescription, Price));
     }
 
+    public void ChangePrice(decimal newPrice)
+    {
+        if (Price.Equals(newPrice))
+            return;
+
+        Price = newPrice;
+        AddDomainEvent(new ProductUpdatedEvent(Id, Name, Description, newPrice));
+    }
+
     /// <summary>
     /// Deletes the Product.
     /// </summary>

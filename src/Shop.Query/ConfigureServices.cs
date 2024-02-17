@@ -52,7 +52,9 @@ public static class ConfigureServices
     /// </summary>
     /// <param name="services">The service collection.</param>
     public static IServiceCollection AddReadOnlyRepositories(this IServiceCollection services) =>
-        services.AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>();
+        services
+            .AddScoped<ICustomerReadOnlyRepository, CustomerReadOnlyRepository>()
+            .AddScoped<IProductReadOnlyRepository, ProductReadOnlyRepository>();
 
     /// <summary>
     /// Configures the MongoDB settings and mappings.
@@ -79,6 +81,7 @@ public static class ConfigureServices
             // It is recommended to register all mappings before initializing the connection with MongoDb
             // REF: https://mongodb.github.io/mongo-csharp-driver/2.0/reference/bson/mapping/
             new CustomerMap().Configure(); // Configuration for Customer class
+            new ProductMap().Configure(); // Configuration for Product class
         }
         catch
         {
