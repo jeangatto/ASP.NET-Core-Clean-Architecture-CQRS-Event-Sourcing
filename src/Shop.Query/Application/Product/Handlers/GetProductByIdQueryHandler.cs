@@ -37,12 +37,12 @@ public class GetProductByIdQueryHandler(
 
         // Getting the Product from the cache service. If not found, fetches it from the repository.
         // The Product will be stored in the cache service for future queries.
-        var Product = await _cacheService.GetOrCreateAsync(cacheKey, () => _repository.GetByIdAsync(request.Id));
+        var product = await _cacheService.GetOrCreateAsync(cacheKey, () => _repository.GetByIdAsync(request.Id));
 
         // If the Product is null, returns a result indicating that no Product was found.
         // Otherwise, returns a successful result with the Product.
-        return Product == null
+        return product == null
             ? Result<ProductQueryModel>.NotFound($"No Product found by Id: {request.Id}")
-            : Result<ProductQueryModel>.Success(Product);
+            : Result<ProductQueryModel>.Success(product);
     }
 }

@@ -8,7 +8,7 @@ public class ProductMap : IReadDbMapping
 {
     public void Configure()
     {
-        BsonClassMap.RegisterClassMap<ProductQueryModel>(classMap =>
+        BsonClassMap.TryRegisterClassMap<ProductQueryModel>(classMap =>
         {
             classMap.AutoMap();
             classMap.SetIgnoreExtraElements(true);
