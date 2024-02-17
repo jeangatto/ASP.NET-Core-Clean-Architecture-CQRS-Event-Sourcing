@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.SharedKernel;
 using Shop.Domain.Entities.CustomerAggregate;
+using Shop.Domain.Entities.ProductAggregate;
 using Shop.Infrastructure.Data;
 using Shop.Infrastructure.Data.Context;
 using Shop.Infrastructure.Data.Repositories;
@@ -43,5 +44,6 @@ public static class ConfigureServices
     public static IServiceCollection AddWriteOnlyRepositories(this IServiceCollection services) =>
          services
             .AddScoped<IEventStoreRepository, EventStoreRepository>()
-            .AddScoped<ICustomerWriteOnlyRepository, CustomerWriteOnlyRepository>();
+            .AddScoped<ICustomerWriteOnlyRepository, CustomerWriteOnlyRepository>()
+            .AddScoped<IProductWriteOnlyRepository, ProductWriteOnlyRepository>();
 }

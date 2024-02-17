@@ -82,6 +82,12 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
 
     private async Task CreateIndexAsync()
     {
+        await CreateCustomerIndexAsync();
+        await CreateProductIndexAsync();
+    }
+
+    private async Task CreateCustomerIndexAsync()
+    {
         // Define the index key as ascending order of the Email field in the CustomerQueryModel class
         var indexDefinition = Builders<CustomerQueryModel>.IndexKeys.Ascending(model => model.Email);
 
@@ -89,6 +95,18 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
         var indexModel = new CreateIndexModel<CustomerQueryModel>(indexDefinition, DefaultCreateIndexOptions);
 
         var collection = GetCollection<CustomerQueryModel>();
+        await collection.Indexes.CreateOneAsync(indexModel);
+    }
+
+    private async Task CreateProductIndexAsync()
+    {
+        // Define the index key as ascending order of the Name field in the ProductQueryModel class
+        var indexDefinition = Builders<ProductQueryModel>.IndexKeys.Ascending(model => model.Name);
+
+        // Create an index model with the defined index key and default index options
+        var indexModel = new CreateIndexModel<ProductQueryModel>(indexDefinition, DefaultCreateIndexOptions);
+
+        var collection = GetCollection<ProductQueryModel>();
         await collection.Indexes.CreateOneAsync(indexModel);
     }
 
