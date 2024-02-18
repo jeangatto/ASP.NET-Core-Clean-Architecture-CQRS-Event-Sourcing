@@ -23,7 +23,7 @@ public class ApiResponse
     public bool Success { get; protected set; }
     public string SuccessMessage { get; protected set; }
     public int StatusCode { get; protected set; }
-    public IEnumerable<ApiErrorResponse> Errors { get; private init; } = Enumerable.Empty<ApiErrorResponse>();
+    public IEnumerable<ApiErrorResponse> Errors { get; private init; } = [];
 
     public static ApiResponse Ok() =>
         new() { Success = true, StatusCode = StatusCodes.Status200OK };

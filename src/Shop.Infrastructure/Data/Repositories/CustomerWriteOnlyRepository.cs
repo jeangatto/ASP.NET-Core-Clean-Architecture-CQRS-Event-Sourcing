@@ -8,7 +8,8 @@ using Shop.Infrastructure.Data.Repositories.Common;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-internal class CustomerWriteOnlyRepository(WriteDbContext context) : BaseWriteOnlyRepository<Customer, Guid>(context), ICustomerWriteOnlyRepository
+internal class CustomerWriteOnlyRepository(WriteDbContext context)
+    : BaseWriteOnlyRepository<Customer, Guid>(context), ICustomerWriteOnlyRepository
 {
     public async Task<bool> ExistsByEmailAsync(Email email) =>
         await Context.Customers

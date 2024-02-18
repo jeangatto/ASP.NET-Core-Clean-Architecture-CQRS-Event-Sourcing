@@ -10,7 +10,8 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Application.Customer.Handlers;
 
-public class GetAllCustomerQueryHandler(ICustomerReadOnlyRepository repository, ICacheService cacheService) : IRequestHandler<GetAllCustomerQuery, Result<IEnumerable<CustomerQueryModel>>>
+public class GetAllCustomerQueryHandler(ICustomerReadOnlyRepository repository, ICacheService cacheService)
+    : IRequestHandler<GetAllCustomerQuery, Result<IEnumerable<CustomerQueryModel>>>
 {
     private const string CacheKey = nameof(GetAllCustomerQuery);
     private readonly ICacheService _cacheService = cacheService;
