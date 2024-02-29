@@ -38,7 +38,7 @@ internal static class ResultExtensions
 
                 var validationErrors = result
                     .ValidationErrors
-                    .ConvertAll(validation => new ApiErrorResponse(validation.ErrorMessage));
+                    .Select(validation => new ApiErrorResponse(validation.ErrorMessage));
 
                 return new BadRequestObjectResult(ApiResponse.BadRequest(validationErrors));
 

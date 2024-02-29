@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.Result;
@@ -39,7 +38,7 @@ public class UpdateCustomerCommandHandler(
         // Instantiating the Email value object.
         var emailResult = Email.Create(request.Email);
         if (!emailResult.IsSuccess)
-            return Result.Error(emailResult.Errors.ToArray());
+            return Result.Error([.. emailResult.Errors]);
 
         // Checking if there is already a customer with the email address.
         if (await _repository.ExistsByEmailAsync(emailResult.Value, customer.Id))

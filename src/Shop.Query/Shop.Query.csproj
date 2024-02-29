@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.Result.FluentValidation" />
     <PackageReference Include="Ardalis.Result" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="FluentValidation" />
