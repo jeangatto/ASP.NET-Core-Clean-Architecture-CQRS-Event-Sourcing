@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Ardalis.Result;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Domain.ValueObjects;
@@ -16,7 +17,7 @@ public static class CustomerFactory
     {
         var emailResult = Email.Create(email);
         return !emailResult.IsSuccess
-            ? Result<Customer>.Error([.. emailResult.Errors])
+            ? Result<Customer>.Error(emailResult.Errors.ToArray())
             : Result<Customer>.Success(new Customer(firstName, lastName, gender, emailResult.Value, dateOfBirth));
     }
 
