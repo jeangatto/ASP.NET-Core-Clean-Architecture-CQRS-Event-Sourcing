@@ -27,7 +27,7 @@ public static class JsonExtensions
     /// <param name="value">The object to convert.</param>
     /// <returns>The JSON string representation of the object.</returns>
     public static string ToJson<T>(this T value) =>
-        value != null ? JsonSerializer.Serialize(value, LazyOptions.Value) : default;
+        !value.IsDefault() ? JsonSerializer.Serialize(value, LazyOptions.Value) : default;
 
     /// <summary>
     /// Configures the JsonSerializerOptions instance.

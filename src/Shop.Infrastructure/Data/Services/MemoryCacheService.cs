@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Shop.Core.AppSettings;
+using Shop.Core.Extensions;
 using Shop.Core.SharedKernel;
 
 namespace Shop.Infrastructure.Data.Services;
@@ -45,7 +46,7 @@ internal class MemoryCacheService : ICacheService
             }
 
             var item = await factory();
-            if (item != null)
+            if (!item.IsDefault()) // SonarQube Bug: item != nulll
             {
                 _logger.LogInformation("----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
                 _memoryCache.Set(cacheKey, item, _cacheOptions);

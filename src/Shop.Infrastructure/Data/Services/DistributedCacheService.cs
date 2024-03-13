@@ -45,7 +45,7 @@ internal class DistributedCacheService : ICacheService
         }
 
         var item = await factory();
-        if (item != null)
+        if (!item.IsDefault()) // SonarQube Bug: item != nulll
         {
             _logger.LogInformation("----- Added to {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
 
