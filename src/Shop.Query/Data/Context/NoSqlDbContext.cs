@@ -22,7 +22,6 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
 
     private const string DatabaseName = "Shop";
     private const int RetryCount = 2;
-    private static readonly Random Rnd = new();
 
     private static readonly ReplaceOptions DefaultReplaceOptions = new()
     {
@@ -136,9 +135,10 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
             // but then at progressively longer intervals: for example, after 2, 4, 8, 15, then 30 seconds.
             // REF: https://github.com/App-vNext/Polly/wiki/Retry-with-jitter#simple-jitter
             var sleepDuration =
-                TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(Rnd.Next(0, 1000));
+                TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(Random.Shared.Next(0, 1000));
 
             logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
+
             return sleepDuration;
         }
     }

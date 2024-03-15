@@ -32,5 +32,14 @@ public class CustomerQueryModel : IQueryModel<Guid>
     public string Email { get; private init; }
     public DateTime DateOfBirth { get; private init; }
 
-    public string FullName => (FirstName + " " + LastName).Trim();
+    public string FullName
+    {
+        get
+        {
+            var fullNameSpan = new Span<char>(new char[FirstName.Length + LastName.Length + 1]);
+            FirstName.AsSpan().CopyTo(fullNameSpan);
+            LastName.AsSpan().CopyTo(fullNameSpan[FirstName.Length..]);
+            return fullNameSpan.ToString();
+        }
+    }
 }

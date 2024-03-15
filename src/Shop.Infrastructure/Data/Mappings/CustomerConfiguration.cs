@@ -10,7 +10,8 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
-        builder.ConfigureBaseEntity();
+        builder
+            .ConfigureBaseEntity();
 
         builder
             .Property(customer => customer.FirstName)
@@ -36,7 +37,7 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
                 .IsRequired() // NOT NULL
                 .HasMaxLength(254)
                 .HasColumnName(nameof(Customer.Email))
-                .IsEncrypted();
+                .IsEncrypted(); // Encryption
 
             // Unique Index
             ownedNav
