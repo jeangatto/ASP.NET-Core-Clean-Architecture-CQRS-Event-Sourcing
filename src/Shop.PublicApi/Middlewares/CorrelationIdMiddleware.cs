@@ -8,24 +8,23 @@ namespace Shop.PublicApi.Middlewares;
 public class CorrelationIdMiddleware(RequestDelegate next)
 {
     private const string CorrelationIdHeaderKey = "X-Correlation-Id";
-    private readonly RequestDelegate _next = next;
 
-    public async Task Invoke(HttpContext context, ICorrelationIdGenerator correlationIdGenerator)
+    public async Task Invoke(HttpContext httpContext, ICorrelationIdGenerator correlationIdGenerator)
     {
-        var correlationId = GetCorrelationId(context, correlationIdGenerator);
+        var correlationId = GetCorrelationId(httpContext, correlationIdGenerator);
 
-        context.Response.OnStarting(() =>
+        httpContext.Response.OnStarting(() =>
         {
-            context.Response.Headers.Append(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
+            httpContext.Response.Headers.Append(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
             return Task.CompletedTask;
         });
 
-        await _next(context);
+        await next(httpContext);
     }
 
-    private static StringValues GetCorrelationId(HttpContext context, ICorrelationIdGenerator correlationIdGenerator)
+    private static StringValues GetCorrelationId(HttpContext httpContext, ICorrelationIdGenerator correlationIdGenerator)
     {
-        if (context.Request.Headers.TryGetValue(CorrelationIdHeaderKey, out var correlationId))
+        if (httpContext.Request.Headers.TryGetValue(CorrelationIdHeaderKey, out var correlationId))
         {
             correlationIdGenerator.Set(correlationId);
             return correlationId;

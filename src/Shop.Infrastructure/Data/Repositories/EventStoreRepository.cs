@@ -8,12 +8,10 @@ namespace Shop.Infrastructure.Data.Repositories;
 
 internal sealed class EventStoreRepository(EventStoreDbContext context) : IEventStoreRepository
 {
-    private readonly EventStoreDbContext _context = context;
-
     public async Task StoreAsync(IEnumerable<EventStore> eventStores)
     {
-        await _context.EventStores.AddRangeAsync(eventStores);
-        await _context.SaveChangesAsync();
+        await context.EventStores.AddRangeAsync(eventStores);
+        await context.SaveChangesAsync();
     }
 
     #region IDisposable
@@ -39,7 +37,7 @@ internal sealed class EventStoreRepository(EventStoreDbContext context) : IEvent
 
         // Dispose managed state (managed objects).
         if (disposing)
-            _context.Dispose();
+            context.Dispose();
 
         _disposed = true;
     }

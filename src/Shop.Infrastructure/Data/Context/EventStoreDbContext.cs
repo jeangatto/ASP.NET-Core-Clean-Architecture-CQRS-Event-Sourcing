@@ -4,7 +4,8 @@ using Shop.Infrastructure.Data.Mappings;
 
 namespace Shop.Infrastructure.Data.Context;
 
-public class EventStoreDbContext(DbContextOptions<EventStoreDbContext> dbOptions) : BaseDbContext<EventStoreDbContext>(dbOptions)
+public class EventStoreDbContext(DbContextOptions<EventStoreDbContext> dbOptions)
+    : BaseDbContext<EventStoreDbContext>(dbOptions)
 {
     public DbSet<EventStore> EventStores => Set<EventStore>();
 

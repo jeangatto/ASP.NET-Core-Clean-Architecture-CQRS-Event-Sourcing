@@ -15,14 +15,10 @@ public class DeleteCustomerCommandHandler(
     ICustomerWriteOnlyRepository repository,
     IUnitOfWork unitOfWork) : IRequestHandler<DeleteCustomerCommand, Result>
 {
-    private readonly ICustomerWriteOnlyRepository _repository = repository;
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IValidator<DeleteCustomerCommand> _validator = validator;
-
     public async Task<Result> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {
         // Validating the request.
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             // Returns the result with validation errors.
@@ -30,7 +26,7 @@ public class DeleteCustomerCommandHandler(
         }
 
         // Retrieving the customer from the database.
-        var customer = await _repository.GetByIdAsync(request.Id);
+        var customer = await repository.GetByIdAsync(request.Id);
         if (customer == null)
             return Result.NotFound($"No customer found by Id: {request.Id}");
 
@@ -38,10 +34,10 @@ public class DeleteCustomerCommandHandler(
         customer.Delete();
 
         // Removing the entity from the repository.
-        _repository.Remove(customer);
+        repository.Remove(customer);
 
         // Saving the changes to the database and triggering the events.
-        await _unitOfWork.SaveChangesAsync();
+        await unitOfWork.SaveChangesAsync();
 
         // Returning the success message.
         return Result.SuccessWithMessage("Successfully removed!");

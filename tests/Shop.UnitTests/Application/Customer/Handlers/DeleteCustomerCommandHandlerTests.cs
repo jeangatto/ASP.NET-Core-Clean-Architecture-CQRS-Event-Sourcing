@@ -22,7 +22,6 @@ namespace Shop.UnitTests.Application.Customer.Handlers;
 [UnitTest]
 public class DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
     private readonly DeleteCustomerCommandValidator _validator = new();
 
     [Fact]
@@ -38,21 +37,21 @@ public class DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
                 faker.Person.DateOfBirth))
             .Generate();
 
-        var repository = new CustomerWriteOnlyRepository(_fixture.Context);
+        var repository = new CustomerWriteOnlyRepository(fixture.Context);
         repository.Add(customer);
 
-        await _fixture.Context.SaveChangesAsync();
-        _fixture.Context.ChangeTracker.Clear();
+        await fixture.Context.SaveChangesAsync();
+        fixture.Context.ChangeTracker.Clear();
 
         var unitOfWork = new UnitOfWork(
-            _fixture.Context,
+            fixture.Context,
             Substitute.For<IEventStoreRepository>(),
             Substitute.For<IMediator>(),
             Substitute.For<ILogger<UnitOfWork>>());
 
         var handler = new DeleteCustomerCommandHandler(
             _validator,
-            new CustomerWriteOnlyRepository(_fixture.Context),
+            new CustomerWriteOnlyRepository(fixture.Context),
             unitOfWork);
 
         var command = new DeleteCustomerCommand(customer.Id);
@@ -74,7 +73,7 @@ public class DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
 
         var handler = new DeleteCustomerCommandHandler(
             _validator,
-            new CustomerWriteOnlyRepository(_fixture.Context),
+            new CustomerWriteOnlyRepository(fixture.Context),
             Substitute.For<IUnitOfWork>());
 
         // Act

@@ -8,6 +8,4 @@ public class CustomerDeletedEvent(
     string lastName,
     EGender gender,
     string email,
-    DateTime dateOfBirth) : CustomerBaseEvent(id, firstName, lastName, gender, email, dateOfBirth)
-{
-}
+    DateTime dateOfBirth) : CustomerBaseEvent(id, firstName, lastName, gender, email, dateOfBirth);

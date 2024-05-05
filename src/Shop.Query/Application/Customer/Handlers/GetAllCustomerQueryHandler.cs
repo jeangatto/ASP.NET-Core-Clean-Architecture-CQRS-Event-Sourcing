@@ -14,8 +14,6 @@ public class GetAllCustomerQueryHandler(ICustomerReadOnlyRepository repository, 
     : IRequestHandler<GetAllCustomerQuery, Result<IEnumerable<CustomerQueryModel>>>
 {
     private const string CacheKey = nameof(GetAllCustomerQuery);
-    private readonly ICacheService _cacheService = cacheService;
-    private readonly ICustomerReadOnlyRepository _readOnlyRepository = repository;
 
     public async Task<Result<IEnumerable<CustomerQueryModel>>> Handle(
           GetAllCustomerQuery request,
@@ -24,6 +22,6 @@ public class GetAllCustomerQueryHandler(ICustomerReadOnlyRepository repository, 
         // This method will either return the cached data associated with the CacheKey
         // or create it by calling the GetAllAsync method.
         return Result<IEnumerable<CustomerQueryModel>>.Success(
-            await _cacheService.GetOrCreateAsync(CacheKey, _readOnlyRepository.GetAllAsync));
+            await cacheService.GetOrCreateAsync(CacheKey, repository.GetAllAsync));
     }
 }

@@ -14,8 +14,6 @@ public static class ServiceProviderExtensions
     /// <param name="serviceProvider">The service provider.</param>
     /// <returns>The options.</returns>
     public static TOptions GetOptions<TOptions>(this IServiceProvider serviceProvider)
-        where TOptions : class, IAppOptions
-    {
-        return serviceProvider.GetRequiredService<IOptions<TOptions>>().Value;
-    }
+        where TOptions : class, IAppOptions =>
+        serviceProvider.GetService<IOptions<TOptions>>()?.Value;
 }

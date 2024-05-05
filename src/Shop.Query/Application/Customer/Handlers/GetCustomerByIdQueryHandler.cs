@@ -16,16 +16,12 @@ public class GetCustomerByIdQueryHandler(
     ICustomerReadOnlyRepository repository,
     ICacheService cacheService) : IRequestHandler<GetCustomerByIdQuery, Result<CustomerQueryModel>>
 {
-    private readonly ICacheService _cacheService = cacheService;
-    private readonly ICustomerReadOnlyRepository _repository = repository;
-    private readonly IValidator<GetCustomerByIdQuery> _validator = validator;
-
     public async Task<Result<CustomerQueryModel>> Handle(
         GetCustomerByIdQuery request,
         CancellationToken cancellationToken)
     {
         // Validating the request.
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             // Returns the result with validation errors.
@@ -37,7 +33,7 @@ public class GetCustomerByIdQueryHandler(
 
         // Getting the customer from the cache service. If not found, fetches it from the repository.
         // The customer will be stored in the cache service for future queries.
-        var customer = await _cacheService.GetOrCreateAsync(cacheKey, () => _repository.GetByIdAsync(request.Id));
+        var customer = await cacheService.GetOrCreateAsync(cacheKey, () => repository.GetByIdAsync(request.Id));
 
         // If the customer is null, returns a result indicating that no customer was found.
         // Otherwise, returns a successful result with the customer.

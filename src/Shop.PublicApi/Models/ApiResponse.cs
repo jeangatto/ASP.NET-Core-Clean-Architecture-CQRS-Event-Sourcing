@@ -20,9 +20,9 @@ public class ApiResponse
     {
     }
 
-    public bool Success { get; protected set; }
-    public string SuccessMessage { get; protected set; }
-    public int StatusCode { get; protected set; }
+    public bool Success { get; protected init; }
+    public string SuccessMessage { get; protected init; }
+    public int StatusCode { get; protected init; }
     public IEnumerable<ApiErrorResponse> Errors { get; private init; } = [];
 
     public static ApiResponse Ok() =>

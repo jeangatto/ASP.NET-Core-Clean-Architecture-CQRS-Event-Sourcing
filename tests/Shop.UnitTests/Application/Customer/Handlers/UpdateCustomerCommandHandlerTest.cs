@@ -21,7 +21,6 @@ namespace Shop.UnitTests.Application.Customer.Handlers;
 [UnitTest]
 public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
     private readonly UpdateCustomerCommandValidator _validator = new();
 
     [Fact]
@@ -37,14 +36,14 @@ public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassF
                 faker.Person.DateOfBirth))
             .Generate();
 
-        var repository = new CustomerWriteOnlyRepository(_fixture.Context);
+        var repository = new CustomerWriteOnlyRepository(fixture.Context);
         repository.Add(customer);
 
-        await _fixture.Context.SaveChangesAsync();
-        _fixture.Context.ChangeTracker.Clear();
+        await fixture.Context.SaveChangesAsync();
+        fixture.Context.ChangeTracker.Clear();
 
         var unitOfWork = new UnitOfWork(
-            _fixture.Context,
+            fixture.Context,
             Substitute.For<IEventStoreRepository>(),
             Substitute.For<IMediator>(),
             Substitute.For<ILogger<UnitOfWork>>());
@@ -78,15 +77,15 @@ public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassF
                 faker.Person.DateOfBirth))
             .Generate(2);
 
-        var repository = new CustomerWriteOnlyRepository(_fixture.Context);
+        var repository = new CustomerWriteOnlyRepository(fixture.Context);
 
         foreach (var customer in customers)
         {
             repository.Add(customer);
         }
 
-        await _fixture.Context.SaveChangesAsync();
-        _fixture.Context.ChangeTracker.Clear();
+        await fixture.Context.SaveChangesAsync();
+        fixture.Context.ChangeTracker.Clear();
 
         var command = new Faker<UpdateCustomerCommand>()
             .RuleFor(command => command.Id, customers[0].Id) // O ID do primeiro customer
@@ -121,7 +120,7 @@ public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassF
 
         var handler = new UpdateCustomerCommandHandler(
             _validator,
-            new CustomerWriteOnlyRepository(_fixture.Context),
+            new CustomerWriteOnlyRepository(fixture.Context),
             Substitute.For<IUnitOfWork>());
 
         // Act

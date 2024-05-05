@@ -18,48 +18,43 @@ internal sealed class UnitOfWork(
     IMediator mediator,
     ILogger<UnitOfWork> logger) : IUnitOfWork
 {
-    private readonly IEventStoreRepository _eventStoreRepository = eventStoreRepository;
-    private readonly ILogger<UnitOfWork> _logger = logger;
-    private readonly IMediator _mediator = mediator;
-    private readonly WriteDbContext _writeDbContext = writeDbContext;
-
     /// <summary>
     /// Saves changes asynchronously.
     /// </summary>
     public async Task SaveChangesAsync()
     {
         // Creating the execution strategy (Connection resiliency and database retries).
-        var strategy = _writeDbContext.Database.CreateExecutionStrategy();
+        var strategy = writeDbContext.Database.CreateExecutionStrategy();
 
         // Executing the strategy.
         await strategy.ExecuteAsync(async () =>
         {
-            await using var transaction = await _writeDbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+            await using var transaction = await writeDbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
-            _logger.LogInformation("----- Begin transaction: '{TransactionId}'", transaction.TransactionId);
+            logger.LogInformation("----- Begin transaction: '{TransactionId}'", transaction.TransactionId);
 
             try
             {
                 // Getting the domain events and event stores from the tracked entities in the EF Core context.
                 var (domainEvents, eventStores) = BeforeSaveChanges();
 
-                var rowsAffected = await _writeDbContext.SaveChangesAsync();
+                var rowsAffected = await writeDbContext.SaveChangesAsync();
 
-                _logger.LogInformation("----- Commit transaction: '{TransactionId}'", transaction.TransactionId);
+                logger.LogInformation("----- Commit transaction: '{TransactionId}'", transaction.TransactionId);
 
                 await transaction.CommitAsync();
 
                 // Triggering the events and saving the stores.
                 await AfterSaveChangesAsync(domainEvents, eventStores);
 
-                _logger.LogInformation(
+                logger.LogInformation(
                     "----- Transaction successfully confirmed: '{TransactionId}', Rows Affected: {RowsAffected}",
                     transaction.TransactionId,
                     rowsAffected);
             }
             catch (Exception ex)
             {
-                _logger.LogError(
+                logger.LogError(
                     ex,
                     "An unexpected exception occurred while committing the transaction: '{TransactionId}', message: {Message}",
                     transaction.TransactionId,
@@ -79,7 +74,7 @@ internal sealed class UnitOfWork(
     private (IReadOnlyList<BaseEvent> domainEvents, IReadOnlyList<EventStore> eventStores) BeforeSaveChanges()
     {
         // Get all domain entities with pending domain events
-        var domainEntities = _writeDbContext
+        var domainEntities = writeDbContext
             .ChangeTracker
             .Entries<BaseEntity>()
             .Where(entry => entry.Entity.DomainEvents.Any())
@@ -117,14 +112,14 @@ internal sealed class UnitOfWork(
         // Publish each domain event in parallel using _mediator.
         var tasks = domainEvents
             .AsParallel()
-            .Select(@event => _mediator.Publish(@event))
+            .Select(@event => mediator.Publish(@event))
             .ToList();
 
         // Wait for all the published events to be processed.
         await Task.WhenAll(tasks);
 
         // Store the event stores using _eventStoreRepository.
-        await _eventStoreRepository.StoreAsync(eventStores);
+        await eventStoreRepository.StoreAsync(eventStores);
     }
 
     #region IDisposable
@@ -151,8 +146,8 @@ internal sealed class UnitOfWork(
         // Dispose managed state (managed objects).
         if (disposing)
         {
-            _writeDbContext.Dispose();
-            _eventStoreRepository.Dispose();
+            writeDbContext.Dispose();
+            eventStoreRepository.Dispose();
         }
 
         _disposed = true;
