@@ -56,7 +56,7 @@
     <PackageVersion Include="MongoDB.Driver" Version="2.25.0" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="Polly" Version="8.3.1" />
+    <PackageVersion Include="Polly" Version="8.4.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <PackageVersion Include="System.Text.Json" Version="8.0.3" />

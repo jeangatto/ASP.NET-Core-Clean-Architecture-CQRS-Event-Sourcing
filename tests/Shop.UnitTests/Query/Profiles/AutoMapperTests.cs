@@ -17,7 +17,7 @@ public class AutoMapperTests
 
         // Act
         // REF: https://fluentassertions.com/exceptions/
-        var act = () => mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        var act = mapper.ConfigurationProvider.AssertConfigurationIsValid;
 
         // Assert
         act.Should().NotThrow();
