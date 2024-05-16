@@ -59,14 +59,15 @@ If you liked this project, learned something, give it a star. Thank you!
 
 After cloning the repository to the desired folder, run the command in the terminal at the root of the project:
 
+
 ```csharp
-dotnet clean && dotnet build
+dotnet clean Shop.sln --nologo /tl && dotnet build Shop.sln --nologo /tl
 ```
 
 Next step, run the command in the terminal:
 
 ```csharp
-docker-compose up --build
+docker-compose up --build --abort-on-container-exit --remove-orphans
 ```
 
 Now just open the url in the browser:
@@ -74,6 +75,8 @@ Now just open the url in the browser:
 ```csharp
 http://localhost:5072/swagger/
 ```
+
+
 
 ## MiniProfiler for .NET
 
