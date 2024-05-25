@@ -5,8 +5,8 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Ardalis.Result" Version="8.0.0" />
-    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.2.0" />
+    <PackageVersion Include="Ardalis.Result" Version="9.1.0" />
+    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="9.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="8.0.1" />
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
@@ -60,9 +60,9 @@
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <PackageVersion Include="System.Text.Json" Version="8.0.3" />
-    <PackageVersion Include="xunit" Version="2.8.0" />
-    <PackageVersion Include="xunit.analyzers" Version="1.13.0" />
+    <PackageVersion Include="xunit" Version="2.8.1" />
+    <PackageVersion Include="xunit.analyzers" Version="1.14.0" />
     <PackageVersion Include="xunit.categories" Version="2.0.8" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.1" />
   </ItemGroup>
 </Project>

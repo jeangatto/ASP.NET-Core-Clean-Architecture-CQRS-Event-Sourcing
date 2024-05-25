@@ -35,7 +35,7 @@ public class UpdateCustomerCommandHandler(
         // Instantiating the Email value object.
         var emailResult = Email.Create(request.Email);
         if (!emailResult.IsSuccess)
-            return Result.Error(emailResult.Errors.ToArray());
+            return Result.Error(new ErrorList(emailResult.Errors.ToArray()));
 
         // Checking if there is already a customer with the email address.
         if (await repository.ExistsByEmailAsync(emailResult.Value, customer.Id))
