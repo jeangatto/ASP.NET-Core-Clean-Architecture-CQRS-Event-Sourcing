@@ -10,7 +10,8 @@ namespace Shop.Core;
 public static class ConfigureServices
 {
     public static IServiceCollection AddCorrelationGenerator(this IServiceCollection services) =>
-        services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
+        services
+            .AddTransient<ICorrelationIdGenerator, CorrelationIdGenerator>();
 
     public static IServiceCollection ConfigureAppSettings(this IServiceCollection services) =>
         services

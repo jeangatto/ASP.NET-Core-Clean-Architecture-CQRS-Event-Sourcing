@@ -11,18 +11,18 @@ public class CorrelationIdMiddleware(RequestDelegate next)
 
     public async Task Invoke(HttpContext httpContext, ICorrelationIdGenerator correlationIdGenerator)
     {
-        var correlationId = GetCorrelationId(httpContext, correlationIdGenerator);
+        var correlationId = GetOrCreateCorrelationId(httpContext, correlationIdGenerator);
 
         httpContext.Response.OnStarting(() =>
         {
-            httpContext.Response.Headers.Append(CorrelationIdHeaderKey, new[] { correlationId.ToString() });
+            httpContext.Response.Headers.Append(CorrelationIdHeaderKey, correlationId);
             return Task.CompletedTask;
         });
 
         await next(httpContext);
     }
 
-    private static StringValues GetCorrelationId(HttpContext httpContext, ICorrelationIdGenerator correlationIdGenerator)
+    private static string GetOrCreateCorrelationId(HttpContext httpContext, ICorrelationIdGenerator correlationIdGenerator)
     {
         if (httpContext.Request.Headers.TryGetValue(CorrelationIdHeaderKey, out var correlationId))
         {

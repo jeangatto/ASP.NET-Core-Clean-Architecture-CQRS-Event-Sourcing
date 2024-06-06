@@ -4,6 +4,9 @@ namespace Shop.Core.Extensions;
 
 public static class GenericTypeExtensions
 {
+    public static bool IsDefault<T>(this T value) =>
+        Equals(value, default(T));
+
     /// <summary>
     /// Returns the name of the generic type of the object.
     /// </summary>
