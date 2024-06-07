@@ -2,17 +2,12 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Core.AppSettings;
 using Shop.Core.SharedKernel;
-using Shop.Core.SharedKernel.Correlation;
 
 namespace Shop.Core;
 
 [ExcludeFromCodeCoverage]
 public static class ConfigureServices
 {
-    public static IServiceCollection AddCorrelationGenerator(this IServiceCollection services) =>
-        services
-            .AddTransient<ICorrelationIdGenerator, CorrelationIdGenerator>();
-
     public static IServiceCollection ConfigureAppSettings(this IServiceCollection services) =>
         services
             .AddOptionsWithValidation<ConnectionOptions>()

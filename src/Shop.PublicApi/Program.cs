@@ -1,5 +1,7 @@
 using System.Globalization;
 using System.IO.Compression;
+using CorrelationId;
+using CorrelationId.DependencyInjection;
 using FluentValidation;
 using FluentValidation.Resources;
 using HealthChecks.UI.Client;
@@ -59,7 +61,6 @@ builder.Services.AddControllers()
 // Adding the application services in ASP.NET Core DI.
 builder.Services
     .ConfigureAppSettings()
-    .AddCorrelationGenerator()
     .AddInfrastructure()
     .AddCommandHandlers()
     .AddQueryHandlers()
@@ -69,6 +70,8 @@ builder.Services
     .AddReadOnlyRepositories()
     .AddCacheService(builder.Configuration)
     .AddHealthChecks(builder.Configuration);
+
+builder.Services.AddDefaultCorrelationId();
 
 // MiniProfiler for .NET
 // https://miniprofiler.com/dotnet/
