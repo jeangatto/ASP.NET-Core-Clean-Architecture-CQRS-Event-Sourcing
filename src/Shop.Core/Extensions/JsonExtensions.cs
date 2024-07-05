@@ -42,6 +42,7 @@ public static class JsonExtensions
         jsonSettings.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         jsonSettings.TypeInfoResolver = new PrivateConstructorContractResolver();
         jsonSettings.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+
         return jsonSettings;
     }
 }

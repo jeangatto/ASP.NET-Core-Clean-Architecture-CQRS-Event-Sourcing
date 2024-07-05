@@ -4,9 +4,7 @@ namespace Shop.Application.Customer.Commands;
 
 public class DeleteCustomerCommandValidator : AbstractValidator<DeleteCustomerCommand>
 {
-    public DeleteCustomerCommandValidator()
-    {
+    public DeleteCustomerCommandValidator() =>
         RuleFor(command => command.Id)
             .NotEmpty();
-    }
 }

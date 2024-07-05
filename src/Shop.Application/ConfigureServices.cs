@@ -17,6 +17,7 @@ public static class ConfigureServices
     public static IServiceCollection AddCommandHandlers(this IServiceCollection services)
     {
         var assembly = Assembly.GetExecutingAssembly();
+
         return services
             .AddValidatorsFromAssembly(assembly)
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly)

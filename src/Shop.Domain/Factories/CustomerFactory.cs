@@ -16,6 +16,7 @@ public static class CustomerFactory
         DateTime dateOfBirth)
     {
         var emailResult = Email.Create(email);
+
         return !emailResult.IsSuccess
             ? Result<Customer>.Error(new ErrorList(emailResult.Errors.ToArray()))
             : Result<Customer>.Success(new Customer(firstName, lastName, gender, emailResult.Value, dateOfBirth));

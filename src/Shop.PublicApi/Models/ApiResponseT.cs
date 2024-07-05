@@ -8,10 +8,7 @@ public sealed class ApiResponse<T> : ApiResponse
 {
     [JsonConstructor]
     public ApiResponse(T result, bool success, string successMessage, int statusCode, IEnumerable<ApiErrorResponse> errors)
-        : base(success, successMessage, statusCode, errors)
-    {
-        Result = result;
-    }
+        : base(success, successMessage, statusCode, errors) => Result = result;
 
     public ApiResponse()
     {

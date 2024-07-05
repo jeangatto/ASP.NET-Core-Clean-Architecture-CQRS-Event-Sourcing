@@ -23,6 +23,7 @@ internal class CustomerReadOnlyRepository(IReadDbContext readDbContext)
         };
 
         using var asyncCursor = await Collection.FindAsync(Builders<CustomerQueryModel>.Filter.Empty, findOptions);
+
         return await asyncCursor.ToListAsync();
     }
 }

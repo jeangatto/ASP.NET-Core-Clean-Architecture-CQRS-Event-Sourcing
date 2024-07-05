@@ -12,10 +12,7 @@ public static class ConfigurationExtensions
     /// <param name="configuration">The IConfiguration object.</param>
     /// <returns>The options object.</returns>
     public static TOptions GetOptions<TOptions>(this IConfiguration configuration)
-        where TOptions : class, IAppOptions
-    {
-        return configuration
+        where TOptions : class, IAppOptions => configuration
             .GetRequiredSection(TOptions.ConfigSectionPath)
             .Get<TOptions>(options => options.BindNonPublicProperties = true);
-    }
 }

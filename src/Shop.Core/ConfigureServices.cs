@@ -19,13 +19,10 @@ public static class ConfigureServices
     /// <typeparam name="TOptions">The type of options to add.</typeparam>
     /// <param name="services">The service collection.</param>
     private static IServiceCollection AddOptionsWithValidation<TOptions>(this IServiceCollection services)
-        where TOptions : class, IAppOptions
-    {
-        return services
+        where TOptions : class, IAppOptions => services
             .AddOptions<TOptions>()
             .BindConfiguration(TOptions.ConfigSectionPath, binderOptions => binderOptions.BindNonPublicProperties = true)
             .ValidateDataAnnotations()
             .ValidateOnStart()
             .Services;
-    }
 }
