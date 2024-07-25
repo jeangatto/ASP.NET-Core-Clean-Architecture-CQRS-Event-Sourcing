@@ -1,8 +1,6 @@
-@baseUrl = http://localhost:53625
-
 ### Register a new customer
 
-POST {{baseUrl}}/api/customers HTTP/1.1
+POST http://localhost:53625/api/customers HTTP/1.1
 content-type: application/json
 
 {
@@ -15,5 +13,5 @@ content-type: application/json
 
 ### Gets a list of all customers
 
-GET {{baseUrl}}/api/customers HTTP/1.1
-accept: application/json
+GET http://localhost:53625/api/customers HTTP/1.1
+content-type: application/json
