@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.IO.Compression;
+using Asp.Versioning;
 using CorrelationId;
 using CorrelationId.DependencyInjection;
 using FluentValidation;
@@ -41,15 +42,14 @@ builder.Services
         versioningOptions.ReportApiVersions = true;
         versioningOptions.AssumeDefaultVersionWhenUnspecified = true;
     })
-    .AddVersionedApiExplorer(explorerOptions =>
+    .AddApiExplorer(explorerOptions =>
     {
         explorerOptions.GroupNameFormat = "'v'VVV";
         explorerOptions.SubstituteApiVersionInUrl = true;
-    })
-    .AddSwagger();
+    });
 
+builder.Services.AddSwagger();
 builder.Services.AddDataProtection();
-
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(behaviorOptions =>
     {

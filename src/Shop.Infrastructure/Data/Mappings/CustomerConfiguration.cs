@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.DataEncryption;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shop.Domain.Entities.CustomerAggregate;
 using Shop.Infrastructure.Data.Extensions;
@@ -36,8 +35,7 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
                 .Property(email => email.Address)
                 .IsRequired() // NOT NULL
                 .HasMaxLength(254)
-                .HasColumnName(nameof(Customer.Email))
-                .IsEncrypted(); // Encryption
+                .HasColumnName(nameof(Customer.Email));
 
             // Unique Index
             ownedNav

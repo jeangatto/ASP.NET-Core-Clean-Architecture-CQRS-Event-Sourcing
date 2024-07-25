@@ -1,6 +1,6 @@
 ### Register a new customer
 
-POST http://localhost:53625/api/customers HTTP/1.1
+POST http://localhost:56344/api/customers HTTP/1.1
 content-type: application/json
 
 {
@@ -13,5 +13,5 @@ content-type: application/json
 
 ### Gets a list of all customers
 
-GET http://localhost:53625/api/customers HTTP/1.1
+GET http://localhost:56344/api/customers HTTP/1.1
 content-type: application/json
