@@ -3,9 +3,12 @@ WORKDIR /app
 EXPOSE 80
 
 ENV ASPNETCORE_URLS=http://+:80
+
+# Specifies whether .NET welcome and telemetry messages are displayed on the first run.
 ENV DOTNET_NOLOGO=1
+
+# Specifies whether data about the .NET tools usage is collected and sent to Microsoft.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
-ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
 WORKDIR /src
