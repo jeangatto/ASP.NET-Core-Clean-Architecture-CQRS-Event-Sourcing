@@ -106,14 +106,19 @@ internal static class ServicesCollectionExtensions
     {
         var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
         var options = serviceProvider.GetOptions<ConnectionOptions>();
+        var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+        var envIsDevelopment = environment.IsDevelopment();
 
         optionsBuilder
             .UseSqlServer(options.SqlConnection, sqlServerOptions =>
             {
-                sqlServerOptions.MigrationsAssembly(DbMigrationAssemblyName);
-                sqlServerOptions.EnableRetryOnFailure(DbMaxRetryCount);
-                sqlServerOptions.CommandTimeout(DbCommandTimeout);
+                sqlServerOptions
+                    .MigrationsAssembly(DbMigrationAssemblyName)
+                    .EnableRetryOnFailure(DbMaxRetryCount)
+                    .CommandTimeout(DbCommandTimeout);
             })
+            .EnableDetailedErrors(envIsDevelopment)
+            .EnableSensitiveDataLogging(envIsDevelopment)
             .UseQueryTrackingBehavior(queryTrackingBehavior)
             .LogTo((eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying, eventData =>
             {
@@ -128,12 +133,5 @@ internal static class ServicesCollectionExtensions
                     retryEventData.Delay,
                     exceptions[^1].Message);
             });
-
-        var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-        if (!environment.IsProduction())
-        {
-            optionsBuilder.EnableDetailedErrors();
-            optionsBuilder.EnableSensitiveDataLogging();
-        }
     }
 }
