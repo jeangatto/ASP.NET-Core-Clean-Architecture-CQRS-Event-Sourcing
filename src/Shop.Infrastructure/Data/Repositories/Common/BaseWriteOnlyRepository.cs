@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Shop.Core.SharedKernel;
@@ -15,6 +16,13 @@ internal abstract class BaseWriteOnlyRepository<TEntity, Tkey>(WriteDbContext co
     where TEntity : class, IEntity<Tkey>
     where Tkey : IEquatable<Tkey>
 {
+    private static readonly Func<WriteDbContext, Tkey, Task<TEntity>> GetByIdCompiledAsync =
+        EF.CompileAsyncQuery((WriteDbContext context, Tkey id) =>
+            context
+                .Set<TEntity>()
+                .AsNoTrackingWithIdentityResolution()
+                .FirstOrDefault(entity => entity.Id.Equals(id)));
+
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
     protected readonly WriteDbContext Context = context;
 
@@ -28,7 +36,7 @@ internal abstract class BaseWriteOnlyRepository<TEntity, Tkey>(WriteDbContext co
         _dbSet.Remove(entity);
 
     public async Task<TEntity> GetByIdAsync(Tkey id) =>
-        await _dbSet.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+        await GetByIdCompiledAsync(Context, id);
 
     #region IDisposable
 
