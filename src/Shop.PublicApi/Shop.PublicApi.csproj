@@ -39,6 +39,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" />
     <PackageReference Include="MiniProfiler.EntityFrameworkCore" />
+    <PackageReference Include="OwaspHeaders.Core" />
     <PackageReference Include="Roslynator.Analyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
