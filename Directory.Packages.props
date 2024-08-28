@@ -9,7 +9,7 @@
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="9.1.0" />
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="8.0.1" />
+    <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="8.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
@@ -50,8 +50,8 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.3.8" />
-    <PackageVersion Include="MongoDB.Bson" Version="2.27.0" />
-    <PackageVersion Include="MongoDB.Driver" Version="2.27.0" />
+    <PackageVersion Include="MongoDB.Bson" Version="2.28.0" />
+    <PackageVersion Include="MongoDB.Driver" Version="2.28.0" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="OwaspHeaders.Core" Version="8.1.0" />
