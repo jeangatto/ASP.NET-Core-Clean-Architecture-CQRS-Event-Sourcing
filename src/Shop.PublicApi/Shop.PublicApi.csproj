@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
@@ -10,7 +10,7 @@
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="Asp.Versioning.Mvc" />
@@ -62,17 +62,21 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Shop.Application\Shop.Application.csproj" />
     <ProjectReference Include="..\Shop.Infrastructure\Shop.Infrastructure.csproj" />
     <ProjectReference Include="..\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     <InternalsVisibleTo Include="Shop.IntegrationTests" />
     <InternalsVisibleTo Include="Shop.UnitTests" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <Content Remove="D:\.nuget\packages\owaspheaders.core\8.1.0\contentFiles\any\net8.0\README.md" />
+  </ItemGroup>
+
 </Project>
