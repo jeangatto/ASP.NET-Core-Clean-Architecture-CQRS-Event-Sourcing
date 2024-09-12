@@ -5,8 +5,8 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Ardalis.Result" Version="9.1.0" />
-    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="9.1.0" />
+    <PackageVersion Include="Ardalis.Result" Version="10.0.0" />
+    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.0.0" />
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="8.1.0" />
