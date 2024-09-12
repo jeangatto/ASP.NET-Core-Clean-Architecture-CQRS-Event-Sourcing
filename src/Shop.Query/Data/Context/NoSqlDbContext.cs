@@ -68,7 +68,11 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
             if (!collections.Exists(db => db.Equals(collectionName, StringComparison.InvariantCultureIgnoreCase)))
             {
                 _logger.LogInformation("----- MongoDB: creating the Collection {Name}", collectionName);
-                await _database.CreateCollectionAsync(collectionName);
+
+                await _database.CreateCollectionAsync(collectionName, new CreateCollectionOptions
+                {
+                    ValidationLevel = DocumentValidationLevel.Strict
+                });
             }
             else
             {
@@ -81,6 +85,8 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
 
     private async Task CreateIndexAsync()
     {
+        _logger.LogInformation("----- MongoDB: creating indexes...");
+
         // Define the index key as ascending order of the Email field in the CustomerQueryModel class
         var indexDefinition = Builders<CustomerQueryModel>.IndexKeys.Ascending(model => model.Email);
 
@@ -88,7 +94,10 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
         var indexModel = new CreateIndexModel<CustomerQueryModel>(indexDefinition, DefaultCreateIndexOptions);
 
         var collection = GetCollection<CustomerQueryModel>();
-        await collection.Indexes.CreateOneAsync(indexModel);
+
+        var indexName = await collection.Indexes.CreateOneAsync(indexModel);
+
+        _logger.LogInformation("----- MongoDB: indexes successfully created - {indexName}", indexName);
     }
 
     private static List<string> GetCollectionNamesFromAssembly() =>
