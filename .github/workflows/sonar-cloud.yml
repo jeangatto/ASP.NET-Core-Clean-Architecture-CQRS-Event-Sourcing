@@ -57,8 +57,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing" /o:"jeangatto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.verbose=false
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing" /o:"jeangatto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.verbose=false /d:sonar.scanner.scanAll=false
           dotnet restore Shop.sln
           dotnet build Shop.sln --nologo --no-restore
           dotnet test Shop.sln --nologo --no-build --no-restore --verbosity minimal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=TestResults/
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
