@@ -18,7 +18,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses:  actions/setup-java@v4
         with:
           java-version: 21
@@ -57,7 +57,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing" /o:"jeangatto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.verbose=false /d:sonar.scanner.scanAll=false /d:sonar.dotnet.excludeTestProjects=true
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing" /o:"jeangatto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.verbose=false /d:sonar.scanner.scanAll=false /d:sonar.dotnet.excludeTestProjects=true /d:sonar.scanner.skipJreProvisioning=true
           dotnet restore Shop.sln
           dotnet build Shop.sln --nologo --no-restore
           dotnet test Shop.sln --nologo --no-build --no-restore --verbosity minimal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=TestResults/
