@@ -23,10 +23,23 @@ internal static class ResultExtensions
     /// <typeparam name="T">The type of the result value.</typeparam>
     /// <param name="result">The result to convert.</param>
     /// <returns>An <see cref="IActionResult"/> representing the result.</returns>
-    public static IActionResult ToActionResult<T>(this Result<T> result) =>
-        result.IsSuccess
-            ? new OkObjectResult(ApiResponse<T>.Ok(result.Value, result.SuccessMessage))
-            : result.ToHttpNonSuccessResult();
+    public static IActionResult ToActionResult<T>(this Result<T> result)
+    {
+        if (result.IsCreated())
+        {
+            return new CreatedResult(
+                result.Location, ApiResponse<T>.Created(result.Value));
+        }
+        else if (result.IsOk())
+        {
+            return new OkObjectResult(
+                ApiResponse<T>.Ok(result.Value, result.SuccessMessage));
+        }
+        else
+        {
+            return result.ToHttpNonSuccessResult();
+        }
+    }
 
     private static IActionResult ToHttpNonSuccessResult(this IResult result)
     {

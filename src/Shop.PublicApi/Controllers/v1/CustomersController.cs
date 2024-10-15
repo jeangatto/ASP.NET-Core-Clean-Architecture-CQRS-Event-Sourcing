@@ -28,13 +28,13 @@ public class CustomersController(IMediator mediator) : ControllerBase
     /// <summary>
     /// Register a new customer.
     /// </summary>
-    /// <response code="200">Returns the Id of the new client.</response>
+    /// <response code="201">Returns the Id of the new client.</response>
     /// <response code="400">Returns list of errors if the request is invalid.</response>
     /// <response code="500">When an unexpected internal error occurs on the server.</response>
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ApiResponse<CreatedCustomerResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<CreatedCustomerResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([FromBody][Required] CreateCustomerCommand command) =>

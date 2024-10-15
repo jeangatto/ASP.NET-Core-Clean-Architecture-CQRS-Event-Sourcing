@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.Result;
 using Bogus;
 using FluentAssertions;
 using MediatR;
@@ -25,7 +26,7 @@ public class CreateCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
     private readonly CreateCustomerCommandValidator _validator = new();
 
     [Fact]
-    public async Task Add_ValidCommand_ShouldReturnsSuccessResult()
+    public async Task Add_ValidCommand_ShouldReturnsCreatedResult()
     {
         // Arrange
         var command = new Faker<CreateCustomerCommand>()
@@ -52,8 +53,7 @@ public class CreateCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
 
         // Assert
         act.Should().NotBeNull();
-        act.IsSuccess.Should().BeTrue();
-        act.SuccessMessage.Should().Be("Successfully registered!");
+        act.IsCreated().Should().BeTrue();
         act.Value.Should().NotBeNull();
         act.Value.Id.Should().NotBe(Guid.Empty);
     }

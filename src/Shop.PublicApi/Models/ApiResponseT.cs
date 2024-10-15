@@ -24,4 +24,7 @@ public sealed class ApiResponse<T> : ApiResponse
 
     public static ApiResponse<T> Ok(T result, string successMessage) =>
         new() { Success = true, StatusCode = StatusCodes.Status200OK, Result = result, SuccessMessage = successMessage };
+
+    public static ApiResponse<T> Created(T result) =>
+        new() { Success = true, StatusCode = StatusCodes.Status201Created, Result = result };
 }

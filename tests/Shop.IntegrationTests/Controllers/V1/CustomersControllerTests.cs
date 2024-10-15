@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 using Bogus;
 using FluentAssertions;
@@ -45,7 +42,7 @@ public class CustomersControllerTests : IAsyncLifetime
     #region POST: /api/customer/
 
     [Fact]
-    public async Task Should_ReturnsHttpStatus200Ok_When_Post_ValidRequest()
+    public async Task Should_ReturnsHttpStatus201Created_When_Post_ValidRequest()
     {
         // Arrange
         await using var webApplicationFactory = InitializeWebAppFactory();
@@ -59,25 +56,27 @@ public class CustomersControllerTests : IAsyncLifetime
             .RuleFor(command => command.DateOfBirth, faker => faker.Person.DateOfBirth)
             .Generate();
 
-        var commandAsJsonString = command.ToJson();
-
         // Act
-        using var jsonContent = new StringContent(commandAsJsonString, Encoding.UTF8, MediaTypeNames.Application.Json);
+        using var jsonContent = command.ToJsonHttpContent();
         using var act = await httpClient.PostAsync(Endpoint, jsonContent);
 
         // Assert (HTTP)
         act.Should().NotBeNull();
         act.IsSuccessStatusCode.Should().BeTrue();
-        act.StatusCode.Should().Be(HttpStatusCode.OK);
+        act.StatusCode.Should().Be(HttpStatusCode.Created);
 
         // Assert (HTTP Content Response)
         var response = (await act.Content.ReadAsStringAsync()).FromJson<ApiResponse<CreatedCustomerResponse>>();
         response.Should().NotBeNull();
         response.Success.Should().BeTrue();
-        response.StatusCode.Should().Be(StatusCodes.Status200OK);
+        response.StatusCode.Should().Be(StatusCodes.Status201Created);
         response.Errors.Should().BeEmpty();
         response.Result.Should().NotBeNull();
         response.Result.Id.Should().NotBeEmpty();
+
+        // Assert Location Header
+        act.Headers.GetValues("Location").Should().NotBeNullOrEmpty()
+            .And.Contain($"/api/customers/{response.Result.Id}");
     }
 
     [Fact]
@@ -88,10 +87,9 @@ public class CustomersControllerTests : IAsyncLifetime
         using var httpClient = webApplicationFactory.CreateClient(CreateClientOptions());
 
         var command = new Faker<CreateCustomerCommand>().Generate();
-        var commandAsJsonString = command.ToJson();
 
         // Act
-        using var jsonContent = new StringContent(commandAsJsonString, Encoding.UTF8, MediaTypeNames.Application.Json);
+        using var jsonContent = command.ToJsonHttpContent();
         using var act = await httpClient.PostAsync(Endpoint, jsonContent);
 
         // Assert (HTTP)
@@ -141,10 +139,8 @@ public class CustomersControllerTests : IAsyncLifetime
             .RuleFor(command => command.DateOfBirth, faker => faker.Person.DateOfBirth)
             .Generate();
 
-        var commandAsJsonString = command.ToJson();
-
         // Act
-        using var jsonContent = new StringContent(commandAsJsonString, Encoding.UTF8, MediaTypeNames.Application.Json);
+        using var jsonContent = command.ToJsonHttpContent();
         using var act = await httpClient.PostAsync(Endpoint, jsonContent);
 
         // Assert (HTTP)

@@ -52,8 +52,8 @@ public class CreateCustomerCommandHandler(
         // Saving changes to the database and triggering events.
         await unitOfWork.SaveChangesAsync();
 
-        // Returning the ID and success message.
-        return Result<CreatedCustomerResponse>.Success(
-            new CreatedCustomerResponse(customer.Id), "Successfully registered!");
+        // Returning the ID.
+        return Result<CreatedCustomerResponse>.Created(
+            new CreatedCustomerResponse(customer.Id), location: $"/api/customers/{customer.Id}");
     }
 }
