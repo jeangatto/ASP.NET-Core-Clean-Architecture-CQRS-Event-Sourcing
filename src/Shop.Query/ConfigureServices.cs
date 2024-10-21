@@ -24,7 +24,7 @@ public static class ConfigureServices
     /// <param name="services">The service collection.</param>
     public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = Assembly.GetAssembly(typeof(IQueryMarker));
         return services
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly))
             .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(assembly))))

@@ -54,7 +54,7 @@
     <PackageVersion Include="MongoDB.Driver" Version="3.0.0" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="OwaspHeaders.Core" Version="8.1.0" />
+    <PackageVersion Include="OwaspHeaders.Core" Version="8.1.3" />
     <PackageVersion Include="Polly" Version="8.4.2" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.12.8" />
     <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="4.12.8" />
