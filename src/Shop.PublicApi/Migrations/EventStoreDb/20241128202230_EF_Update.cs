@@ -17,10 +17,10 @@ public partial class EF_Update : Migration
             unicode: false,
             maxLength: 255,
             nullable: false,
-            comment: "JSON serialized event",
             oldClrType: typeof(string),
             oldType: "VARCHAR(MAX)",
             oldUnicode: false,
+            comment: "JSON serialized event",
             oldComment: "JSON serialized event");
     }
 
@@ -33,11 +33,11 @@ public partial class EF_Update : Migration
             type: "VARCHAR(MAX)",
             unicode: false,
             nullable: false,
-            comment: "JSON serialized event",
             oldClrType: typeof(string),
             oldType: "varchar(255)",
             oldUnicode: false,
             oldMaxLength: 255,
+            comment: "JSON serialized event",
             oldComment: "JSON serialized event");
     }
 }
