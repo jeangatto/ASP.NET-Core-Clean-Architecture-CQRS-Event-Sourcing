@@ -65,7 +65,7 @@ builder.Services
     .AddInfrastructure()
     .AddCommandHandlers()
     .AddQueryHandlers()
-    .AddWriteDbContext()
+    .AddWriteDbContext(builder.Environment)
     .AddWriteOnlyRepositories()
     .AddReadDbContext()
     .AddReadOnlyRepositories()

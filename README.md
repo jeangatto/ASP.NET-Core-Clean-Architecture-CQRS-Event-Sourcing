@@ -26,8 +26,8 @@ If you liked this project, learned something, give it a star. Thank you!
 
 ## **Technologies**
 
-- ASP.NET Core 8
-- Entity Framework Core 8
+- ASP.NET Core 9
+- Entity Framework Core 9
 - Unit & Integration Tests + xUnit + FluentAssertions
 - Polly
 - AutoMapper
@@ -73,7 +73,7 @@ docker-compose up --build --abort-on-container-exit --remove-orphans
 Now just open the url in the browser:
 
 ```csharp
-http://localhost:5072/swagger/
+http://localhost:{port}/swagger/
 ```
 
 
@@ -83,7 +83,7 @@ http://localhost:5072/swagger/
 To access the page with the performance indicators and performance:
 
 ```csharp
-http://localhost:5072/profiler/results-index
+http://localhost:{port}/profiler/results-index
 ```
 
 ## License

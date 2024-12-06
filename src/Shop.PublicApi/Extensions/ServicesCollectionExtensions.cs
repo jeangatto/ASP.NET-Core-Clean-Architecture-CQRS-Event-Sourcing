@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -67,13 +68,16 @@ internal static class ServicesCollectionExtensions
             healthCheckBuilder.AddRedis(options.CacheConnection);
     }
 
-    public static IServiceCollection AddWriteDbContext(this IServiceCollection services)
+    public static IServiceCollection AddWriteDbContext(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        services.AddDbContext<WriteDbContext>((serviceProvider, optionsBuilder) =>
-            ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
+        if (!environment.IsEnvironment("Testing"))
+        {
+            services.AddDbContext<WriteDbContext>((serviceProvider, optionsBuilder) =>
+                ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
 
-        services.AddDbContext<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
-            ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
+            services.AddDbContext<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
+                ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
+        }
 
         return services;
     }

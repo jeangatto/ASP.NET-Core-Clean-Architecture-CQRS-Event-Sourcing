@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UserSecretsId>7d8d0af0-7540-48a6-b160-d34c988a1ad6</UserSecretsId>
@@ -61,6 +61,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="System.Text.RegularExpressions" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,7 +77,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="D:\.nuget\packages\owaspheaders.core\8.1.0\contentFiles\any\net8.0\README.md" />
+    <Content Remove="D:\.nuget\packages\owaspheaders.core\8.1.0\contentFiles\any\net9.0\README.md" />
   </ItemGroup>
 
 </Project>

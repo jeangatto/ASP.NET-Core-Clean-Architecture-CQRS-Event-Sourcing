@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim AS base
 WORKDIR /app
 EXPOSE 80
 
@@ -10,7 +10,7 @@ ENV DOTNET_NOLOGO=1
 # Specifies whether data about the .NET tools usage is collected and sent to Microsoft.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-bookworm-slim AS build
 WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
