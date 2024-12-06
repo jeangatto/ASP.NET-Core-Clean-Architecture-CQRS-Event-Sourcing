@@ -37,7 +37,7 @@ jobs:
           cache: true
 
       - name: Restore dependencies
-        run: dotnet restore Shop.sln --locked-mode
+        run: dotnet restore Shop.sln
 
       - name: Build
         run: dotnet build Shop.sln --nologo --no-restore --configuration Release
