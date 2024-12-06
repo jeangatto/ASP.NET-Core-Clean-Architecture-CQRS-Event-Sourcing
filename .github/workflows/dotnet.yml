@@ -1,3 +1,4 @@
+# https://github.com/actions/setup-dotnet
 name: Build
 
 on:
@@ -33,9 +34,10 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
 
       - name: Restore dependencies
-        run: dotnet restore Shop.sln
+        run: dotnet restore Shop.sln --locked-mode
 
       - name: Build
         run: dotnet build Shop.sln --nologo --no-restore --configuration Release
