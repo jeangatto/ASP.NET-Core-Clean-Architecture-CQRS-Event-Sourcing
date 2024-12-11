@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Net;
 using System.Threading.Tasks;
 using Bogus;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -477,12 +479,14 @@ public class CustomersControllerTests : IAsyncLifetime
                 hostBuilder.UseSetting("CacheOptions:AbsoluteExpirationInHours", "1");
                 hostBuilder.UseSetting("CacheOptions:SlidingExpirationInSeconds", "30");
 
-                hostBuilder.UseEnvironment(Environments.Production);
+                hostBuilder.UseEnvironment("Testing");
 
                 hostBuilder.ConfigureLogging(logging => logging.ClearProviders());
 
                 hostBuilder.ConfigureServices(services =>
                 {
+                    services.RemoveAll<DbConnection>();
+                    services.RemoveAll<DbContextOptions>();
                     services.RemoveAll<WriteDbContext>();
                     services.RemoveAll<DbContextOptions<WriteDbContext>>();
                     services.RemoveAll<EventStoreDbContext>();
@@ -491,10 +495,14 @@ public class CustomersControllerTests : IAsyncLifetime
                     services.RemoveAll<ISynchronizeDb>();
 
                     services.AddDbContext<WriteDbContext>(
-                        options => options.UseSqlite(_writeDbContextSqlite));
+                        options => options
+                            .UseSqlite(_writeDbContextSqlite)
+                            .ConfigureWarnings(warningBuilder => warningBuilder.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
 
                     services.AddDbContext<EventStoreDbContext>(
-                        options => options.UseSqlite(_eventStoreDbContextSqlite));
+                        options => options
+                            .UseSqlite(_eventStoreDbContextSqlite)
+                            .ConfigureWarnings(warningBuilder => warningBuilder.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
 
                     services.AddSingleton(_ => Substitute.For<IReadDbContext>());
                     services.AddSingleton(_ => Substitute.For<ISynchronizeDb>());
