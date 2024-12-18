@@ -26,14 +26,19 @@ If you liked this project, learned something, give it a star. Thank you!
 
 ## **Technologies**
 
+- ~~ASP.NET Core 8~~
 - ASP.NET Core 9
+- ~~Entity Framework Core 8~~
 - Entity Framework Core 9
+- **EF Compiled Queries** (https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/compiled-queries-linq-to-entities)
 - Unit & Integration Tests + xUnit + FluentAssertions
 - Polly
 - AutoMapper
 - FluentValidator
 - MediatR
-- Swagger UI
+- ~~Swagger UI~~
+- OpenApi
+- **Scalar** - Interactive API Reference from OpenAPI/Swagger (https://github.com/scalar/scalar)
 - HealthChecks
 - SQL Server
 - MongoDB
@@ -73,7 +78,7 @@ docker-compose up --build --abort-on-container-exit --remove-orphans
 Now just open the url in the browser:
 
 ```csharp
-http://localhost:{port}/swagger/
+http://localhost:{port}/scalar/v1
 ```
 
 

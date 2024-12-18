@@ -5,7 +5,7 @@
         <DockerTargetOS>Linux</DockerTargetOS>
         <ProjectGuid>24ef58f6-cbf8-4910-a17c-e8de7ed96a87</ProjectGuid>
         <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>        
-        <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
+        <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/scalar/v1</DockerServiceUrl>
         <DockerServiceName>shop-webapi</DockerServiceName>
     </PropertyGroup>
     <ItemGroup>

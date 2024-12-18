@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OwaspHeaders.Core.Extensions;
+using Scalar.AspNetCore;
 using Shop.Application;
 using Shop.Core;
 using Shop.Core.Extensions;
@@ -49,7 +50,7 @@ builder.Services
         explorerOptions.SubstituteApiVersionInUrl = true;
     });
 
-builder.Services.AddSwagger();
+builder.Services.AddOpenApi();
 builder.Services.AddDataProtection();
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(behaviorOptions =>
@@ -104,7 +105,9 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
+{
     app.UseDeveloperExceptionPage();
+}
 
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
@@ -112,9 +115,9 @@ app.UseHealthChecks("/health", new HealthCheckOptions
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
+app.MapOpenApi();
+app.MapScalarApiReference();
 app.UseErrorHandling();
-app.UseSwagger();
-app.UseSwaggerUI();
 app.UseResponseCompression();
 app.UseHttpsRedirection();
 app.UseSecureHeadersMiddleware();

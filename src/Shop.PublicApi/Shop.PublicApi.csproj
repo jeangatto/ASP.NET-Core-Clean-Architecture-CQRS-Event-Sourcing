@@ -21,6 +21,7 @@
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="CorrelationId" />
     <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -60,7 +61,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Scalar.AspNetCore" />
     <PackageReference Include="System.Text.RegularExpressions" />
   </ItemGroup>
 
@@ -78,6 +79,7 @@
 
   <ItemGroup>
     <Content Remove="D:\.nuget\packages\owaspheaders.core\8.1.0\contentFiles\any\net9.0\README.md" />
+    <Content Remove="D:\.nuget\packages\owaspheaders.core\9.4.3\contentFiles\any\net9.0\README.md" />
   </ItemGroup>
 
 </Project>
