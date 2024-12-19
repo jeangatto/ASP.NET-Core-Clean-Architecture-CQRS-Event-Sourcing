@@ -26,9 +26,9 @@ internal class CustomerWriteOnlyRepository(WriteDbContext context)
                 .AsNoTracking()
                 .Any(customer => customer.Email.Address == email && customer.Id != currentId));
 
-    public async Task<bool> ExistsByEmailAsync(Email email) =>
-        await ExistsByEmailCompiledAsync(Context, email.Address);
+    public Task<bool> ExistsByEmailAsync(Email email) =>
+         ExistsByEmailCompiledAsync(Context, email.Address);
 
-    public async Task<bool> ExistsByEmailAsync(Email email, Guid currentId) =>
-        await ExistsByEmailAndIdCompiledAsync(Context, email.Address, currentId);
+    public Task<bool> ExistsByEmailAsync(Email email, Guid currentId) =>
+         ExistsByEmailAndIdCompiledAsync(Context, email.Address, currentId);
 }
