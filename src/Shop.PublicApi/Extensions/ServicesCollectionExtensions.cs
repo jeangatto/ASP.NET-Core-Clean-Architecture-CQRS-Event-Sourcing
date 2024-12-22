@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Shop.Core.AppSettings;
 using Shop.Core.Extensions;
 using Shop.Infrastructure;
@@ -33,7 +34,7 @@ internal static class ServicesCollectionExtensions
             .AddHealthChecks()
             .AddDbContextCheck<WriteDbContext>(tags: DbRelationalTags)
             .AddDbContextCheck<EventStoreDbContext>(tags: DbRelationalTags)
-            .AddMongoDb(options.NoSqlConnection, tags: DbNoSqlTags);
+            .AddMongoDb(clientFactory: _ => new MongoClient(options.NoSqlConnection), tags: DbNoSqlTags);
 
         if (!options.CacheConnectionInMemory())
             healthCheckBuilder.AddRedis(options.CacheConnection);
