@@ -18,7 +18,7 @@ namespace Shop.PublicApi.Extensions;
 internal static class ServicesCollectionExtensions
 {
     private const int DbMaxRetryCount = 3;
-    private const int DbCommandTimeout = 35;
+    private const int DbCommandTimeout = 30;
     private const string DbMigrationAssemblyName = "Shop.PublicApi";
     private const string RedisInstanceName = "master";
 

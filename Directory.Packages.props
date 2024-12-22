@@ -10,9 +10,9 @@
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.1.0" />
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="8.1.0" />
-    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
-    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
+    <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
     <PackageVersion Include="Bogus" Version="35.6.1" />
     <PackageVersion Include="CorrelationId" Version="3.0.1" />
@@ -63,7 +63,7 @@
     <PackageVersion Include="Roslynator.CodeFixes" Version="4.12.10" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.12.10" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.12.10" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="1.2.63" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="1.2.69" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
     <PackageVersion Include="System.Text.Json" Version="9.0.0" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
