@@ -16,8 +16,8 @@
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
     <PackageVersion Include="Bogus" Version="35.6.1" />
     <PackageVersion Include="CorrelationId" Version="3.0.1" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.3" />
-    <PackageVersion Include="coverlet.msbuild" Version="6.0.3" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
     <PackageVersion Include="FluentAssertions" Version="7.0.0" />
     <PackageVersion Include="FluentValidation" Version="11.11.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
@@ -63,7 +63,7 @@
     <PackageVersion Include="Roslynator.CodeFixes" Version="4.12.10" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.12.10" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.12.10" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.0.1" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.0.2" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
     <PackageVersion Include="System.Text.Json" Version="9.0.1" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
