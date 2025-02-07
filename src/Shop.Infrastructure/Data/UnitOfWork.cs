@@ -109,14 +109,8 @@ internal sealed class UnitOfWork(
         if (!domainEvents.Any() || !eventStores.Any())
             return;
 
-        // Publish each domain event in parallel using _mediator.
-        var tasks = domainEvents
-            .AsParallel()
-            .Select(@event => mediator.Publish(@event))
-            .ToList();
-
-        // Wait for all the published events to be processed.
-        await Task.WhenAll(tasks);
+        // Publish each domain event using _mediator.
+        await Task.WhenAll(domainEvents.Select(@event => mediator.Publish(@event)));
 
         // Store the event stores using _eventStoreRepository.
         await eventStoreRepository.StoreAsync(eventStores);
