@@ -63,13 +63,13 @@
     <PackageVersion Include="Roslynator.CodeFixes" Version="4.12.11" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.12.11" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.12.11" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.0.9" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.0.12" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
     <PackageVersion Include="System.Text.Json" Version="9.0.1" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
-    <PackageVersion Include="xunit.analyzers" Version="1.19.0" />
+    <PackageVersion Include="xunit.analyzers" Version="1.20.0" />
     <PackageVersion Include="xunit.categories" Version="2.0.8" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
   </ItemGroup>
 </Project>
