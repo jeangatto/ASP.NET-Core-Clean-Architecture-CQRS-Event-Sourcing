@@ -26,7 +26,7 @@ internal static class ServicesCollectionExtensions
     private static readonly string[] DbRelationalTags = ["database", "ef-core", "sql-server", "relational"];
     private static readonly string[] DbNoSqlTags = ["database", "mongodb", "no-sql"];
 
-    public static void AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
         var options = configuration.GetOptions<ConnectionOptions>();
 
@@ -38,6 +38,8 @@ internal static class ServicesCollectionExtensions
 
         if (!options.CacheConnectionInMemory())
             healthCheckBuilder.AddRedis(options.CacheConnection);
+
+        return services;
     }
 
     public static IServiceCollection AddWriteDbContext(this IServiceCollection services, IWebHostEnvironment environment)
