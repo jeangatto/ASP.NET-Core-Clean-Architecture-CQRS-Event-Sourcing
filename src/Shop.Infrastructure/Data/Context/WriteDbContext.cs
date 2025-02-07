@@ -12,7 +12,6 @@ public class WriteDbContext(DbContextOptions<WriteDbContext> dbOptions)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
     }
 }
