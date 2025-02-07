@@ -71,9 +71,8 @@ builder.Services
     .AddReadDbContext()
     .AddReadOnlyRepositories()
     .AddCacheService(builder.Configuration)
-    .AddHealthChecks(builder.Configuration);
-
-builder.Services.AddDefaultCorrelationId();
+    .AddHealthChecks(builder.Configuration)
+    .AddDefaultCorrelationId();
 
 // MiniProfiler for .NET
 // https://miniprofiler.com/dotnet/
