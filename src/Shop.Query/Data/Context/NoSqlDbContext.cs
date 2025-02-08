@@ -185,5 +185,4 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
     }
 
     #endregion
-
 }
