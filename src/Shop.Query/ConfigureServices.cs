@@ -38,9 +38,9 @@ public static class ConfigureServices
     public static IServiceCollection AddReadDbContext(this IServiceCollection services)
     {
         services
-            .AddSingleton<ISynchronizeDb, NoSqlDbContext>()
-            .AddSingleton<IReadDbContext, NoSqlDbContext>()
-            .AddSingleton<NoSqlDbContext>();
+            .AddScoped<ISynchronizeDb, NoSqlDbContext>()
+            .AddScoped<IReadDbContext, NoSqlDbContext>()
+            .AddScoped<NoSqlDbContext>();
 
         ConfigureMongoDb();
 
