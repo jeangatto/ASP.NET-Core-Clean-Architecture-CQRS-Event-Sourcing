@@ -7,7 +7,7 @@ namespace Shop.Query.Abstractions;
 /// <summary>
 /// Represents a contract for synchronizing query models with the database.
 /// </summary>
-public interface ISynchronizeDb
+public interface ISynchronizeDb : IDisposable
 {
     /// <summary>
     /// Upserts a query model into the database.

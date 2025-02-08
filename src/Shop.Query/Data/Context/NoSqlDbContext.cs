@@ -34,7 +34,8 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
         Sparse = true
     };
 
-    private readonly IMongoDatabase _database;
+    private readonly MongoClient _mongoClient;
+    private readonly IMongoDatabase _mongoDatabase;
     private readonly ILogger<NoSqlDbContext> _logger;
     private readonly AsyncRetryPolicy _mongoRetryPolicy;
 
@@ -42,8 +43,8 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
     {
         ConnectionString = options.Value.NoSqlConnection;
 
-        var mongoClient = new MongoClient(options.Value.NoSqlConnection);
-        _database = mongoClient.GetDatabase(DatabaseName);
+        _mongoClient = new MongoClient(options.Value.NoSqlConnection);
+        _mongoDatabase = _mongoClient.GetDatabase(DatabaseName);
         _logger = logger;
         _mongoRetryPolicy = CreateRetryPolicy(logger);
     }
@@ -55,11 +56,11 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
     public string ConnectionString { get; }
 
     public IMongoCollection<TQueryModel> GetCollection<TQueryModel>() where TQueryModel : IQueryModel =>
-        _database.GetCollection<TQueryModel>(typeof(TQueryModel).Name);
+        _mongoDatabase.GetCollection<TQueryModel>(typeof(TQueryModel).Name);
 
     public async Task CreateCollectionsAsync()
     {
-        using var asyncCursor = await _database.ListCollectionNamesAsync();
+        using var asyncCursor = await _mongoDatabase.ListCollectionNamesAsync();
         var collections = await asyncCursor.ToListAsync();
 
         foreach (var collectionName in GetCollectionNamesFromAssembly())
@@ -69,7 +70,7 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
             {
                 _logger.LogInformation("----- MongoDB: creating the Collection {Name}", collectionName);
 
-                await _database.CreateCollectionAsync(collectionName, new CreateCollectionOptions
+                await _mongoDatabase.CreateCollectionAsync(collectionName, new CreateCollectionOptions
                 {
                     ValidationLevel = DocumentValidationLevel.Strict
                 });
@@ -154,4 +155,35 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
         logger.LogError(ex, "An unexpected exception occurred while saving to MongoDB: {Message}", ex.Message);
 
     #endregion
+
+    #region IDisposable
+
+    // To detect redundant calls.
+    private bool _disposed;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    ~NoSqlDbContext() => Dispose(false);
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    // Protected implementation of Dispose pattern.
+    private void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        // Dispose managed state (managed objects).
+        if (disposing)
+            _mongoClient.Dispose();
+
+        _disposed = true;
+    }
+
+    #endregion
+
 }

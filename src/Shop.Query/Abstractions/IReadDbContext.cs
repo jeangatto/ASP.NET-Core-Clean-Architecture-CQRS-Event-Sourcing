@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
@@ -6,7 +7,7 @@ namespace Shop.Query.Abstractions;
 /// <summary>
 /// Represents the read-only database context for querying data.
 /// </summary>
-public interface IReadDbContext
+public interface IReadDbContext : IDisposable
 {
     /// <summary>
     /// Gets the connection string for the database.
