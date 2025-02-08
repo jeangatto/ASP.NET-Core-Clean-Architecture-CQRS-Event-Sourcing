@@ -115,7 +115,13 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 });
 
 app.MapOpenApi();
-app.MapScalarApiReference();
+app.MapScalarApiReference(scalarOptions =>
+{
+    scalarOptions.Title = "Shop API";
+    scalarOptions.HideModels = true;
+    scalarOptions.DarkMode = true;
+    scalarOptions.DotNetFlag = false;
+});
 app.UseErrorHandling();
 app.UseResponseCompression();
 app.UseHttpsRedirection();
