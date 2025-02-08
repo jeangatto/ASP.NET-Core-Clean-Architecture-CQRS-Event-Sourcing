@@ -115,13 +115,17 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 });
 
 app.MapOpenApi();
+
+// Route: /scalar/v1
 app.MapScalarApiReference(scalarOptions =>
 {
-    scalarOptions.Title = "Shop API";
-    scalarOptions.HideModels = true;
     scalarOptions.DarkMode = true;
     scalarOptions.DotNetFlag = false;
+    scalarOptions.HideDownloadButton = true;
+    scalarOptions.HideModels = true;
+    scalarOptions.Title = "Shop API";
 });
+
 app.UseErrorHandling();
 app.UseResponseCompression();
 app.UseHttpsRedirection();
