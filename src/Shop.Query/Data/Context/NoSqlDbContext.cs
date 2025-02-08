@@ -128,29 +128,30 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
         await _mongoRetryPolicy.ExecuteAsync(async () => await collection.DeleteOneAsync(deleteFilter));
     }
 
-    private static AsyncRetryPolicy CreateRetryPolicy(ILogger logger)
-    {
-        return Policy
+    private static AsyncRetryPolicy CreateRetryPolicy(ILogger logger) =>
+        Policy
             .Handle<MongoException>()
-            .WaitAndRetryAsync(RetryCount, SleepDurationProvider, OnRetry);
+            .WaitAndRetryAsync(
+                RetryCount,
+                (retryAttempt) => SleepDurationProvider(retryAttempt, logger),
+                (ex, _) => OnRetry(logger, ex));
 
-        void OnRetry(Exception ex, TimeSpan _) =>
-            logger.LogError(ex, "An unexpected exception occurred while saving to MongoDB: {Message}", ex.Message);
+    private static TimeSpan SleepDurationProvider(int retryAttempt, ILogger logger)
+    {
+        // Retry with jitter
+        // A well-known retry strategy is exponential backoff, allowing retries to be made initially quickly,
+        // but then at progressively longer intervals: for example, after 2, 4, 8, 15, then 30 seconds.
+        // REF: https://github.com/App-vNext/Polly/wiki/Retry-with-jitter#simple-jitter
+        var sleepDuration =
+            TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(Random.Shared.Next(0, 1000));
 
-        TimeSpan SleepDurationProvider(int retryAttempt)
-        {
-            // Retry with jitter
-            // A well-known retry strategy is exponential backoff, allowing retries to be made initially quickly,
-            // but then at progressively longer intervals: for example, after 2, 4, 8, 15, then 30 seconds.
-            // REF: https://github.com/App-vNext/Polly/wiki/Retry-with-jitter#simple-jitter
-            var sleepDuration =
-                TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(Random.Shared.Next(0, 1000));
+        logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
 
-            logger.LogWarning("----- MongoDB: Retry #{Count} with delay {Delay}", retryAttempt, sleepDuration);
-
-            return sleepDuration;
-        }
+        return sleepDuration;
     }
+
+    private static void OnRetry(ILogger logger, Exception ex) =>
+        logger.LogError(ex, "An unexpected exception occurred while saving to MongoDB: {Message}", ex.Message);
 
     #endregion
 }
