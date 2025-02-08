@@ -63,7 +63,7 @@
     <PackageVersion Include="Roslynator.CodeFixes" Version="4.12.11" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.12.11" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.12.11" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.0.12" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="1.2.76" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
     <PackageVersion Include="System.Text.Json" Version="9.0.1" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
