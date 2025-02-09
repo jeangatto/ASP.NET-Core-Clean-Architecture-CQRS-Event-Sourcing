@@ -105,8 +105,10 @@ internal sealed class UnitOfWork(
         IReadOnlyList<BaseEvent> domainEvents,
         IReadOnlyList<EventStore> eventStores)
     {
-        // If there are no domain events or event stores, return without performing any actions.
-        if (!domainEvents.Any() || !eventStores.Any())
+        if (!domainEvents.Any())
+            return;
+
+        if (!eventStores.Any())
             return;
 
         // Publish each domain event using _mediator.
