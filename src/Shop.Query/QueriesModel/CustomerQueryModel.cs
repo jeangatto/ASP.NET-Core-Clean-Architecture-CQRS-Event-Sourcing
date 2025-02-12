@@ -32,5 +32,5 @@ public class CustomerQueryModel : IQueryModel<Guid>
     public string Email { get; private init; }
     public DateTime DateOfBirth { get; private init; }
 
-    public string FullName => (FirstName + " " + LastName).Trim();
+    public string FullName => $"{FirstName} {LastName}".Trim();
 }
