@@ -24,6 +24,6 @@ public static class GenericTypeExtensions
         var genericTypes = string.Join(",", type.GetGenericArguments().Select(t => t.Name).ToArray());
 
         // Remove the backtick and append the generic arguments to the type name
-        return $"{type.Name.Remove(type.Name.IndexOf('`'))}<{genericTypes}>";
+        return $"{type.Name[..type.Name.IndexOf('`')]}<{genericTypes}>";
     }
 }
