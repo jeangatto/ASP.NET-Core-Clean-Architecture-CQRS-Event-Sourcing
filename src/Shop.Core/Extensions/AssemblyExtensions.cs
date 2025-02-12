@@ -16,9 +16,8 @@ public static class AssemblyExtensions
     public static IEnumerable<Type> GetAllTypesOf<TInterface>(this Assembly assembly)
     {
         var isAssignableToTInterface = typeof(TInterface).IsAssignableFrom;
-        return assembly
+        return [.. assembly
             .GetTypes()
-            .Where(type => type.IsClass && !type.IsAbstract && !type.IsInterface && isAssignableToTInterface(type))
-            .ToList();
+            .Where(type => type.IsClass && !type.IsAbstract && !type.IsInterface && isAssignableToTInterface(type))];
     }
 }
