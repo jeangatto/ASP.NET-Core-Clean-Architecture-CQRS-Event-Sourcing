@@ -105,17 +105,13 @@ internal sealed class UnitOfWork(
         IReadOnlyList<BaseEvent> domainEvents,
         IReadOnlyList<EventStore> eventStores)
     {
-        if (!domainEvents.Any())
-            return;
-
-        if (!eventStores.Any())
-            return;
-
         // Publish each domain event using _mediator.
-        await Task.WhenAll(domainEvents.Select(@event => mediator.Publish(@event)));
+        if (domainEvents.Count > 0)
+            await Task.WhenAll(domainEvents.Select(@event => mediator.Publish(@event)));
 
         // Store the event stores using _eventStoreRepository.
-        await eventStoreRepository.StoreAsync(eventStores);
+        if (eventStores.Count > 0)
+            await eventStoreRepository.StoreAsync(eventStores);
     }
 
     #region IDisposable
