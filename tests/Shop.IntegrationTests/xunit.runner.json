@@ -1,7 +1,10 @@
 {
   "$schema": "https://xunit.net/schema/current/xunit.runner.schema.json",
   "diagnosticMessages": true,
+  "failWarns": true,
   "parallelizeAssembly": true,
   "parallelizeTestCollections": true,
-  "preEnumerateTheories": true
+  "preEnumerateTheories": true,
+  "showLiveOutput": true,
+  "stopOnFail": true
 }
