@@ -11,9 +11,9 @@
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.1.*" />
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.*" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.*" />
-    <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.*" />
-    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.*" />
-    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.*" />
+    <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="9.*" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.*" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.*" />
     <PackageVersion Include="AutoMapper" Version="13.0.*" />
     <PackageVersion Include="Bogus" Version="35.6.*" />
     <PackageVersion Include="CorrelationId" Version="3.0.*" />
@@ -23,33 +23,34 @@
     <PackageVersion Include="FluentValidation" Version="11.11.*" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.*" />
     <PackageVersion Include="MediatR" Version="12.4.*" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Primitives" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.*" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.*" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore"
+      Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Primitives" Version="9.*" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.*" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.*" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.5.*" />
@@ -59,11 +60,11 @@
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.*" />
     <PackageVersion Include="OwaspHeaders.Core" Version="9.7.*" />
     <PackageVersion Include="Polly" Version="8.5.*" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.12.*" />
-    <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="4.12.*" />
-    <PackageVersion Include="Roslynator.CodeFixes" Version="4.12.*" />
-    <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.12.*" />
-    <PackageVersion Include="Roslynator.Refactorings" Version="4.12.*" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.*" />
+    <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="4.*" />
+    <PackageVersion Include="Roslynator.CodeFixes" Version="4.*" />
+    <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.*" />
+    <PackageVersion Include="Roslynator.Refactorings" Version="4.*" />
     <PackageVersion Include="Scalar.AspNetCore" Version="1.2.76" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.*" />
     <PackageVersion Include="System.Text.Json" Version="9.0.*" />
