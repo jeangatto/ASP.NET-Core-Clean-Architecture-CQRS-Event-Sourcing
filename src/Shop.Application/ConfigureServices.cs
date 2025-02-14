@@ -19,7 +19,7 @@ public static class ConfigureServices
     {
         var assembly = Assembly.GetAssembly(typeof(IApplicationMarker));
         return services
-            .AddValidatorsFromAssembly(assembly)
+            .AddValidatorsFromAssembly(assembly, ServiceLifetime.Singleton)
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly)
             .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)));
     }
