@@ -39,8 +39,7 @@
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.*" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore"
-      Version="9.*" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.*" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.*" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.*" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="9.*" />
@@ -54,8 +53,8 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.*" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.*" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.5.*" />
-    <PackageVersion Include="MongoDB.Bson" Version="3.2.0" />
-    <PackageVersion Include="MongoDB.Driver" Version="3.2.0" />
+    <PackageVersion Include="MongoDB.Bson" Version="3.2.*" />
+    <PackageVersion Include="MongoDB.Driver" Version="3.2.*" />
     <PackageVersion Include="NSubstitute" Version="5.3.*" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.*" />
     <PackageVersion Include="OwaspHeaders.Core" Version="9.7.*" />
