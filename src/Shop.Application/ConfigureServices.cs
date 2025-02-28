@@ -21,6 +21,6 @@ public static class ConfigureServices
         return services
             .AddValidatorsFromAssembly(assembly, ServiceLifetime.Singleton)
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly)
-            .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)));
+                .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)));
     }
 }
