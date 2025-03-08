@@ -12,19 +12,19 @@ namespace Shop.Infrastructure.Data.Repositories.Common;
 /// </summary>
 /// <typeparam name="TEntity">The type of the entity.</typeparam>
 /// <typeparam name="TKey">The type of the entity's key.</typeparam>
-internal abstract class BaseWriteOnlyRepository<TEntity, TKey>(WriteDbContext context) : IWriteOnlyRepository<TEntity, TKey>
+internal abstract class BaseWriteOnlyRepository<TEntity, TKey>(WriteDbContext dbContext) : IWriteOnlyRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     private static readonly Func<WriteDbContext, TKey, Task<TEntity>> GetByIdCompiledAsync =
-        EF.CompileAsyncQuery((WriteDbContext context, TKey id) =>
-            context
+        EF.CompileAsyncQuery((WriteDbContext dbContext, TKey id) =>
+            dbContext
                 .Set<TEntity>()
                 .AsNoTrackingWithIdentityResolution()
                 .FirstOrDefault(entity => entity.Id.Equals(id)));
 
-    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
-    protected readonly WriteDbContext Context = context;
+    private readonly DbSet<TEntity> _dbSet = dbContext.Set<TEntity>();
+    protected readonly WriteDbContext DbContext = dbContext;
 
     public void Add(TEntity entity) =>
         _dbSet.Add(entity);
@@ -36,7 +36,7 @@ internal abstract class BaseWriteOnlyRepository<TEntity, TKey>(WriteDbContext co
         _dbSet.Remove(entity);
 
     public async Task<TEntity> GetByIdAsync(TKey id) =>
-        await GetByIdCompiledAsync(Context, id);
+        await GetByIdCompiledAsync(DbContext, id);
 
     #region IDisposable
 
@@ -60,7 +60,7 @@ internal abstract class BaseWriteOnlyRepository<TEntity, TKey>(WriteDbContext co
 
         // Dispose managed state (managed objects).
         if (disposing)
-            Context.Dispose();
+            DbContext.Dispose();
 
         _disposed = true;
     }

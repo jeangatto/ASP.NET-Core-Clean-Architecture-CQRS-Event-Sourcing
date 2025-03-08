@@ -9,26 +9,26 @@ using Shop.Infrastructure.Data.Repositories.Common;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-internal class CustomerWriteOnlyRepository(WriteDbContext context)
-    : BaseWriteOnlyRepository<Customer, Guid>(context), ICustomerWriteOnlyRepository
+internal class CustomerWriteOnlyRepository(WriteDbContext dbContext)
+    : BaseWriteOnlyRepository<Customer, Guid>(dbContext), ICustomerWriteOnlyRepository
 {
     private static readonly Func<WriteDbContext, string, Task<bool>> ExistsByEmailCompiledAsync =
-        EF.CompileAsyncQuery((WriteDbContext context, string email) =>
-            context
+        EF.CompileAsyncQuery((WriteDbContext dbContext, string email) =>
+            dbContext
                 .Customers
                 .AsNoTracking()
                 .Any(customer => customer.Email.Address == email));
 
     private static readonly Func<WriteDbContext, string, Guid, Task<bool>> ExistsByEmailAndIdCompiledAsync =
-        EF.CompileAsyncQuery((WriteDbContext context, string email, Guid currentId) =>
-            context
+        EF.CompileAsyncQuery((WriteDbContext dbContext, string email, Guid currentId) =>
+            dbContext
                 .Customers
                 .AsNoTracking()
                 .Any(customer => customer.Email.Address == email && customer.Id != currentId));
 
     public Task<bool> ExistsByEmailAsync(Email email) =>
-         ExistsByEmailCompiledAsync(Context, email.Address);
+         ExistsByEmailCompiledAsync(DbContext, email.Address);
 
     public Task<bool> ExistsByEmailAsync(Email email, Guid currentId) =>
-         ExistsByEmailAndIdCompiledAsync(Context, email.Address, currentId);
+         ExistsByEmailAndIdCompiledAsync(DbContext, email.Address, currentId);
 }
