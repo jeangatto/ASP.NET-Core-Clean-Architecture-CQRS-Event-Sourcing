@@ -64,7 +64,6 @@ If you liked this project, learned something, give it a star. Thank you!
 
 After cloning the repository to the desired folder, run the command in the terminal at the root of the project:
 
-
 ```csharp
 dotnet clean Shop.sln --nologo /tl && dotnet build Shop.sln --nologo /tl
 ```
@@ -80,8 +79,6 @@ Now just open the url in the browser:
 ```csharp
 http://localhost:{port}/scalar/v1
 ```
-
-
 
 ## MiniProfiler for .NET
 
