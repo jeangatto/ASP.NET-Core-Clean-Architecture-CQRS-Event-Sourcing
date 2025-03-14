@@ -3,7 +3,6 @@ networks:
     driver: bridge
 
 services:
-
   # ASP.NET Core Web API Application
   shop-webapi:
     image: ${DOCKER_REGISTRY-}shop-webapi
@@ -28,7 +27,7 @@ services:
   # SQL Server
   shop-sql-server:
     image: mcr.microsoft.com/azure-sql-edge:latest
-    cap_add: [ 'SYS_PTRACE' ]
+    cap_add: ["SYS_PTRACE"]
     hostname: mssql
     container_name: shop-sql-server
     restart: always
@@ -41,6 +40,8 @@ services:
       - SA_PASSWORD=pMA63033n6tF
     networks:
       - app-network
+    volumes:
+      - "./data-mssql:/var/opt/mssql/data"
 
   # MongoDB Server
   shop-mongo-server:
