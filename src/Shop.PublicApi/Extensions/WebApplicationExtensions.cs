@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -29,12 +28,8 @@ internal static class WebApplicationExtensions
 
         app.Logger.LogInformation("----- AutoMapper: mappings are valid!");
 
-        app.Logger.LogInformation("----- Databases are being migrated....");
-
         // Migrate the databases asynchronously using the provided service scope
         await app.MigrateDataBasesAsync(serviceScope);
-
-        app.Logger.LogInformation("----- Databases have been successfully migrated!");
 
         app.Logger.LogInformation("----- Application is starting....");
 
@@ -45,7 +40,7 @@ internal static class WebApplicationExtensions
     {
         await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
         await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
-        var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
+        using var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
 
         try
         {
@@ -60,20 +55,19 @@ internal static class WebApplicationExtensions
         }
     }
 
-    private static async Task MigrateDbContextAsync<TContext>(this WebApplication app, TContext context)
-        where TContext : DbContext
+    private static async Task MigrateDbContextAsync<TDbContext>(this WebApplication app, TDbContext dbContext)
+        where TDbContext : DbContext
     {
-        var dbName = context.Database.GetDbConnection().Database;
+        var dbName = dbContext.Database.GetDbConnection().Database;
 
-        app.Logger.LogInformation("----- {DbName}: {DbConnection}", dbName, context.Database.GetConnectionString());
         app.Logger.LogInformation("----- {DbName}: checking if there are any pending migrations...", dbName);
 
         // Check if there are any pending migrations for the context.
-        if ((await context.Database.GetPendingMigrationsAsync()).Any())
+        if (dbContext.Database.HasPendingModelChanges())
         {
             app.Logger.LogInformation("----- {DbName}: creating and migrating the database...", dbName);
 
-            await context.Database.MigrateAsync();
+            await dbContext.Database.MigrateAsync();
 
             app.Logger.LogInformation("----- {DbName}: database was created and migrated successfully", dbName);
         }
@@ -85,7 +79,6 @@ internal static class WebApplicationExtensions
 
     private static async Task MigrateMongoDbContextAsync(this WebApplication app, IReadDbContext readDbContext)
     {
-        app.Logger.LogInformation("----- MongoDB: {Connection}", readDbContext.ConnectionString);
         app.Logger.LogInformation("----- MongoDB: collections are being created...");
 
         await readDbContext.CreateCollectionsAsync();
