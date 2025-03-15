@@ -6,6 +6,7 @@
 .DS_Store
 */.DS_Store
 .run/
+data-mssql/
 
 # coverage
 coverage/
