@@ -6,13 +6,11 @@ on:
   pull_request:
     branches: [main]
     paths-ignore:
-      - "README.md"
-      - ".github/workflows/**.yml"
-      - "docs/**"
+      - ".github/workflows/**"
       - "**/*.md"
       - "**/*.yml"
   schedule:
-    - cron: "34 13 * * 5"
+    - cron: "34 13 * * 5" # Runs every Friday at 13:34 UTC
 
 jobs:
   lint:

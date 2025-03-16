@@ -7,9 +7,7 @@ on:
     types: [opened, synchronize, reopened]
     branches: [main]
     paths-ignore:
-      - "README.md"
-      - ".github/workflows/**.yml"
-      - "docs/**"
+      - ".github/workflows/**"
       - "**/*.md"
       - "**/*.yml"
 

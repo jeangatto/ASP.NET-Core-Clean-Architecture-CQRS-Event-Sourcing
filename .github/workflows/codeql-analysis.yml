@@ -4,15 +4,14 @@ name: "CodeQL"
 on:
   push:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches: [main]
     paths-ignore:
-      - "README.md"
-      - ".github/workflows/**.yml"
-      - "docs/**"
+      - ".github/workflows/**"
       - "**/*.md"
       - "**/*.yml"
   schedule:
-    - cron: "37 5 * * 3"
+    - cron: "37 5 * * 3" # Runs at 5:37 AM every Wednesday
 
 jobs:
   analyze:
