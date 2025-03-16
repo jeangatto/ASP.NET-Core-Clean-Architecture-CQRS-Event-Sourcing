@@ -1,5 +1,4 @@
 services:
-
   shop-webapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker

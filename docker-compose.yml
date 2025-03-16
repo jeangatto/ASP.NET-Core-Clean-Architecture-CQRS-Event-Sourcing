@@ -37,7 +37,9 @@ services:
       - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=pMA63033n6tF
+      - MSSQL_SA_PASSWORD=pMA63033n6tF
+      - MSSQL_PID=Developer
+      - MSSQL_COLLATION=Latin1_General_CI_AI
     networks:
       - app-network
     volumes:
@@ -67,7 +69,12 @@ services:
       - "6379:6379"
     networks:
       - app-network
+    volumes:
+      - "./data-mongo:/data/db"
 
 volumes:
   data-mssql:
+    external: true
+
+  data-mongo:
     external: true
