@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OwaspHeaders.Core.Extensions;
 using Scalar.AspNetCore;
 using Shop.Application;
 using Shop.Core;
@@ -129,7 +128,6 @@ app.MapScalarApiReference(scalarOptions =>
 app.UseErrorHandling();
 app.UseResponseCompression();
 app.UseHttpsRedirection();
-app.UseSecureHeadersMiddleware();
 app.UseMiniProfiler();
 app.UseCorrelationId();
 app.UseAuthentication();
