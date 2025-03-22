@@ -31,7 +31,7 @@ If you liked this project, learned something, give it a star. Thank you!
 - ~~Entity Framework Core 8~~
 - Entity Framework Core 9
 - **EF Compiled Queries** (https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/compiled-queries-linq-to-entities)
-- Unit & Integration Tests + xUnit + FluentAssertions
+- Unit & Integration Tests + xUnit + FluentAssertions (7.1.0)
 - Polly
 - AutoMapper
 - FluentValidator
