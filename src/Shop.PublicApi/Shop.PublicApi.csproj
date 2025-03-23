@@ -39,7 +39,7 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" />
-    <PackageReference Include="MiniProfiler.EntityFrameworkCore" />    
+    <PackageReference Include="MiniProfiler.EntityFrameworkCore" />
     <PackageReference Include="Roslynator.Analyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -74,11 +74,6 @@
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     <InternalsVisibleTo Include="Shop.IntegrationTests" />
     <InternalsVisibleTo Include="Shop.UnitTests" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="D:\.nuget\packages\owaspheaders.core\8.1.0\contentFiles\any\net9.0\README.md" />
-    <Content Remove="D:\.nuget\packages\owaspheaders.core\9.4.3\contentFiles\any\net9.0\README.md" />
   </ItemGroup>
 
 </Project>
