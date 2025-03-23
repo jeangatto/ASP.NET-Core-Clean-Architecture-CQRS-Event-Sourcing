@@ -102,12 +102,11 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
     }
 
     private static List<string> GetCollectionNamesFromAssembly() =>
-        Assembly
+        [.. Assembly
             .GetExecutingAssembly()
             .GetAllTypesOf<IQueryModel>()
             .Select(impl => impl.Name)
-            .Distinct()
-            .ToList();
+            .Distinct()];
 
     #endregion
 
