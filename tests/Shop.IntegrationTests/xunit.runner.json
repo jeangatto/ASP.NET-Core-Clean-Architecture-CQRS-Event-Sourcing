@@ -6,5 +6,5 @@
   "parallelizeTestCollections": true,
   "preEnumerateTheories": true,
   "showLiveOutput": true,
-  "stopOnFail": true
+  "stopOnFail": false
 }
