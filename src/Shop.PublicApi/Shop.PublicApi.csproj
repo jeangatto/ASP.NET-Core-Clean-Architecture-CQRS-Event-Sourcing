@@ -76,4 +76,10 @@
     <InternalsVisibleTo Include="Shop.UnitTests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <SonarQubeSetting Include="sonar.exclusions">
+      <Value>**/Migrations/*</Value>
+    </SonarQubeSetting>
+  </ItemGroup>
+
 </Project>
