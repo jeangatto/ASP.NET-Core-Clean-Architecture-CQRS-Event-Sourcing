@@ -4,11 +4,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace Shop.PublicApi.Models;
 
-public sealed class ApiResponse<T> : ApiResponse
+public sealed class ApiResponse<TResult> : ApiResponse
 {
     [JsonConstructor]
-    public ApiResponse(T result, bool success, string successMessage, int statusCode, IEnumerable<ApiErrorResponse> errors)
-        : base(success, successMessage, statusCode, errors)
+    public ApiResponse(
+        TResult result,
+        bool success,
+        string successMessage,
+        int statusCode,
+        IEnumerable<ApiErrorResponse> errors) : base(success, successMessage, statusCode, errors)
     {
         Result = result;
     }
@@ -17,14 +21,14 @@ public sealed class ApiResponse<T> : ApiResponse
     {
     }
 
-    public T Result { get; private init; }
+    public TResult Result { get; private init; }
 
-    public static ApiResponse<T> Ok(T result) =>
+    public static ApiResponse<TResult> Ok(TResult result) =>
         new() { Success = true, StatusCode = StatusCodes.Status200OK, Result = result };
 
-    public static ApiResponse<T> Ok(T result, string successMessage) =>
+    public static ApiResponse<TResult> Ok(TResult result, string successMessage) =>
         new() { Success = true, StatusCode = StatusCodes.Status200OK, Result = result, SuccessMessage = successMessage };
 
-    public static ApiResponse<T> Created(T result) =>
+    public static ApiResponse<TResult> Created(TResult result) =>
         new() { Success = true, StatusCode = StatusCodes.Status201Created, Result = result };
 }
