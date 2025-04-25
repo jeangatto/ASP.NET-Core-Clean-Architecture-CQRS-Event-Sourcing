@@ -22,6 +22,7 @@ internal static class ServicesCollectionExtensions
     private const int DbCommandTimeout = 30;
     private const string DbMigrationAssemblyName = "Shop.PublicApi";
     private const string RedisInstanceName = "master";
+    private const string TestingEnvironmentName = "Testing";
 
     private static readonly string[] DbRelationalTags = ["database", "ef-core", "sql-server", "relational"];
     private static readonly string[] DbNoSqlTags = ["database", "mongodb", "no-sql"];
@@ -44,7 +45,7 @@ internal static class ServicesCollectionExtensions
 
     public static IServiceCollection AddWriteDbContext(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        if (!environment.IsEnvironment("Testing"))
+        if (!environment.IsEnvironment(TestingEnvironmentName))
         {
             services.AddDbContextPool<WriteDbContext>((serviceProvider, optionsBuilder) =>
                 ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
@@ -77,12 +78,12 @@ internal static class ServicesCollectionExtensions
         return services;
     }
 
-    private static void ConfigureDbContext<TContext>(
+    private static void ConfigureDbContext<TDbContext>(
         IServiceProvider serviceProvider,
         DbContextOptionsBuilder optionsBuilder,
-        QueryTrackingBehavior queryTrackingBehavior) where TContext : DbContext
+        QueryTrackingBehavior queryTrackingBehavior) where TDbContext : DbContext
     {
-        var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
+        var logger = serviceProvider.GetRequiredService<ILogger<TDbContext>>();
         var options = serviceProvider.GetOptions<ConnectionOptions>();
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
         var envIsDevelopment = environment.IsDevelopment();
@@ -111,5 +112,8 @@ internal static class ServicesCollectionExtensions
                     retryEventData.Delay,
                     exceptions[^1].Message);
             });
+
+        if (envIsDevelopment)
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
     }
 }
