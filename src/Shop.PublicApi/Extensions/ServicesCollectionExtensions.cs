@@ -48,10 +48,12 @@ internal static class ServicesCollectionExtensions
         if (!environment.IsEnvironment(TestingEnvironmentName))
         {
             services.AddDbContextPool<WriteDbContext>((serviceProvider, optionsBuilder) =>
-                ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
+                ConfigureDbContext<WriteDbContext>(
+                    serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
 
             services.AddDbContextPool<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
-                ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
+                ConfigureDbContext<EventStoreDbContext>(
+                    serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
         }
 
         return services;
