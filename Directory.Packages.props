@@ -53,8 +53,8 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.*" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.*" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.5.*" />
-    <PackageVersion Include="MongoDB.Bson" Version="3.3.*" />
-    <PackageVersion Include="MongoDB.Driver" Version="3.3.*" />
+    <PackageVersion Include="MongoDB.Bson" Version="3.4.*" />
+    <PackageVersion Include="MongoDB.Driver" Version="3.4.*" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.*" />
     <PackageVersion Include="NSubstitute" Version="5.3.*" />
     <PackageVersion Include="Polly" Version="8.5.*" />
@@ -63,13 +63,13 @@
     <PackageVersion Include="Roslynator.CodeFixes" Version="4.*" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.*" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.*" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.1.*" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.*" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.*" />
     <PackageVersion Include="System.Text.Json" Version="9.0.*" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.*" />
     <PackageVersion Include="xunit.analyzers" Version="1.21.*" />
     <PackageVersion Include="xunit.categories" Version="3.0.*" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.*" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.*" />
     <PackageVersion Include="xunit" Version="2.9.*" />
   </ItemGroup>
 </Project>
