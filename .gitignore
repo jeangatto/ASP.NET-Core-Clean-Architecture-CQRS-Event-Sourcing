@@ -7,6 +7,7 @@
 */.DS_Store
 .run/
 data-mssql/
+data-mongo/
 
 # coverage
 coverage/
