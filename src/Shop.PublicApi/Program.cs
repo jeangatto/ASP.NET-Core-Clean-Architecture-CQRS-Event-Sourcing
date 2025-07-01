@@ -120,7 +120,6 @@ app.MapScalarApiReference(scalarOptions =>
 {
     scalarOptions.DarkMode = true;
     scalarOptions.DotNetFlag = false;
-    scalarOptions.HideDownloadButton = true;
     scalarOptions.HideModels = true;
     scalarOptions.Title = "Shop API";
 });
