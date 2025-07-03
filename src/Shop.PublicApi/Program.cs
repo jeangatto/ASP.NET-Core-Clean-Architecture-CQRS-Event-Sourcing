@@ -75,14 +75,14 @@ builder.Services
 
 // MiniProfiler for .NET
 // https://miniprofiler.com/dotnet/
-builder.Services.AddMiniProfiler(options =>
+builder.Services.AddMiniProfiler(miniProfilerOptions =>
 {
     // Route: /profiler/results-index
-    options.RouteBasePath = "/profiler";
-    options.ColorScheme = ColorScheme.Dark;
-    options.EnableServerTimingHeader = true;
-    options.TrackConnectionOpenClose = true;
-    options.EnableDebugMode = builder.Environment.IsDevelopment();
+    miniProfilerOptions.RouteBasePath = "/profiler";
+    miniProfilerOptions.ColorScheme = ColorScheme.Dark;
+    miniProfilerOptions.EnableServerTimingHeader = true;
+    miniProfilerOptions.TrackConnectionOpenClose = true;
+    miniProfilerOptions.EnableDebugMode = builder.Environment.IsDevelopment();
 }).AddEntityFramework();
 
 // Validating the services added in the ASP.NET Core DI.
@@ -121,6 +121,7 @@ app.MapScalarApiReference(scalarOptions =>
     scalarOptions.DarkMode = true;
     scalarOptions.DotNetFlag = false;
     scalarOptions.HideModels = true;
+    scalarOptions.DocumentDownloadType = DocumentDownloadType.None;
     scalarOptions.Title = "Shop API";
 });
 
