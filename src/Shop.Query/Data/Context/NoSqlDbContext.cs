@@ -98,7 +98,7 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
 
         var indexName = await collection.Indexes.CreateOneAsync(indexModel);
 
-        _logger.LogInformation("----- MongoDB: indexes successfully created - {indexName}", indexName);
+        _logger.LogInformation("----- MongoDB: indexes successfully created - {IndexName}", indexName);
     }
 
     private static List<string> GetCollectionNamesFromAssembly() =>
