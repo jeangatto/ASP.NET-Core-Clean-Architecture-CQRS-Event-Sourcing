@@ -484,14 +484,15 @@ public class CustomersControllerTests : IAsyncLifetime
 
                 hostBuilder.ConfigureServices(services =>
                 {
-                    services.RemoveAll<DbConnection>();
-                    services.RemoveAll<DbContextOptions>();
-                    services.RemoveAll<WriteDbContext>();
-                    services.RemoveAll<DbContextOptions<WriteDbContext>>();
-                    services.RemoveAll<EventStoreDbContext>();
-                    services.RemoveAll<DbContextOptions<EventStoreDbContext>>();
-                    services.RemoveAll<NoSqlDbContext>();
-                    services.RemoveAll<ISynchronizeDb>();
+                    services
+                        .RemoveAll<DbConnection>()
+                        .RemoveAll<DbContextOptions>()
+                        .RemoveAll<WriteDbContext>()
+                        .RemoveAll<DbContextOptions<WriteDbContext>>()
+                        .RemoveAll<EventStoreDbContext>()
+                        .RemoveAll<DbContextOptions<EventStoreDbContext>>()
+                        .RemoveAll<NoSqlDbContext>()
+                        .RemoveAll<ISynchronizeDb>();
 
                     services.AddDbContext<WriteDbContext>(
                         options => options
@@ -503,8 +504,9 @@ public class CustomersControllerTests : IAsyncLifetime
                             .UseSqlite(_eventStoreDbContextSqlite)
                             .ConfigureWarnings(warningBuilder => warningBuilder.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
 
-                    services.AddSingleton(_ => Substitute.For<IReadDbContext>());
-                    services.AddSingleton(_ => Substitute.For<ISynchronizeDb>());
+                    services
+                        .AddSingleton(_ => Substitute.For<IReadDbContext>())
+                        .AddSingleton(_ => Substitute.For<ISynchronizeDb>());
 
                     configureServices?.Invoke(services);
 
@@ -518,9 +520,6 @@ public class CustomersControllerTests : IAsyncLifetime
                     eventStoreDbContext.Database.EnsureCreated();
 
                     configureServiceScope?.Invoke(serviceScope);
-
-                    writeDbContext.Dispose();
-                    eventStoreDbContext.Dispose();
                 });
             });
     }
