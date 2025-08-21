@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
@@ -18,18 +17,17 @@ namespace Shop.Query;
 [ExcludeFromCodeCoverage]
 public static class ConfigureServices
 {
+    private static readonly Assembly QueryAssembly = Assembly.GetAssembly(typeof(IQueryMarker));
+
     /// <summary>
     /// Adds query handlers to the service collection.
     /// </summary>
     /// <param name="services">The service collection.</param>
-    public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
-    {
-        var assembly = Assembly.GetAssembly(typeof(IQueryMarker));
-        return services
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly))
-            .AddSingleton<IMapper>(new Mapper(new MapperConfiguration(cfg => cfg.AddMaps(assembly))))
-            .AddValidatorsFromAssembly(assembly);
-    }
+    public static IServiceCollection AddQueryHandlers(this IServiceCollection services) =>
+        services
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(QueryAssembly))
+            .AddAutoMapper(cfg => cfg.AddMaps(QueryAssembly))
+            .AddValidatorsFromAssembly(QueryAssembly);
 
     /// <summary>
     /// Adds the read database context to the service collection.
