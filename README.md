@@ -33,9 +33,9 @@ If you liked this project, learned something, give it a star. Thank you!
 - **EF Compiled Queries** (https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/compiled-queries-linq-to-entities)
 - Unit & Integration Tests + xUnit + FluentAssertions (7.1.0)
 - Polly
-- AutoMapper
+- AutoMapper (15)
 - FluentValidator
-- MediatR
+- MediatR (13)
 - ~~Swagger UI~~
 - OpenApi
 - **Scalar** - Interactive API Reference from OpenAPI/Swagger (https://github.com/scalar/scalar)
