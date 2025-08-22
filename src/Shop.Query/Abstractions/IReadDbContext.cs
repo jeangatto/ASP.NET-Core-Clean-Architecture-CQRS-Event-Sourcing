@@ -19,7 +19,8 @@ public interface IReadDbContext : IDisposable
     /// </summary>
     /// <typeparam name="TQueryModel">The type of the query model.</typeparam>
     /// <returns>The MongoDB collection for the specified query model.</returns>
-    IMongoCollection<TQueryModel> GetCollection<TQueryModel>() where TQueryModel : IQueryModel;
+    IMongoCollection<TQueryModel> GetCollection<TQueryModel>()
+        where TQueryModel : IQueryModel;
 
     /// <summary>
     /// Creates collections in the database for all query models.
