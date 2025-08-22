@@ -11,7 +11,8 @@ public interface IEntity;
 /// This is the base interface for all entities with a key.
 /// </summary>
 /// <typeparam name="TKey">The type of the entity key.</typeparam>
-public interface IEntity<out TKey> : IEntity where TKey : IEquatable<TKey>
+public interface IEntity<out TKey> : IEntity
+    where TKey : IEquatable<TKey>
 {
     /// <summary>
     /// Gets the ID of the entity.
