@@ -107,6 +107,11 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+if (app.Environment.IsProduction())
+{
+    app.UseHsts();
+}
+
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
     Predicate = _ => true,
