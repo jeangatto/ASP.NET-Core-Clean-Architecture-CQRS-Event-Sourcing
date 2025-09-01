@@ -29,16 +29,16 @@ internal static class ServicesCollectionExtensions
 
     public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
-        var options = configuration.GetOptions<ConnectionOptions>();
+        var connectionOptions = configuration.GetOptions<ConnectionOptions>();
 
         var healthCheckBuilder = services
             .AddHealthChecks()
             .AddDbContextCheck<WriteDbContext>(tags: DbRelationalTags)
             .AddDbContextCheck<EventStoreDbContext>(tags: DbRelationalTags)
-            .AddMongoDb(clientFactory: _ => new MongoClient(options.NoSqlConnection), tags: DbNoSqlTags);
+            .AddMongoDb(clientFactory: _ => new MongoClient(connectionOptions.NoSqlConnection), tags: DbNoSqlTags);
 
-        if (!options.CacheConnectionInMemory())
-            healthCheckBuilder.AddRedis(options.CacheConnection);
+        if (!connectionOptions.CacheConnectionInMemory())
+            healthCheckBuilder.AddRedis(connectionOptions.CacheConnection);
 
         return services;
     }
@@ -48,12 +48,10 @@ internal static class ServicesCollectionExtensions
         if (!environment.IsEnvironment(TestingEnvironmentName))
         {
             services.AddDbContextPool<WriteDbContext>((serviceProvider, optionsBuilder) =>
-                ConfigureDbContext<WriteDbContext>(
-                    serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
+                ConfigureDbContext<WriteDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.TrackAll));
 
             services.AddDbContextPool<EventStoreDbContext>((serviceProvider, optionsBuilder) =>
-                ConfigureDbContext<EventStoreDbContext>(
-                    serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
+                ConfigureDbContext<EventStoreDbContext>(serviceProvider, optionsBuilder, QueryTrackingBehavior.NoTrackingWithIdentityResolution));
         }
 
         return services;
@@ -85,13 +83,13 @@ internal static class ServicesCollectionExtensions
         DbContextOptionsBuilder optionsBuilder,
         QueryTrackingBehavior queryTrackingBehavior) where TDbContext : DbContext
     {
+        var connectionOptions = serviceProvider.GetOptions<ConnectionOptions>();
         var logger = serviceProvider.GetRequiredService<ILogger<TDbContext>>();
-        var options = serviceProvider.GetOptions<ConnectionOptions>();
         var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
         var envIsDevelopment = environment.IsDevelopment();
 
         optionsBuilder
-            .UseSqlServer(options.SqlConnection, sqlServerOptions =>
+            .UseSqlServer(connectionOptions.SqlConnection, sqlServerOptions =>
             {
                 sqlServerOptions
                     .MigrationsAssembly(DbMigrationAssemblyName)
