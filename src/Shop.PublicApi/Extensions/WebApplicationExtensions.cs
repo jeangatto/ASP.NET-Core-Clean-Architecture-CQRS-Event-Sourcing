@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -12,7 +13,7 @@ namespace Shop.PublicApi.Extensions;
 
 internal static class WebApplicationExtensions
 {
-    public static async Task RunAppAsync(this WebApplication app)
+    public static async Task ConfigureAndRunAppAsync(this WebApplication app)
     {
         await using var serviceScope = app.Services.CreateAsyncScope();
 
@@ -62,8 +63,20 @@ internal static class WebApplicationExtensions
 
         app.Logger.LogInformation("----- {DbName}: checking if there are any pending migrations...", dbName);
 
+        var allMigrations = dbContext.Database.GetMigrations();
+
+        app.Logger.LogInformation("----- {DbName}: {MigrationsCount} migrations were found", dbName, allMigrations.Count());
+
+        var appliedMigrations = await dbContext.Database.GetAppliedMigrationsAsync();
+
+        app.Logger.LogInformation("----- {DbName}: {AppliedMigrationsCount} applied migrations were found", dbName, appliedMigrations.Count());
+
+        var pendingMigrations = allMigrations.Except(appliedMigrations).ToList();
+
+        app.Logger.LogInformation("----- {DbName}: {PendingMigrationsCount} pending migrations were found", dbName, pendingMigrations.Count);
+
         // Check if there are any pending migrations for the context.
-        if (dbContext.Database.HasPendingModelChanges())
+        if (pendingMigrations.Count > 0)
         {
             app.Logger.LogInformation("----- {DbName}: creating and migrating the database...", dbName);
 

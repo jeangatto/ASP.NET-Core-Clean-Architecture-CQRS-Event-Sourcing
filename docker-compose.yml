@@ -1,80 +1,72 @@
-networks:
-  app-network:
-    driver: bridge
-
 services:
-  # ASP.NET Core Web API Application
-  shop-webapi:
-    image: ${DOCKER_REGISTRY-}shop-webapi
-    container_name: shop-webapi
-    restart: always
-    build:
-      context: .
-      dockerfile: src/Shop.PublicApi/Dockerfile
-    expose:
-      - 80
-    links:
-      - shop-sql-server
-      - shop-mongo-server
-      - shop-redis
-    networks:
-      - app-network
-    depends_on:
-      - shop-sql-server
-      - shop-mongo-server
-      - shop-redis
-
-  # SQL Server
+  # Microsoft SQL Server
+  # https://hub.docker.com/r/microsoft/mssql-server/
   shop-sql-server:
-    image: mcr.microsoft.com/azure-sql-edge:latest
-    cap_add: ["SYS_PTRACE"]
-    hostname: mssql
+    image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: shop-sql-server
-    restart: always
-    expose:
-      - 1433
-    ports:
-      - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-      - MSSQL_PID=Developer
-      - MSSQL_COLLATION=Latin1_General_CI_AI
-    networks:
-      - app-network
+      - MSSQL_PID=Express
+      - MSSQL_COLLATION=SQL_Latin1_General_CP1_CI_AS
+    ports:
+      - "${MSSQL_PORT}:${MSSQL_PORT}"
     volumes:
-      - "./data-mssql:/var/opt/mssql/data"
+      - sql_data:/var/opt/mssql
+    networks:
+      - shop-network
 
-  # MongoDB Server
+  # MongoDB
+  # https://hub.docker.com/_/mongo/
   shop-mongo-server:
     image: mongo:latest
     container_name: shop-mongo-server
-    restart: always
-    expose:
-      - 27017
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT}:${MONGO_PORT}"
     networks:
-      - app-network
+      - shop-network
 
-  # Redis Cache Server
-  shop-redis:
+  # Redis Cache
+  # https://hub.docker.com/_/redis/
+  shop-redis-server:
     image: redis:latest
-    container_name: shop-redis
+    container_name: shop-redis-server
     command: redis-server --requirepass ${REDIS_PASSWORD}
-    restart: always
-    expose:
-      - 6379
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     networks:
-      - app-network
+      - shop-network
     volumes:
-      - "./data-mongo:/data/db"
+      - redis_data:/data
 
+  # Shop API Container (NET Core)
+  shop-api:
+    image: shop-api:latest
+    container_name: shop-api
+    build:
+      context: .
+      dockerfile: src/Shop.PublicApi/Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SqlConnection=Server=shop-sql-server,${MSSQL_PORT};Database=ShopContext;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__NoSqlConnection=mongodb://shop-mongo-server:${MONGO_PORT}
+      - ConnectionStrings__CacheConnection=shop-redis-server:${REDIS_PORT},password=${REDIS_PASSWORD},abortConnect=false
+    ports:
+      - "5000:80"
+    depends_on:
+      - shop-sql-server
+      - shop-mongo-server
+      - shop-redis-server
+    networks:
+      - shop-network
+
+# Define volumes for persistent storage
 volumes:
-  data-mssql:
-    external: true
+  sql_data:
+  redis_data:
 
-  data-mongo:
-    external: true
+networks:
+  shop-network:
+    driver: bridge

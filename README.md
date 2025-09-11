@@ -68,10 +68,17 @@ After cloning the repository to the desired folder, run the command in the termi
 dotnet clean Shop.sln --nologo /tl && dotnet build Shop.sln --nologo /tl
 ```
 
+Set passwords in the `.env` file:
+
+```yaml
+MSSQL_SA_PASSWORD=YOUR_STRONG_!Passw0rd
+REDIS_PASSWORD=YOUR_STRONG_!Passw0rd
+```
+
 Next step, run the command in the terminal:
 
 ```csharp
-docker-compose up --build --abort-on-container-exit --remove-orphans
+docker-compose up --build
 ```
 
 Now just open the url in the browser:

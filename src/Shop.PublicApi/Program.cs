@@ -139,4 +139,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-await app.RunAppAsync();
+await app.ConfigureAndRunAppAsync();

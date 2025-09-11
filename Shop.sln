@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 		README.md = README.md
 		requests.http = requests.http
+		.env = .env
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Query", "src\Shop.Query\Shop.Query.csproj", "{C2A82AAD-0348-4B29-B7E7-E36509EE068C}"
