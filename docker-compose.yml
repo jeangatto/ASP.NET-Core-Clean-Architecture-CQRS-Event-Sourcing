@@ -63,7 +63,7 @@ services:
     env_file:
       - ./.env
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ConnectionStrings__SqlConnection: "Server=shop-sql-server,1433;Database=ShopContext;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True;"
       ConnectionStrings__NoSqlConnection: "mongodb://shop-mongo-server:27017"
       ConnectionStrings__CacheConnection: "shop-redis-server:6379,password=${REDIS_PASSWORD},abortConnect=false"
