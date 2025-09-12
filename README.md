@@ -32,6 +32,8 @@ If you liked this project, learned something, give it a star. Thank you!
 - Entity Framework Core 9
 - **EF Compiled Queries** (https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/compiled-queries-linq-to-entities)
 - Unit & Integration Tests + xUnit + FluentAssertions (7.1.0)
+- xUnit (https://github.com/xunit/xunit)
+- FluentAssertions (https://github.com/fluentassertions/fluentassertions)
 - Polly (https://github.com/App-vNext/Polly)
 - AutoMapper (https://github.com/LuckyPennySoftware/AutoMapper)
 - FluentValidator (https://github.com/FluentValidation/FluentValidation)
@@ -41,7 +43,7 @@ If you liked this project, learned something, give it a star. Thank you!
 - OpenApi
 - **Scalar** - Interactive API Reference from OpenAPI/Swagger (https://github.com/scalar/scalar)
 - HealthChecks
-- SQL Server
+- Microsoft SQL Server
 - MongoDB
 - Redis (Cache)
 - Docker & Docker Compose
