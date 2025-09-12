@@ -1,4 +1,4 @@
-# ASP.NET Core C# CQRS Event Sourcing, REST API, DDD, SOLID Principles and Clean Architecture
+# ASP.NET Core C# — Clean Architecture, CQRS, Event Sourcing
 
 [![Build](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/dotnet.yml)
 [![SonarCloud](https://github.com/JeanGatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/sonar-cloud.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing/actions/workflows/sonar-cloud.yml)
@@ -16,7 +16,7 @@
 
 [![Sparkline](https://stars.medv.io/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing.svg)](https://stars.medv.io/jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing)
 
-About the repoitory:
+About the repository:
 Open source project written in the latest version of ASP.NET Core, implementing the concepts of S.O.L.I.D, Clean Code,
 CQRS (Command Query Responsibility Segregation)
 
@@ -32,10 +32,11 @@ If you liked this project, learned something, give it a star. Thank you!
 - Entity Framework Core 9
 - **EF Compiled Queries** (https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/compiled-queries-linq-to-entities)
 - Unit & Integration Tests + xUnit + FluentAssertions (7.1.0)
-- Polly
-- AutoMapper (15)
-- FluentValidator
-- MediatR (13)
+- Polly (https://github.com/App-vNext/Polly)
+- AutoMapper (https://github.com/LuckyPennySoftware/AutoMapper)
+- FluentValidator (https://github.com/FluentValidation/FluentValidation)
+- MediatR (https://github.com/LuckyPennySoftware/MediatR)
+- Result (https://github.com/ardalis/Result)
 - ~~Swagger UI~~
 - OpenApi
 - **Scalar** - Interactive API Reference from OpenAPI/Swagger (https://github.com/scalar/scalar)
@@ -58,7 +59,7 @@ If you liked this project, learned something, give it a star. Thank you!
 - Event Sourcing
 - Unit of Work
 - Repository Pattern
-- Resut Pattern
+- Result Pattern
 
 ## Running the application
 
@@ -73,6 +74,10 @@ Set passwords in the `.env` file:
 ```yaml
 MSSQL_SA_PASSWORD=YOUR_STRONG_!Passw0rd
 REDIS_PASSWORD=YOUR_STRONG_!Passw0rd
+MSSQL_PORT=1433
+MONGO_PORT=27017
+REDIS_PORT=6379
+ASPNETCORE_ENVIRONMENT=Development
 ```
 
 Next step, run the command in the terminal:
