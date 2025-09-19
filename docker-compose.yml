@@ -1,5 +1,6 @@
 services:
   # Microsoft SQL Server
+  # https://hub.docker.com/r/microsoft/mssql-server/
   shop-sql-server:
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: unless-stopped
@@ -21,6 +22,7 @@ services:
         max-file: "3"
 
   # MongoDB
+  # https://hub.docker.com/_/mongo/
   shop-mongo-server:
     image: mongo:latest
     restart: unless-stopped
@@ -37,6 +39,7 @@ services:
         max-file: "3"
 
   # Redis Cache
+  # https://hub.docker.com/_/redis/
   shop-redis-server:
     image: redis:latest
     restart: unless-stopped
