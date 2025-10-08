@@ -1,4 +1,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim AS base
+
+# Update package lists
+RUN apt-get update && apt-get install -y --no-install-recommends
+
 WORKDIR /app
 
 EXPOSE 80
