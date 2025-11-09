@@ -14,7 +14,7 @@
     <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="9.*" />
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.*" />
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.*" />
-    <PackageVersion Include="AutoMapper" Version="15.0.*" />
+    <PackageVersion Include="AutoMapper" Version="15.1.*" />
     <PackageVersion Include="Bogus" Version="35.6.*" />
     <PackageVersion Include="CorrelationId" Version="3.0.*" />
     <PackageVersion Include="coverlet.collector" Version="6.0.*" />
@@ -22,7 +22,7 @@
     <PackageVersion Include="FluentAssertions" Version="7.1.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.*" />
     <PackageVersion Include="FluentValidation" Version="12.*" />
-    <PackageVersion Include="MediatR" Version="13.0.*" />
+    <PackageVersion Include="MediatR" Version="13.1.*" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.*" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.*" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.*" />
@@ -67,7 +67,7 @@
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.*" />
     <PackageVersion Include="System.Text.Json" Version="9.0.*" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.*" />
-    <PackageVersion Include="xunit.analyzers" Version="1.24.*" />
+    <PackageVersion Include="xunit.analyzers" Version="1.25.*" />
     <PackageVersion Include="xunit.categories" Version="3.0.*" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.*" />
     <PackageVersion Include="xunit" Version="2.9.*" />
