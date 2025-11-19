@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Ardalis.Result.FluentValidation" />
     <PackageReference Include="Ardalis.Result" />
@@ -32,10 +32,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Shop.Domain\Shop.Domain.csproj" />
     <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
   </ItemGroup>
-  
+
 </Project>

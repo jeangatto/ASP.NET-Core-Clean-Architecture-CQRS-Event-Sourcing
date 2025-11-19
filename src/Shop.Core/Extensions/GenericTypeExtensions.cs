@@ -4,26 +4,30 @@ namespace Shop.Core.Extensions;
 
 public static class GenericTypeExtensions
 {
-    public static bool IsDefault<T>(this T value) =>
-        Equals(value, default(T));
-
-    /// <summary>
-    /// Returns the name of the generic type of the object.
-    /// </summary>
-    /// <param name="object">The object to get the generic type name from.</param>
-    /// <returns>The name of the generic type.</returns>
-    public static string GetGenericTypeName(this object @object)
+    extension<T>(T value)
     {
-        var type = @object.GetType();
+        public bool IsDefault() => Equals(value, default(T));
+    }
 
-        // Check if the type is not generic
-        if (!type.IsGenericType)
-            return type.Name;
+    extension(object @object)
+    {
+        /// <summary>
+        /// Returns the name of the generic type of the object.
+        /// </summary>
+        /// <returns>The name of the generic type.</returns>
+        public string GetGenericTypeName()
+        {
+            var type = @object.GetType();
 
-        // Get the names of the generic arguments and join them with commas
-        var genericTypes = string.Join(",", type.GetGenericArguments().Select(t => t.Name).ToArray());
+            // Check if the type is not generic
+            if (!type.IsGenericType)
+                return type.Name;
 
-        // Remove the backtick and append the generic arguments to the type name
-        return $"{type.Name[..type.Name.IndexOf('`')]}<{genericTypes}>";
+            // Get the names of the generic arguments and join them with commas
+            var genericTypes = string.Join(",", type.GetGenericArguments().Select(t => t.Name).ToArray());
+
+            // Remove the backtick and append the generic arguments to the type name
+            return $"{type.Name[..type.Name.IndexOf('`')]}<{genericTypes}>";
+        }
     }
 }

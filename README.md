@@ -26,10 +26,8 @@ If you liked this project, learned something, give it a star. Thank you!
 
 ## **Technologies**
 
-- ~~ASP.NET Core 8~~
-- ASP.NET Core 9
-- ~~Entity Framework Core 8~~
-- Entity Framework Core 9
+- ASP.NET Core 10
+- Entity Framework Core 10
 - **EF Compiled Queries** (https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/compiled-queries-linq-to-entities)
 - Unit & Integration Tests + xUnit + FluentAssertions (7.1.0)
 - xUnit (https://github.com/xunit/xunit)

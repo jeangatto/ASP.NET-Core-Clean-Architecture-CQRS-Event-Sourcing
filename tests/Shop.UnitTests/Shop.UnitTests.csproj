@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <SonarQubeTestProject>True</SonarQubeTestProject>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="Bogus" />
@@ -57,9 +57,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Text.RegularExpressions" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shop.Infrastructure\Shop.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Shop.Domain\Shop.Domain.csproj" />
@@ -68,11 +67,11 @@
     <ProjectReference Include="..\..\src\Shop.PublicApi\Shop.PublicApi.csproj" />
     <ProjectReference Include="..\..\src\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
+
 </Project>

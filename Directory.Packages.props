@@ -22,36 +22,35 @@
     <PackageVersion Include="CorrelationId" Version="3.0.*" />
     <PackageVersion Include="coverlet.collector" Version="6.0.*" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.*" />
-    <PackageVersion Include="FluentAssertions" Version="7.1.0" />
+    <PackageVersion Include="FluentAssertions" Version="8.8.*" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.*" />
     <PackageVersion Include="FluentValidation" Version="12.*" />
     <PackageVersion Include="MediatR" Version="13.1.*" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.*" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.*" />
-    <PackageVersion Include="Microsoft.Extensions.Primitives" Version="9.*" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Primitives" Version="10.0.*" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.*" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.*" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.*" />
@@ -67,9 +66,7 @@
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.*" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.*" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.*" />
-    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.*" />
-    <PackageVersion Include="System.Text.Json" Version="9.0.*" />
-    <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.*" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.*" />
     <PackageVersion Include="xunit.analyzers" Version="1.25.*" />
     <PackageVersion Include="xunit.categories" Version="3.0.*" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.*" />

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 
 # Update package lists
 RUN apt-get update && apt-get install -y --no-install-recommends
@@ -17,7 +17,7 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Defines the build configuration to use at build time. The default is 'Release'
 ARG BUILD_CONFIGURATION=Release
 
-FROM mcr.microsoft.com/dotnet/sdk:9.0-bookworm-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
