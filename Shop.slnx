@@ -1,0 +1,46 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
+    <File Path=".env" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="docker-compose.override.yml" />
+    <File Path="docker-compose.yml" />
+    <File Path="global.json" />
+    <File Path="img/cqrs-pattern.png" />
+    <File Path="LICENSE" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+    <File Path="requests.http" />
+  </Folder>
+  <Folder Name="/Solution Items/workflows/">
+    <File Path=".github/workflows/codeql-analysis.yml" />
+    <File Path=".github/workflows/delete-workflow-runs.yml" />
+    <File Path=".github/workflows/devskim-analysis.yml" />
+    <File Path=".github/workflows/dotnet.yml" />
+    <File Path=".github/workflows/sonar-cloud.yml" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="src/Shop.Application/Shop.Application.csproj" />
+    <Project Path="src/Shop.Core/Shop.Core.csproj" />
+    <Project Path="src/Shop.Domain/Shop.Domain.csproj" />
+    <Project Path="src/Shop.Query/Shop.Query.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/">
+    <Project Path="src/Shop.Infrastructure/Shop.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Presentation/">
+    <Project Path="src/Shop.PublicApi/Shop.PublicApi.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Shop.IntegrationTests/Shop.IntegrationTests.csproj" />
+    <Project Path="tests/Shop.UnitTests/Shop.UnitTests.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>
