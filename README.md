@@ -66,7 +66,7 @@ If you liked this project, learned something, give it a star. Thank you!
 After cloning the repository to the desired folder, run the command in the terminal at the root of the project:
 
 ```csharp
-dotnet clean Shop.sln --nologo /tl && dotnet build Shop.sln --nologo /tl
+dotnet clean Shop.slnx --nologo /tl && dotnet build Shop.slnx --nologo /tl
 ```
 
 Set passwords in the `.env` file:
