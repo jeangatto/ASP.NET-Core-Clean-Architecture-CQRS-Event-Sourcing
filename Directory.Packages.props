@@ -67,7 +67,7 @@
     <PackageVersion Include="Roslynator.Refactorings" Version="4.*" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.*" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.*" />
-    <PackageVersion Include="xunit.analyzers" Version="1.25.*" />
+    <PackageVersion Include="xunit.analyzers" Version="1.26.*" />
     <PackageVersion Include="xunit.categories" Version="3.0.*" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.*" />
     <PackageVersion Include="xunit" Version="2.9.*" />
