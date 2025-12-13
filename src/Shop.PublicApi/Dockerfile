@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 
 # Update package lists
-RUN apt-get update && apt-get install -y --no-install-recommends
+RUN apt-get update && apt-get install -y --no-install-recommends && apt-get clean
 
 WORKDIR /app
 
