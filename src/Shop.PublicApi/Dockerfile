@@ -1,7 +1,18 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 
 # Update package lists
-RUN apt-get update && apt-get install -y --no-install-recommends && apt-get clean
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    libssl3 \
+    # Clean up apt cache
+    && apt-get clean \
+    # Remove apt lists to reduce image size
+    && rm -rf /var/lib/apt/lists/* \
+    # Create a non-root user and group
+    && groupadd -r appuser && useradd -r -g appuser appuser
+
+# Switch to non-root user 
+USER appuser
 
 WORKDIR /app
 
