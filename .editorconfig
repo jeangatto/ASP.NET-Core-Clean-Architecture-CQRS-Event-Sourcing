@@ -28,6 +28,16 @@ charset = utf-8
 end_of_line = lf
 trim_trailing_whitespace = true
 
+# https://josefpihrt.github.io/docs/roslynator/configuration/
+# Enable all analyzers by default
+roslynator_analyzers.enabled_by_default = true
+
+# Enable all refactorings
+roslynator_refactorings.enabled = true
+
+# Enable all compiler diagnostic fixes
+roslynator_compiler_diagnostic_fixes.enabled = true
+
 ###############################
 # .NET Diagnostic             #
 ###############################
