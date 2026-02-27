@@ -45,6 +45,7 @@ If you liked this project, learned something, give it a star. Thank you!
 - MongoDB
 - Redis (Cache)
 - Docker & Docker Compose
+- Distroless .NET Images (https://github.com/dotnet/dotnet-docker/blob/main/documentation/distroless.md)
 
 ## **Architecture**
 
