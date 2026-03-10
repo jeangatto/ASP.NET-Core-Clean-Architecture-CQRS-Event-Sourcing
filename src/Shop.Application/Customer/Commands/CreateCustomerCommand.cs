@@ -7,7 +7,7 @@ using Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.Application.Customer.Commands;
 
-public class CreateCustomerCommand : IRequest<Result<CreatedCustomerResponse>>
+public sealed class CreateCustomerCommand : IRequest<Result<CreatedCustomerResponse>>
 {
     [Required]
     [MaxLength(100)]

@@ -7,7 +7,7 @@ using Shop.Core.Extensions;
 
 namespace Shop.Application.Behaviors;
 
-public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
+public sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(

@@ -4,7 +4,7 @@ using Shop.Infrastructure.Data.Mappings;
 
 namespace Shop.Infrastructure.Data.Context;
 
-public class WriteDbContext(DbContextOptions<WriteDbContext> dbOptions)
+public sealed class WriteDbContext(DbContextOptions<WriteDbContext> dbOptions)
     : BaseDbContext<WriteDbContext>(dbOptions)
 {
     public DbSet<Customer> Customers => Set<Customer>();

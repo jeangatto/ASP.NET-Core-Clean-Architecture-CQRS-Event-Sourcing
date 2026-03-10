@@ -4,7 +4,7 @@ using Shop.Core.SharedKernel;
 
 namespace Shop.Infrastructure.Data.Mappings;
 
-internal class EventStoreConfiguration : IEntityTypeConfiguration<EventStore>
+internal sealed class EventStoreConfiguration : IEntityTypeConfiguration<EventStore>
 {
     public void Configure(EntityTypeBuilder<EventStore> builder)
     {

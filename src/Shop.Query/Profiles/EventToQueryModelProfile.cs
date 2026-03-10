@@ -4,7 +4,7 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Profiles;
 
-public class EventToQueryModelProfile : Profile
+public sealed class EventToQueryModelProfile : Profile
 {
     public EventToQueryModelProfile()
     {

@@ -11,7 +11,7 @@ using Shop.Core.SharedKernel;
 
 namespace Shop.Infrastructure.Data.Services;
 
-internal class MemoryCacheService(
+internal sealed class MemoryCacheService(
     ILogger<MemoryCacheService> logger,
     IMemoryCache memoryCache,
     IOptions<CacheOptions> cacheOptions) : ICacheService
@@ -71,6 +71,13 @@ internal class MemoryCacheService(
 
             return items;
         });
+    }
+
+    public Task RemoveAsync(string cacheKey)
+    {
+        logger.LogInformation("----- Removed from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
+        memoryCache.Remove(cacheKey);
+        return Task.CompletedTask;
     }
 
     public Task RemoveAsync(params string[] cacheKeys)

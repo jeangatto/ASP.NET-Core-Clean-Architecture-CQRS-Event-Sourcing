@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Shop.Application.Customer.Commands;
 
-public class UpdateCustomerCommand : IRequest<Result>
+public sealed class UpdateCustomerCommand : IRequest<Result>
 {
     [Required]
     public Guid Id { get; set; }

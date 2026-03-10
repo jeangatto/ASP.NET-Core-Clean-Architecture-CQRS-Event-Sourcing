@@ -5,7 +5,7 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Data.Mappings;
 
-public class CustomerMap : IReadDbMapping
+public sealed class CustomerMap : IReadDbMapping
 {
     public void Configure()
     {

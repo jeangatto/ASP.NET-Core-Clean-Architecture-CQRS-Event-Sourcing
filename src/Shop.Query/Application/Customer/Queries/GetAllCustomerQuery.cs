@@ -5,4 +5,4 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Application.Customer.Queries;
 
-public class GetAllCustomerQuery : IRequest<Result<IEnumerable<CustomerQueryModel>>>;
+public sealed class GetAllCustomerQuery : IRequest<Result<IEnumerable<CustomerQueryModel>>>;

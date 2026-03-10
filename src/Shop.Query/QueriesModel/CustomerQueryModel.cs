@@ -3,7 +3,7 @@ using Shop.Query.Abstractions;
 
 namespace Shop.Query.QueriesModel;
 
-public class CustomerQueryModel : IQueryModel<Guid>
+public sealed class CustomerQueryModel : IQueryModel<Guid>
 {
     public CustomerQueryModel(
         Guid id,

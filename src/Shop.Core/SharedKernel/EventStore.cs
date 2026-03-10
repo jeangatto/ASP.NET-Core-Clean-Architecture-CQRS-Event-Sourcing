@@ -5,7 +5,7 @@ namespace Shop.Core.SharedKernel;
 /// <summary>
 /// Represents the event store for storing events.
 /// </summary>
-public class EventStore : BaseEvent
+public sealed class EventStore : BaseEvent
 {
     /// <summary>
     /// Initializes a new instance of the EventStore class.

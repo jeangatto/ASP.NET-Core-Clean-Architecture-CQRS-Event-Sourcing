@@ -11,7 +11,7 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.Application.Customer.Handlers;
 
-public class GetCustomerByIdQueryHandler(
+public sealed class GetCustomerByIdQueryHandler(
     IValidator<GetCustomerByIdQuery> validator,
     ICustomerReadOnlyRepository repository,
     ICacheService cacheService) : IRequestHandler<GetCustomerByIdQuery, Result<CustomerQueryModel>>

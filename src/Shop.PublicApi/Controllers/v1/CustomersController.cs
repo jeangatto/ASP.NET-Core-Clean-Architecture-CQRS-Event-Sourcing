@@ -19,7 +19,7 @@ namespace Shop.PublicApi.Controllers.V1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/[controller]")]
-public class CustomersController(IMediator mediator) : ControllerBase
+public sealed class CustomersController(IMediator mediator) : ControllerBase
 {
     ////////////////////////
     // POST: /api/customers

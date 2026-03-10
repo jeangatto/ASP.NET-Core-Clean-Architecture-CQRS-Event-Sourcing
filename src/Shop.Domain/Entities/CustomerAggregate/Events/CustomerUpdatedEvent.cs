@@ -2,7 +2,7 @@ using System;
 
 namespace Shop.Domain.Entities.CustomerAggregate.Events;
 
-public class CustomerUpdatedEvent(
+public sealed class CustomerUpdatedEvent(
     Guid id,
     string firstName,
     string lastName,

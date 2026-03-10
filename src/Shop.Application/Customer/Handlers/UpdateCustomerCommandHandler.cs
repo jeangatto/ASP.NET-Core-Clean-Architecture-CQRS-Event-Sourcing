@@ -12,7 +12,7 @@ using Shop.Domain.ValueObjects;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class UpdateCustomerCommandHandler(
+public sealed class UpdateCustomerCommandHandler(
     IValidator<UpdateCustomerCommand> validator,
     ICustomerWriteOnlyRepository repository,
     IUnitOfWork unitOfWork) : IRequestHandler<UpdateCustomerCommand, Result>

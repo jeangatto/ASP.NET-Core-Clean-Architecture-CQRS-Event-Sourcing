@@ -9,7 +9,7 @@ using Shop.PublicApi.Models;
 
 namespace Shop.PublicApi.Middlewares;
 
-public class ErrorHandlingMiddleware(
+public sealed class ErrorHandlingMiddleware(
     RequestDelegate next,
     ILogger<ErrorHandlingMiddleware> logger,
     IHostEnvironment environment)

@@ -10,7 +10,7 @@ using Shop.Domain.Entities.CustomerAggregate;
 
 namespace Shop.Application.Customer.Handlers;
 
-public class DeleteCustomerCommandHandler(
+public sealed class DeleteCustomerCommandHandler(
     IValidator<DeleteCustomerCommand> validator,
     ICustomerWriteOnlyRepository repository,
     IUnitOfWork unitOfWork) : IRequestHandler<DeleteCustomerCommand, Result>

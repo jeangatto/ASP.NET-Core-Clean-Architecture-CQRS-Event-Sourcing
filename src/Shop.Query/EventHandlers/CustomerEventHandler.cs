@@ -12,7 +12,7 @@ using Shop.Query.QueriesModel;
 
 namespace Shop.Query.EventHandlers;
 
-public class CustomerEventHandler(
+public sealed class CustomerEventHandler(
     IMapper mapper,
     ISynchronizeDb synchronizeDb,
     ICacheService cacheService,

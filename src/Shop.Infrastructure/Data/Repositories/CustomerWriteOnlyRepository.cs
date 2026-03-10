@@ -9,7 +9,7 @@ using Shop.Infrastructure.Data.Repositories.Common;
 
 namespace Shop.Infrastructure.Data.Repositories;
 
-internal class CustomerWriteOnlyRepository(WriteDbContext dbContext)
+internal sealed class CustomerWriteOnlyRepository(WriteDbContext dbContext)
     : BaseWriteOnlyRepository<Customer, Guid>(dbContext), ICustomerWriteOnlyRepository
 {
     private static readonly Func<WriteDbContext, string, Task<bool>> ExistsByEmailCompiledAsync =

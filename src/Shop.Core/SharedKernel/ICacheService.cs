@@ -25,6 +25,13 @@ public interface ICacheService
     Task<IReadOnlyList<TItem>> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<IReadOnlyList<TItem>>> factory);
 
     /// <summary>
+    /// Removes a single item from the cache (optimized overload to avoid params array allocation).
+    /// </summary>
+    /// <param name="cacheKey">The key of the item to remove from the cache.</param>
+    /// <returns>A task representing the asynchronous removal operation.</returns>
+    Task RemoveAsync(string cacheKey);
+
+    /// <summary>
     /// Removes the items with the specified cache keys from the cache.
     /// </summary>
     /// <param name="cacheKeys">The keys of the items to remove from the cache.</param>

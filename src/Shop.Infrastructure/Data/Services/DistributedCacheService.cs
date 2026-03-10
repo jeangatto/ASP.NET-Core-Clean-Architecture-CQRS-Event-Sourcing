@@ -12,7 +12,7 @@ using Shop.Core.SharedKernel;
 
 namespace Shop.Infrastructure.Data.Services;
 
-internal class DistributedCacheService(
+internal sealed class DistributedCacheService(
     IDistributedCache distributedCache,
     ILogger<DistributedCacheService> logger,
     IOptions<CacheOptions> cacheOptions) : ICacheService
@@ -70,6 +70,12 @@ internal class DistributedCacheService(
         }
 
         return items;
+    }
+
+    public async Task RemoveAsync(string cacheKey)
+    {
+        logger.LogInformation("----- Removed from {CacheServiceName}: '{CacheKey}'", CacheServiceName, cacheKey);
+        await distributedCache.RemoveAsync(cacheKey);
     }
 
     public async Task RemoveAsync(params string[] cacheKeys)
