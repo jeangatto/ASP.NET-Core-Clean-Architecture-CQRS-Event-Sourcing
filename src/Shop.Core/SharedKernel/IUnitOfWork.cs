@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 
 namespace Shop.Core.SharedKernel;
@@ -6,7 +5,7 @@ namespace Shop.Core.SharedKernel;
 /// <summary>
 /// Represents a unit of work for managing database operations.
 /// </summary>
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
     /// <summary>
     /// Saves the changes made in the unit of work asynchronously.

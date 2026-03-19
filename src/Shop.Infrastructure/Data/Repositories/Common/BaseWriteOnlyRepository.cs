@@ -37,33 +37,4 @@ internal abstract class BaseWriteOnlyRepository<TEntity, TKey>(WriteDbContext db
 
     public async Task<TEntity> GetByIdAsync(TKey id) =>
         await GetByIdCompiledAsync(DbContext, id);
-
-    #region IDisposable
-
-    // To detect redundant calls.
-    private bool _disposed;
-
-    ~BaseWriteOnlyRepository() => Dispose(false);
-
-    // Public implementation of Dispose pattern callable by consumers.
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    // Protected implementation of Dispose pattern.
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposed)
-            return;
-
-        // Dispose managed state (managed objects).
-        if (disposing)
-            DbContext.Dispose();
-
-        _disposed = true;
-    }
-
-    #endregion
 }
