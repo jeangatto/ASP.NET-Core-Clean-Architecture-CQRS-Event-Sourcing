@@ -16,11 +16,11 @@
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=jeangatto%2FASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date&legend=bottom-right">
+<a href="https://star-history.dera.page/#jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.dera.page/svg?repos=jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.dera.page/svg?repos=jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.dera.page/svg?repos=jeangatto/ASP.NET-Core-Clean-Architecture-CQRS-Event-Sourcing&type=date&legend=top-left" />
  </picture>
 </a>
 
