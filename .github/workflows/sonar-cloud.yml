@@ -20,9 +20,10 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v6.0.1
         with:
-          java-version: 21
+          distribution: microsoft
+          java-version: latest
           check-latest: true
-          distribution: "sapmachine"
+      - run: java --version
 
       - uses: actions/checkout@v7.0.1
         with:
