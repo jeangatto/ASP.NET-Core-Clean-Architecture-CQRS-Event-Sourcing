@@ -21,17 +21,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v5.4.0
+        uses: actions/setup-dotnet@v6.0.0
         with:
           global-json-file: global.json
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4.37.1
+        uses: github/codeql-action/init@v4.38.1
         with:
           languages: csharp
           build-mode: manual
@@ -45,9 +45,9 @@ jobs:
 
       - name: Autobuild fallback
         if: failure()
-        uses: github/codeql-action/autobuild@v4.37.1
+        uses: github/codeql-action/autobuild@v4.38.1
 
       - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v4.37.1
+        uses: github/codeql-action/analyze@v4.38.1
         with:
           category: "security"

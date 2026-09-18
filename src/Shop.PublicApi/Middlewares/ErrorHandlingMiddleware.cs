@@ -1,5 +1,6 @@
 using System;
 using System.Net.Mime;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -32,12 +33,12 @@ public sealed class ErrorHandlingMiddleware(
             if (environment.IsDevelopment())
             {
                 httpContext.Response.ContentType = MediaTypeNames.Text.Plain;
-                await httpContext.Response.WriteAsync(ex.ToString());
+                await httpContext.Response.WriteAsync(ex.ToString(), CancellationToken.None);
             }
             else
             {
                 httpContext.Response.ContentType = MediaTypeNames.Application.Json;
-                await httpContext.Response.WriteAsync(ApiResponseJson);
+                await httpContext.Response.WriteAsync(ApiResponseJson, CancellationToken.None);
             }
         }
     }
