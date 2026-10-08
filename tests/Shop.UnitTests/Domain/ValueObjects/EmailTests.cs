@@ -79,4 +79,15 @@ public class EmailTests
             .And.HaveCount(1)
             .And.Satisfy(message => message == "The e-mail address must be provided.");
     }
+
+    [Fact]
+    public void Should_TrimWhitespace_When_CreateEmailIsValid()
+    {
+        // Act
+        var act = Email.Create("  ma@hostname.com  ");
+
+        // Assert
+        act.IsSuccess.Should().BeTrue();
+        act.Value.Address.Should().Be("ma@hostname.com");
+    }
 }

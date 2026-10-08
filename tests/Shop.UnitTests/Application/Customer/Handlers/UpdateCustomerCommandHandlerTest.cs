@@ -36,14 +36,14 @@ public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassF
                 faker.Person.DateOfBirth))
             .Generate();
 
-        var repository = new CustomerWriteOnlyRepository(fixture.Context);
+        var repository = new CustomerWriteOnlyRepository(fixture.DbContext);
         repository.Add(customer);
 
-        await fixture.Context.SaveChangesAsync();
-        fixture.Context.ChangeTracker.Clear();
+        await fixture.DbContext.SaveChangesAsync();
+        fixture.DbContext.ChangeTracker.Clear();
 
         var unitOfWork = new UnitOfWork(
-            fixture.Context,
+            fixture.DbContext,
             Substitute.For<IEventStoreRepository>(),
             Substitute.For<IMediator>(),
             Substitute.For<ILogger<UnitOfWork>>());
@@ -77,15 +77,15 @@ public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassF
                 faker.Person.DateOfBirth))
             .Generate(2);
 
-        var repository = new CustomerWriteOnlyRepository(fixture.Context);
+        var repository = new CustomerWriteOnlyRepository(fixture.DbContext);
 
         foreach (var customer in customers)
         {
             repository.Add(customer);
         }
 
-        await fixture.Context.SaveChangesAsync();
-        fixture.Context.ChangeTracker.Clear();
+        await fixture.DbContext.SaveChangesAsync();
+        fixture.DbContext.ChangeTracker.Clear();
 
         var command = new Faker<UpdateCustomerCommand>()
             .RuleFor(command => command.Id, customers[0].Id) // O ID do primeiro customer
@@ -120,7 +120,7 @@ public class UpdateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassF
 
         var handler = new UpdateCustomerCommandHandler(
             _validator,
-            new CustomerWriteOnlyRepository(fixture.Context),
+            new CustomerWriteOnlyRepository(fixture.DbContext),
             Substitute.For<IUnitOfWork>());
 
         // Act

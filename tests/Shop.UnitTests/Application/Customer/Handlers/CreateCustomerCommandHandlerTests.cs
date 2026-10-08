@@ -38,14 +38,14 @@ public class CreateCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
             .Generate();
 
         var unitOfWork = new UnitOfWork(
-            fixture.Context,
+            fixture.DbContext,
             Substitute.For<IEventStoreRepository>(),
             Substitute.For<IMediator>(),
             Substitute.For<ILogger<UnitOfWork>>());
 
         var handler = new CreateCustomerCommandHandler(
             _validator,
-            new CustomerWriteOnlyRepository(fixture.Context),
+            new CustomerWriteOnlyRepository(fixture.DbContext),
             unitOfWork);
 
         // Act
@@ -70,7 +70,7 @@ public class CreateCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
             .RuleFor(command => command.DateOfBirth, faker => faker.Person.DateOfBirth)
             .Generate();
 
-        var repository = new CustomerWriteOnlyRepository(fixture.Context);
+        var repository = new CustomerWriteOnlyRepository(fixture.DbContext);
         repository.Add(CustomerFactory.Create(
             command.FirstName,
             command.LastName,
@@ -78,8 +78,8 @@ public class CreateCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
             command.Email,
             command.DateOfBirth));
 
-        await fixture.Context.SaveChangesAsync();
-        fixture.Context.ChangeTracker.Clear();
+        await fixture.DbContext.SaveChangesAsync();
+        fixture.DbContext.ChangeTracker.Clear();
 
         var handler = new CreateCustomerCommandHandler(
             _validator,

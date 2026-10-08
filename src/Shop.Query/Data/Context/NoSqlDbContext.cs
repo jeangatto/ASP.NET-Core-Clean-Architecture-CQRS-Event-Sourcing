@@ -154,34 +154,4 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
         logger.LogError(ex, "An unexpected exception occurred while saving to MongoDB: {Message}", ex.Message);
 
     #endregion
-
-    #region IDisposable
-
-    // To detect redundant calls.
-    private bool _disposed;
-
-    // Public implementation of Dispose pattern callable by consumers.
-    ~NoSqlDbContext() => Dispose(false);
-
-    // Public implementation of Dispose pattern callable by consumers.
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    // Protected implementation of Dispose pattern.
-    private void Dispose(bool disposing)
-    {
-        if (_disposed)
-            return;
-
-        // Dispose managed state (managed objects).
-        if (disposing)
-            _mongoClient.Dispose();
-
-        _disposed = true;
-    }
-
-    #endregion
 }

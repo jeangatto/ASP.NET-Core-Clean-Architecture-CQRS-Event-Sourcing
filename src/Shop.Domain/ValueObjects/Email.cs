@@ -29,12 +29,14 @@ public sealed record Email
     /// <returns>A <see cref="Result{T}"/> with the created <see cref="Email"/> if successful, or an error message if not.</returns>
     public static Result<Email> Create(string emailAddress)
     {
-        if (string.IsNullOrWhiteSpace(emailAddress))
+        var normalizedEmailAddress = emailAddress?.Trim();
+
+        if (string.IsNullOrWhiteSpace(normalizedEmailAddress))
             return Result<Email>.Error("The e-mail address must be provided.");
 
-        return !RegexPatterns.EmailIsValid.IsMatch(emailAddress)
+        return !RegexPatterns.EmailIsValid.IsMatch(normalizedEmailAddress)
             ? Result<Email>.Error("The e-mail address is invalid.")
-            : Result<Email>.Success(new Email(emailAddress));
+            : Result<Email>.Success(new Email(normalizedEmailAddress));
     }
 
     /// <summary>

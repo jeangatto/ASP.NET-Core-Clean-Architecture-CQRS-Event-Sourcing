@@ -41,7 +41,8 @@ internal static class WebApplicationExtensions
     {
         await using var writeDbContext = serviceScope.ServiceProvider.GetRequiredService<WriteDbContext>();
         await using var eventStoreDbContext = serviceScope.ServiceProvider.GetRequiredService<EventStoreDbContext>();
-        using var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
+
+        var readDbContext = serviceScope.ServiceProvider.GetRequiredService<IReadDbContext>();
 
         try
         {

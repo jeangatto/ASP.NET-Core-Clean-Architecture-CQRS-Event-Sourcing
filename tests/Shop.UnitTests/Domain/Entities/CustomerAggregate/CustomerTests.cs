@@ -1,3 +1,4 @@
+using System.Linq;
 using Bogus;
 using FluentAssertions;
 using Shop.Domain.Entities.CustomerAggregate;
@@ -82,5 +83,52 @@ public class CustomerTests
             .NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.ContainItemsAssignableTo<CustomerDeletedEvent>();
+    }
+
+    [Fact]
+    public void Should_NotCreateUpdateEvent_WhenEmailIsUnchanged()
+    {
+        // Arrange
+        var customerEntity = new Faker<Customer>()
+            .CustomInstantiator(faker => CustomerFactory.Create(
+                faker.Person.FirstName,
+                faker.Person.LastName,
+                faker.PickRandom<EGender>(),
+                faker.Person.Email,
+                faker.Person.DateOfBirth))
+            .Generate();
+
+        var initialEventCount = customerEntity.DomainEvents.Count();
+
+        // Act
+        customerEntity.ChangeEmail(customerEntity.Email);
+
+        // Assert
+        customerEntity.DomainEvents.Should().HaveCount(initialEventCount);
+        customerEntity.DomainEvents.Should().NotContainItemsAssignableTo<CustomerUpdatedEvent>();
+    }
+
+    [Fact]
+    public void Should_NotCreateDeleteEvent_WhenDeleteIsCalledTwice()
+    {
+        // Arrange
+        var customerEntity = new Faker<Customer>()
+            .CustomInstantiator(faker => CustomerFactory.Create(
+                faker.Person.FirstName,
+                faker.Person.LastName,
+                faker.PickRandom<EGender>(),
+                faker.Person.Email,
+                faker.Person.DateOfBirth))
+            .Generate();
+
+        var initialEventCount = customerEntity.DomainEvents.Count();
+
+        // Act
+        customerEntity.Delete();
+        customerEntity.Delete();
+
+        // Assert
+        customerEntity.DomainEvents.Should().HaveCount(initialEventCount + 1);
+        customerEntity.DomainEvents.Should().ContainSingle(x => x is CustomerDeletedEvent);
     }
 }

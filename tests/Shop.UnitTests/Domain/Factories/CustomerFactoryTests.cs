@@ -75,4 +75,23 @@ public class CustomerFactoryTests
         customer.Email.Should().Be(email);
         customer.DateOfBirth.Should().Be(dateOfBirth);
     }
+
+    [Fact]
+    public void Create_WithWhitespaceNames_ShouldTrimAndReturnSuccessResult()
+    {
+        // Arrange
+        const string firstName = "  John  ";
+        const string lastName = "  Doe  ";
+        const EGender gender = EGender.Male;
+        const string email = "john.doe@example.com";
+        var dateOfBirth = new DateTime(1990, 1, 1);
+
+        // Act
+        var result = CustomerFactory.Create(firstName, lastName, gender, email, dateOfBirth);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value.FirstName.Should().Be("John");
+        result.Value.LastName.Should().Be("Doe");
+    }
 }

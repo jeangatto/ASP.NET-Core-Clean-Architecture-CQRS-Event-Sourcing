@@ -37,21 +37,21 @@ public class DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
                 faker.Person.DateOfBirth))
             .Generate();
 
-        var repository = new CustomerWriteOnlyRepository(fixture.Context);
+        var repository = new CustomerWriteOnlyRepository(fixture.DbContext);
         repository.Add(customer);
 
-        await fixture.Context.SaveChangesAsync();
-        fixture.Context.ChangeTracker.Clear();
+        await fixture.DbContext.SaveChangesAsync();
+        fixture.DbContext.ChangeTracker.Clear();
 
         var unitOfWork = new UnitOfWork(
-            fixture.Context,
+            fixture.DbContext,
             Substitute.For<IEventStoreRepository>(),
             Substitute.For<IMediator>(),
             Substitute.For<ILogger<UnitOfWork>>());
 
         var handler = new DeleteCustomerCommandHandler(
             _validator,
-            new CustomerWriteOnlyRepository(fixture.Context),
+            new CustomerWriteOnlyRepository(fixture.DbContext),
             unitOfWork);
 
         var command = new DeleteCustomerCommand(customer.Id);
@@ -73,7 +73,7 @@ public class DeleteCustomerCommandHandlerTests(EfSqliteFixture fixture) : IClass
 
         var handler = new DeleteCustomerCommandHandler(
             _validator,
-            new CustomerWriteOnlyRepository(fixture.Context),
+            new CustomerWriteOnlyRepository(fixture.DbContext),
             Substitute.For<IUnitOfWork>());
 
         // Act
