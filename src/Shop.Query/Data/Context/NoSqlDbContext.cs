@@ -25,12 +25,15 @@ public sealed class NoSqlDbContext : IReadDbContext, ISynchronizeDb
 
     private static readonly ReplaceOptions DefaultReplaceOptions = new()
     {
+        // Upsert option allows for inserting a new document if no document matches the filter criteria.
         IsUpsert = true
     };
 
     private static readonly CreateIndexOptions DefaultCreateIndexOptions = new()
     {
+        // Create a unique index
         Unique = true,
+        // Sparse index allows for documents that do not contain the indexed field to be excluded from the index.
         Sparse = true
     };
 
