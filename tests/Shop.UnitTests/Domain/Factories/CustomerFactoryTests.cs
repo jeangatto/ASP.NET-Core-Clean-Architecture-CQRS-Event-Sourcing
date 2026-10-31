@@ -94,4 +94,30 @@ public class CustomerFactoryTests
         result.Value.FirstName.Should().Be("John");
         result.Value.LastName.Should().Be("Doe");
     }
+
+    [Fact]
+    public void Create_WithMissingNames_ShouldReturnErrorResult()
+    {
+        var missingFirstName = CustomerFactory.Create(
+            "  ", "Doe", EGender.Male, "john.doe@example.com", new DateTime(1990, 1, 1));
+        var missingLastName = CustomerFactory.Create(
+            "John", null, EGender.Male, "john.doe@example.com", new DateTime(1990, 1, 1));
+
+        missingFirstName.Errors.Should().Contain("The first name must be provided.");
+        missingLastName.Errors.Should().Contain("The last name must be provided.");
+    }
+
+    [Fact]
+    public void Create_WithNamesExceedingMaximumLength_ShouldReturnErrorResult()
+    {
+        var longName = new string('a', 101);
+
+        var longFirstName = CustomerFactory.Create(
+            longName, "Doe", EGender.Male, "john.doe@example.com", new DateTime(1990, 1, 1));
+        var longLastName = CustomerFactory.Create(
+            "John", longName, EGender.Male, "john.doe@example.com", new DateTime(1990, 1, 1));
+
+        longFirstName.Errors.Should().Contain("The first name exceeds the maximum length of 100 characters.");
+        longLastName.Errors.Should().Contain("The last name exceeds the maximum length of 100 characters.");
+    }
 }
