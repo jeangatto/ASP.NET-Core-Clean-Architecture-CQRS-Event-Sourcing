@@ -36,6 +36,19 @@ public class GenericTypeExtensionsTests
     }
 
     [Fact]
+    public void IsDefault_ShouldReturnTrue_ForNullReferenceValue()
+    {
+        // Arrange
+        const string value = null;
+
+        // Act
+        var result = value.IsDefault();
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [Fact]
     public void GetGenericTypeName_ShouldReturnTypeName_ForNonGenericType()
     {
         // Arrange

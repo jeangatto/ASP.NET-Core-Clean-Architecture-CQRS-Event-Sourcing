@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FluentAssertions;
 using Shop.Core.Extensions;
 using Xunit;
@@ -64,6 +66,25 @@ public class JsonExtensionsTests
 
         // Assert
         act.Should().BeNull();
+    }
+
+    [Fact]
+    public void Should_ConfigureJsonSerializerOptions_WhenCalled()
+    {
+        // Arrange
+        var options = new JsonSerializerOptions();
+
+        // Act
+        var configured = options.Configure();
+
+        // Assert
+        configured.Should().BeSameAs(options);
+        configured.WriteIndented.Should().BeFalse();
+        configured.DefaultIgnoreCondition.Should().Be(JsonIgnoreCondition.WhenWritingNull);
+        configured.ReadCommentHandling.Should().Be(JsonCommentHandling.Skip);
+        configured.PropertyNamingPolicy.Should().Be(JsonNamingPolicy.CamelCase);
+        configured.TypeInfoResolver.Should().NotBeNull();
+        configured.Converters.Should().ContainSingle(x => x is JsonStringEnumConverter);
     }
 
     private enum EStatus

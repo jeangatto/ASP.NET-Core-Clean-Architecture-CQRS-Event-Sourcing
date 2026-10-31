@@ -90,4 +90,15 @@ public class EmailTests
         act.IsSuccess.Should().BeTrue();
         act.Value.Address.Should().Be("ma@hostname.com");
     }
+
+    [Fact]
+    public void Should_ReturnNormalizedAddress_When_ToString()
+    {
+        // Act
+        var act = Email.Create("  MA@HOSTNAME.COM  ");
+
+        // Assert
+        act.IsSuccess.Should().BeTrue();
+        act.Value.ToString().Should().Be("ma@hostname.com");
+    }
 }
