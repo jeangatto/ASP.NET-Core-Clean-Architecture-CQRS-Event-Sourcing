@@ -76,7 +76,7 @@
 
   <ItemGroup>
     <SonarQubeSetting Include="sonar.exclusions">
-      <Value>**/Migrations/*</Value>
+      <Value>**/Migrations/**</Value>
     </SonarQubeSetting>
   </ItemGroup>
 
