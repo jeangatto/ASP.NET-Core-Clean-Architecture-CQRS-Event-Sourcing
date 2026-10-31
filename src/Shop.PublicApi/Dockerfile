@@ -1,8 +1,9 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0 AS base
 
+USER $APP_UID
 WORKDIR /app
-EXPOSE 80
-ENV ASPNETCORE_URLS=http://+:80
+EXPOSE 8080 8443
+ENV ASPNETCORE_URLS=http://+:8080
 
 # Specifies whether .NET welcome and telemetry messages are displayed on the first run.
 ENV DOTNET_NOLOGO=1

@@ -1,5 +1,5 @@
 services:
   shop-api:
     volumes:
-      - ~/.aspnet/https:/root/.aspnet/https:ro
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ~/.aspnet/https:/home/app/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/home/app/.microsoft/usersecrets:ro

@@ -71,7 +71,7 @@ services:
       ConnectionStrings__NoSqlConnection: "mongodb://shop-mongo-server:27017"
       ConnectionStrings__CacheConnection: "shop-redis-server:6379,password=${REDIS_PASSWORD},abortConnect=false"
     ports:
-      - "5000:80"
+      - "5000:8080"
     depends_on:
       - shop-sql-server
       - shop-mongo-server
